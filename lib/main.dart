@@ -16,6 +16,7 @@ class CoachSpacsApp extends StatelessWidget {
       title: 'Coach Spacs',
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
+      home: Scaffold()
     );
   }
 }
