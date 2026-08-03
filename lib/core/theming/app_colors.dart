@@ -12,4 +12,7 @@ class AppColors {
   static const Color successLight = Color(0xFFD1FAE5);
   static const Color border = Color(0xFFD9D9D9);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color textBody = Color(0xFF004442);
+  static const Color textLight = Color(0xFF3F4948);
+  static const Color borderColor = Color(0xFF9CA3AF);
 }
