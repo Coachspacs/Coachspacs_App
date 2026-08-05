@@ -209,7 +209,7 @@ assets/
 git clone https://github.com/Coachspacs/Coachspacs_App.git
 
 # Navigate to the project
-cd coachspacs
+cd coach_space
 
 # Install dependencies
 flutter pub get

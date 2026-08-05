@@ -1,9 +1,9 @@
-import 'package:coachspacs/core/theming/app_colors.dart';
+import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class TextFieldName extends StatelessWidget {
+class SignupNameTextField extends StatelessWidget {
   final String name;
-  const TextFieldName({super.key, required this.name});
+  const SignupNameTextField({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class MyRichText extends StatelessWidget {
+class SignupTermsRichText extends StatelessWidget {
   final String firstText;
   final String secondText;
   final Color firstColor;
   final Color secondColor;
   final double fontSize;
-  const MyRichText({
+  const SignupTermsRichText({
     super.key,
     required this.firstText,
     required this.secondText,

@@ -1,9 +1,9 @@
 // this file was create with AI !!! ()
-import 'package:coachspacs/core/theming/app_colors.dart';
+import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class BottomWavesPainter extends CustomPainter {
-  const BottomWavesPainter();
+class SignupBottomWavesPainter extends CustomPainter {
+  const SignupBottomWavesPainter();
 
   @override
   void paint(Canvas canvas, Size size) {

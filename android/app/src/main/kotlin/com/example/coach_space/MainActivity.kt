@@ -1,4 +1,4 @@
-package com.example.coachspacs
+package com.example.coach_space
 
 import io.flutter.embedding.android.FlutterActivity
 

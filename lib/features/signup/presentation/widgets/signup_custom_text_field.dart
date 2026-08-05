@@ -1,10 +1,10 @@
-import 'package:coachspacs/core/theming/app_colors.dart';
+import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class MyTextField extends StatelessWidget {
+class SignupCustomTextField extends StatelessWidget {
   final String hintText;
   final Color borderColor;
-  const MyTextField({
+  const SignupCustomTextField({
     super.key,
     required this.hintText,
     required this.borderColor,
