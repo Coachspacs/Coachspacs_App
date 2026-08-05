@@ -16,22 +16,15 @@ class SignupCustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         border: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: borderColor,
-          ),
+          borderSide: BorderSide(color: borderColor),
           borderRadius: BorderRadius.circular(12),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: borderColor,
-          ),
+          borderSide: BorderSide(color: borderColor),
           borderRadius: BorderRadius.circular(12),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: AppColors.white,
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: AppColors.borderColor, width: 2),
           borderRadius: BorderRadius.circular(12),
         ),
       ),

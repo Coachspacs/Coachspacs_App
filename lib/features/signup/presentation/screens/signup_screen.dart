@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/buttons.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_bottom_waves_painter.dart';
@@ -101,13 +102,16 @@ class SignupScreen extends StatelessWidget {
                       padding: EdgeInsets.zero,
                     ),
                     const SizedBox(height: 20),
-                    const Center(
+                    Center(
                       child: SignupTermsRichText(
                         firstText: 'Already have an account? ',
                         secondText: 'Log In',
                         firstColor: AppColors.textLight,
                         secondColor: AppColors.primary,
                         fontSize: 16,
+                        onTap: () {
+                          Navigator.pushNamed(context, AppRoutes.login);
+                        },
                       ),
                     ),
                     const SizedBox(height: 10),
