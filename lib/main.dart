@@ -1,6 +1,7 @@
-import 'package:coach_space/features/signup/presentation/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'core/routing/app_router.dart';
+import 'core/routing/app_routes.dart';
 import 'core/theming/app_theme.dart';
 
 void main() async {
@@ -17,7 +18,8 @@ class CoachSpaceApp extends StatelessWidget {
       title: 'Coach Space',
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: SignupScreen()),
+      onGenerateRoute: AppRouter().generateRoute,
+      initialRoute: AppRoutes.login,
     );
   }
 }
