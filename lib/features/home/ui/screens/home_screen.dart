@@ -65,7 +65,7 @@ class _SuccessView extends StatelessWidget {
         top: AppDimens.stackGapMd,
         bottom: AppDimens.stackGapLg,
       ),
-      children: [
+      children: [ 
         const SearchBarWidget(),
         const SizedBox(height: AppDimens.stackGapLg),
         CategoryChipsWidget(categories: data.categories),
