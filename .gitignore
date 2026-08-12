@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Internal architecture spec — NEVER commit, push, or expose publicly
+COACH_SPACE_ARCHITECTURE.md
