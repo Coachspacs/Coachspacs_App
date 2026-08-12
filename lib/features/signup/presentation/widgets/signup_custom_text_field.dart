@@ -4,15 +4,21 @@ import 'package:flutter/material.dart';
 class SignupCustomTextField extends StatelessWidget {
   final String hintText;
   final Color borderColor;
+  final TextEditingController? controller;
+  final bool obscureText;
   const SignupCustomTextField({
     super.key,
     required this.hintText,
     required this.borderColor,
+    this.controller,
+    this.obscureText = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
+      obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,
         border: OutlineInputBorder(
