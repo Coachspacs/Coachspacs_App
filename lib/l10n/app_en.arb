@@ -1,0 +1,20 @@
+{
+  "@@locale": "en",
+  "appTitle": "Coach Space",
+  "homeSearchHint": "Search for courses, instructors...",
+  "homeAll": "All",
+  "homeFeatured": "Featured Courses",
+  "homeTrending": "Trending Now",
+  "homeViewAll": "View All",
+  "homeEmptyTitle": "Nothing here yet",
+  "homeEmptySubtitle": "New courses will show up here.",
+  "homeErrorTitle": "Something went wrong",
+  "homeErrorSubtitle": "We couldn't load content. Please try again.",
+  "homeOfflineTitle": "You're offline",
+  "homeOfflineSubtitle": "Connect to the internet to explore courses.",
+  "homeRetry": "Retry",
+  "navHome": "Home",
+  "navCourses": "Courses",
+  "navSearch": "Search",
+  "navProfile": "Profile"
+}

@@ -1,0 +1,20 @@
+{
+  "@@locale": "ar",
+  "appTitle": "Coach Space",
+  "homeSearchHint": "ابحث عن دورات، مدربين...",
+  "homeAll": "الكل",
+  "homeFeatured": "دورات مميزة",
+  "homeTrending": "رائج الآن",
+  "homeViewAll": "عرض الكل",
+  "homeEmptyTitle": "لا يوجد محتوى بعد",
+  "homeEmptySubtitle": "ستظهر الدورات الجديدة هنا.",
+  "homeErrorTitle": "حدث خطأ ما",
+  "homeErrorSubtitle": "تعذر تحميل المحتوى. حاول مرة أخرى.",
+  "homeOfflineTitle": "أنت غير متصل",
+  "homeOfflineSubtitle": "اتصل بالإنترنت لاستكشاف الدورات.",
+  "homeRetry": "إعادة المحاولة",
+  "navHome": "الرئيسية",
+  "navCourses": "الدورات",
+  "navSearch": "بحث",
+  "navProfile": "الملف الشخصي"
+}
