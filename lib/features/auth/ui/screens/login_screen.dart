@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/buttons.dart';
+import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/features/auth/data/repo/auth_repository.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_bottom_waves_painter.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_custom_text_field.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_name_text_field.dart';
@@ -19,6 +22,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  AuthRepository get _authRepository => getIt<AuthRepository>();
 
   @override
   void dispose() {
@@ -27,12 +33,44 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _handleLogin() {
-    final isDemoCredentials = _emailController.text.trim() == '1' &&
-        _passwordController.text == '1';
+  Future<void> _handleLogin() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
 
-    if (isDemoCredentials) {
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('أدخل البريد الإلكتروني وكلمة المرور')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    try {
+      final response = await _authRepository.login(
+        email: email,
+        password: password,
+      );
+
+      if (!mounted) return;
+
+      final approvalStatus = response.approvalStatus.toLowerCase();
+      if (approvalStatus == 'pending') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('حسابك بانتظار الموافقة من الإدارة')),
+        );
+        return;
+      }
+
       Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('تعذر تسجيل الدخول: $error')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -55,18 +93,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 20),
                     Image.asset('assets/images/Logo_img.png', width: 110),
                     const SizedBox(height: 20),
-                    const Text(
-                      'Welcome Back',
-                      style: TextStyle(
+                    Text(
+                      context.l10n.loginWelcome,
+                      style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primary,
                       ),
                     ),
                     const SizedBox(height: 35),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: SignupNameTextField(name: 'EMAIL ADDRESS'),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: SignupNameTextField(name: context.l10n.loginEmailLabel),
                     ),
                     const SizedBox(height: 8),
                     SignupCustomTextField(
@@ -75,9 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _emailController,
                     ),
                     const SizedBox(height: 20),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: SignupNameTextField(name: 'PASSWORD'),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: SignupNameTextField(name: context.l10n.loginPasswordLabel),
                     ),
                     const SizedBox(height: 8),
                     SignupCustomTextField(
@@ -88,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 30),
                     MyButton(
-                      text: 'Login →',
+                      text: _isLoading ? context.l10n.loginButtonLoading : context.l10n.loginButton,
                       onPressed: _handleLogin,
                       color: AppColors.primary,
                       textColor: AppColors.white,
@@ -100,10 +138,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: EdgeInsets.zero,
                     ),
                     const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.forgotPassword);
+                      },
+                      child: Text(
+                        context.l10n.loginForgotPassword,
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                     Center(
                       child: SignupTermsRichText(
-                        firstText: "Don't have an account? ",
-                        secondText: 'Register',
+                        firstText: context.l10n.loginNoAccount,
+                        secondText: context.l10n.loginRegister,
                         firstColor: AppColors.textLight,
                         secondColor: AppColors.primary,
                         fontSize: 16,

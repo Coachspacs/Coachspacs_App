@@ -1,0 +1,159 @@
+{
+  "@@locale": "ar",
+  "appTitle": "كوتش سبيس",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  "homeSearchHint": "ابحث عن دورات، مدربين...",
+  "@homeSearchHint": {
+    "description": "Hint text in the search bar"
+  },
+  "homeAll": "الكل",
+  "@homeAll": {
+    "description": "Label for the 'All' category chip"
+  },
+  "homeFeatured": "دورات مميزة",
+  "@homeFeatured": {
+    "description": "Section header for featured courses"
+  },
+  "homeViewAll": "عرض الكل",
+  "@homeViewAll": {
+    "description": "Action link to view all items"
+  },
+  "homeTrending": "رائج الآن",
+  "@homeTrending": {
+    "description": "Section header for trending courses"
+  },
+  "navHome": "الرئيسية",
+  "@navHome": {
+    "description": "Bottom navigation label for Home"
+  },
+  "navCourses": "الدورات",
+  "@navCourses": {
+    "description": "Bottom navigation label for Courses"
+  },
+  "navSearch": "بحث",
+  "@navSearch": {
+    "description": "Bottom navigation label for Search"
+  },
+  "navProfile": "حسابي",
+  "@navProfile": {
+    "description": "Bottom navigation label for Profile"
+  },
+  "homeEmptyTitle": "لا توجد محتويات",
+  "@homeEmptyTitle": {
+    "description": "Title shown when home data is empty"
+  },
+  "homeEmptySubtitle": "لم يتم العثور على أي دورات حالياً",
+  "@homeEmptySubtitle": {
+    "description": "Subtitle shown when home data is empty"
+  },
+  "homeErrorTitle": "حدث خطأ",
+  "@homeErrorTitle": {
+    "description": "Title shown when an error occurs"
+  },
+  "homeErrorSubtitle": "حدث خطأ أثناء تحميل البيانات. يرجى المحاولة مرة أخرى.",
+  "@homeErrorSubtitle": {
+    "description": "Subtitle shown when an error occurs"
+  },
+  "homeOfflineTitle": "لا يوجد اتصال",
+  "@homeOfflineTitle": {
+    "description": "Title shown when offline"
+  },
+  "homeOfflineSubtitle": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى",
+  "@homeOfflineSubtitle": {
+    "description": "Subtitle shown when offline"
+  },
+  "homeRetry": "إعادة المحاولة",
+  "@homeRetry": {
+    "description": "Retry button text"
+  },
+  "loginWelcome": "مرحباً بعودتك",
+  "@loginWelcome": {
+    "description": "Login screen welcome title"
+  },
+  "loginEmailLabel": "البريد الإلكتروني",
+  "@loginEmailLabel": {
+    "description": "Label for email input field"
+  },
+  "loginPasswordLabel": "كلمة المرور",
+  "@loginPasswordLabel": {
+    "description": "Label for password input field"
+  },
+  "loginButton": "تسجيل الدخول",
+  "@loginButton": {
+    "description": "Login button text"
+  },
+  "loginButtonLoading": "جاري الدخول...",
+  "@loginButtonLoading": {
+    "description": "Login button loading text"
+  },
+  "loginForgotPassword": "نسيت كلمة المرور؟",
+  "@loginForgotPassword": {
+    "description": "Forgot password link"
+  },
+  "loginNoAccount": "ليس لديك حساب؟ ",
+  "@loginNoAccount": {
+    "description": "Text before register link on login"
+  },
+  "loginRegister": "إنشاء حساب",
+  "@loginRegister": {
+    "description": "Register link text on login"
+  },
+  "signupTitle": "انضم إلى مستقبل\nالتعلم",
+  "@signupTitle": {
+    "description": "Signup screen title"
+  },
+  "signupNameLabel": "الاسم الكامل",
+  "@signupNameLabel": {
+    "description": "Label for full name input"
+  },
+  "signupNameHint": "مثال: أحمد محمد",
+  "@signupNameHint": {
+    "description": "Hint for name field"
+  },
+  "signupEmailLabel": "البريد الإلكتروني",
+  "@signupEmailLabel": {
+    "description": "Label for email input"
+  },
+  "signupPasswordLabel": "كلمة المرور",
+  "@signupPasswordLabel": {
+    "description": "Label for password input"
+  },
+  "signupTermsAgree": "أوافق على شروط الخدمة وسياسة الخصوصية",
+  "@signupTermsAgree": {
+    "description": "Terms agreement checkbox label"
+  },
+  "signupCreateAccount": "إنشاء حساب",
+  "@signupCreateAccount": {
+    "description": "Create account button text"
+  },
+  "signupHasAccount": "لديك حساب بالفعل؟ ",
+  "@signupHasAccount": {
+    "description": "Text before login link on signup"
+  },
+  "signupLogin": "تسجيل الدخول",
+  "@signupLogin": {
+    "description": "Login link text on signup"
+  },
+  "signupValidationError": "يرجى ملء جميع الحقول",
+  "@signupValidationError": {
+    "description": "Validation error when fields are empty"
+  },
+  "signupTermsError": "يجب الموافقة على شروط الخدمة",
+  "@signupTermsError": {
+    "description": "Error when terms not agreed"
+  },
+  "signupPendingApproval": "حسابك بانتظار الموافقة من الإدارة",
+  "@signupPendingApproval": {
+    "description": "Message when signup is pending approval"
+  },
+  "signupError": "تعذر إنشاء الحساب",
+  "@signupError": {
+    "description": "Signup error message"
+  },
+  "signupCreatingAccount": "جاري إنشاء الحساب...",
+  "@signupCreatingAccount": {
+    "description": "Loading text on signup button"
+  }
+}

@@ -4,15 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/features/home/ui/screens/home_screen.dart';
 import 'package:coach_space/features/home/ui/widgets/bottom_nav_bar_widget.dart';
-import 'package:coach_space/l10n/app_localizations.dart';
 
 Widget _arApp({required Widget home}) {
-  return MaterialApp(
-    locale: const Locale('ar'),
-    supportedLocales: AppLocalizations.supportedLocales,
-    localizationsDelegates: AppLocalizations.localizationsDelegates,
-    home: home,
-  );
+  return MaterialApp(locale: const Locale('ar'), home: home);
 }
 
 /// Reads the pill background of a bottom-nav item from its AnimatedContainer.
@@ -27,8 +21,9 @@ void main() {
   setUpAll(setupLocator);
 
   group('BottomNavBarWidget', () {
-    testWidgets('Home tab (الرئيسية) is the active pill on the home screen',
-        (WidgetTester tester) async {
+    testWidgets('Home tab (الرئيسية) is the active pill on the home screen', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         _arApp(
           home: const Scaffold(
@@ -47,8 +42,9 @@ void main() {
   });
 
   group('HomeScreen', () {
-    testWidgets('renders localized Arabic content with RTL layout',
-        (WidgetTester tester) async {
+    testWidgets('renders localized Arabic content with RTL layout', (
+      WidgetTester tester,
+    ) async {
       await tester.binding.setSurfaceSize(const Size(800, 1800));
       addTearDown(() => tester.binding.setSurfaceSize(null));
 

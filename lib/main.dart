@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/di/injection_container.dart';
 import 'core/routing/app_router.dart';
@@ -24,8 +25,13 @@ class CoachSpaceApp extends StatelessWidget {
       onGenerateRoute: AppRouter().generateRoute,
       initialRoute: AppRoutes.login,
       locale: const Locale('ar'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
     );
   }
 }

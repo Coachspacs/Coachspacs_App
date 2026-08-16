@@ -98,107 +98,239 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
-  /// No description provided for @appTitle.
+  /// The application title
   ///
-  /// In en, this message translates to:
-  /// **'Coach Space'**
+  /// In ar, this message translates to:
+  /// **'كوتش سبيس'**
   String get appTitle;
 
-  /// No description provided for @homeSearchHint.
+  /// Hint text in the search bar
   ///
-  /// In en, this message translates to:
-  /// **'Search for courses, instructors...'**
+  /// In ar, this message translates to:
+  /// **'ابحث عن دورات، مدربين...'**
   String get homeSearchHint;
 
-  /// No description provided for @homeAll.
+  /// Label for the 'All' category chip
   ///
-  /// In en, this message translates to:
-  /// **'All'**
+  /// In ar, this message translates to:
+  /// **'الكل'**
   String get homeAll;
 
-  /// No description provided for @homeFeatured.
+  /// Section header for featured courses
   ///
-  /// In en, this message translates to:
-  /// **'Featured Courses'**
+  /// In ar, this message translates to:
+  /// **'دورات مميزة'**
   String get homeFeatured;
 
-  /// No description provided for @homeTrending.
+  /// Action link to view all items
   ///
-  /// In en, this message translates to:
-  /// **'Trending Now'**
-  String get homeTrending;
-
-  /// No description provided for @homeViewAll.
-  ///
-  /// In en, this message translates to:
-  /// **'View All'**
+  /// In ar, this message translates to:
+  /// **'عرض الكل'**
   String get homeViewAll;
 
-  /// No description provided for @homeEmptyTitle.
+  /// Section header for trending courses
   ///
-  /// In en, this message translates to:
-  /// **'Nothing here yet'**
-  String get homeEmptyTitle;
+  /// In ar, this message translates to:
+  /// **'رائج الآن'**
+  String get homeTrending;
 
-  /// No description provided for @homeEmptySubtitle.
+  /// Bottom navigation label for Home
   ///
-  /// In en, this message translates to:
-  /// **'New courses will show up here.'**
-  String get homeEmptySubtitle;
-
-  /// No description provided for @homeErrorTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Something went wrong'**
-  String get homeErrorTitle;
-
-  /// No description provided for @homeErrorSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'We couldn\'t load content. Please try again.'**
-  String get homeErrorSubtitle;
-
-  /// No description provided for @homeOfflineTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re offline'**
-  String get homeOfflineTitle;
-
-  /// No description provided for @homeOfflineSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Connect to the internet to explore courses.'**
-  String get homeOfflineSubtitle;
-
-  /// No description provided for @homeRetry.
-  ///
-  /// In en, this message translates to:
-  /// **'Retry'**
-  String get homeRetry;
-
-  /// No description provided for @navHome.
-  ///
-  /// In en, this message translates to:
-  /// **'Home'**
+  /// In ar, this message translates to:
+  /// **'الرئيسية'**
   String get navHome;
 
-  /// No description provided for @navCourses.
+  /// Bottom navigation label for Courses
   ///
-  /// In en, this message translates to:
-  /// **'Courses'**
+  /// In ar, this message translates to:
+  /// **'الدورات'**
   String get navCourses;
 
-  /// No description provided for @navSearch.
+  /// Bottom navigation label for Search
   ///
-  /// In en, this message translates to:
-  /// **'Search'**
+  /// In ar, this message translates to:
+  /// **'بحث'**
   String get navSearch;
 
-  /// No description provided for @navProfile.
+  /// Bottom navigation label for Profile
   ///
-  /// In en, this message translates to:
-  /// **'Profile'**
+  /// In ar, this message translates to:
+  /// **'حسابي'**
   String get navProfile;
+
+  /// Title shown when home data is empty
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد محتويات'**
+  String get homeEmptyTitle;
+
+  /// Subtitle shown when home data is empty
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يتم العثور على أي دورات حالياً'**
+  String get homeEmptySubtitle;
+
+  /// Title shown when an error occurs
+  ///
+  /// In ar, this message translates to:
+  /// **'حدث خطأ'**
+  String get homeErrorTitle;
+
+  /// Subtitle shown when an error occurs
+  ///
+  /// In ar, this message translates to:
+  /// **'حدث خطأ أثناء تحميل البيانات. يرجى المحاولة مرة أخرى.'**
+  String get homeErrorSubtitle;
+
+  /// Title shown when offline
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد اتصال'**
+  String get homeOfflineTitle;
+
+  /// Subtitle shown when offline
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى'**
+  String get homeOfflineSubtitle;
+
+  /// Retry button text
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة المحاولة'**
+  String get homeRetry;
+
+  /// Login screen welcome title
+  ///
+  /// In ar, this message translates to:
+  /// **'مرحباً بعودتك'**
+  String get loginWelcome;
+
+  /// Label for email input field
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الإلكتروني'**
+  String get loginEmailLabel;
+
+  /// Label for password input field
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور'**
+  String get loginPasswordLabel;
+
+  /// Login button text
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get loginButton;
+
+  /// Login button loading text
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري الدخول...'**
+  String get loginButtonLoading;
+
+  /// Forgot password link
+  ///
+  /// In ar, this message translates to:
+  /// **'نسيت كلمة المرور؟'**
+  String get loginForgotPassword;
+
+  /// Text before register link on login
+  ///
+  /// In ar, this message translates to:
+  /// **'ليس لديك حساب؟ '**
+  String get loginNoAccount;
+
+  /// Register link text on login
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get loginRegister;
+
+  /// Signup screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'انضم إلى مستقبل\nالتعلم'**
+  String get signupTitle;
+
+  /// Label for full name input
+  ///
+  /// In ar, this message translates to:
+  /// **'الاسم الكامل'**
+  String get signupNameLabel;
+
+  /// Hint for name field
+  ///
+  /// In ar, this message translates to:
+  /// **'مثال: أحمد محمد'**
+  String get signupNameHint;
+
+  /// Label for email input
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الإلكتروني'**
+  String get signupEmailLabel;
+
+  /// Label for password input
+  ///
+  /// In ar, this message translates to:
+  /// **'كلمة المرور'**
+  String get signupPasswordLabel;
+
+  /// Terms agreement checkbox label
+  ///
+  /// In ar, this message translates to:
+  /// **'أوافق على شروط الخدمة وسياسة الخصوصية'**
+  String get signupTermsAgree;
+
+  /// Create account button text
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء حساب'**
+  String get signupCreateAccount;
+
+  /// Text before login link on signup
+  ///
+  /// In ar, this message translates to:
+  /// **'لديك حساب بالفعل؟ '**
+  String get signupHasAccount;
+
+  /// Login link text on signup
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get signupLogin;
+
+  /// Validation error when fields are empty
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى ملء جميع الحقول'**
+  String get signupValidationError;
+
+  /// Error when terms not agreed
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب الموافقة على شروط الخدمة'**
+  String get signupTermsError;
+
+  /// Message when signup is pending approval
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابك بانتظار الموافقة من الإدارة'**
+  String get signupPendingApproval;
+
+  /// Signup error message
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذر إنشاء الحساب'**
+  String get signupError;
+
+  /// Loading text on signup button
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري إنشاء الحساب...'**
+  String get signupCreatingAccount;
 }
 
 class _AppLocalizationsDelegate

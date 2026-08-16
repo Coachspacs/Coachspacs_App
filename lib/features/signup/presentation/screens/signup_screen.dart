@@ -1,15 +1,89 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/buttons.dart';
+import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/features/auth/data/repo/auth_repository.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_bottom_waves_painter.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_custom_text_field.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_name_text_field.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_terms_rich_text.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
+  bool _agreedToTerms = false;
+
+  AuthRepository get _authRepository => getIt<AuthRepository>();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleSignup() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.signupValidationError)),
+      );
+      return;
+    }
+
+    if (!_agreedToTerms) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.signupTermsError)),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    try {
+      final response = await _authRepository.signup(
+        name: name,
+        email: email,
+        password: password,
+      );
+
+      if (!mounted) return;
+
+      final approvalStatus = response.approvalStatus.toLowerCase();
+      if (approvalStatus == 'pending') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.l10n.signupPendingApproval)),
+        );
+        return;
+      }
+
+      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${context.l10n.signupError}: $error')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +110,10 @@ class SignupScreen extends StatelessWidget {
                             width: 150,
                           ),
                           const SizedBox(height: 20),
-                          const Text(
-                            'Join the Future \n of Learning',
+                          Text(
+                            context.l10n.signupTitle,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: AppColors.textBody,
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -49,37 +123,43 @@ class SignupScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const SignupNameTextField(name: 'FULL NAME'),
+                    SignupNameTextField(name: context.l10n.signupNameLabel),
                     const SizedBox(height: 10),
-                    const SignupCustomTextField(
-                      hintText: 'Jane Doe',
+                    SignupCustomTextField(
+                      hintText: context.l10n.signupNameHint,
                       borderColor: AppColors.borderColor,
+                      controller: _nameController,
                     ),
                     const SizedBox(height: 20),
-                    const SignupNameTextField(name: 'EMAIL ADDRESS'),
+                    SignupNameTextField(name: context.l10n.signupEmailLabel),
                     const SizedBox(height: 10),
-                    const SignupCustomTextField(
+                    SignupCustomTextField(
                       hintText: 'jane@example.com',
                       borderColor: AppColors.borderColor,
+                      controller: _emailController,
                     ),
                     const SizedBox(height: 20),
-                    const SignupNameTextField(name: 'PASSWORD'),
+                    SignupNameTextField(name: context.l10n.signupPasswordLabel),
                     const SizedBox(height: 10),
-                    const SignupCustomTextField(
+                    SignupCustomTextField(
                       hintText: '•••••••••',
                       borderColor: AppColors.borderColor,
+                      controller: _passwordController,
+                      obscureText: true,
                     ),
                     const SizedBox(height: 20),
                     Row(
                       children: [
                         Checkbox.adaptive(
-                          value: false,
-                          onChanged: (_) {},
+                          value: _agreedToTerms,
+                          onChanged: (value) {
+                            setState(() => _agreedToTerms = value ?? false);
+                          },
                         ),
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            'I AGREE TO THE TERMS OF SERVICE AND PRIVACY POLICY',
-                            style: TextStyle(
+                            context.l10n.signupTermsAgree,
+                            style: const TextStyle(
                               color: AppColors.textLight,
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -90,8 +170,8 @@ class SignupScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     MyButton(
-                      text: 'Create Account',
-                      onPressed: () {},
+                      text: _isLoading ? context.l10n.signupCreatingAccount : context.l10n.signupCreateAccount,
+                      onPressed: _isLoading ? () {} : _handleSignup,
                       color: AppColors.primary,
                       textColor: AppColors.white,
                       fontSize: 16,
@@ -104,8 +184,8 @@ class SignupScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     Center(
                       child: SignupTermsRichText(
-                        firstText: 'Already have an account? ',
-                        secondText: 'Log In',
+                        firstText: context.l10n.signupHasAccount,
+                        secondText: context.l10n.signupLogin,
                         firstColor: AppColors.textLight,
                         secondColor: AppColors.primary,
                         fontSize: 16,

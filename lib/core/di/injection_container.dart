@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 
+import 'package:coach_space/features/auth/data/repo/auth_repository.dart';
 import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
 
 /// Application composition root.
@@ -11,4 +12,5 @@ final GetIt getIt = GetIt.instance;
 
 void setupLocator() {
   getIt.registerFactory<HomeCubit>(HomeCubit.new);
+  getIt.registerLazySingleton<AuthRepository>(AuthRepository.new);
 }
