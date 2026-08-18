@@ -23,7 +23,7 @@ class CoachSpaceApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRouter().generateRoute,
-      initialRoute: AppRoutes.login,
+      initialRoute: AppRoutes.editProfile,
       locale: const Locale('ar'),
       localizationsDelegates: const [
         AppLocalizations.delegate,
