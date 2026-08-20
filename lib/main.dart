@@ -25,6 +25,7 @@ class CoachSpaceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return BlocProvider.value(
       value: getIt<AuthCubit>(),
       child: MaterialApp(
@@ -47,6 +48,22 @@ class CoachSpaceApp extends StatelessWidget {
           child: child ?? const SizedBox.shrink(),
         ),
       ),
+=======
+    return MaterialApp(
+      title: 'Coach Space',
+      theme: AppTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: AppRouter().generateRoute,
+      initialRoute: AppRoutes.profile,
+      locale: const Locale('en'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+>>>>>>> 86e4d8e (Add order history and certificates screens)
     );
   }
 }

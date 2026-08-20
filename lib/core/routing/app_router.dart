@@ -9,8 +9,13 @@ import 'package:coach_space/features/auth/ui/screens/pending_approval_screen.dar
 import 'package:coach_space/features/home/ui/screens/home_screen.dart';
 import 'package:coach_space/features/signup/presentation/screens/signup_screen.dart';
 import 'package:coach_space/features/splash/ui/screens/splash_screen.dart';
-import 'package:coach_space/features/profile/ui/screens/edit_profile_screen.dart';
 import 'package:coach_space/features/profile/ui/screens/profile_screen.dart';
+import 'package:coach_space/features/profile/ui/screens/browse_courses_screen.dart';
+import 'package:coach_space/features/profile/ui/screens/dashboard_screen.dart';
+import 'package:coach_space/features/profile/ui/screens/cart_screen.dart';
+import 'package:coach_space/features/profile/ui/screens/order_history_screen.dart';
+import 'package:coach_space/features/profile/ui/screens/certificates_screen.dart';
+
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -30,10 +35,46 @@ class AppRouter {
         );
       case AppRoutes.emailVerificationSuccess:
         return _buildRoute(const EmailVerificationSuccessScreen(), settings);
-      case AppRoutes.editProfile:
-        return _buildRoute(const EditProfileScreen(), settings);
+
       case AppRoutes.profile:
+<<<<<<< HEAD
         return _buildRoute(const ProfileScreen(), settings);
+=======
+        return _buildRoute(
+          const ProfileScreen(),
+          settings,
+        );
+      case AppRoutes.dashboard:
+        return _buildRoute(
+          const DashboardScreen(),
+          settings,
+        );
+
+      case AppRoutes.browseCourses:
+        return _buildRoute(
+          const BrowseCoursesScreen(),
+          settings,
+        );
+
+      case AppRoutes.cart:
+        return _buildRoute(
+          const CartScreen(),
+          settings,
+        );
+
+      case AppRoutes.orderHistory:
+        return _buildRoute(
+          const OrderHistoryScreen(),
+          settings,
+        );
+
+      case AppRoutes.certificates:
+        return _buildRoute(
+          const CertificatesScreen(),
+          settings,
+        );
+
+>>>>>>> 86e4d8e (Add order history and certificates screens)
       case AppRoutes.home:
         return _buildRoute(const HomeScreen(), settings);
       case AppRoutes.pendingApproval:

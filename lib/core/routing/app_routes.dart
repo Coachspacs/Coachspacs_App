@@ -8,6 +8,11 @@ abstract final class AppRoutes {
   static const String emailVerificationSuccess = '/email-verification-success';
   static const String editProfile = '/edit-profile';
   static const String profile = '/profile';
+  static const String dashboard = '/dashboard';
+  static const String browseCourses = '/browse-courses';
+  static const String cart = '/cart';
+  static const String orderHistory = '/order-history';
+  static const String certificates = '/certificates';
   static const String home = '/home';
   static const String pendingApproval = '/pending-approval';
 }

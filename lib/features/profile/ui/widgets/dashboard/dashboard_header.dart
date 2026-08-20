@@ -2,36 +2,36 @@ import 'package:flutter/material.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
-class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({
+class DashboardHeader extends StatelessWidget {
+  const DashboardHeader({
     super.key,
-    required this.name,
-    required this.email,
+    required this.userName,
   });
 
-  final String name;
-  final String email;
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          name,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
+        const Text(
+          'Student dashboard overview',
+          style: TextStyle(
             color: AppColors.textBody,
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 5),
+
+        const SizedBox(height: 6),
+
         Text(
-          email,
-          textAlign: TextAlign.center,
+          'Welcome back, $userName',
           style: const TextStyle(
             color: AppColors.textLight,
             fontSize: 14,
+            fontWeight: FontWeight.w400,
           ),
         ),
       ],

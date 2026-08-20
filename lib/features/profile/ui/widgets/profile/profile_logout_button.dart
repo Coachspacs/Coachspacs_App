@@ -18,23 +18,23 @@ class ProfileLogoutButton extends StatelessWidget {
       child: OutlinedButton.icon(
         onPressed: onPressed,
         icon: const Icon(
-          Icons.logout,
+          Icons.logout_outlined,
           size: 20,
         ),
         label: const Text(
-          'Log Out',
+          'Sign Out',
           style: TextStyle(
             fontSize: 14,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
         ),
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
+          foregroundColor: Colors.red,
           side: const BorderSide(
-            color: AppColors.borderColor,
+            color: AppColors.border,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
       ),
