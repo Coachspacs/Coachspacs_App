@@ -1,0 +1,83 @@
+import 'package:flutter_test/flutter_test.dart';
+
+import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/features/auth/data/models/approval_status.dart';
+import 'package:coach_space/features/auth/data/models/user_role.dart';
+import 'package:coach_space/features/auth/data/models/user_session.dart';
+import 'package:coach_space/features/auth/logic/auth_routing.dart';
+
+UserSession session({
+  UserRole role = UserRole.student,
+  ApprovalStatus approvalStatus = ApprovalStatus.approved,
+}) {
+  return UserSession(
+    access: 'access-1',
+    refresh: 'refresh-1',
+    role: role,
+    approvalStatus: approvalStatus,
+  );
+}
+
+void main() {
+  group('routeForSession', () {
+    test('student routes to home regardless of approval', () {
+      expect(routeForSession(session()), AppRoutes.home);
+      expect(
+        routeForSession(session(approvalStatus: ApprovalStatus.pending)),
+        AppRoutes.home,
+      );
+    });
+
+    test('pending instructor routes to the pending-approval screen', () {
+      expect(
+        routeForSession(
+          session(
+            role: UserRole.instructor,
+            approvalStatus: ApprovalStatus.pending,
+          ),
+        ),
+        AppRoutes.pendingApproval,
+      );
+    });
+
+    test('approved instructor shares the home route (no dashboard yet)', () {
+      expect(
+        routeForSession(
+          session(
+            role: UserRole.instructor,
+            approvalStatus: ApprovalStatus.approved,
+          ),
+        ),
+        AppRoutes.home,
+      );
+    });
+
+    test('rejected instructor has no access and is sent to login', () {
+      expect(
+        routeForSession(
+          session(
+            role: UserRole.instructor,
+            approvalStatus: ApprovalStatus.rejected,
+          ),
+        ),
+        AppRoutes.login,
+      );
+    });
+
+    test('admin falls back to home (no admin route yet)', () {
+      expect(routeForSession(session(role: UserRole.admin)), AppRoutes.home);
+    });
+
+    test('unknown role is not granted any access', () {
+      expect(
+        routeForSession(
+          session(
+            role: UserRole.unknown,
+            approvalStatus: ApprovalStatus.unknown,
+          ),
+        ),
+        AppRoutes.login,
+      );
+    });
+  });
+}

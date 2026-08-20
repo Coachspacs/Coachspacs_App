@@ -155,5 +155,106 @@
   "signupCreatingAccount": "جاري إنشاء الحساب...",
   "@signupCreatingAccount": {
     "description": "Loading text on signup button"
+  },
+  "signupRoleLabel": "أنا أنضم كـ",
+  "@signupRoleLabel": {
+    "description": "Label for the account-type selector"
+  },
+  "signupRoleStudent": "طالب",
+  "@signupRoleStudent": {
+    "description": "Student option in the account-type selector"
+  },
+  "signupRoleInstructor": "مدرب",
+  "@signupRoleInstructor": {
+    "description": "Instructor option in the account-type selector"
+  },
+  "loginValidationError": "أدخل البريد الإلكتروني وكلمة المرور",
+  "@loginValidationError": {
+    "description": "Error when email or password fields are empty"
+  },
+  "forgotPasswordTitle": "نسيت كلمة المرور؟",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password screen title"
+  },
+  "forgotPasswordSubtitle": "أدخل بريدك الإلكتروني المرتبط بحسابك وسنرسل لك رابطاً لإعادة تعيين كلمة المرور.",
+  "@forgotPasswordSubtitle": {
+    "description": "Forgot password screen subtitle"
+  },
+  "forgotPasswordEmailLabel": "البريد الإلكتروني",
+  "@forgotPasswordEmailLabel": {
+    "description": "Label for the email input"
+  },
+  "forgotPasswordButton": "إرسال رابط التحقق",
+  "@forgotPasswordButton": {
+    "description": "Send reset link button"
+  },
+  "forgotPasswordSending": "جاري الإرسال...",
+  "@forgotPasswordSending": {
+    "description": "Loading text on the send button"
+  },
+  "forgotPasswordSuccess": "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
+  "@forgotPasswordSuccess": {
+    "description": "Success message after sending the reset link"
+  },
+  "forgotPasswordEmailEmpty": "أدخل البريد الإلكتروني",
+  "@forgotPasswordEmailEmpty": {
+    "description": "Error when the email field is empty"
+  },
+  "forgotPasswordBackToLogin": "العودة لتسجيل الدخول",
+  "@forgotPasswordBackToLogin": {
+    "description": "Link back to the login screen"
+  },
+  "emailVerificationTitle": "تحقق من بريدك الإلكتروني",
+  "@emailVerificationTitle": {
+    "description": "Email verification screen title"
+  },
+  "emailVerificationBodyPrefix": "لقد أرسلنا رابط التحقق إلى ",
+  "@emailVerificationBodyPrefix": {
+    "description": "First part of the verification body text"
+  },
+  "emailVerificationBodySuffix": ". اضغط على الرابط في بريدك الإلكتروني لتفعيل حسابك.",
+  "@emailVerificationBodySuffix": {
+    "description": "Second part of the verification body text"
+  },
+  "emailVerificationOpenEmail": "فتح البريد الإلكتروني",
+  "@emailVerificationOpenEmail": {
+    "description": "Open email button"
+  },
+  "emailVerificationOpenEmailHint": "بعد الضغط على رابط التحقق، يمكنك تسجيل الدخول",
+  "@emailVerificationOpenEmailHint": {
+    "description": "Hint after tapping the open-email button"
+  },
+  "emailVerificationNotReceived": "لم يصلك الرابط؟",
+  "@emailVerificationNotReceived": {
+    "description": "Prompt before the resend link"
+  },
+  "emailVerificationSending": "جاري الإرسال...",
+  "@emailVerificationSending": {
+    "description": "Loading text on the resend button"
+  },
+  "emailVerificationResendCountdown": "إعادة الإرسال ({time})",
+  "@emailVerificationResendCountdown": {
+    "description": "Resend button with countdown. {time} is a mm:ss value.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "emailVerificationResent": "تم إعادة إرسال رابط التحقق",
+  "@emailVerificationResent": {
+    "description": "Success message after resending the link"
+  },
+  "pendingApprovalTitle": "بانتظار موافقة الإدارة",
+  "@pendingApprovalTitle": {
+    "description": "Pending approval screen title"
+  },
+  "pendingApprovalSubtitle": "تم استلام طلبك بنجاح. سيتم تفعيل حسابك المدربي بعد موافقة الإدارة. سنعلمك فور اكتمال المراجعة.",
+  "@pendingApprovalSubtitle": {
+    "description": "Pending approval screen subtitle"
+  },
+  "pendingApprovalLogout": "تسجيل الخروج",
+  "@pendingApprovalLogout": {
+    "description": "Log out button on the pending approval screen"
   }
 }

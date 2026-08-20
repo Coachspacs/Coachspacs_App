@@ -331,6 +331,150 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'جاري إنشاء الحساب...'**
   String get signupCreatingAccount;
+
+  /// Label for the account-type selector
+  ///
+  /// In ar, this message translates to:
+  /// **'أنا أنضم كـ'**
+  String get signupRoleLabel;
+
+  /// Student option in the account-type selector
+  ///
+  /// In ar, this message translates to:
+  /// **'طالب'**
+  String get signupRoleStudent;
+
+  /// Instructor option in the account-type selector
+  ///
+  /// In ar, this message translates to:
+  /// **'مدرب'**
+  String get signupRoleInstructor;
+
+  /// Error when email or password fields are empty
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل البريد الإلكتروني وكلمة المرور'**
+  String get loginValidationError;
+
+  /// Forgot password screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'نسيت كلمة المرور؟'**
+  String get forgotPasswordTitle;
+
+  /// Forgot password screen subtitle
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل بريدك الإلكتروني المرتبط بحسابك وسنرسل لك رابطاً لإعادة تعيين كلمة المرور.'**
+  String get forgotPasswordSubtitle;
+
+  /// Label for the email input
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الإلكتروني'**
+  String get forgotPasswordEmailLabel;
+
+  /// Send reset link button
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال رابط التحقق'**
+  String get forgotPasswordButton;
+
+  /// Loading text on the send button
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري الإرسال...'**
+  String get forgotPasswordSending;
+
+  /// Success message after sending the reset link
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني'**
+  String get forgotPasswordSuccess;
+
+  /// Error when the email field is empty
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل البريد الإلكتروني'**
+  String get forgotPasswordEmailEmpty;
+
+  /// Link back to the login screen
+  ///
+  /// In ar, this message translates to:
+  /// **'العودة لتسجيل الدخول'**
+  String get forgotPasswordBackToLogin;
+
+  /// Email verification screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'تحقق من بريدك الإلكتروني'**
+  String get emailVerificationTitle;
+
+  /// First part of the verification body text
+  ///
+  /// In ar, this message translates to:
+  /// **'لقد أرسلنا رابط التحقق إلى '**
+  String get emailVerificationBodyPrefix;
+
+  /// Second part of the verification body text
+  ///
+  /// In ar, this message translates to:
+  /// **'. اضغط على الرابط في بريدك الإلكتروني لتفعيل حسابك.'**
+  String get emailVerificationBodySuffix;
+
+  /// Open email button
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح البريد الإلكتروني'**
+  String get emailVerificationOpenEmail;
+
+  /// Hint after tapping the open-email button
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد الضغط على رابط التحقق، يمكنك تسجيل الدخول'**
+  String get emailVerificationOpenEmailHint;
+
+  /// Prompt before the resend link
+  ///
+  /// In ar, this message translates to:
+  /// **'لم يصلك الرابط؟'**
+  String get emailVerificationNotReceived;
+
+  /// Loading text on the resend button
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري الإرسال...'**
+  String get emailVerificationSending;
+
+  /// Resend button with countdown. {time} is a mm:ss value.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة الإرسال ({time})'**
+  String emailVerificationResendCountdown(String time);
+
+  /// Success message after resending the link
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إعادة إرسال رابط التحقق'**
+  String get emailVerificationResent;
+
+  /// Pending approval screen title
+  ///
+  /// In ar, this message translates to:
+  /// **'بانتظار موافقة الإدارة'**
+  String get pendingApprovalTitle;
+
+  /// Pending approval screen subtitle
+  ///
+  /// In ar, this message translates to:
+  /// **'تم استلام طلبك بنجاح. سيتم تفعيل حسابك المدربي بعد موافقة الإدارة. سنعلمك فور اكتمال المراجعة.'**
+  String get pendingApprovalSubtitle;
+
+  /// Log out button on the pending approval screen
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الخروج'**
+  String get pendingApprovalLogout;
 }
 
 class _AppLocalizationsDelegate

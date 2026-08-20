@@ -7,7 +7,7 @@ import 'package:coach_space/core/theming/app_dimens.dart';
 import 'package:coach_space/features/home/data/models/home_data.dart';
 import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
 import 'package:coach_space/features/home/logic/cubit/home_state.dart';
-import 'package:coach_space/features/home/ui/widgets/bottom_nav_bar_widget.dart';
+import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:coach_space/features/home/ui/widgets/category_chips_widget.dart';
 import 'package:coach_space/features/home/ui/widgets/featured_course_card.dart';
 import 'package:coach_space/features/home/ui/widgets/search_bar_widget.dart';
@@ -65,7 +65,7 @@ class _SuccessView extends StatelessWidget {
         top: AppDimens.stackGapMd,
         bottom: AppDimens.stackGapLg,
       ),
-      children: [ 
+      children: [
         const SearchBarWidget(),
         const SizedBox(height: AppDimens.stackGapLg),
         CategoryChipsWidget(categories: data.categories),

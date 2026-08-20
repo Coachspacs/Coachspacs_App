@@ -126,4 +126,83 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signupCreatingAccount => 'جاري إنشاء الحساب...';
+
+  @override
+  String get signupRoleLabel => 'أنا أنضم كـ';
+
+  @override
+  String get signupRoleStudent => 'طالب';
+
+  @override
+  String get signupRoleInstructor => 'مدرب';
+
+  @override
+  String get loginValidationError => 'أدخل البريد الإلكتروني وكلمة المرور';
+
+  @override
+  String get forgotPasswordTitle => 'نسيت كلمة المرور؟';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'أدخل بريدك الإلكتروني المرتبط بحسابك وسنرسل لك رابطاً لإعادة تعيين كلمة المرور.';
+
+  @override
+  String get forgotPasswordEmailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get forgotPasswordButton => 'إرسال رابط التحقق';
+
+  @override
+  String get forgotPasswordSending => 'جاري الإرسال...';
+
+  @override
+  String get forgotPasswordSuccess =>
+      'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني';
+
+  @override
+  String get forgotPasswordEmailEmpty => 'أدخل البريد الإلكتروني';
+
+  @override
+  String get forgotPasswordBackToLogin => 'العودة لتسجيل الدخول';
+
+  @override
+  String get emailVerificationTitle => 'تحقق من بريدك الإلكتروني';
+
+  @override
+  String get emailVerificationBodyPrefix => 'لقد أرسلنا رابط التحقق إلى ';
+
+  @override
+  String get emailVerificationBodySuffix =>
+      '. اضغط على الرابط في بريدك الإلكتروني لتفعيل حسابك.';
+
+  @override
+  String get emailVerificationOpenEmail => 'فتح البريد الإلكتروني';
+
+  @override
+  String get emailVerificationOpenEmailHint =>
+      'بعد الضغط على رابط التحقق، يمكنك تسجيل الدخول';
+
+  @override
+  String get emailVerificationNotReceived => 'لم يصلك الرابط؟';
+
+  @override
+  String get emailVerificationSending => 'جاري الإرسال...';
+
+  @override
+  String emailVerificationResendCountdown(String time) {
+    return 'إعادة الإرسال ($time)';
+  }
+
+  @override
+  String get emailVerificationResent => 'تم إعادة إرسال رابط التحقق';
+
+  @override
+  String get pendingApprovalTitle => 'بانتظار موافقة الإدارة';
+
+  @override
+  String get pendingApprovalSubtitle =>
+      'تم استلام طلبك بنجاح. سيتم تفعيل حسابك المدربي بعد موافقة الإدارة. سنعلمك فور اكتمال المراجعة.';
+
+  @override
+  String get pendingApprovalLogout => 'تسجيل الخروج';
 }

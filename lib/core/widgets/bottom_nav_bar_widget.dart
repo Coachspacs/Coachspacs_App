@@ -32,10 +32,23 @@ class BottomNavBarWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _NavItem(icon: Icons.home_outlined, label: l10n.navHome, isActive: true, onTap: () {}),
-              _NavItem(icon: Icons.school_outlined, label: l10n.navCourses, onTap: () {}),
+              _NavItem(
+                icon: Icons.home_outlined,
+                label: l10n.navHome,
+                isActive: true,
+                onTap: () {},
+              ),
+              _NavItem(
+                icon: Icons.school_outlined,
+                label: l10n.navCourses,
+                onTap: () {},
+              ),
               _NavItem(icon: Icons.search, label: l10n.navSearch, onTap: () {}),
-              _NavItem(icon: Icons.person_outline, label: l10n.navProfile, onTap: () {}),
+              _NavItem(
+                icon: Icons.person_outline,
+                label: l10n.navProfile,
+                onTap: () {},
+              ),
             ],
           ),
         ),
@@ -60,8 +73,12 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final foreground = isActive ? colorScheme.onSecondaryContainer : colorScheme.onSurfaceVariant;
-    final background = isActive ? colorScheme.secondaryContainer : Colors.transparent;
+    final foreground = isActive
+        ? colorScheme.onSecondaryContainer
+        : colorScheme.onSurfaceVariant;
+    final background = isActive
+        ? colorScheme.secondaryContainer
+        : Colors.transparent;
 
     return Material(
       color: Colors.transparent,
@@ -85,7 +102,9 @@ class _NavItem extends StatelessWidget {
               const SizedBox(height: AppDimens.unit),
               Text(
                 label,
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(color: foreground),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: foreground),
               ),
             ],
           ),

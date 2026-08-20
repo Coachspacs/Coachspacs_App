@@ -1,62 +1,44 @@
-import 'package:dio/dio.dart';
+import 'package:coach_space/features/auth/data/models/change_password_request.dart';
+import 'package:coach_space/features/auth/data/models/forgot_password_request.dart';
+import 'package:coach_space/features/auth/data/models/login_request.dart';
+import 'package:coach_space/features/auth/data/models/register_request.dart';
+import 'package:coach_space/features/auth/data/models/register_response.dart';
+import 'package:coach_space/features/auth/data/models/resend_verification_request.dart';
+import 'package:coach_space/features/auth/data/models/reset_password_request.dart';
+import 'package:coach_space/features/auth/data/models/user_session.dart';
 
-import 'package:coach_space/core/networking/api_client.dart';
-import 'package:coach_space/features/auth/data/models/auth_login_response.dart';
+/// Contract for the auth data layer (backend contract in COACH_SPACE_ARCHITECTURE).
+///
+/// Implementations translate typed [NetworkException]s into [UserSession]s and
+/// persist the session via [SessionStorage]. UI code depends on this interface,
+/// never on a concrete HTTP client.
+abstract interface class AuthRepository {
+  /// Exchanges credentials for a session. Persists tokens + identity on success.
+  Future<UserSession> login(LoginRequest request);
 
-class AuthRepository {
-  AuthRepository({Dio? dio}) : _dio = dio ?? ApiClient.create();
+  /// Creates an account. Does **not** authenticate: the account is unverified
+  /// and must confirm its email link before the first login.
+  Future<RegisterResponse> register(RegisterRequest request);
 
-  final Dio _dio;
+  /// Best-effort server-side logout (blacklists the refresh token). Local
+  /// session is always cleared; this method never throws.
+  Future<void> logout();
 
-  Future<AuthLoginResponse> login({
-    required String email,
-    required String password,
-  }) async {
-    final response = await _dio.post<Map<String, dynamic>>(
-      '/api/auth/login',
-      data: {'email': email, 'password': password},
-    );
-    final data = response.data ?? <String, dynamic>{};
-    return AuthLoginResponse.fromJson(data);
-  }
+  Future<void> forgotPassword(ForgotPasswordRequest request);
 
-  Future<void> resendEmailVerification({required String email}) async {
-    await _dio.post<void>(
-      '/api/auth/verify-email/resend',
-      data: {'email': email},
-    );
-  }
+  Future<void> resetPassword(ResetPasswordRequest request);
 
-  Future<void> verifyEmail({
-    required String uid,
-    required String token,
-  }) async {
-    await _dio.get<void>(
-      '/api/auth/verify-email',
-      queryParameters: {'uid': uid, 'token': token},
-    );
-  }
+  /// Requires a valid authenticated session (uses the stored access token).
+  Future<void> changePassword(ChangePasswordRequest request);
 
-  Future<AuthLoginResponse> signup({
-    required String name,
-    required String email,
-    required String password,
-  }) async {
-    final response = await _dio.post<Map<String, dynamic>>(
-      '/api/auth/register',
-      data: {'name': name, 'email': email, 'password': password},
-    );
-    final data = response.data ?? <String, dynamic>{};
-    return AuthLoginResponse.fromJson(data);
-  }
+  /// Called by the emailed verification link.
+  Future<void> verifyEmail({required String uid, required String token});
 
-  Future<void> verifyOtp({
-    required String email,
-    required String code,
-  }) async {
-    await _dio.post<void>(
-      '/api/auth/verify-otp',
-      data: {'email': email, 'code': code},
-    );
-  }
+  Future<void> resendEmailVerification(ResendVerificationRequest request);
+
+  /// Re-hydrates the persisted session, or `null` when logged out/corrupted.
+  Future<UserSession?> restoreSession();
+
+  /// Wipes the persisted session without any network call.
+  Future<void> clearSession();
 }

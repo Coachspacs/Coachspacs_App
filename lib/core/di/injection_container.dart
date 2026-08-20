@@ -1,16 +1,35 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+import 'package:coach_space/core/networking/api_client.dart';
+import 'package:coach_space/core/networking/api_service.dart';
+import 'package:coach_space/core/storage/session_storage.dart';
 import 'package:coach_space/features/auth/data/repo/auth_repository.dart';
+import 'package:coach_space/features/auth/data/repo/auth_repository_impl.dart';
+import 'package:coach_space/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
 
 /// Application composition root.
 ///
-/// Registers feature state managers and (once the backend lands) repositories.
-/// Feature code must never instantiate dependencies directly; resolve them
-/// through [getIt] (or receive them via constructor injection).
+/// Registers feature state managers, repositories, and infrastructure. Feature
+/// code must never instantiate dependencies directly; resolve them through
+/// [getIt] (or receive them via constructor injection).
 final GetIt getIt = GetIt.instance;
 
 void setupLocator() {
+  getIt.registerLazySingleton<SessionStorage>(SessionStorage.new);
+  getIt.registerLazySingleton<Dio>(
+    () => ApiClient.create(sessionStorage: getIt<SessionStorage>()),
+  );
+  getIt.registerLazySingleton<ApiService>(() => ApiService(getIt<Dio>()));
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(
+      apiService: getIt<ApiService>(),
+      sessionStorage: getIt<SessionStorage>(),
+    ),
+  );
+  getIt.registerLazySingleton<AuthCubit>(
+    () => AuthCubit(repository: getIt<AuthRepository>()),
+  );
   getIt.registerFactory<HomeCubit>(HomeCubit.new);
-  getIt.registerLazySingleton<AuthRepository>(AuthRepository.new);
 }

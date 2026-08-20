@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:coach_space/features/home/ui/screens/home_screen.dart';
-import 'package:coach_space/features/home/ui/widgets/bottom_nav_bar_widget.dart';
+import 'package:coach_space/l10n/app_localizations.dart';
 
 Widget _arApp({required Widget home}) {
-  return MaterialApp(locale: const Locale('ar'), home: home);
+  return MaterialApp(
+    locale: const Locale('ar'),
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: home,
+  );
 }
 
 /// Reads the pill background of a bottom-nav item from its AnimatedContainer.

@@ -127,4 +127,84 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signupCreatingAccount => 'Creating account...';
+
+  @override
+  String get signupRoleLabel => 'I AM JOINING AS';
+
+  @override
+  String get signupRoleStudent => 'Student';
+
+  @override
+  String get signupRoleInstructor => 'Instructor';
+
+  @override
+  String get loginValidationError => 'Enter your email and password';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot your password?';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Enter the email linked to your account and we\'ll send you a link to reset your password.';
+
+  @override
+  String get forgotPasswordEmailLabel => 'EMAIL ADDRESS';
+
+  @override
+  String get forgotPasswordButton => 'Send Reset Link';
+
+  @override
+  String get forgotPasswordSending => 'Sending...';
+
+  @override
+  String get forgotPasswordSuccess =>
+      'A password reset link has been sent to your email';
+
+  @override
+  String get forgotPasswordEmailEmpty => 'Enter your email address';
+
+  @override
+  String get forgotPasswordBackToLogin => 'Back to login';
+
+  @override
+  String get emailVerificationTitle => 'Check your email';
+
+  @override
+  String get emailVerificationBodyPrefix =>
+      'We\'ve sent a verification link to ';
+
+  @override
+  String get emailVerificationBodySuffix =>
+      '. Click the link in your email to activate your account.';
+
+  @override
+  String get emailVerificationOpenEmail => 'Open Email';
+
+  @override
+  String get emailVerificationOpenEmailHint =>
+      'After clicking the verification link, you can log in';
+
+  @override
+  String get emailVerificationNotReceived => 'Didn\'t get the link?';
+
+  @override
+  String get emailVerificationSending => 'Sending...';
+
+  @override
+  String emailVerificationResendCountdown(String time) {
+    return 'Resend ($time)';
+  }
+
+  @override
+  String get emailVerificationResent => 'Verification link sent again';
+
+  @override
+  String get pendingApprovalTitle => 'Pending Approval';
+
+  @override
+  String get pendingApprovalSubtitle =>
+      'Your request has been received. Your instructor account will be activated once the admin approves it. We\'ll let you know as soon as the review is complete.';
+
+  @override
+  String get pendingApprovalLogout => 'Log Out';
 }

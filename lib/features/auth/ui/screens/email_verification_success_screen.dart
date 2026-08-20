@@ -88,7 +88,10 @@ class EmailVerificationSuccessScreen extends StatelessWidget {
                       const SizedBox(height: 28),
                       MyButton(
                         text: 'ابدأ التعلم',
-                        onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
+                        onPressed: () => Navigator.popUntil(
+                          context,
+                          (route) => route.isFirst,
+                        ),
                         color: AppColors.primary,
                         textColor: AppColors.white,
                         fontSize: 16,
