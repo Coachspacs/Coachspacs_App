@@ -475,6 +475,54 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تسجيل الخروج'**
   String get pendingApprovalLogout;
+
+  /// Profile updated success message
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تحديث الملف الشخصي بنجاح.'**
+  String get settingsSaveSuccess;
+
+  /// Avatar updated success message
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تحديث الصورة الرمزية.'**
+  String get settingsAvatarUpdated;
+
+  /// Email change verification sent
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إرسال رسالة تأكيد إلى بريدك الجديد. يرجى التأكيد من صندوق الوارد.'**
+  String get settingsEmailChangeSent;
+
+  /// Change email dialog title
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير البريد الإلكتروني'**
+  String get settingsChangeEmailTitle;
+
+  /// New email label
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الجديد'**
+  String get settingsNewEmailLabel;
+
+  /// Cancel button
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get settingsCancel;
+
+  /// Send button
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال'**
+  String get settingsSend;
+
+  /// Change link
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيير'**
+  String get settingsChange;
 }
 
 class _AppLocalizationsDelegate

@@ -207,4 +207,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pendingApprovalLogout => 'Log Out';
+
+  @override
+  String get settingsSaveSuccess => 'Profile updated successfully.';
+
+  @override
+  String get settingsAvatarUpdated => 'Avatar updated.';
+
+  @override
+  String get settingsEmailChangeSent =>
+      'Verification sent to your new email. Please confirm from your inbox.';
+
+  @override
+  String get settingsChangeEmailTitle => 'Change email';
+
+  @override
+  String get settingsNewEmailLabel => 'NEW EMAIL';
+
+  @override
+  String get settingsCancel => 'Cancel';
+
+  @override
+  String get settingsSend => 'Send';
+
+  @override
+  String get settingsChange => 'Change';
 }

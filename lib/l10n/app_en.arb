@@ -62,5 +62,13 @@
   "emailVerificationResent": "Verification link sent again",
   "pendingApprovalTitle": "Pending Approval",
   "pendingApprovalSubtitle": "Your request has been received. Your instructor account will be activated once the admin approves it. We'll let you know as soon as the review is complete.",
-  "pendingApprovalLogout": "Log Out"
+  "pendingApprovalLogout": "Log Out",
+  "settingsSaveSuccess": "Profile updated successfully.",
+  "settingsAvatarUpdated": "Avatar updated.",
+  "settingsEmailChangeSent": "Verification sent to your new email. Please confirm from your inbox.",
+  "settingsChangeEmailTitle": "Change email",
+  "settingsNewEmailLabel": "NEW EMAIL",
+  "settingsCancel": "Cancel",
+  "settingsSend": "Send",
+  "settingsChange": "Change"
 }

@@ -8,6 +8,9 @@ import 'package:coach_space/features/auth/data/repo/auth_repository.dart';
 import 'package:coach_space/features/auth/data/repo/auth_repository_impl.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
+import 'package:coach_space/features/profile/data/repo/profile_repository.dart';
+import 'package:coach_space/features/profile/data/repo/profile_repository_impl.dart';
+import 'package:coach_space/features/profile/logic/cubit/profile_cubit.dart';
 
 /// Application composition root.
 ///
@@ -31,5 +34,11 @@ void setupLocator() {
   getIt.registerLazySingleton<AuthCubit>(
     () => AuthCubit(repository: getIt<AuthRepository>()),
   );
+  getIt.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(apiService: getIt<ApiService>()),
+  );
   getIt.registerFactory<HomeCubit>(HomeCubit.new);
+  getIt.registerFactory<ProfileCubit>(
+    () => ProfileCubit(repository: getIt<ProfileRepository>()),
+  );
 }
