@@ -7,6 +7,8 @@ import 'package:coach_space/core/storage/session_storage.dart';
 import 'package:coach_space/features/auth/data/repo/auth_repository.dart';
 import 'package:coach_space/features/auth/data/repo/auth_repository_impl.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_cubit.dart';
+import 'package:coach_space/features/home/data/repo/home_repository.dart';
+import 'package:coach_space/features/home/data/repo/home_repository_impl.dart';
 import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
 import 'package:coach_space/features/profile/data/repo/profile_repository.dart';
 import 'package:coach_space/features/profile/data/repo/profile_repository_impl.dart';
@@ -34,10 +36,15 @@ void setupLocator() {
   getIt.registerLazySingleton<AuthCubit>(
     () => AuthCubit(repository: getIt<AuthRepository>()),
   );
+  getIt.registerLazySingleton<HomeRepository>(
+    () => HomeRepositoryImpl(apiService: getIt<ApiService>()),
+  );
   getIt.registerLazySingleton<ProfileRepository>(
     () => ProfileRepositoryImpl(apiService: getIt<ApiService>()),
   );
-  getIt.registerFactory<HomeCubit>(HomeCubit.new);
+  getIt.registerFactory<HomeCubit>(
+    () => HomeCubit(repository: getIt<HomeRepository>()),
+  );
   getIt.registerFactory<ProfileCubit>(
     () => ProfileCubit(repository: getIt<ProfileRepository>()),
   );

@@ -14,6 +14,7 @@ import 'package:coach_space/features/auth/data/models/register_request.dart';
 import 'package:coach_space/features/auth/data/models/register_response.dart';
 import 'package:coach_space/features/auth/data/models/resend_verification_request.dart';
 import 'package:coach_space/features/auth/data/models/reset_password_request.dart';
+import 'package:coach_space/features/catalog/data/models/category_dto.dart';
 import 'package:coach_space/features/profile/data/models/change_email_request.dart';
 import 'package:coach_space/features/profile/data/models/confirm_email_change_request.dart';
 import 'package:coach_space/features/profile/data/models/update_profile_request.dart';
@@ -79,4 +80,7 @@ abstract class ApiService {
 
   @POST('api/users/me/email/confirm')
   Future<void> confirmEmailChange(@Body() ConfirmEmailChangeRequest body);
+
+  @GET('api/catalog/categories')
+  Future<List<CategoryDto>> getCategories();
 }

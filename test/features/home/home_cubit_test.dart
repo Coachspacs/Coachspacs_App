@@ -1,20 +1,43 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:coach_space/features/home/data/models/category.dart';
 import 'package:coach_space/features/home/data/models/home_data.dart';
 import 'package:coach_space/features/home/data/models/mock_home_data.dart';
+import 'package:coach_space/features/home/data/repo/home_repository.dart';
 import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
 import 'package:coach_space/features/home/logic/cubit/home_state.dart';
+
+class _FakeHomeRepository implements HomeRepository {
+  List<Category> categories = MockHomeData.categories;
+  Object? error;
+
+  @override
+  Future<List<Category>> getCategories() async {
+    if (error != null) throw error!;
+    return categories;
+  }
+
+  @override
+  Future<HomeData> getHomeData() async {
+    if (error != null) throw error!;
+    return HomeData(
+      categories: categories,
+      featuredCourses: MockHomeData.featuredCourses,
+      trendingCourses: MockHomeData.trendingCourses,
+    );
+  }
+}
 
 void main() {
   group('HomeCubit', () {
     test('starts in HomeInitial', () {
-      final cubit = HomeCubit();
+      final cubit = HomeCubit(repository: _FakeHomeRepository());
 
       expect(cubit.state, isA<HomeInitial>());
     });
 
     test('emits Loading then Success from static mock data', () async {
-      final cubit = HomeCubit();
+      final cubit = HomeCubit(repository: _FakeHomeRepository());
       final emissions = <HomeState>[];
       final subscription = cubit.stream.listen(emissions.add);
 
@@ -28,7 +51,7 @@ void main() {
     });
 
     test('success payload is the non-empty mock aggregate', () async {
-      final cubit = HomeCubit();
+      final cubit = HomeCubit(repository: _FakeHomeRepository());
 
       await cubit.loadHome();
 
