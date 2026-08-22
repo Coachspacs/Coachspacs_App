@@ -16,34 +16,41 @@ import 'package:coach_space/features/profile/ui/screens/cart_screen.dart';
 import 'package:coach_space/features/profile/ui/screens/order_history_screen.dart';
 import 'package:coach_space/features/profile/ui/screens/certificates_screen.dart';
 
-
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.splash:
         return _buildRoute(const SplashScreen(), settings);
+
       case AppRoutes.login:
         return _buildRoute(const LoginScreen(), settings);
+
       case AppRoutes.signup:
         return _buildRoute(const SignupScreen(), settings);
+
       case AppRoutes.forgotPassword:
         return _buildRoute(const ForgotPasswordScreen(), settings);
+
       case AppRoutes.emailVerification:
         return _buildRoute(
-          EmailVerificationScreen(email: settings.arguments as String?),
+          EmailVerificationScreen(
+            email: settings.arguments as String?,
+          ),
           settings,
         );
+
       case AppRoutes.emailVerificationSuccess:
-        return _buildRoute(const EmailVerificationSuccessScreen(), settings);
+        return _buildRoute(
+          const EmailVerificationSuccessScreen(),
+          settings,
+        );
 
       case AppRoutes.profile:
-<<<<<<< HEAD
-        return _buildRoute(const ProfileScreen(), settings);
-=======
         return _buildRoute(
           const ProfileScreen(),
           settings,
         );
+
       case AppRoutes.dashboard:
         return _buildRoute(
           const DashboardScreen(),
@@ -74,17 +81,33 @@ class AppRouter {
           settings,
         );
 
->>>>>>> 86e4d8e (Add order history and certificates screens)
       case AppRoutes.home:
-        return _buildRoute(const HomeScreen(), settings);
+        return _buildRoute(
+          const HomeScreen(),
+          settings,
+        );
+
       case AppRoutes.pendingApproval:
-        return _buildRoute(const PendingApprovalScreen(), settings);
+        return _buildRoute(
+          const PendingApprovalScreen(),
+          settings,
+        );
+
       default:
-        return _buildRoute(const LoginScreen(), settings);
+        return _buildRoute(
+          const LoginScreen(),
+          settings,
+        );
     }
   }
 
-  Route<dynamic> _buildRoute(Widget page, RouteSettings settings) {
-    return MaterialPageRoute(builder: (_) => page, settings: settings);
+  Route<dynamic> _buildRoute(
+      Widget page,
+      RouteSettings settings,
+      ) {
+    return MaterialPageRoute(
+      builder: (_) => page,
+      settings: settings,
+    );
   }
 }

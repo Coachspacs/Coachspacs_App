@@ -15,8 +15,13 @@ import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   setupLocator();
-  unawaited(getIt<AuthCubit>().restoreSession());
+
+  unawaited(
+    getIt<AuthCubit>().restoreSession(),
+  );
+
   runApp(const CoachSpaceApp());
 }
 
@@ -25,7 +30,6 @@ class CoachSpaceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return BlocProvider.value(
       value: getIt<AuthCubit>(),
       child: MaterialApp(
@@ -34,62 +38,67 @@ class CoachSpaceApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         debugShowCheckedModeBanner: false,
         onGenerateRoute: AppRouter().generateRoute,
+
+        // Keep the authentication flow as the app entry point.
         initialRoute: AppRoutes.login,
-        locale: const Locale('ar'),
+
+        // App language
+        locale: const Locale('en'),
+
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
+
         supportedLocales: AppLocalizations.supportedLocales,
-        builder: (context, child) => BlocListener<AuthCubit, AuthState>(
-          listener: _onAuthStateChanged,
-          child: child ?? const SizedBox.shrink(),
-        ),
+
+        builder: (context, child) {
+          return BlocListener<AuthCubit, AuthState>(
+            listener: _onAuthStateChanged,
+            child: child ?? const SizedBox.shrink(),
+          );
+        },
       ),
-=======
-    return MaterialApp(
-      title: 'Coach Space',
-      theme: AppTheme.lightTheme,
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: AppRouter().generateRoute,
-      initialRoute: AppRoutes.profile,
-      locale: const Locale('en'),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
->>>>>>> 86e4d8e (Add order history and certificates screens)
     );
   }
 }
 
 /// Owned by the app root so the auth gate can navigate from above the
 /// `MaterialApp` (the `BlocListener` sits above the `Navigator`).
-final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _navigatorKey =
+GlobalKey<NavigatorState>();
 
-void _onAuthStateChanged(BuildContext context, AuthState state) {
+void _onAuthStateChanged(
+    BuildContext context,
+    AuthState state,
+    ) {
   final String? target = switch (state) {
     AuthAuthenticated(:final session) => routeForSession(session),
     AuthPendingApproval(:final session) => routeForSession(session),
     AuthUnauthenticated() => AppRoutes.login,
     _ => null,
   };
+
   if (target == null) return;
 
   final navigator = _navigatorKey.currentState;
+
   if (navigator == null) return;
 
   // Avoid re-pushing the same route when the state re-emits.
   final currentContext = _navigatorKey.currentContext;
+
   if (currentContext != null) {
-    final currentName = ModalRoute.of(currentContext)?.settings.name;
+    final currentName =
+        ModalRoute.of(currentContext)?.settings.name;
+
     if (currentName == target) return;
   }
 
-  navigator.pushNamedAndRemoveUntil(target, (route) => false);
+  navigator.pushNamedAndRemoveUntil(
+    target,
+        (route) => false,
+  );
 }
