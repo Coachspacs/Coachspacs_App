@@ -68,6 +68,9 @@ class _FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> clearSession() async {}
+
+  @override
+  Future<void> fetchInstructorDashboard() async {}
 }
 
 UserSession session({

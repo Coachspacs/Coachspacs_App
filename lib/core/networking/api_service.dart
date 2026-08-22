@@ -54,4 +54,7 @@ abstract class ApiService {
 
   @POST('api/auth/verify-email/resend')
   Future<void> resendVerification(@Body() ResendVerificationRequest body);
+
+  @GET('api/auth/instructor/dashboard')
+  Future<void> instructorDashboard();
 }
