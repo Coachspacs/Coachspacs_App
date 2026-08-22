@@ -13,6 +13,9 @@ abstract final class AppRoutes {
   static const String cart = '/cart';
   static const String orderHistory = '/order-history';
   static const String certificates = '/certificates';
+  static const String accountSettings = '/account-settings';
+  static const String catalog = '/catalog';
+  static const String courseDetails = '/course-details';
   static const String home = '/home';
   static const String pendingApproval = '/pending-approval';
 }

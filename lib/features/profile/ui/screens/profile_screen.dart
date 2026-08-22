@@ -149,7 +149,12 @@ class ProfileScreen extends StatelessWidget {
                       ProfileMenuItem(
                         icon: Icons.settings_outlined,
                         title: 'Account Settings',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.accountSettings,
+                          );
+                        },
                         showDivider: false,
                       ),
                     ],

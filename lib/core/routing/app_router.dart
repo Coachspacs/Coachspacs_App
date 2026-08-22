@@ -15,6 +15,9 @@ import 'package:coach_space/features/profile/ui/screens/dashboard_screen.dart';
 import 'package:coach_space/features/profile/ui/screens/cart_screen.dart';
 import 'package:coach_space/features/profile/ui/screens/order_history_screen.dart';
 import 'package:coach_space/features/profile/ui/screens/certificates_screen.dart';
+import 'package:coach_space/features/profile/ui/screens/settings_screen.dart';
+import 'package:coach_space/features/catalog/ui/screens/catalog_screen.dart';
+import 'package:coach_space/features/catalog/ui/screens/course_details_screen.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -63,6 +66,20 @@ class AppRouter {
           settings,
         );
 
+
+      case AppRoutes.catalog:
+        return _buildRoute(
+          const CatalogScreen(),
+          settings,
+        );
+
+
+      case AppRoutes.courseDetails:
+        return _buildRoute(
+          const CourseDetailsScreen(),
+          settings,
+        );
+
       case AppRoutes.cart:
         return _buildRoute(
           const CartScreen(),
@@ -78,6 +95,12 @@ class AppRouter {
       case AppRoutes.certificates:
         return _buildRoute(
           const CertificatesScreen(),
+          settings,
+        );
+
+      case AppRoutes.accountSettings:
+        return _buildRoute(
+          const SettingsScreen(),
           settings,
         );
 
