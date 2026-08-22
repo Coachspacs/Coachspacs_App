@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class AvatarSection extends StatelessWidget {
-  const AvatarSection({super.key});
+  const AvatarSection({
+    super.key,
+    this.imageUrl,
+    this.isUploading = false,
+    this.onTap,
+  });
+
+  final String? imageUrl;
+  final bool isUploading;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +29,7 @@ class AvatarSection extends StatelessWidget {
           Container(
             width: 72,
             height: 72,
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: const Color(0xFFEAF7F3),
               shape: BoxShape.circle,
@@ -28,14 +38,29 @@ class AvatarSection extends StatelessWidget {
               ),
             ),
             alignment: Alignment.center,
-            child: const Text(
-              'h',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF075E4D),
-              ),
-            ),
+            child: imageUrl != null && imageUrl!.isNotEmpty
+                ? Image.network(
+                    imageUrl!,
+                    fit: BoxFit.cover,
+                    width: 72,
+                    height: 72,
+                    errorBuilder: (_, _, _) => const Text(
+                      'h',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF075E4D),
+                      ),
+                    ),
+                  )
+                : const Text(
+                    'h',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF075E4D),
+                    ),
+                  ),
           ),
 
           const SizedBox(width: 16),
@@ -71,18 +96,26 @@ class AvatarSection extends StatelessWidget {
             ),
           ),
 
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color(0xFFE0E7E5),
+          GestureDetector(
+            onTap: isUploading ? null : onTap,
+            child: Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: const Color(0xFFE0E7E5),
+                ),
+                borderRadius: BorderRadius.circular(10),
               ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Icon(
-              Icons.cloud_upload_outlined,
-              color: Color(0xFF0B624F),
+              child: isUploading
+                  ? const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(
+                      Icons.cloud_upload_outlined,
+                      color: Color(0xFF0B624F),
+                    ),
             ),
           ),
         ],

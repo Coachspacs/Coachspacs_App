@@ -4,12 +4,14 @@ class SettingsField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   final bool showChange;
+  final VoidCallback? onChangeTap;
 
   const SettingsField({
     super.key,
     required this.label,
     required this.controller,
     this.showChange = false,
+    this.onChangeTap,
   });
 
   @override
@@ -30,7 +32,7 @@ class SettingsField extends StatelessWidget {
 
             if (showChange)
               GestureDetector(
-                onTap: () {},
+                onTap: onChangeTap,
                 child: const Text(
                   'Change',
                   style: TextStyle(

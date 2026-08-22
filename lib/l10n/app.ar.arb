@@ -256,5 +256,37 @@
   "pendingApprovalLogout": "تسجيل الخروج",
   "@pendingApprovalLogout": {
     "description": "Log out button on the pending approval screen"
+  },
+  "settingsSaveSuccess": "تم تحديث الملف الشخصي بنجاح.",
+  "@settingsSaveSuccess": {
+    "description": "Profile updated success message"
+  },
+  "settingsAvatarUpdated": "تم تحديث الصورة الرمزية.",
+  "@settingsAvatarUpdated": {
+    "description": "Avatar updated success message"
+  },
+  "settingsEmailChangeSent": "تم إرسال رسالة تأكيد إلى بريدك الجديد. يرجى التأكيد من صندوق الوارد.",
+  "@settingsEmailChangeSent": {
+    "description": "Email change verification sent"
+  },
+  "settingsChangeEmailTitle": "تغيير البريد الإلكتروني",
+  "@settingsChangeEmailTitle": {
+    "description": "Change email dialog title"
+  },
+  "settingsNewEmailLabel": "البريد الجديد",
+  "@settingsNewEmailLabel": {
+    "description": "New email label"
+  },
+  "settingsCancel": "إلغاء",
+  "@settingsCancel": {
+    "description": "Cancel button"
+  },
+  "settingsSend": "إرسال",
+  "@settingsSend": {
+    "description": "Send button"
+  },
+  "settingsChange": "تغيير",
+  "@settingsChange": {
+    "description": "Change link"
   }
 }

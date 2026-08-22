@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -12,6 +14,10 @@ import 'package:coach_space/features/auth/data/models/register_request.dart';
 import 'package:coach_space/features/auth/data/models/register_response.dart';
 import 'package:coach_space/features/auth/data/models/resend_verification_request.dart';
 import 'package:coach_space/features/auth/data/models/reset_password_request.dart';
+import 'package:coach_space/features/profile/data/models/change_email_request.dart';
+import 'package:coach_space/features/profile/data/models/confirm_email_change_request.dart';
+import 'package:coach_space/features/profile/data/models/update_profile_request.dart';
+import 'package:coach_space/features/profile/data/models/user_profile_model.dart';
 
 part 'api_service.g.dart';
 
@@ -57,4 +63,20 @@ abstract class ApiService {
 
   @GET('api/auth/instructor/dashboard')
   Future<void> instructorDashboard();
+
+  @GET('api/users/me')
+  Future<UserProfileModel> getMe();
+
+  @PUT('api/users/me')
+  Future<UserProfileModel> updateMe(@Body() UpdateProfileRequest body);
+
+  @POST('api/users/me/avatar')
+  @MultiPart()
+  Future<UserProfileModel> uploadAvatar(@Part(name: 'avatar') File avatar);
+
+  @POST('api/users/me/email/change')
+  Future<void> requestEmailChange(@Body() ChangeEmailRequest body);
+
+  @POST('api/users/me/email/confirm')
+  Future<void> confirmEmailChange(@Body() ConfirmEmailChangeRequest body);
 }

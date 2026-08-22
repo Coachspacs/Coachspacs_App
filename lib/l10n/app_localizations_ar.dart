@@ -205,4 +205,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pendingApprovalLogout => 'تسجيل الخروج';
+
+  @override
+  String get settingsSaveSuccess => 'تم تحديث الملف الشخصي بنجاح.';
+
+  @override
+  String get settingsAvatarUpdated => 'تم تحديث الصورة الرمزية.';
+
+  @override
+  String get settingsEmailChangeSent =>
+      'تم إرسال رسالة تأكيد إلى بريدك الجديد. يرجى التأكيد من صندوق الوارد.';
+
+  @override
+  String get settingsChangeEmailTitle => 'تغيير البريد الإلكتروني';
+
+  @override
+  String get settingsNewEmailLabel => 'البريد الجديد';
+
+  @override
+  String get settingsCancel => 'إلغاء';
+
+  @override
+  String get settingsSend => 'إرسال';
+
+  @override
+  String get settingsChange => 'تغيير';
 }
