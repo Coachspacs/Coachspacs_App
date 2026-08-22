@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import 'package:coach_space/core/storage/session_storage.dart';
 
+import 'accept_language_interceptor.dart';
 import 'api_interceptor.dart';
 import 'safe_logging_interceptor.dart';
 
@@ -27,6 +28,7 @@ class ApiClient {
         headers: const {'Accept': 'application/json'},
       ),
     );
+    dio.interceptors.add(AcceptLanguageInterceptor());
     if (sessionStorage != null) {
       dio.interceptors.add(AuthInterceptor(sessionStorage, () => dio));
     }

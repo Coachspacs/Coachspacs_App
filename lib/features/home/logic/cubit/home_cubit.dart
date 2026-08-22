@@ -1,19 +1,40 @@
+// ignore_for_file: prefer_initializing_formals
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:coach_space/features/home/data/models/mock_home_data.dart';
+import 'package:coach_space/core/networking/network_exceptions.dart';
+import 'package:coach_space/features/home/data/repo/home_repository.dart';
 import 'package:coach_space/features/home/logic/cubit/home_state.dart';
 
 /// Orchestrates the home screen.
 ///
-/// Currently renders purely from local static mock data ([MockHomeData]) —
-/// no backend API, repository, or HTTP client is involved. When the API
-/// lands, `loadHome` will instead delegate to the data layer, keeping the
-/// [HomeState] contract (Loading / Success / Empty / Error / Offline).
+/// Categories are fetched from `GET /api/catalog/categories` via
+/// [HomeRepository]; featured/trending courses remain local mock data until
+/// the backend exposes course endpoints (none exist on the current backend).
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(const HomeInitial());
+  HomeCubit({required HomeRepository repository})
+      : _repository = repository,
+        super(const HomeInitial());
+
+  final HomeRepository _repository;
 
   Future<void> loadHome() async {
     emit(const HomeLoading());
-    emit(HomeSuccess(data: MockHomeData.aggregate));
+    try {
+      final data = await _repository.getHomeData();
+      if (data.isEmpty) {
+        emit(const HomeEmpty());
+      } else {
+        emit(HomeSuccess(data: data));
+      }
+    } on NetworkException catch (error) {
+      if (error.kind == FailureKind.offline) {
+        emit(const HomeOffline());
+      } else {
+        emit(HomeError(message: error.message));
+      }
+    } catch (_) {
+      emit(const HomeError());
+    }
   }
 }

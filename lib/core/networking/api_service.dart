@@ -12,6 +12,7 @@ import 'package:coach_space/features/auth/data/models/register_request.dart';
 import 'package:coach_space/features/auth/data/models/register_response.dart';
 import 'package:coach_space/features/auth/data/models/resend_verification_request.dart';
 import 'package:coach_space/features/auth/data/models/reset_password_request.dart';
+import 'package:coach_space/features/catalog/data/models/category_dto.dart';
 
 part 'api_service.g.dart';
 
@@ -54,4 +55,7 @@ abstract class ApiService {
 
   @POST('api/auth/verify-email/resend')
   Future<void> resendVerification(@Body() ResendVerificationRequest body);
+
+  @GET('api/catalog/categories')
+  Future<List<CategoryDto>> getCategories();
 }

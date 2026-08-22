@@ -3,6 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
+import 'package:coach_space/features/home/data/models/category.dart';
+import 'package:coach_space/features/home/data/models/home_data.dart';
+import 'package:coach_space/features/home/data/models/mock_home_data.dart';
+import 'package:coach_space/features/home/data/repo/home_repository.dart';
+import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
 import 'package:coach_space/features/home/ui/screens/home_screen.dart';
 import 'package:coach_space/l10n/app_localizations.dart';
 
@@ -23,8 +28,25 @@ Color? _navItemSurfaceColor(WidgetTester tester, Finder label) {
   return (container.decoration as BoxDecoration?)?.color;
 }
 
+class _FakeHomeRepository implements HomeRepository {
+  @override
+  Future<List<Category>> getCategories() async => MockHomeData.categories;
+
+  @override
+  Future<HomeData> getHomeData() async => MockHomeData.aggregate;
+}
+
 void main() {
-  setUpAll(setupLocator);
+  setUpAll(() {
+    setupLocator();
+    // Allow overriding the HomeCubit registered in setupLocator so this
+    // widget test stays deterministic (no real HTTP).
+    getIt.allowReassignment = true;
+    getIt.unregister<HomeCubit>();
+    getIt.registerFactory<HomeCubit>(
+      () => HomeCubit(repository: _FakeHomeRepository()),
+    );
+  });
 
   group('BottomNavBarWidget', () {
     testWidgets('Home tab (الرئيسية) is the active pill on the home screen', (
