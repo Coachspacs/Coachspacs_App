@@ -10,31 +10,34 @@ class CatalogFilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: onPressed,
-      icon: const Icon(
-        Icons.tune,
-        size: 17,
-      ),
-      label: const Text(
-        'Filters',
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
+    return SizedBox(
+      height: 46,
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: onPressed,
+        icon: const Icon(
+          Icons.tune,
+          size: 18,
         ),
-      ),
-      style: OutlinedButton.styleFrom(
-        foregroundColor: const Color(0xFF075E4D),
-        backgroundColor: Colors.white,
-        side: const BorderSide(
-          color: Color(0xFFD8E4E1),
+        label: const Text(
+          'Filters',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+          ),
         ),
-        minimumSize: const Size(
-          0,
-          44,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(11),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: const Color(0xFF075E4D),
+          backgroundColor: Colors.white,
+          side: const BorderSide(
+            color: Color(0xFFD8E4E1),
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       ),
     );

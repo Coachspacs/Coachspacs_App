@@ -40,7 +40,7 @@ class CoachSpaceApp extends StatelessWidget {
         onGenerateRoute: AppRouter().generateRoute,
 
         // Keep the authentication flow as the app entry point.
-        initialRoute: AppRoutes.login,
+        initialRoute: AppRoutes.home,
 
         // App language
         locale: const Locale('en'),

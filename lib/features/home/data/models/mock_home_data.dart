@@ -16,31 +16,58 @@ abstract final class MockHomeData {
   );
 
   static const List<Category> categories = [
-    Category(id: '1', name: 'التصميم', slug: 'design'),
-    Category(id: '2', name: 'التطوير', slug: 'development'),
-    Category(id: '3', name: 'التسويق', slug: 'marketing'),
-    Category(id: '4', name: 'الأعمال', slug: 'business'),
+    Category(
+      id: '1',
+      name: 'Design',
+      slug: 'design',
+    ),
+    Category(
+      id: '2',
+      name: 'Development',
+      slug: 'development',
+    ),
+    Category(
+      id: '3',
+      name: 'Marketing',
+      slug: 'marketing',
+    ),
+    Category(
+      id: '4',
+      name: 'Business',
+      slug: 'business',
+    ),
+    Category(
+      id: '5',
+      name: 'Growth',
+      slug: 'growth',
+    ),
   ];
 
   static const List<Course> featuredCourses = [
     Course(
       id: 'featured-1',
-      title: 'مبادئ تصميم تجربة المستخدم المتقدمة',
-      categoryLabel: 'تصميم واجهات',
-      instructor: Instructor(id: 'instructor-1', name: 'أحمد محمد'),
+      title: 'Mastering React and Modern Web Architecture',
+      categoryLabel: 'Development',
+      instructor: Instructor(
+        id: 'instructor-1',
+        name: 'Sarah Ahmed',
+      ),
       coverImageUrl: _featuredCoverUrl,
       rating: 4.8,
       reviewCount: 120,
-      price: 49.99,
+      price: 89.00,
     ),
   ];
 
   static const List<Course> trendingCourses = [
     Course(
       id: 'trending-1',
-      title: 'أساسيات بايثون للذكاء الاصطناعي',
-      categoryLabel: 'برمجة',
-      instructor: Instructor(id: 'instructor-2', name: 'سارة أحمد'),
+      title: 'Python for Artificial Intelligence',
+      categoryLabel: 'Development',
+      instructor: Instructor(
+        id: 'instructor-2',
+        name: 'Omar Khaled',
+      ),
       coverImageUrl: _trendingCodeCoverUrl,
       rating: 4.9,
       reviewCount: 84,
@@ -48,9 +75,12 @@ abstract final class MockHomeData {
     ),
     Course(
       id: 'trending-2',
-      title: 'التسويق الرقمي الشامل 2024',
-      categoryLabel: 'تسويق',
-      instructor: Instructor(id: 'instructor-3', name: 'خالد العلي'),
+      title: 'Complete Digital Marketing',
+      categoryLabel: 'Marketing',
+      instructor: Instructor(
+        id: 'instructor-3',
+        name: 'Lina Hassan',
+      ),
       coverImageUrl: _trendingMarketingCoverUrl,
       rating: 4.7,
       reviewCount: 210,

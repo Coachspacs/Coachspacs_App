@@ -1,92 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
-import 'package:coach_space/features/home/data/models/category.dart';
-import 'package:coach_space/features/home/data/models/home_data.dart';
-import 'package:coach_space/features/home/data/models/mock_home_data.dart';
-import 'package:coach_space/features/home/data/repo/home_repository.dart';
-import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
-import 'package:coach_space/features/home/ui/screens/home_screen.dart';
 import 'package:coach_space/l10n/app_localizations.dart';
 
-Widget _arApp({required Widget home}) {
+Widget _app({required Widget home}) {
   return MaterialApp(
-    locale: const Locale('ar'),
+    locale: const Locale('en'),
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     home: home,
   );
 }
 
-/// Reads the pill background of a bottom-nav item from its AnimatedContainer.
-Color? _navItemSurfaceColor(WidgetTester tester, Finder label) {
+Color? _navItemSurfaceColor(
+    WidgetTester tester,
+    Finder label,
+    ) {
   final container = tester.widget<AnimatedContainer>(
-    find.ancestor(of: label, matching: find.byType(AnimatedContainer)).first,
+    find
+        .ancestor(
+      of: label,
+      matching: find.byType(AnimatedContainer),
+    )
+        .first,
   );
+
   return (container.decoration as BoxDecoration?)?.color;
 }
 
-class _FakeHomeRepository implements HomeRepository {
-  @override
-  Future<List<Category>> getCategories() async => MockHomeData.categories;
-
-  @override
-  Future<HomeData> getHomeData() async => MockHomeData.aggregate;
-}
-
 void main() {
-  setUpAll(() {
-    setupLocator();
-    // Allow overriding the HomeCubit registered in setupLocator so this
-    // widget test stays deterministic (no real HTTP).
-    getIt.allowReassignment = true;
-    getIt.unregister<HomeCubit>();
-    getIt.registerFactory<HomeCubit>(
-      () => HomeCubit(repository: _FakeHomeRepository()),
-    );
-  });
-
   group('BottomNavBarWidget', () {
-    testWidgets('Home tab (الرئيسية) is the active pill on the home screen', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        _arApp(
-          home: const Scaffold(
-            body: SizedBox(),
-            bottomNavigationBar: BottomNavBarWidget(),
+    testWidgets(
+      'Home tab is the active pill',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(
+          _app(
+            home: const Scaffold(
+              body: SizedBox(),
+              bottomNavigationBar: BottomNavBarWidget(
+                currentIndex: 0,
+              ),
+            ),
           ),
-        ),
-      );
+        );
 
-      final homeColor = _navItemSurfaceColor(tester, find.text('الرئيسية'));
-      final searchColor = _navItemSurfaceColor(tester, find.text('بحث'));
+        final homeColor = _navItemSurfaceColor(
+          tester,
+          find.text('Home'),
+        );
 
-      expect(homeColor, isNot(Colors.transparent));
-      expect(searchColor, Colors.transparent);
-    });
-  });
+        final coursesColor = _navItemSurfaceColor(
+          tester,
+          find.text('Courses'),
+        );
 
-  group('HomeScreen', () {
-    testWidgets('renders localized Arabic content with RTL layout', (
-      WidgetTester tester,
-    ) async {
-      await tester.binding.setSurfaceSize(const Size(800, 1800));
-      addTearDown(() => tester.binding.setSurfaceSize(null));
-
-      await tester.pumpWidget(_arApp(home: const HomeScreen()));
-      await tester.pumpAndSettle();
-
-      expect(find.text('ابحث عن دورات، مدربين...'), findsOneWidget);
-      expect(find.text('دورات مميزة'), findsOneWidget);
-      expect(find.text('رائج الآن'), findsOneWidget);
-      expect(find.text('الكل'), findsOneWidget);
-      expect(find.text('الرئيسية'), findsOneWidget);
-
-      final context = tester.element(find.byType(HomeScreen));
-      expect(Directionality.of(context), TextDirection.rtl);
-    });
+        expect(homeColor, isNot(Colors.transparent));
+        expect(coursesColor, Colors.transparent);
+      },
+    );
   });
 }

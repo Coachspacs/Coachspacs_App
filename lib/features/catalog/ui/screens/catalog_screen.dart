@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:coach_space/features/catalog/ui/widgets/catalog/catalog_course_card.dart';
 import 'package:coach_space/features/catalog/ui/widgets/catalog/catalog_filter_button.dart';
 import 'package:coach_space/features/catalog/ui/widgets/catalog/catalog_filter_sheet.dart';
@@ -13,8 +14,7 @@ class CatalogScreen extends StatefulWidget {
   });
 
   @override
-  State<CatalogScreen> createState() =>
-      _CatalogScreenState();
+  State<CatalogScreen> createState() => _CatalogScreenState();
 }
 
 class _CatalogScreenState extends State<CatalogScreen> {
@@ -24,8 +24,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
   // Later this will come from the API.
   final List<Map<String, dynamic>> courses = [
     {
-      'title':
-      'Next.js 15 & React 19 Fullstack Masterclass',
+      'title': 'Next.js 15 & React 19 Fullstack Masterclass',
       'instructor': 'Dr. Tareq Al-Mansoor',
       'price': '\$89.00',
       'rating': '4.9',
@@ -61,25 +60,20 @@ class _CatalogScreenState extends State<CatalogScreen> {
   @override
   Widget build(BuildContext context) {
     final filteredCourses = courses.where((course) {
-      final title =
-      course['title'].toString().toLowerCase();
-
-      final instructor =
-      course['instructor'].toString().toLowerCase();
-
-      final query =
-      searchQuery.trim().toLowerCase();
+      final title = course['title'].toString().toLowerCase();
+      final instructor = course['instructor'].toString().toLowerCase();
+      final query = searchQuery.trim().toLowerCase();
 
       if (query.isEmpty) {
         return true;
       }
 
-      return title.contains(query) ||
-          instructor.contains(query);
+      return title.contains(query) || instructor.contains(query);
     }).toList();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7FAF9),
+
       body: SafeArea(
         child: Column(
           children: [
@@ -94,8 +88,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   30,
                 ),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Page title
                     const Text(
@@ -139,8 +132,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
-                                backgroundColor:
-                                Colors.transparent,
+                                backgroundColor: Colors.transparent,
                                 builder: (context) {
                                   return const CatalogFilterSheet();
                                 },
@@ -192,20 +184,12 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       ...filteredCourses.map(
                             (course) {
                           return CatalogCourseCard(
-                            title:
-                            course['title'].toString(),
-                            instructor:
-                            course['instructor']
-                                .toString(),
-                            price:
-                            course['price'].toString(),
-                            rating:
-                            course['rating'].toString(),
-                            students:
-                            course['students']
-                                .toString(),
-                            image:
-                            course['image'].toString(),
+                            title: course['title'].toString(),
+                            instructor: course['instructor'].toString(),
+                            price: course['price'].toString(),
+                            rating: course['rating'].toString(),
+                            students: course['students'].toString(),
+                            image: course['image'].toString(),
 
                             // View Course
                             onTap: () {
@@ -224,6 +208,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
             ),
           ],
         ),
+      ),
+
+      // Bottom Navigation
+      bottomNavigationBar: const BottomNavBarWidget(
+        currentIndex: 1,
       ),
     );
   }
@@ -295,7 +284,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
             size: 45,
             color: Colors.grey.shade400,
           ),
+
           const SizedBox(height: 12),
+
           const Text(
             'No courses found',
             style: TextStyle(
@@ -304,7 +295,9 @@ class _CatalogScreenState extends State<CatalogScreen> {
               color: Color(0xFF073F38),
             ),
           ),
+
           const SizedBox(height: 5),
+
           Text(
             'Try another search.',
             style: TextStyle(
@@ -334,8 +327,7 @@ class _SortBottomSheet extends StatelessWidget {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'Sort Courses',
@@ -350,8 +342,7 @@ class _SortBottomSheet extends StatelessWidget {
 
             _SortOption(
               title: 'Most Popular',
-              icon:
-              Icons.local_fire_department_outlined,
+              icon: Icons.local_fire_department_outlined,
             ),
 
             _SortOption(
@@ -407,7 +398,9 @@ class _SortOption extends StatelessWidget {
               size: 20,
               color: const Color(0xFF075E4D),
             ),
+
             const SizedBox(width: 12),
+
             Text(
               title,
               style: const TextStyle(

@@ -1,85 +1,101 @@
 import 'package:flutter/material.dart';
 
-import 'package:coach_space/core/helpers/context_extensions.dart';
-import 'package:coach_space/core/theming/app_dimens.dart';
-import 'package:coach_space/core/theming/app_shadows.dart';
 import 'package:coach_space/features/home/data/models/category.dart';
 
-/// Horizontally scrollable category filter chips.
-///
-/// A leading "All" chip (localized) is always shown, followed by the loaded
-/// categories.
 class CategoryChipsWidget extends StatefulWidget {
-  const CategoryChipsWidget({super.key, required this.categories});
+  const CategoryChipsWidget({
+    super.key,
+    required this.categories,
+  });
 
   final List<Category> categories;
 
   @override
-  State<CategoryChipsWidget> createState() => _CategoryChipsWidgetState();
+  State<CategoryChipsWidget> createState() =>
+      _CategoryChipsWidgetState();
 }
 
-class _CategoryChipsWidgetState extends State<CategoryChipsWidget> {
+class _CategoryChipsWidgetState
+    extends State<CategoryChipsWidget> {
   int _selectedIndex = 0;
 
+  final List<IconData> _icons = [
+    Icons.auto_awesome_outlined,
+    Icons.code,
+    Icons.bar_chart_outlined,
+    Icons.campaign_outlined,
+    Icons.trending_up,
+    Icons.design_services_outlined,
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final labels = [context.l10n.homeAll, ...widget.categories.map((c) => c.name)];
-
     return SizedBox(
-      height: AppDimens.chipHeight,
+      height: 82,
       child: ListView.separated(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+        ),
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: AppDimens.marginMobile),
-        itemCount: labels.length,
-        separatorBuilder: (context, index) => const SizedBox(width: AppDimens.gutterMobile),
+        itemCount: widget.categories.length,
+        separatorBuilder: (_, __) =>
+        const SizedBox(width: 10),
         itemBuilder: (context, index) {
-          final isSelected = index == _selectedIndex;
-          return _CategoryChip(
-            label: labels[index],
-            selected: isSelected,
-            onTap: () => setState(() => _selectedIndex = index),
+          final category =
+          widget.categories[index];
+
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            child: AnimatedContainer(
+              duration:
+              const Duration(milliseconds: 180),
+              width: 82,
+              decoration: BoxDecoration(
+                color: _selectedIndex == index
+                    ? const Color(0xFFE4F5EF)
+                    : Colors.white,
+                borderRadius:
+                BorderRadius.circular(13),
+                border: Border.all(
+                  color: _selectedIndex == index
+                      ? const Color(0xFFB9DED2)
+                      : const Color(0xFFDCE7E4),
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment:
+                MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    _icons[
+                    index % _icons.length],
+                    size: 20,
+                    color:
+                    const Color(0xFF075E4D),
+                  ),
+                  const SizedBox(height: 7),
+                  Text(
+                    category.name,
+                    maxLines: 1,
+                    overflow:
+                    TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w700,
+                      color:
+                      Color(0xFF344842),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         },
-      ),
-    );
-  }
-}
-
-class _CategoryChip extends StatelessWidget {
-  const _CategoryChip({required this.label, required this.selected, required this.onTap});
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(AppDimens.radiusLg),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(horizontal: AppDimens.stackGapLg),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: selected ? colorScheme.primaryContainer : colorScheme.surfaceContainerLowest,
-            borderRadius: BorderRadius.circular(AppDimens.radiusLg),
-            border: selected
-                ? null
-                : Border.all(color: colorScheme.outlineVariant),
-            boxShadow: selected ? AppShadows.interactive : null,
-          ),
-          child: Text(
-            label,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: selected ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
-                ),
-          ),
-        ),
       ),
     );
   }

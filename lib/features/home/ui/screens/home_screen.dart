@@ -3,18 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/helpers/context_extensions.dart';
+import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_dimens.dart';
+import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:coach_space/features/home/data/models/home_data.dart';
 import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
 import 'package:coach_space/features/home/logic/cubit/home_state.dart';
-import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:coach_space/features/home/ui/widgets/category_chips_widget.dart';
 import 'package:coach_space/features/home/ui/widgets/featured_course_card.dart';
+import 'package:coach_space/features/home/ui/widgets/faq_widget.dart';
+import 'package:coach_space/features/home/ui/widgets/home_hero_section.dart';
+import 'package:coach_space/features/home/ui/widgets/join_learning_widget.dart';
 import 'package:coach_space/features/home/ui/widgets/search_bar_widget.dart';
+import 'package:coach_space/features/home/ui/widgets/testimonials_widget.dart';
 import 'package:coach_space/features/home/ui/widgets/top_app_bar_widget.dart';
 import 'package:coach_space/features/home/ui/widgets/trending_course_card.dart';
+import 'package:coach_space/features/home/ui/widgets/why_coach_space_widget.dart';
 
-/// Home (Discovery) screen: assembles the feature and owns its [HomeCubit].
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -34,7 +39,10 @@ class _HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const TopAppBarWidget(),
-      bottomNavigationBar: const BottomNavBarWidget(),
+      bottomNavigationBar: const BottomNavBarWidget(
+        currentIndex: 0,
+      ),
+      backgroundColor: const Color(0xFFF8FBFA),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return switch (state) {
@@ -52,105 +60,197 @@ class _HomeView extends StatelessWidget {
 }
 
 class _SuccessView extends StatelessWidget {
-  const _SuccessView({required this.data});
+  const _SuccessView({
+    required this.data,
+  });
 
   final HomeData data;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     return ListView(
-      padding: const EdgeInsets.only(
-        top: AppDimens.stackGapMd,
-        bottom: AppDimens.stackGapLg,
-      ),
+      padding: const EdgeInsets.only(bottom: 32),
       children: [
-        const SearchBarWidget(),
-        const SizedBox(height: AppDimens.stackGapLg),
-        CategoryChipsWidget(categories: data.categories),
-        const SizedBox(height: AppDimens.stackGapLg),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppDimens.marginMobile,
-          ),
-          child: _SectionHeader(
-            title: l10n.homeFeatured,
-            actionLabel: l10n.homeViewAll,
+        const HomeHeroSection(),
+
+        const SizedBox(height: 18),
+
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: SearchBarWidget(),
+        ),
+
+        const SizedBox(height: 26),
+
+        _SectionHeader(
+          title: 'Top categories',
+          subtitle: 'Discover your next skill',
+          actionLabel: 'View all',
+          onAction: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.catalog,
+            );
+          },
+        ),
+
+        const SizedBox(height: 12),
+
+        CategoryChipsWidget(
+          categories: data.categories,
+        ),
+
+        const SizedBox(height: 28),
+
+        _SectionHeader(
+          title: 'Master your craft',
+          subtitle: 'Curated high-impact courses',
+          actionLabel: 'View all',
+          onAction: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.catalog,
+            );
+          },
+        ),
+
+        const SizedBox(height: 12),
+
+        SizedBox(
+          height: 290,
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            scrollDirection: Axis.horizontal,
+            itemCount: data.featuredCourses.length,
+            separatorBuilder: (_, __) =>
+            const SizedBox(width: 12),
+            itemBuilder: (context, index) {
+              return SizedBox(
+                width: 285,
+                child: FeaturedCourseCard(
+                  course: data.featuredCourses[index],
+                ),
+              );
+            },
           ),
         ),
-        const SizedBox(height: AppDimens.stackGapMd),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppDimens.marginMobile,
+
+        const SizedBox(height: 32),
+
+        const WhyCoachSpaceWidget(),
+
+        const SizedBox(height: 32),
+
+        const TestimonialsWidget(),
+
+        const SizedBox(height: 32),
+
+        const FaqWidget(),
+
+        const SizedBox(height: 32),
+
+        const JoinLearningWidget(),
+
+        const SizedBox(height: 28),
+
+        if (data.trendingCourses.isNotEmpty) ...[
+          _SectionHeader(
+            title: 'Trending courses',
+            subtitle: 'Popular courses students love',
+            actionLabel: 'View all',
+            onAction: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.catalog,
+              );
+            },
           ),
-          child: Column(
-            children: [
-              for (final course in data.featuredCourses) ...[
-                FeaturedCourseCard(course: course),
-                const SizedBox(height: AppDimens.stackGapMd),
+
+          const SizedBox(height: 12),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: Column(
+              children: [
+                for (final course in data.trendingCourses) ...[
+                  TrendingCourseCard(
+                    course: course,
+                  ),
+                  const SizedBox(height: 12),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-        const SizedBox(height: AppDimens.stackGapLg),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppDimens.marginMobile,
-          ),
-          child: _SectionHeader(title: l10n.homeTrending),
-        ),
-        const SizedBox(height: AppDimens.stackGapMd),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppDimens.marginMobile,
-          ),
-          child: Column(
-            children: [
-              for (final course in data.trendingCourses) ...[
-                TrendingCourseCard(course: course),
-                const SizedBox(height: AppDimens.stackGapMd),
-              ],
-            ],
-          ),
-        ),
+        ],
       ],
     );
   }
 }
 
 class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title, this.actionLabel});
+  const _SectionHeader({
+    required this.title,
+    required this.subtitle,
+    this.actionLabel,
+    this.onAction,
+  });
 
   final String title;
+  final String subtitle;
   final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: theme.textTheme.headlineMedium?.copyWith(
-            color: colorScheme.onSurface,
-          ),
-        ),
-        if (actionLabel != null)
-          TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-              foregroundColor: colorScheme.primary,
-              padding: EdgeInsets.zero,
-              minimumSize: const Size(0, 32),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF073F38),
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF778782),
+                  ),
+                ),
+              ],
             ),
-            child: Text(actionLabel!, style: theme.textTheme.labelLarge),
           ),
-      ],
+          if (actionLabel != null)
+            GestureDetector(
+              onTap: onAction,
+              child: Text(
+                actionLabel!,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xFF075E4D),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -160,7 +260,11 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return const Center(
+      child: CircularProgressIndicator(
+        color: Color(0xFF075E4D),
+      ),
+    );
   }
 }
 
@@ -180,7 +284,9 @@ class _EmptyView extends StatelessWidget {
 }
 
 class _ErrorView extends StatelessWidget {
-  const _ErrorView({this.message});
+  const _ErrorView({
+    this.message,
+  });
 
   final String? message;
 
@@ -192,7 +298,9 @@ class _ErrorView extends StatelessWidget {
       icon: Icons.error_outline,
       title: l10n.homeErrorTitle,
       message: message ?? l10n.homeErrorSubtitle,
-      onRetry: () => context.read<HomeCubit>().loadHome(),
+      onRetry: () {
+        context.read<HomeCubit>().loadHome();
+      },
     );
   }
 }
@@ -208,7 +316,9 @@ class _OfflineView extends StatelessWidget {
       icon: Icons.wifi_off_outlined,
       title: l10n.homeOfflineTitle,
       message: l10n.homeOfflineSubtitle,
-      onRetry: () => context.read<HomeCubit>().loadHome(),
+      onRetry: () {
+        context.read<HomeCubit>().loadHome();
+      },
     );
   }
 }
@@ -228,39 +338,46 @@ class _MessageStateView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final l10n = context.l10n;
-
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(AppDimens.stackGapLg),
+        padding: const EdgeInsets.all(
+          AppDimens.stackGapLg,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 56, color: colorScheme.outline),
-            const SizedBox(height: AppDimens.stackGapMd),
+            Icon(
+              icon,
+              size: 56,
+              color: const Color(0xFF83918D),
+            ),
+            const SizedBox(height: 16),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: theme.textTheme.headlineSmall?.copyWith(
-                color: colorScheme.onSurface,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF073F38),
               ),
             ),
-            const SizedBox(height: AppDimens.stackGapSm),
+            const SizedBox(height: 8),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Color(0xFF71827E),
               ),
             ),
             if (onRetry != null) ...[
-              const SizedBox(height: AppDimens.stackGapLg),
-              FilledButton.icon(
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
-                label: Text(l10n.homeRetry),
+                label: Text(
+                  context.l10n.homeRetry,
+                ),
               ),
             ],
           ],
