@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FaqWidget extends StatefulWidget {
   const FaqWidget({
@@ -11,7 +12,7 @@ class FaqWidget extends StatefulWidget {
 }
 
 class _FaqWidgetState extends State<FaqWidget> {
-  int? expandedIndex = 0;
+  int? expandedIndex;
 
   final questions = const [
     (
@@ -40,25 +41,29 @@ class _FaqWidgetState extends State<FaqWidget> {
       ),
       child: Column(
         children: [
-          const Text(
-            'Frequently asked questions',
+          Text(
+            'Frequently Asked Questions',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              color: Color(0xFF073F38),
+            style: GoogleFonts.inter(
+              fontSize: 21,
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF073F38),
             ),
           ),
-          const SizedBox(height: 5),
-          const Text(
+
+          const SizedBox(height: 6),
+
+          Text(
             'Everything you need to know about Coach Space.',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 10,
-              color: Color(0xFF71807C),
+            style: GoogleFonts.inter(
+              fontSize: 11,
+              color: const Color(0xFF71807C),
             ),
           ),
+
           const SizedBox(height: 18),
+
           ...List.generate(
             questions.length,
                 (index) {
@@ -68,62 +73,66 @@ class _FaqWidgetState extends State<FaqWidget> {
 
               return Container(
                 margin: const EdgeInsets.only(
-                  bottom: 8,
+                  bottom: 9,
                 ),
                 decoration: BoxDecoration(
                   color: expanded
                       ? const Color(0xFFE5F6F0)
                       : Colors.white,
                   borderRadius:
-                  BorderRadius.circular(10),
+                  BorderRadius.circular(13),
                   border: Border.all(
-                    color: const Color(
-                      0xFFDDE8E5,
-                    ),
+                    color: const Color(0xFFDDE8E5),
                   ),
                 ),
-                child: ExpansionTile(
-                  initiallyExpanded: expanded,
-                  onExpansionChanged: (value) {
-                    setState(() {
-                      expandedIndex =
-                      value ? index : null;
-                    });
-                  },
-                  tilePadding:
-                  const EdgeInsets.symmetric(
-                    horizontal: 12,
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    dividerColor: Colors.transparent,
                   ),
-                  childrenPadding:
-                  const EdgeInsets.fromLTRB(
-                    12,
-                    0,
-                    12,
-                    12,
-                  ),
-                  title: Text(
-                    item.$1,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF334740),
+                  child: ExpansionTile(
+                    initiallyExpanded: expanded,
+                    onExpansionChanged: (value) {
+                      setState(() {
+                        expandedIndex =
+                        value ? index : null;
+                      });
+                    },
+                    tilePadding:
+                    const EdgeInsets.symmetric(
+                      horizontal: 14,
                     ),
-                  ),
-                  children: [
-                    Align(
-                      alignment:
-                      Alignment.centerLeft,
-                      child: Text(
-                        item.$2,
-                        style: const TextStyle(
-                          fontSize: 9,
-                          height: 1.4,
-                          color:
-                          Color(0xFF687873),
-                        ),
+                    childrenPadding:
+                    const EdgeInsets.fromLTRB(
+                      14,
+                      0,
+                      14,
+                      14,
+                    ),
+                    title: Text(
+                      item.$1,
+                      style: GoogleFonts.inter(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color:
+                        const Color(0xFF334740),
                       ),
                     ),
-                  ],
+                    children: [
+                      Align(
+                        alignment:
+                        Alignment.centerLeft,
+                        child: Text(
+                          item.$2,
+                          style: GoogleFonts.inter(
+                            fontSize: 9.5,
+                            height: 1.4,
+                            color:
+                            const Color(0xFF687873),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

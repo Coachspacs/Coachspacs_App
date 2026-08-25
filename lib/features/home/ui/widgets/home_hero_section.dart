@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeHeroSection extends StatelessWidget {
   const HomeHeroSection({
@@ -10,11 +11,16 @@ class HomeHeroSection extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.fromLTRB(
         16,
-        14,
+        16,
         16,
         0,
       ),
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.fromLTRB(
+        18,
+        16,
+        18,
+        18,
+      ),
       decoration: BoxDecoration(
         color: const Color(0xFFE8F6F1),
         borderRadius: BorderRadius.circular(20),
@@ -23,88 +29,70 @@ class HomeHeroSection extends StatelessWidget {
         ),
       ),
       child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ==============================
+          // WELCOME BADGE
+          // ==============================
+
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 9,
-              vertical: 5,
+              horizontal: 10,
+              vertical: 6,
             ),
             decoration: BoxDecoration(
               color: const Color(0xFFD4F3E9),
-              borderRadius:
-              BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20),
             ),
-            child: const Text(
-              'PREMIUM MENTORSHIP',
-              style: TextStyle(
-                fontSize: 8,
+            child: Text(
+              'WELCOME BACK',
+              style: GoogleFonts.inter(
+                fontSize: 9,
                 fontWeight: FontWeight.w800,
-                color: Color(0xFF075E4D),
+                color: const Color(0xFF075E4D),
               ),
             ),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 14),
 
-          const Text(
-            'Master new skills with expert coaches',
-            style: TextStyle(
-              fontSize: 25,
-              height: 1.08,
-              fontWeight: FontWeight.w900,
-              color: Color(0xFF073F38),
+          // ==============================
+          // MAIN TITLE
+          // ==============================
+
+          Text(
+            'Master New Skills with\nExpert Coaches',
+            style: GoogleFonts.inter(
+              fontSize: 24,
+              height: 1.12,
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF073F38),
             ),
           ),
 
           const SizedBox(height: 9),
 
-          const Text(
-            'Personalized learning paths led by industry '
-                'experts to help you elevate your career.',
-            style: TextStyle(
-              fontSize: 11,
+          // ==============================
+          // DESCRIPTION
+          // ==============================
+
+          Text(
+            'Unlock your potential through personalized '
+                'learning paths led by industry veterans. '
+                'From design to development, gain the edge '
+                'you need in the modern professional landscape.',
+            style: GoogleFonts.inter(
+              fontSize: 10.5,
               height: 1.5,
-              color: Color(0xFF5F716C),
+              color: const Color(0xFF5F716C),
             ),
           ),
 
-          const SizedBox(height: 15),
+          const SizedBox(height: 18),
 
-          Container(
-            height: 43,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius:
-              BorderRadius.circular(11),
-              border: Border.all(
-                color: const Color(0xFFD6E5E1),
-              ),
-            ),
-            child: const Row(
-              children: [
-                SizedBox(width: 12),
-                Icon(
-                  Icons.search,
-                  size: 18,
-                  color: Color(0xFF78908A),
-                ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'What do you want to learn?',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Color(0xFF8A9995),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 12),
+          // ==============================
+          // BUTTONS
+          // ==============================
 
           Row(
             children: [
@@ -113,63 +101,53 @@ class HomeHeroSection extends StatelessWidget {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {},
-                    style:
-                    ElevatedButton.styleFrom(
+                    style: ElevatedButton.styleFrom(
                       backgroundColor:
                       const Color(0xFF075E4D),
-                      foregroundColor:
-                      Colors.white,
+                      foregroundColor: Colors.white,
                       elevation: 0,
-                      shape:
-                      RoundedRectangleBorder(
+                      padding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
                         borderRadius:
-                        BorderRadius.circular(
-                          10,
-                        ),
+                        BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text(
-                      'Explore Courses',
-                      style: TextStyle(
+                    child: Text(
+                      'My Courses  →',
+                      style: GoogleFonts.inter(
                         fontSize: 10,
-                        fontWeight:
-                        FontWeight.w800,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
                 ),
               ),
+
               const SizedBox(width: 10),
+
               Expanded(
                 child: SizedBox(
                   height: 40,
                   child: OutlinedButton(
                     onPressed: () {},
-                    style:
-                    OutlinedButton.styleFrom(
+                    style: OutlinedButton.styleFrom(
                       foregroundColor:
-                      const Color(
-                        0xFF075E4D,
-                      ),
+                      const Color(0xFF075E4D),
                       side: const BorderSide(
-                        color: Color(
-                          0xFF075E4D,
-                        ),
+                        color: Color(0xFF075E4D),
                       ),
-                      shape:
-                      RoundedRectangleBorder(
+                      padding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
                         borderRadius:
-                        BorderRadius.circular(
-                          10,
-                        ),
+                        BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text(
-                      'Start for Free',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight:
-                        FontWeight.w800,
+                    child: Text(
+                      'Explore New Courses',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
@@ -180,24 +158,127 @@ class HomeHeroSection extends StatelessWidget {
 
           const SizedBox(height: 16),
 
+          // ==============================
+          // STATS
+          // ==============================
+
           Container(
-            height: 125,
+            height: 118,
             width: double.infinity,
+            clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius:
-              BorderRadius.circular(14),
-            ),
-            child: const Center(
-              child: Icon(
-                Icons.image_outlined,
-                size: 30,
-                color: Color(0xFF9AAAA5),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: const Color(0xFFDCE7E4),
               ),
+            ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Background logo
+                Image.asset(
+                  'assets/images/Logo_img.png',
+                  fit: BoxFit.contain,
+                  opacity: const AlwaysStoppedAnimation(0.08),
+                  errorBuilder: (
+                      context,
+                      error,
+                      stackTrace,
+                      ) {
+                    return const SizedBox.shrink();
+                  },
+                ),
+
+                // Stats
+                Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const _StatItem(
+                      icon: Icons.people_alt_outlined,
+                      value: '12k+',
+                      label: 'Active Students',
+                    ),
+
+                    Container(
+                      width: 1,
+                      height: 48,
+                      color: const Color(0xFFDCE7E4),
+                    ),
+
+                    const _StatItem(
+                      icon:
+                      Icons.workspace_premium_outlined,
+                      value: '2k+',
+                      label: 'Certificates Issued',
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+// =====================================================
+// STAT ITEM
+// =====================================================
+
+class _StatItem extends StatelessWidget {
+  const _StatItem({
+    required this.icon,
+    required this.value,
+    required this.label,
+  });
+
+  final IconData icon;
+  final String value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 30,
+          height: 30,
+          decoration: const BoxDecoration(
+            color: Color(0xFFDDF3EB),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            size: 16,
+            color: const Color(0xFF075E4D),
+          ),
+        ),
+
+        const SizedBox(height: 5),
+
+        Text(
+          value,
+          style: GoogleFonts.inter(
+            fontSize: 17,
+            fontWeight: FontWeight.w800,
+            color: const Color(0xFF073F38),
+          ),
+        ),
+
+        const SizedBox(height: 2),
+
+        Text(
+          label,
+          style: GoogleFonts.inter(
+            fontSize: 8,
+            color: const Color(0xFF71807C),
+          ),
+        ),
+      ],
     );
   }
 }

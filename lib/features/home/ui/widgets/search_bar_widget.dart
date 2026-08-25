@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/helpers/context_extensions.dart';
-import 'package:coach_space/core/theming/app_dimens.dart';
-import 'package:coach_space/core/theming/app_shadows.dart';
 
-/// Discover search field with the design-system filled style.
 class SearchBarWidget extends StatefulWidget {
-  const SearchBarWidget({super.key});
+  const SearchBarWidget({
+    super.key,
+  });
 
   @override
-  State<SearchBarWidget> createState() => _SearchBarWidgetState();
+  State<SearchBarWidget> createState() =>
+      _SearchBarWidgetState();
 }
 
-class _SearchBarWidgetState extends State<SearchBarWidget> {
+class _SearchBarWidgetState
+    extends State<SearchBarWidget> {
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -28,42 +30,85 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     super.dispose();
   }
 
-  void _onFocusChanged() => setState(() {});
+  void _onFocusChanged() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
     final isFocused = _focusNode.hasFocus;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppDimens.marginMobile),
+      padding: const EdgeInsets.fromLTRB(
+        16,
+        18,
+        16,
+        0,
+      ),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        curve: Curves.easeOut,
+        height: 52,
         decoration: BoxDecoration(
-          color: colorScheme.surfaceContainerLowest,
-          borderRadius: BorderRadius.circular(AppDimens.radiusLg),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: isFocused ? colorScheme.primary : colorScheme.outlineVariant,
-            width: isFocused ? 2 : 1,
+            color: isFocused
+                ? const Color(0xFF075E4D)
+                : const Color(0xFFD6E5E1),
+            width: isFocused ? 1.5 : 1,
           ),
-          boxShadow: AppShadows.card,
         ),
-        child: TextField(
-          focusNode: _focusNode,
-          textInputAction: TextInputAction.search,
-          decoration: InputDecoration(
-            hintText: context.l10n.homeSearchHint,
-            hintStyle: theme.textTheme.bodyLarge
-                ?.copyWith(color: colorScheme.onSurfaceVariant),
-            prefixIcon: Icon(Icons.search, color: colorScheme.outline),
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppDimens.marginMobile,
-              vertical: AppDimens.stackGapMd,
+        child: Row(
+          children: [
+            const SizedBox(width: 14),
+
+            const Icon(
+              Icons.search_rounded,
+              size: 21,
+              color: Color(0xFF78908A),
             ),
-          ),
+
+            const SizedBox(width: 9),
+
+            Expanded(
+              child: TextField(
+                focusNode: _focusNode,
+                textInputAction: TextInputAction.search,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  color: const Color(0xFF344842),
+                ),
+                decoration: InputDecoration(
+                  hintText:
+                  context.l10n.homeSearchHint,
+                  hintStyle: GoogleFonts.inter(
+                    fontSize: 12,
+                    color: const Color(0xFF8A9995),
+                  ),
+                  border: InputBorder.none,
+                  isDense: true,
+                ),
+              ),
+            ),
+
+            Container(
+              margin: const EdgeInsets.only(
+                right: 5,
+              ),
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: const Color(0xFF075E4D),
+                borderRadius:
+                BorderRadius.circular(11),
+              ),
+              child: const Icon(
+                Icons.search_rounded,
+                size: 18,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TestimonialsWidget extends StatelessWidget {
   const TestimonialsWidget({
@@ -31,128 +32,136 @@ class TestimonialsWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Text(
+          Text(
             'Real stories from our community',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              color: Color(0xFF073F38),
+            style: GoogleFonts.inter(
+              fontSize: 21,
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF073F38),
             ),
           ),
-          const SizedBox(height: 5),
-          const Text(
+
+          const SizedBox(height: 6),
+
+          Text(
             'Careers transformed with Coach Space.',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 10,
-              color: Color(0xFF71807C),
+            style: GoogleFonts.inter(
+              fontSize: 11,
+              color: const Color(0xFF71807C),
             ),
           ),
-          const SizedBox(height: 16),
+
+          const SizedBox(height: 18),
+
           SizedBox(
-            height: 185,
+            height: 190,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: reviews.length,
               separatorBuilder: (_, __) =>
-              const SizedBox(width: 10),
+              const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final review = reviews[index];
 
                 return Container(
-                  width: 285,
-                  padding:
-                  const EdgeInsets.all(14),
+                  width: 290,
+                  padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius:
-                    BorderRadius.circular(14),
+                    BorderRadius.circular(16),
                     border: Border.all(
-                      color:
-                      const Color(0xFFDCE6E3),
+                      color: const Color(0xFFDCE6E3),
                     ),
                   ),
                   child: Column(
                     crossAxisAlignment:
                     CrossAxisAlignment.start,
                     children: [
-                      const Row(
-                        children: [
-                          Text(
-                            '★★★★★',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color:
-                              Color(0xFFF2B52E),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '★★★★★',
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color:
+                          const Color(0xFFF2B52E),
+                        ),
                       ),
-                      const SizedBox(height: 12),
+
+                      const SizedBox(height: 11),
+
                       Expanded(
                         child: Text(
                           '"${review.$1}"',
                           maxLines: 5,
                           overflow:
                           TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 10,
                             height: 1.45,
                             color:
-                            Color(0xFF50605C),
+                            const Color(0xFF50605C),
                           ),
                         ),
                       ),
+
                       const SizedBox(height: 10),
+
                       Row(
                         children: [
                           Container(
-                            width: 30,
-                            height: 30,
+                            width: 32,
+                            height: 32,
                             decoration:
                             const BoxDecoration(
-                              color:
-                              Color(0xFFDDF3EB),
-                              shape:
-                              BoxShape.circle,
+                              color: Color(0xFFDDF3EB),
+                              shape: BoxShape.circle,
                             ),
-                            alignment:
-                            Alignment.center,
+                            alignment: Alignment.center,
                             child: Text(
                               review.$2[0],
-                              style:
-                              const TextStyle(
-                                fontSize: 10,
+                              style: GoogleFonts.inter(
+                                fontSize: 11,
                                 fontWeight:
                                 FontWeight.w800,
                                 color:
-                                Color(0xFF075E4D),
+                                const Color(
+                                  0xFF075E4D,
+                                ),
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
+
+                          const SizedBox(width: 9),
+
                           Column(
                             crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                            CrossAxisAlignment.start,
                             children: [
                               Text(
                                 review.$2,
                                 style:
-                                const TextStyle(
-                                  fontSize: 9,
+                                GoogleFonts.inter(
+                                  fontSize: 10,
                                   fontWeight:
-                                  FontWeight.w800,
+                                  FontWeight.w700,
+                                  color:
+                                  const Color(
+                                    0xFF263B36,
+                                  ),
                                 ),
                               ),
                               Text(
                                 review.$3,
                                 style:
-                                const TextStyle(
-                                  fontSize: 8,
+                                GoogleFonts.inter(
+                                  fontSize: 8.5,
                                   color:
-                                  Color(0xFF81908C),
+                                  const Color(
+                                    0xFF81908C,
+                                  ),
                                 ),
                               ),
                             ],

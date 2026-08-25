@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/features/home/data/models/category.dart';
 
@@ -41,8 +42,7 @@ class _CategoryChipsWidgetState
         separatorBuilder: (_, __) =>
         const SizedBox(width: 10),
         itemBuilder: (context, index) {
-          final category =
-          widget.categories[index];
+          final category = widget.categories[index];
 
           return GestureDetector(
             onTap: () {
@@ -51,15 +51,15 @@ class _CategoryChipsWidgetState
               });
             },
             child: AnimatedContainer(
-              duration:
-              const Duration(milliseconds: 180),
-              width: 82,
+              duration: const Duration(
+                milliseconds: 180,
+              ),
+              width: 92,
               decoration: BoxDecoration(
                 color: _selectedIndex == index
                     ? const Color(0xFFE4F5EF)
                     : Colors.white,
-                borderRadius:
-                BorderRadius.circular(13),
+                borderRadius: BorderRadius.circular(13),
                 border: Border.all(
                   color: _selectedIndex == index
                       ? const Color(0xFFB9DED2)
@@ -71,24 +71,22 @@ class _CategoryChipsWidgetState
                 MainAxisAlignment.center,
                 children: [
                   Icon(
-                    _icons[
-                    index % _icons.length],
+                    _icons[index % _icons.length],
                     size: 20,
-                    color:
-                    const Color(0xFF075E4D),
+                    color: const Color(0xFF075E4D),
                   ),
+
                   const SizedBox(height: 7),
+
                   Text(
                     category.name,
                     maxLines: 1,
-                    overflow:
-                    TextOverflow.ellipsis,
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: 9,
                       fontWeight: FontWeight.w700,
-                      color:
-                      Color(0xFF344842),
+                      color: const Color(0xFF344842),
                     ),
                   ),
                 ],

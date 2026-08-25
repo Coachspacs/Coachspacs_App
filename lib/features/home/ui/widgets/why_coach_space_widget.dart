@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WhyCoachSpaceWidget extends StatelessWidget {
   const WhyCoachSpaceWidget({
@@ -11,55 +12,58 @@ class WhyCoachSpaceWidget extends StatelessWidget {
       (
       Icons.school_outlined,
       'Learn anywhere',
-      'Study at your own pace from anywhere.'
+      'Study at your own pace from anywhere.',
       ),
       (
       Icons.people_outline,
       'Expert instructors',
-      'Learn from experienced industry leaders.'
+      'Learn from experienced industry leaders.',
       ),
       (
       Icons.workspace_premium_outlined,
       'Global certification',
-      'Recognized certificates for your progress.'
+      'Recognized certificates for your progress.',
       ),
       (
       Icons.translate,
       'Bilingual learning',
-      'Learn comfortably in English or Arabic.'
+      'Learn comfortably in English or Arabic.',
       ),
     ];
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 24,
-        horizontal: 16,
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(
+        16,
+        28,
+        16,
+        28,
       ),
-      color: const Color(0xFFF0F3FF),
+      color: const Color(0xFFF3F7F5),
       child: Column(
         children: [
-          const Text(
-            'Why Coach Space stands out',
+          Text(
+            'Why Coach Space?',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              color: Color(0xFF073F38),
+            style: GoogleFonts.inter(
+              fontSize: 21,
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF073F38),
             ),
           ),
 
-          const SizedBox(height: 5),
+          const SizedBox(height: 6),
 
-          const Text(
-            'The best way to grow your skills and career.',
+          Text(
+            'Everything you need to grow your skills.',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 10,
-              color: Color(0xFF71807C),
+            style: GoogleFonts.inter(
+              fontSize: 11,
+              color: const Color(0xFF71807C),
             ),
           ),
 
-          const SizedBox(height: 18),
+          const SizedBox(height: 20),
 
           GridView.builder(
             shrinkWrap: true,
@@ -71,53 +75,67 @@ class WhyCoachSpaceWidget extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio: 1.25,
+              childAspectRatio: 1.05,
             ),
             itemBuilder: (context, index) {
               final item = items[index];
 
               return Container(
-                padding:
-                const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(13),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius:
-                  BorderRadius.circular(14),
+                  BorderRadius.circular(15),
                   border: Border.all(
-                    color:
-                    const Color(0xFFE2E8E6),
+                    color: const Color(0xFFE0E9E6),
                   ),
                 ),
                 child: Column(
                   crossAxisAlignment:
                   CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      item.$1,
-                      size: 20,
-                      color:
-                      const Color(0xFF075E4D),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      item.$2,
-                      style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight:
-                        FontWeight.w800,
+                    Container(
+                      width: 38,
+                      height: 38,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE4F5EF),
+                        borderRadius:
+                        BorderRadius.circular(11),
+                      ),
+                      child: Icon(
+                        item.$1,
+                        size: 21,
                         color:
-                        Color(0xFF263B36),
+                        const Color(0xFF075E4D),
                       ),
                     ),
-                    const SizedBox(height: 4),
+
+                    const SizedBox(height: 10),
+
                     Text(
-                      item.$3,
-                      maxLines: 2,
-                      style: const TextStyle(
-                        fontSize: 8,
-                        height: 1.3,
+                      item.$2,
+                      style: GoogleFonts.inter(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
                         color:
-                        Color(0xFF7A8985),
+                        const Color(0xFF263B36),
+                      ),
+                    ),
+
+                    const SizedBox(height: 5),
+
+                    Expanded(
+                      child: Text(
+                        item.$3,
+                        maxLines: 3,
+                        overflow:
+                        TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          fontSize: 9,
+                          height: 1.35,
+                          color:
+                          const Color(0xFF7A8985),
+                        ),
                       ),
                     ),
                   ],

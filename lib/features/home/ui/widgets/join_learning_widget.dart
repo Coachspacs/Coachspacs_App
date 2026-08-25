@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class JoinLearningWidget extends StatelessWidget {
   const JoinLearningWidget({
@@ -25,51 +26,51 @@ class JoinLearningWidget extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 4,
+              horizontal: 9,
+              vertical: 5,
             ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius:
               BorderRadius.circular(20),
             ),
-            child: const Text(
+            child: Text(
               'BECOME AN INSTRUCTOR',
-              style: TextStyle(
-                fontSize: 7,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF075E4D),
+              style: GoogleFonts.inter(
+                fontSize: 8,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF075E4D),
               ),
             ),
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 11),
 
-          const Text(
+          Text(
             'Join the future of learning',
-            style: TextStyle(
+            style: GoogleFonts.inter(
               fontSize: 22,
-              fontWeight: FontWeight.w900,
-              color: Color(0xFF073F38),
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF073F38),
             ),
           ),
 
-          const SizedBox(height: 7),
+          const SizedBox(height: 8),
 
-          const Text(
+          Text(
             'Share your knowledge with a global audience '
                 'and help learners grow their careers.',
-            style: TextStyle(
-              fontSize: 10,
+            style: GoogleFonts.inter(
+              fontSize: 10.5,
               height: 1.45,
-              color: Color(0xFF60716C),
+              color: const Color(0xFF60716C),
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 17),
 
           SizedBox(
-            height: 40,
+            height: 42,
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {},
@@ -83,11 +84,11 @@ class JoinLearningWidget extends StatelessWidget {
                   BorderRadius.circular(10),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 'Start teaching today',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w800,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),

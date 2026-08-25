@@ -76,7 +76,7 @@ void _onAuthStateChanged(
   final String? target = switch (state) {
     AuthAuthenticated(:final session) => routeForSession(session),
     AuthPendingApproval(:final session) => routeForSession(session),
-    AuthUnauthenticated() => AppRoutes.login,
+    AuthUnauthenticated() => AppRoutes.home,
     _ => null,
   };
 

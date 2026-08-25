@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/helpers/context_extensions.dart';
-import 'package:coach_space/core/routing/app_routes.dart';
-import 'package:coach_space/core/theming/app_dimens.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
+
 import 'package:coach_space/features/home/data/models/home_data.dart';
 import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
 import 'package:coach_space/features/home/logic/cubit/home_state.dart';
+
 import 'package:coach_space/features/home/ui/widgets/category_chips_widget.dart';
 import 'package:coach_space/features/home/ui/widgets/featured_course_card.dart';
 import 'package:coach_space/features/home/ui/widgets/faq_widget.dart';
@@ -38,20 +39,32 @@ class _HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FBFA),
+
       appBar: const TopAppBarWidget(),
+
       bottomNavigationBar: const BottomNavBarWidget(
         currentIndex: 0,
       ),
-      backgroundColor: const Color(0xFFF8FBFA),
+
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return switch (state) {
             HomeInitial() => const SizedBox.shrink(),
+
             HomeLoading() => const _LoadingView(),
+
             HomeEmpty() => const _EmptyView(),
-            HomeError() => _ErrorView(message: state.message),
+
+            HomeError() => _ErrorView(
+              message: state.message,
+            ),
+
             HomeOffline() => const _OfflineView(),
-            HomeSuccess() => _SuccessView(data: state.data),
+
+            HomeSuccess() => _SuccessView(
+              data: state.data,
+            ),
           };
         },
       ),
@@ -69,106 +82,157 @@ class _SuccessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.only(bottom: 32),
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.only(
+        bottom: 32,
+      ),
       children: [
+        // ==============================
+        // HERO
+        // ==============================
+
         const HomeHeroSection(),
 
-        const SizedBox(height: 18),
+        const SizedBox(height: 22),
 
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: SearchBarWidget(),
-        ),
+        // ==============================
+        // SEARCH
+        // ==============================
 
-        const SizedBox(height: 26),
+        const SearchBarWidget(),
+
+        const SizedBox(height: 30),
+
+        // ==============================
+        // TOP CATEGORIES
+        // ==============================
 
         _SectionHeader(
-          title: 'Top categories',
+          title: 'Top Categories',
           subtitle: 'Discover your next skill',
-          actionLabel: 'View all',
-          onAction: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.catalog,
-            );
-          },
+          actionLabel: 'See All',
+          onAction: () {},
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
         CategoryChipsWidget(
           categories: data.categories,
         ),
 
-        const SizedBox(height: 28),
+        const SizedBox(height: 34),
+
+        // ==============================
+        // RECOMMENDED COURSES
+        // ==============================
 
         _SectionHeader(
-          title: 'Master your craft',
-          subtitle: 'Curated high-impact courses',
-          actionLabel: 'View all',
-          onAction: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.catalog,
-            );
-          },
+          title: 'Recommended Courses',
+          subtitle: 'Courses picked for your learning journey',
+          actionLabel: 'See All',
+          onAction: () {},
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
-        SizedBox(
-          height: 290,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            scrollDirection: Axis.horizontal,
-            itemCount: data.featuredCourses.length,
-            separatorBuilder: (_, __) =>
-            const SizedBox(width: 12),
-            itemBuilder: (context, index) {
-              return SizedBox(
-                width: 285,
-                child: FeaturedCourseCard(
-                  course: data.featuredCourses[index],
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+          ),
+          child: Column(
+            children: [
+              for (final course in data.featuredCourses) ...[
+                FeaturedCourseCard(
+                  course: course,
                 ),
-              );
-            },
+                const SizedBox(height: 16),
+              ],
+            ],
           ),
         ),
 
-        const SizedBox(height: 32),
+        const SizedBox(height: 18),
+
+        // ==============================
+        // BROWSE CATALOG
+        // ==============================
+
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+          ),
+          child: SizedBox(
+            height: 44,
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                foregroundColor: const Color(0xFF075E4D),
+                side: const BorderSide(
+                  color: Color(0xFF075E4D),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                'Browse Catalog →',
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 38),
+
+        // ==============================
+        // WHY COACH SPACE
+        // ==============================
 
         const WhyCoachSpaceWidget(),
 
-        const SizedBox(height: 32),
+        const SizedBox(height: 36),
+
+        // ==============================
+        // TESTIMONIALS
+        // ==============================
 
         const TestimonialsWidget(),
 
-        const SizedBox(height: 32),
+        const SizedBox(height: 36),
+
+        // ==============================
+        // FAQ
+        // ==============================
 
         const FaqWidget(),
 
-        const SizedBox(height: 32),
+        const SizedBox(height: 36),
+
+        // ==============================
+        // BECOME AN INSTRUCTOR
+        // ==============================
 
         const JoinLearningWidget(),
 
-        const SizedBox(height: 28),
+        const SizedBox(height: 36),
+
+        // ==============================
+        // TRENDING COURSES
+        // ==============================
 
         if (data.trendingCourses.isNotEmpty) ...[
           _SectionHeader(
-            title: 'Trending courses',
-            subtitle: 'Popular courses students love',
-            actionLabel: 'View all',
-            onAction: () {
-              Navigator.pushNamed(
-                context,
-                AppRoutes.catalog,
-              );
-            },
+            title: 'Trending Courses',
+            subtitle: 'Popular courses learners love',
+            actionLabel: 'See All',
+            onAction: () {},
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 14),
 
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -186,10 +250,16 @@ class _SuccessView extends StatelessWidget {
             ),
           ),
         ],
+
+        const SizedBox(height: 20),
       ],
     );
   }
 }
+
+// =====================================================
+// SECTION HEADER
+// =====================================================
 
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader({
@@ -211,41 +281,51 @@ class _SectionHeader extends StatelessWidget {
         horizontal: 16,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        // IMPORTANT:
+        // Keep See All aligned with the title,
+        // not with the bottom of the whole Column.
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 19,
+                  style: GoogleFonts.inter(
+                    fontSize: 20,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF073F38),
+                    color: const Color(0xFF073F38),
                   ),
                 ),
-                const SizedBox(height: 3),
+
+                const SizedBox(height: 4),
+
                 Text(
                   subtitle,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: Color(0xFF778782),
+                  style: GoogleFonts.inter(
+                    fontSize: 10,
+                    color: const Color(0xFF71807C),
                   ),
                 ),
               ],
             ),
           ),
+
           if (actionLabel != null)
-            GestureDetector(
-              onTap: onAction,
-              child: Text(
-                actionLabel!,
-                style: const TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF075E4D),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 3,
+              ),
+              child: GestureDetector(
+                onTap: onAction,
+                child: Text(
+                  actionLabel!,
+                  style: GoogleFonts.inter(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF075E4D),
+                  ),
                 ),
               ),
             ),
@@ -254,6 +334,10 @@ class _SectionHeader extends StatelessWidget {
     );
   }
 }
+
+// =====================================================
+// LOADING
+// =====================================================
 
 class _LoadingView extends StatelessWidget {
   const _LoadingView();
@@ -267,6 +351,10 @@ class _LoadingView extends StatelessWidget {
     );
   }
 }
+
+// =====================================================
+// EMPTY
+// =====================================================
 
 class _EmptyView extends StatelessWidget {
   const _EmptyView();
@@ -282,6 +370,10 @@ class _EmptyView extends StatelessWidget {
     );
   }
 }
+
+// =====================================================
+// ERROR
+// =====================================================
 
 class _ErrorView extends StatelessWidget {
   const _ErrorView({
@@ -305,6 +397,10 @@ class _ErrorView extends StatelessWidget {
   }
 }
 
+// =====================================================
+// OFFLINE
+// =====================================================
+
 class _OfflineView extends StatelessWidget {
   const _OfflineView();
 
@@ -323,6 +419,10 @@ class _OfflineView extends StatelessWidget {
   }
 }
 
+// =====================================================
+// MESSAGE STATE
+// =====================================================
+
 class _MessageStateView extends StatelessWidget {
   const _MessageStateView({
     required this.icon,
@@ -338,45 +438,56 @@ class _MessageStateView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(
-          AppDimens.stackGapLg,
-        ),
+        padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              size: 56,
+              size: 52,
               color: const Color(0xFF83918D),
             ),
+
             const SizedBox(height: 16),
+
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: GoogleFonts.inter(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
-                color: Color(0xFF073F38),
+                color: const Color(0xFF073F38),
               ),
             ),
+
             const SizedBox(height: 8),
+
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: GoogleFonts.inter(
                 fontSize: 13,
-                color: Color(0xFF71827E),
+                color: const Color(0xFF71827E),
               ),
             ),
+
             if (onRetry != null) ...[
               const SizedBox(height: 20),
+
               ElevatedButton.icon(
                 onPressed: onRetry,
-                icon: const Icon(Icons.refresh),
+                icon: const Icon(
+                  Icons.refresh,
+                ),
                 label: Text(
-                  context.l10n.homeRetry,
+                  l10n.homeRetry,
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
