@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CourseDetailsInstructorCard extends StatelessWidget {
   final String instructor;
@@ -21,36 +22,49 @@ class CourseDetailsInstructorCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const CircleAvatar(
+          // Instructor Avatar
+          CircleAvatar(
             radius: 25,
-            backgroundColor: Color(0xFFE4F2EE),
+            backgroundColor: const Color(0xFFE4F2EE),
             child: Text(
-              'T',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF075E4D),
+              instructor.trim().isNotEmpty
+                  ? instructor.trim()[0].toUpperCase()
+                  : 'T',
+              style: GoogleFonts.inter(
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF075E4D),
               ),
             ),
           ),
+
           const SizedBox(width: 12),
+
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
               children: [
                 Text(
                   instructor,
-                  style: const TextStyle(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
                     fontSize: 12,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF263C38),
                   ),
                 ),
+
                 const SizedBox(height: 4),
-                const Text(
+
+                Text(
                   'Experienced instructor and professional educator.',
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     fontSize: 10,
-                    color: Color(0xFF71827E),
+                    height: 1.4,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFF71827E),
                   ),
                 ),
               ],

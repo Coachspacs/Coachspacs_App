@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/features/catalog/ui/widgets/course_details/course_details_curriculum.dart';
 import 'package:coach_space/features/catalog/ui/widgets/course_details/course_details_hero.dart';
@@ -26,32 +27,23 @@ class CourseDetailsScreen extends StatelessWidget {
     String instructor =
         'Dr. Tareq Al-Mansoor';
 
-    String price =
-        '\$89.00';
+    String price = '\$89.00';
 
-    String rating =
-        '4.9';
+    String rating = '4.9';
 
-    String students =
-        '2.4k';
+    String students = '2.4k';
 
-    String image =
-        '';
+    String image = '';
 
     // --------------------------------------------------
     // Course coming from Home
     // --------------------------------------------------
     if (arguments is Course) {
       title = arguments.title;
-
       instructor = arguments.instructor.name;
-
       price = arguments.formattedPrice;
-
       rating = arguments.rating.toStringAsFixed(1);
-
       students = arguments.reviewCount.toString();
-
       image = arguments.coverImageUrl ?? '';
     }
 
@@ -60,28 +52,24 @@ class CourseDetailsScreen extends StatelessWidget {
     // --------------------------------------------------
     else if (arguments is Map<String, dynamic>) {
       title =
-          arguments['title']?.toString() ??
-              title;
+          arguments['title']?.toString() ?? title;
 
       instructor =
           arguments['instructor']?.toString() ??
               instructor;
 
       price =
-          arguments['price']?.toString() ??
-              price;
+          arguments['price']?.toString() ?? price;
 
       rating =
-          arguments['rating']?.toString() ??
-              rating;
+          arguments['rating']?.toString() ?? rating;
 
       students =
           arguments['students']?.toString() ??
               students;
 
       image =
-          arguments['image']?.toString() ??
-              image;
+          arguments['image']?.toString() ?? image;
     }
 
     return Scaffold(
@@ -90,6 +78,7 @@ class CourseDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            // Top bar with back button
             const CourseDetailsTopBar(),
 
             Expanded(
@@ -104,10 +93,9 @@ class CourseDetailsScreen extends StatelessWidget {
                   crossAxisAlignment:
                   CrossAxisAlignment.start,
                   children: [
-                    _buildBreadcrumb(context),
-
-                    const SizedBox(height: 14),
-
+                    // --------------------------------------------------
+                    // Course Hero
+                    // --------------------------------------------------
                     CourseDetailsHero(
                       title: title,
                       description:
@@ -119,6 +107,9 @@ class CourseDetailsScreen extends StatelessWidget {
 
                     const SizedBox(height: 14),
 
+                    // --------------------------------------------------
+                    // Instructor
+                    // --------------------------------------------------
                     CourseDetailsInstructor(
                       instructor: instructor,
                       rating: rating,
@@ -127,12 +118,18 @@ class CourseDetailsScreen extends StatelessWidget {
 
                     const SizedBox(height: 20),
 
+                    // --------------------------------------------------
+                    // Purchase
+                    // --------------------------------------------------
                     CourseDetailsPurchaseCard(
                       price: price,
                     ),
 
                     const SizedBox(height: 24),
 
+                    // --------------------------------------------------
+                    // Course Includes
+                    // --------------------------------------------------
                     _sectionTitle(
                       'This course includes',
                     ),
@@ -143,6 +140,9 @@ class CourseDetailsScreen extends StatelessWidget {
 
                     const SizedBox(height: 24),
 
+                    // --------------------------------------------------
+                    // Curriculum
+                    // --------------------------------------------------
                     _sectionTitle(
                       'Course Curriculum',
                     ),
@@ -153,6 +153,9 @@ class CourseDetailsScreen extends StatelessWidget {
 
                     const SizedBox(height: 24),
 
+                    // --------------------------------------------------
+                    // About Instructor
+                    // --------------------------------------------------
                     _sectionTitle(
                       'About the Instructor',
                     ),
@@ -172,56 +175,13 @@ class CourseDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBreadcrumb(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Text(
-            'Catalog',
-            style: TextStyle(
-              fontSize: 10,
-              color: Color(0xFF075E4D),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-
-        const Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 5,
-          ),
-          child: Icon(
-            Icons.chevron_right,
-            size: 13,
-            color: Color(0xFF899792),
-          ),
-        ),
-
-        const Expanded(
-          child: Text(
-            'Course Details',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 10,
-              color: Color(0xFF788681),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _sectionTitle(String title) {
     return Text(
       title,
-      style: const TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.w900,
-        color: Color(0xFF073F38),
+      style: GoogleFonts.inter(
+        fontSize: 19,
+        fontWeight: FontWeight.w700,
+        color: const Color(0xFF073F38),
       ),
     );
   }

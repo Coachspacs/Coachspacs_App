@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CourseDetailsIncludes extends StatelessWidget {
   const CourseDetailsIncludes({
@@ -49,6 +50,7 @@ class _IncludeItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
+          // Feature Icon
           Container(
             width: 27,
             height: 27,
@@ -56,18 +58,25 @@ class _IncludeItem extends StatelessWidget {
               color: const Color(0xFFE5F4EF),
               borderRadius: BorderRadius.circular(8),
             ),
+            alignment: Alignment.center,
             child: Icon(
               icon,
               size: 15,
               color: const Color(0xFF075E4D),
             ),
           ),
+
           const SizedBox(width: 9),
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 11,
-              color: Color(0xFF52635F),
+
+          // Feature Text
+          Expanded(
+            child: Text(
+              text,
+              style: GoogleFonts.inter(
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFF52635F),
+              ),
             ),
           ),
         ],

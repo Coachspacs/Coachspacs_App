@@ -12,10 +12,14 @@ class BottomNavBarWidget extends StatelessWidget {
 
   final int currentIndex;
 
-  // Coach Space colors
-  static const Color primaryColor = Color(0xFF0F766E);
-  static const Color activeBackground = Color(0xFFDDF3EE);
-  static const Color inactiveColor = Color(0xFF354640);
+  static const Color primaryColor =
+  Color(0xFF0F766E);
+
+  static const Color activeBackground =
+  Color(0xFFDDF3EE);
+
+  static const Color inactiveColor =
+  Color(0xFF354640);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,8 @@ class BottomNavBarWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: AppShadows.nav,
-        borderRadius: const BorderRadius.vertical(
+        borderRadius:
+        const BorderRadius.vertical(
           top: Radius.circular(22),
         ),
       ),
@@ -32,12 +37,15 @@ class BottomNavBarWidget extends StatelessWidget {
         child: SizedBox(
           height: 68,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment:
+            MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment:
+            CrossAxisAlignment.center,
             children: [
-              // ==============================
+              // =========================================
               // HOME
-              // ==============================
+              // =========================================
+
               _NavItem(
                 icon: Icons.home_outlined,
                 activeIcon: Icons.home,
@@ -53,9 +61,10 @@ class BottomNavBarWidget extends StatelessWidget {
                 },
               ),
 
-              // ==============================
+              // =========================================
               // CATALOG
-              // ==============================
+              // =========================================
+
               _NavItem(
                 icon: Icons.explore_outlined,
                 activeIcon: Icons.explore,
@@ -71,22 +80,29 @@ class BottomNavBarWidget extends StatelessWidget {
                 },
               ),
 
-              // ==============================
+              // =========================================
               // MY LEARNING
-              // ==============================
+              // =========================================
+
               _NavItem(
                 icon: Icons.menu_book_outlined,
                 activeIcon: Icons.menu_book,
                 label: 'My Learning',
                 isActive: currentIndex == 2,
                 onTap: () {
-                  // سيتم ربط الشاشة بعد تحديد الـroute الخاص بها.
+                  if (currentIndex != 2) {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      AppRoutes.myLearning,
+                    );
+                  }
                 },
               ),
 
-              // ==============================
+              // =========================================
               // PROFILE
-              // ==============================
+              // =========================================
+
               _NavItem(
                 icon: Icons.person_outline,
                 activeIcon: Icons.person,
@@ -128,9 +144,14 @@ class _NavItem extends StatelessWidget {
   final VoidCallback onTap;
   final bool isActive;
 
-  static const Color primaryColor = Color(0xFF0F766E);
-  static const Color activeBackground = Color(0xFFDDF3EE);
-  static const Color inactiveColor = Color(0xFF354640);
+  static const Color primaryColor =
+  Color(0xFF0F766E);
+
+  static const Color activeBackground =
+  Color(0xFFDDF3EE);
+
+  static const Color inactiveColor =
+  Color(0xFF354640);
 
   @override
   Widget build(BuildContext context) {
@@ -138,47 +159,46 @@ class _NavItem extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius:
+        BorderRadius.circular(14),
         child: AnimatedContainer(
-          duration: const Duration(
-            milliseconds: 180,
-          ),
+          duration:
+          const Duration(milliseconds: 180),
           curve: Curves.easeOut,
-
-          // Small and soft active area
           width: 78,
           height: 50,
-
-          padding: const EdgeInsets.symmetric(
+          padding:
+          const EdgeInsets.symmetric(
             horizontal: 6,
             vertical: 5,
           ),
-
           decoration: BoxDecoration(
             color: isActive
                 ? activeBackground
                 : Colors.transparent,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius:
+            BorderRadius.circular(14),
           ),
-
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment:
+            MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                isActive ? activeIcon : icon,
+                isActive
+                    ? activeIcon
+                    : icon,
                 size: 21,
                 color: isActive
                     ? primaryColor
                     : inactiveColor,
               ),
-
               const SizedBox(height: 2),
-
               Text(
                 label,
                 maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                overflow:
+                TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   fontSize: 9.5,

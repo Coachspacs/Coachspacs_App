@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CourseDetailsCurriculum extends StatelessWidget {
   const CourseDetailsCurriculum({
@@ -65,11 +66,23 @@ class _CurriculumSection extends StatelessWidget {
         childrenPadding: const EdgeInsets.only(
           bottom: 5,
         ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+        collapsedShape:
+        const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
         title: Text(
           title,
-          style: const TextStyle(
+          style: GoogleFonts.inter(
             fontSize: 11,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF263C38),
           ),
         ),
         children: lessons.map(
@@ -83,16 +96,18 @@ class _CurriculumSection extends StatelessWidget {
               ),
               title: Text(
                 lesson,
-                style: const TextStyle(
+                style: GoogleFonts.inter(
                   fontSize: 10,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF53645F),
                 ),
               ),
-              trailing: const Text(
+              trailing: Text(
                 'Preview',
-                style: TextStyle(
-                  fontSize: 8,
-                  color: Color(0xFF075E4D),
-                  fontWeight: FontWeight.w700,
+                style: GoogleFonts.inter(
+                  fontSize: 8.5,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF075E4D),
                 ),
               ),
             );

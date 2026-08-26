@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CourseDetailsHero extends StatelessWidget {
   final String title;
@@ -17,6 +18,7 @@ class CourseDetailsHero extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Course Image / Video Preview
         ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: imagePath.isNotEmpty
@@ -35,7 +37,10 @@ class CourseDetailsHero extends StatelessWidget {
           )
               : _placeholder(),
         ),
+
         const SizedBox(height: 16),
+
+        // Best Seller Badge
         Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 9,
@@ -45,31 +50,40 @@ class CourseDetailsHero extends StatelessWidget {
             color: const Color(0xFFBFF2DE),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: const Text(
+          child: Text(
             'BEST SELLER',
-            style: TextStyle(
+            style: GoogleFonts.inter(
               fontSize: 8,
-              fontWeight: FontWeight.w900,
-              color: Color(0xFF075E4D),
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF075E4D),
             ),
           ),
         ),
+
         const SizedBox(height: 10),
+
+        // Course Title
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 23,
-            height: 1.2,
-            fontWeight: FontWeight.w900,
-            color: Color(0xFF073F38),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: GoogleFonts.inter(
+            fontSize: 20,
+            height: 1.25,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF073F38),
           ),
         ),
-        const SizedBox(height: 10),
+
+        const SizedBox(height: 9),
+
+        // Description
         Text(
           description,
-          style: TextStyle(
-            fontSize: 12,
+          style: GoogleFonts.inter(
+            fontSize: 11.5,
             height: 1.5,
+            fontWeight: FontWeight.w400,
             color: Colors.grey.shade600,
           ),
         ),
@@ -81,7 +95,10 @@ class CourseDetailsHero extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 205,
-      color: const Color(0xFFE4EFEC),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE4EFEC),
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: const Center(
         child: Icon(
           Icons.play_circle_outline,

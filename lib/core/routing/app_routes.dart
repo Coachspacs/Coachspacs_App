@@ -17,5 +17,6 @@ abstract final class AppRoutes {
   static const String catalog = '/catalog';
   static const String courseDetails = '/course-details';
   static const String home = '/home';
+  static const String myLearning = '/my-learning';
   static const String pendingApproval = '/pending-approval';
 }

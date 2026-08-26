@@ -1,35 +1,43 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/features/profile/ui/widgets/browse_courses/browse_courses_header.dart';
 import 'package:coach_space/features/profile/ui/widgets/browse_courses/course_card.dart';
 
 class BrowseCoursesScreen extends StatefulWidget {
-  const BrowseCoursesScreen({super.key});
+  const BrowseCoursesScreen({
+    super.key,
+  });
 
   @override
   State<BrowseCoursesScreen> createState() =>
       _BrowseCoursesScreenState();
 }
 
-class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
-  CourseFilter _selectedFilter = CourseFilter.all;
+class _BrowseCoursesScreenState
+    extends State<BrowseCoursesScreen> {
+  CourseFilter _selectedFilter =
+      CourseFilter.all;
 
   final List<_CourseData> _courses = [
     const _CourseData(
-      title: 'React 19 & Next.js App Router Masterclass',
+      title:
+      'React 19 & Next.js App Router Masterclass',
       instructor: 'Mohamed Katanani',
       progress: 0.75,
       status: CourseStatus.inProgress,
     ),
     const _CourseData(
-      title: 'Building Professional UI/UX Design Systems with Figma',
+      title:
+      'Building Professional UI/UX Design Systems with Figma',
       instructor: 'Dr. Tareq Al-Mansoor',
       progress: 1.0,
       status: CourseStatus.completed,
     ),
     const _CourseData(
-      title: 'Python Machine Learning & AI Fundamentals',
+      title:
+      'Python Machine Learning & AI Fundamentals',
       instructor: 'Dr. Tareq Al-Mansoor',
       progress: 0.30,
       status: CourseStatus.inProgress,
@@ -45,7 +53,8 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
         return _courses
             .where(
               (course) =>
-          course.status == CourseStatus.inProgress,
+          course.status ==
+              CourseStatus.inProgress,
         )
             .toList();
 
@@ -53,7 +62,8 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
         return _courses
             .where(
               (course) =>
-          course.status == CourseStatus.completed,
+          course.status ==
+              CourseStatus.completed,
         )
             .toList();
     }
@@ -62,7 +72,9 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
   int get _inProgressCount {
     return _courses
         .where(
-          (course) => course.status == CourseStatus.inProgress,
+          (course) =>
+      course.status ==
+          CourseStatus.inProgress,
     )
         .length;
   }
@@ -70,9 +82,18 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
   int get _completedCount {
     return _courses
         .where(
-          (course) => course.status == CourseStatus.completed,
+          (course) =>
+      course.status ==
+          CourseStatus.completed,
     )
         .length;
+  }
+
+  void _openCourseDetails(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      AppRoutes.courseDetails,
+    );
   }
 
   @override
@@ -88,13 +109,16 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
                 maxWidth: 900,
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
                 children: [
                   BrowseCoursesHeader(
                     selectedStatus: _selectedFilter,
                     allCount: _courses.length,
-                    inProgressCount: _inProgressCount,
-                    completedCount: _completedCount,
+                    inProgressCount:
+                    _inProgressCount,
+                    completedCount:
+                    _completedCount,
                     onStatusChanged: (filter) {
                       setState(() {
                         _selectedFilter = filter;
@@ -105,25 +129,46 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
                   const SizedBox(height: 20),
 
                   LayoutBuilder(
-                    builder: (context, constraints) {
-                      final isMobile = constraints.maxWidth < 650;
+                    builder:
+                        (context, constraints) {
+                      final isMobile =
+                          constraints.maxWidth <
+                              650;
 
                       if (isMobile) {
                         return Column(
-                          children: _filteredCourses
+                          children:
+                          _filteredCourses
                               .map(
-                                (course) => Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 16,
-                              ),
-                              child: CourseCard(
-                                title: course.title,
-                                instructor: course.instructor,
-                                progress: course.progress,
-                                status: course.status,
-                                onPressed: () {},
-                              ),
-                            ),
+                                (course) =>
+                                Padding(
+                                  padding:
+                                  const EdgeInsets
+                                      .only(
+                                    bottom: 16,
+                                  ),
+                                  child:
+                                  CourseCard(
+                                    title:
+                                    course
+                                        .title,
+                                    instructor:
+                                    course
+                                        .instructor,
+                                    progress:
+                                    course
+                                        .progress,
+                                    status:
+                                    course
+                                        .status,
+                                    onPressed:
+                                        () {
+                                      _openCourseDetails(
+                                        context,
+                                      );
+                                    },
+                                  ),
+                                ),
                           )
                               .toList(),
                         );
@@ -140,16 +185,26 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
                           mainAxisSpacing: 14,
                           childAspectRatio: 0.82,
                         ),
-                        itemCount: _filteredCourses.length,
-                        itemBuilder: (context, index) {
-                          final course = _filteredCourses[index];
+                        itemCount:
+                        _filteredCourses.length,
+                        itemBuilder:
+                            (context, index) {
+                          final course =
+                          _filteredCourses[
+                          index];
 
                           return CourseCard(
                             title: course.title,
-                            instructor: course.instructor,
-                            progress: course.progress,
+                            instructor:
+                            course.instructor,
+                            progress:
+                            course.progress,
                             status: course.status,
-                            onPressed: () {},
+                            onPressed: () {
+                              _openCourseDetails(
+                                context,
+                              );
+                            },
                           );
                         },
                       );

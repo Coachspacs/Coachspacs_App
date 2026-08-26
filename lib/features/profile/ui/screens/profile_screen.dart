@@ -180,7 +180,7 @@ class ProfileScreen extends StatelessWidget {
 
       // Profile = index 3
       bottomNavigationBar: const BottomNavBarWidget(
-        currentIndex: 2,
+        currentIndex: 3,
       ),
     );
   }

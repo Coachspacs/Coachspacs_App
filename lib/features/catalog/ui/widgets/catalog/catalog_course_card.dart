@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CatalogCourseCard extends StatelessWidget {
   final String title;
@@ -60,12 +61,12 @@ class CatalogCourseCard extends StatelessWidget {
                     color: const Color(0xFFE2F5EF),
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Text(
+                  child: Text(
                     'BEST SELLER',
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: 8,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF075E4D),
+                      color: const Color(0xFF075E4D),
                     ),
                   ),
                 ),
@@ -77,11 +78,11 @@ class CatalogCourseCard extends StatelessWidget {
                   title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: GoogleFonts.inter(
                     fontSize: 15,
                     height: 1.25,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF073F38),
+                    color: const Color(0xFF073F38),
                   ),
                 ),
 
@@ -92,8 +93,9 @@ class CatalogCourseCard extends StatelessWidget {
                   instructor,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     fontSize: 10,
+                    fontWeight: FontWeight.w400,
                     color: Colors.grey.shade600,
                   ),
                 ),
@@ -108,19 +110,24 @@ class CatalogCourseCard extends StatelessWidget {
                       size: 15,
                       color: Color(0xFFF2B52E),
                     ),
+
                     const SizedBox(width: 4),
+
                     Text(
                       rating,
-                      style: const TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: 10,
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
+
                     const SizedBox(width: 5),
+
                     Text(
                       '($students students)',
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: 9,
+                        fontWeight: FontWeight.w400,
                         color: Colors.grey.shade500,
                       ),
                     ),
@@ -138,21 +145,22 @@ class CatalogCourseCard extends StatelessWidget {
 
                 // Price + View Course
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment:
+                  CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Text(
                         price,
-                        style: const TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: 19,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF075E4D),
+                          fontWeight: FontWeight.w800,
+                          color: const Color(0xFF075E4D),
                         ),
                       ),
                     ),
 
                     SizedBox(
-                      height: 38,
+                      height: 40,
                       child: ElevatedButton(
                         onPressed: onTap,
                         style: ElevatedButton.styleFrom(
@@ -160,20 +168,24 @@ class CatalogCourseCard extends StatelessWidget {
                           const Color(0xFF075E4D),
                           foregroundColor: Colors.white,
                           elevation: 0,
+
                           padding:
                           const EdgeInsets.symmetric(
-                            horizontal: 14,
+                            horizontal: 18,
                           ),
-                          shape: RoundedRectangleBorder(
+
+                          shape:
+                          RoundedRectangleBorder(
                             borderRadius:
-                            BorderRadius.circular(9),
+                            BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text(
+
+                        child: Text(
                           'View Course',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w800,
+                          style: GoogleFonts.inter(
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),

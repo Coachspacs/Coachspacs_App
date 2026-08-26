@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/features/home/data/models/mock_home_data.dart';
+
 class CatalogTopBar extends StatelessWidget {
   const CatalogTopBar({
     super.key,
@@ -7,6 +10,13 @@ class CatalogTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userName = MockHomeData.currentUser.name;
+
+    // Take the first letter from the user's name automatically.
+    final userInitial = userName.trim().isNotEmpty
+        ? userName.trim()[0].toLowerCase()
+        : 'u';
+
     return Container(
       height: 62,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -84,20 +94,28 @@ class CatalogTopBar extends StatelessWidget {
           const SizedBox(width: 6),
 
           // User Avatar
-          Container(
-            width: 36,
-            height: 36,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE7F5F0),
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: const Text(
-              'h',
-              style: TextStyle(
-                color: Color(0xFF075E4D),
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.profile,
+              );
+            },
+            child: Container(
+              width: 36,
+              height: 36,
+              decoration: const BoxDecoration(
+                color: Color(0xFFE7F5F0),
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                userInitial,
+                style: const TextStyle(
+                  color: Color(0xFF075E4D),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),

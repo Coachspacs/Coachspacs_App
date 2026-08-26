@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CatalogFilterSheet extends StatefulWidget {
   const CatalogFilterSheet({
     super.key,
+    required this.initialLanguage,
+    required this.initialLevel,
+    required this.initialPrice,
+    required this.onApply,
   });
+
+  final String? initialLanguage;
+  final String initialLevel;
+  final String initialPrice;
+
+  final void Function(
+      String? language,
+      String level,
+      String price,
+      ) onApply;
 
   @override
   State<CatalogFilterSheet> createState() =>
@@ -12,29 +27,9 @@ class CatalogFilterSheet extends StatefulWidget {
 
 class _CatalogFilterSheetState
     extends State<CatalogFilterSheet> {
-  final Set<String> selectedCategories = {
-    'Communication',
-    'Strategy',
-    'Marketing',
-    'Design',
-    'Development',
-    'Data Science',
-  };
-
-  String selectedLevel = 'Intermediate';
-  String selectedPrice = 'All Prices';
-  String selectedLanguage = 'English';
-
-  final List<String> categories = [
-    'Leadership',
-    'Management',
-    'Communication',
-    'Strategy',
-    'Marketing',
-    'Design',
-    'Development',
-    'Data Science',
-  ];
+  String? selectedLanguage;
+  late String selectedLevel;
+  late String selectedPrice;
 
   final List<String> levels = [
     'All Levels',
@@ -48,161 +43,165 @@ class _CatalogFilterSheetState
     'Free',
     'Paid',
     'Under \$50',
-    '\$50-\$100',
+    '\$50 - \$100',
     '\$100+',
   ];
 
   @override
+  void initState() {
+    super.initState();
+
+    selectedLanguage = widget.initialLanguage;
+    selectedLevel = widget.initialLevel;
+    selectedPrice = widget.initialPrice;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: const BorderRadius.vertical(
-        top: Radius.circular(24),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: SafeArea(
-        top: false,
-        child: Padding(
+    return SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(22),
+          ),
+        ),
+        child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(
             16,
             12,
             16,
-            16,
+            18,
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-                // Drag handle
-                Center(
-                  child: Container(
-                    width: 42,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFD4DEDB),
-                      borderRadius:
-                      BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
+          child: Column(
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+            children: [
+              _buildHeader(),
 
-                const SizedBox(height: 14),
+              const SizedBox(height: 16),
 
-                _buildHeader(),
+              // =========================================
+              // LANGUAGE
+              // =========================================
 
-                const SizedBox(height: 16),
+              _buildSectionTitle(
+                'Language',
+                Icons.language_outlined,
+              ),
 
-                _buildSectionTitle(
-                  'Category',
-                  Icons.grid_view_outlined,
-                ),
+              const SizedBox(height: 9),
 
-                const SizedBox(height: 8),
-
-                ...categories.map(
-                      (category) => _buildCheckbox(
-                    title: category,
-                    value: selectedCategories
-                        .contains(category),
-                    onChanged: (value) {
+              Wrap(
+                spacing: 7,
+                runSpacing: 7,
+                children: [
+                  _buildChoiceChip(
+                    title: 'English',
+                    selected:
+                    selectedLanguage == 'English',
+                    onTap: () {
                       setState(() {
-                        if (value == true) {
-                          selectedCategories.add(
-                            category,
-                          );
-                        } else {
-                          selectedCategories.remove(
-                            category,
-                          );
-                        }
+                        selectedLanguage =
+                        selectedLanguage == 'English'
+                            ? null
+                            : 'English';
                       });
                     },
                   ),
-                ),
+                  _buildChoiceChip(
+                    title: 'Arabic',
+                    selected:
+                    selectedLanguage == 'Arabic',
+                    onTap: () {
+                      setState(() {
+                        selectedLanguage =
+                        selectedLanguage == 'Arabic'
+                            ? null
+                            : 'Arabic';
+                      });
+                    },
+                  ),
+                ],
+              ),
 
-                const Divider(height: 22),
+              const Divider(height: 24),
 
-                _buildSectionTitle(
-                  'Level',
-                  Icons.layers_outlined,
-                ),
+              // =========================================
+              // LEVEL
+              // =========================================
 
-                const SizedBox(height: 8),
+              _buildSectionTitle(
+                'Level',
+                Icons.layers_outlined,
+              ),
 
-                ...levels.map(
-                      (level) => _buildRadio(
+              const SizedBox(height: 9),
+
+              Wrap(
+                spacing: 7,
+                runSpacing: 7,
+                children: levels.map((level) {
+                  return _buildChoiceChip(
                     title: level,
-                    value: selectedLevel == level,
-                    onChanged: () {
+                    selected:
+                    selectedLevel == level,
+                    onTap: () {
                       setState(() {
                         selectedLevel = level;
                       });
                     },
-                  ),
-                ),
+                  );
+                }).toList(),
+              ),
 
-                const Divider(height: 22),
+              const Divider(height: 24),
 
-                _buildSectionTitle(
-                  'Price',
-                  Icons.attach_money,
-                ),
+              // =========================================
+              // PRICE
+              // =========================================
 
-                const SizedBox(height: 8),
+              _buildSectionTitle(
+                'Price',
+                Icons.attach_money,
+              ),
 
-                ...prices.map(
-                      (price) => _buildRadio(
+              const SizedBox(height: 9),
+
+              Wrap(
+                spacing: 7,
+                runSpacing: 7,
+                children: prices.map((price) {
+                  return _buildChoiceChip(
                     title: price,
-                    value: selectedPrice == price,
-                    onChanged: () {
+                    selected:
+                    selectedPrice == price,
+                    onTap: () {
                       setState(() {
                         selectedPrice = price;
                       });
                     },
-                  ),
-                ),
+                  );
+                }).toList(),
+              ),
 
-                const Divider(height: 22),
+              const SizedBox(height: 22),
 
-                _buildSectionTitle(
-                  'Language',
-                  Icons.language_outlined,
-                  showArrow: true,
-                ),
+              // =========================================
+              // APPLY FILTERS
+              // =========================================
 
-                const SizedBox(height: 8),
-
-                _buildRadio(
-                  title: 'English',
-                  value:
-                  selectedLanguage == 'English',
-                  onChanged: () {
-                    setState(() {
-                      selectedLanguage = 'English';
-                    });
-                  },
-                ),
-
-                _buildRadio(
-                  title: 'Arabic',
-                  value:
-                  selectedLanguage == 'Arabic',
-                  onChanged: () {
-                    setState(() {
-                      selectedLanguage = 'Arabic';
-                    });
-                  },
-                ),
-
-                const SizedBox(height: 18),
-
-                // Apply
-                SizedBox(
-                  width: double.infinity,
-                  height: 46,
+              Center(
+                child: SizedBox(
+                  height: 44,
                   child: ElevatedButton(
                     onPressed: () {
+                      widget.onApply(
+                        selectedLanguage,
+                        selectedLevel,
+                        selectedPrice,
+                      );
+
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
@@ -210,219 +209,195 @@ class _CatalogFilterSheetState
                       const Color(0xFF075E4D),
                       foregroundColor: Colors.white,
                       elevation: 0,
-                      shape: RoundedRectangleBorder(
+                      padding:
+                      const EdgeInsets.symmetric(
+                        horizontal: 30,
+                      ),
+                      shape:
+                      RoundedRectangleBorder(
                         borderRadius:
-                        BorderRadius.circular(11),
+                        BorderRadius.circular(22),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Apply Filters',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w800,
+                      style: GoogleFonts.inter(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 8),
+              const SizedBox(height: 6),
 
-                // Reset
-                Center(
-                  child: TextButton.icon(
-                    onPressed: _resetFilters,
-                    icon: const Icon(
-                      Icons.refresh,
-                      size: 15,
-                    ),
-                    label: const Text(
-                      'Reset All',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      foregroundColor:
+              // =========================================
+              // RESET ALL
+              // =========================================
+
+              Center(
+                child: TextButton(
+                  onPressed: _resetFilters,
+                  child: Text(
+                    'Reset All',
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color:
                       const Color(0xFF71827E),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
+  // =====================================================
+  // HEADER
+  // =====================================================
+
   Widget _buildHeader() {
     return Row(
-      mainAxisAlignment:
-      MainAxisAlignment.spaceBetween,
       children: [
-        const Column(
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Filters',
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF073F38),
-              ),
-            ),
-            SizedBox(height: 3),
-            Text(
-              'Refine your search',
-              style: TextStyle(
-                fontSize: 10,
-                color: Color(0xFF84918E),
-              ),
-            ),
-          ],
+        Text(
+          'Filters',
+          style: GoogleFonts.inter(
+            fontSize: 19,
+            fontWeight: FontWeight.w800,
+            color: const Color(0xFF17332D),
+          ),
         ),
+
+        const Spacer(),
+
+        TextButton(
+          onPressed: _resetFilters,
+          child: Text(
+            'Reset all',
+            style: GoogleFonts.inter(
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFF075E4D),
+            ),
+          ),
+        ),
+
         IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(
+            minWidth: 30,
+            minHeight: 30,
+          ),
           icon: const Icon(
             Icons.close,
-            size: 20,
+            size: 18,
+            color: Color(0xFF52615D),
           ),
         ),
       ],
     );
   }
 
+  // =====================================================
+  // SECTION TITLE
+  // =====================================================
+
   Widget _buildSectionTitle(
       String title,
-      IconData icon, {
-        bool showArrow = false,
-      }) {
+      IconData icon,
+      ) {
     return Row(
       children: [
         Icon(
           icon,
-          size: 14,
+          size: 15,
           color: const Color(0xFF075E4D),
         ),
-        const SizedBox(width: 7),
+
+        const SizedBox(width: 6),
+
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 11,
+          style: GoogleFonts.inter(
+            fontSize: 12,
             fontWeight: FontWeight.w800,
+            color: const Color(0xFF293B36),
           ),
-        ),
-        const Spacer(),
-        Icon(
-          showArrow
-              ? Icons.keyboard_arrow_down
-              : Icons.keyboard_arrow_up,
-          size: 17,
-          color: const Color(0xFF8A9894),
         ),
       ],
     );
   }
 
-  Widget _buildCheckbox({
+  // =====================================================
+  // CHOICE CHIP
+  // =====================================================
+
+  Widget _buildChoiceChip({
     required String title,
-    required bool value,
-    required ValueChanged<bool?> onChanged,
+    required bool selected,
+    required VoidCallback onTap,
   }) {
-    return SizedBox(
-      height: 32,
+    return Material(
+      color: Colors.transparent,
       child: InkWell(
-        onTap: () {
-          onChanged(!value);
-        },
-        child: Row(
-          children: [
-            SizedBox(
-              width: 20,
-              height: 20,
-              child: Checkbox(
-                value: value,
-                onChanged: onChanged,
-                activeColor:
-                const Color(0xFF075E4D),
-                side: const BorderSide(
-                  color: Color(0xFF899792),
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.circular(3),
-                ),
-              ),
+        onTap: onTap,
+        borderRadius:
+        BorderRadius.circular(20),
+        child: AnimatedContainer(
+          duration:
+          const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 11,
+            vertical: 7,
+          ),
+          decoration: BoxDecoration(
+            color: selected
+                ? const Color(0xFF075E4D)
+                : const Color(0xFFEAF0FC),
+            borderRadius:
+            BorderRadius.circular(20),
+          ),
+          child: Text(
+            selected
+                ? '✓ $title'
+                : title,
+            style: GoogleFonts.inter(
+              fontSize: 10,
+              fontWeight: selected
+                  ? FontWeight.w600
+                  : FontWeight.w500,
+              color: selected
+                  ? Colors.white
+                  : const Color(0xFF52615D),
             ),
-            const SizedBox(width: 5),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 10,
-                color: value
-                    ? const Color(0xFF52635F)
-                    : const Color(0xFF697773),
-                fontWeight: value
-                    ? FontWeight.w500
-                    : FontWeight.w400,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildRadio({
-    required String title,
-    required bool value,
-    required VoidCallback onChanged,
-  }) {
-    return SizedBox(
-      height: 32,
-      child: InkWell(
-        onTap: onChanged,
-        child: Row(
-          children: [
-            SizedBox(
-              width: 20,
-              height: 20,
-              child: Radio<bool>(
-                value: true,
-                groupValue: value,
-                onChanged: (_) {
-                  onChanged();
-                },
-                activeColor:
-                const Color(0xFF075E4D),
-                materialTapTargetSize:
-                MaterialTapTargetSize.shrinkWrap,
-              ),
-            ),
-            const SizedBox(width: 5),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 10,
-                color: Color(0xFF697773),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // =====================================================
+  // RESET
+  // =====================================================
 
   void _resetFilters() {
     setState(() {
-      selectedCategories.clear();
+      // No language selected
+      selectedLanguage = null;
+
+      // All levels
       selectedLevel = 'All Levels';
+
+      // All prices
       selectedPrice = 'All Prices';
-      selectedLanguage = 'English';
     });
   }
 }

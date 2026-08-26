@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CourseDetailsInstructor extends StatelessWidget {
   final String instructor;
@@ -16,6 +17,7 @@ class CourseDetailsInstructor extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        // Instructor Avatar
         Container(
           width: 34,
           height: 34,
@@ -24,27 +26,40 @@ class CourseDetailsInstructor extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           alignment: Alignment.center,
-          child: const Text(
-            'T',
-            style: TextStyle(
-              color: Color(0xFF075E4D),
-              fontWeight: FontWeight.w800,
+          child: Text(
+            instructor.trim().isNotEmpty
+                ? instructor.trim()[0].toUpperCase()
+                : 'T',
+            style: GoogleFonts.inter(
+              color: const Color(0xFF075E4D),
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
+
         const SizedBox(width: 9),
+
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
             children: [
+              // Instructor Name
               Text(
                 instructor,
-                style: const TextStyle(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
                   fontSize: 11,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF263C38),
                 ),
               ),
+
               const SizedBox(height: 3),
+
+              // Rating + Students
               Row(
                 children: [
                   const Icon(
@@ -52,20 +67,26 @@ class CourseDetailsInstructor extends StatelessWidget {
                     size: 13,
                     color: Color(0xFFF2B52E),
                   ),
+
                   const SizedBox(width: 3),
+
                   Text(
                     rating,
-                    style: const TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
+                      color: const Color(0xFF263C38),
                     ),
                   ),
+
                   const SizedBox(width: 5),
+
                   Text(
                     '($students students)',
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: 9,
-                      color: Colors.grey.shade500,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFF899792),
                     ),
                   ),
                 ],
