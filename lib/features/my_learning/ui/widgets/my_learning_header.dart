@@ -14,16 +14,18 @@ class MyLearningHeader extends StatelessWidget {
         Text(
           'My Learning',
           style: GoogleFonts.inter(
-            fontSize: 24,
+            fontSize: 21,
+            height: 1.2,
             fontWeight: FontWeight.w700,
             color: const Color(0xFF073F38),
           ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 4),
         Text(
           'Welcome back, Sondos 👋',
           style: GoogleFonts.inter(
-            fontSize: 13,
+            fontSize: 11,
+            height: 1.4,
             fontWeight: FontWeight.w400,
             color: const Color(0xFF71807C),
           ),

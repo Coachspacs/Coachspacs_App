@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/features/profile/ui/widgets/order_history/order_mobile_card.dart';
@@ -7,7 +8,9 @@ import 'package:coach_space/features/profile/ui/widgets/order_history/order_sear
 import 'package:coach_space/features/profile/ui/widgets/order_history/order_table.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
-  const OrderHistoryScreen({super.key});
+  const OrderHistoryScreen({
+    super.key,
+  });
 
   @override
   State<OrderHistoryScreen> createState() =>
@@ -110,6 +113,10 @@ class _OrderHistoryScreenState
 
   int _currentPage = 1;
 
+  // ============================================================
+  // FILTERED ORDERS
+  // ============================================================
+
   List<OrderTableData> get _filteredOrders {
     final query =
     _searchController.text.trim().toLowerCase();
@@ -126,6 +133,10 @@ class _OrderHistoryScreenState
     }).toList();
   }
 
+  // ============================================================
+  // PAGINATION
+  // ============================================================
+
   int get _totalPages {
     if (_filteredOrders.isEmpty) {
       return 1;
@@ -135,7 +146,8 @@ class _OrderHistoryScreenState
   }
 
   List<OrderTableData> get _currentOrders {
-    final start = (_currentPage - 1) * _itemsPerPage;
+    final start =
+        (_currentPage - 1) * _itemsPerPage;
 
     if (start >= _filteredOrders.length) {
       return [];
@@ -165,6 +177,10 @@ class _OrderHistoryScreenState
     return end;
   }
 
+  // ============================================================
+  // ACTIONS
+  // ============================================================
+
   void _changePage(int page) {
     setState(() {
       _currentPage = page;
@@ -177,132 +193,249 @@ class _OrderHistoryScreenState
     });
   }
 
+  // ============================================================
+  // DISPOSE
+  // ============================================================
+
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
 
+  // ============================================================
+  // BUILD
+  // ============================================================
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
+
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 900,
+        child: Column(
+          children: [
+            // ==================================================
+            // HEADER
+            // ==================================================
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                12,
+                10,
+                16,
+                0,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  const Text(
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: 34,
+                      minHeight: 34,
+                    ),
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                      size: 23,
+                      color: Color(0xFF073F38),
+                    ),
+                  ),
+
+                  const SizedBox(width: 4),
+
+                  Text(
                     'Order History',
-                    style: TextStyle(
-                      color: AppColors.textBody,
-                      fontSize: 24,
+                    style: GoogleFonts.inter(
+                      fontSize: 22,
                       fontWeight: FontWeight.w700,
+                      color: const Color(0xFF073F38),
                     ),
-                  ),
-
-                  const SizedBox(height: 6),
-
-                  const Text(
-                    'View and manage your past purchases, '
-                        'download receipts, and access enrolled '
-                        'courses from previous transactions.',
-                    style: TextStyle(
-                      color: AppColors.textLight,
-                      fontSize: 12,
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      final isMobile =
-                          constraints.maxWidth < 650;
-
-                      return OrderSearchBar(
-                        controller: _searchController,
-                        onChanged: _onSearchChanged,
-                        onExport: () {},
-                        isMobile: isMobile,
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      final isMobile =
-                          constraints.maxWidth < 650;
-
-                      if (_currentOrders.isEmpty) {
-                        return const Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(30),
-                            child: Text(
-                              'No orders found.',
-                              style: TextStyle(
-                                color: AppColors.textLight,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-
-                      if (isMobile) {
-                        return Column(
-                          children: _currentOrders.map(
-                                (order) {
-                              return Padding(
-                                padding:
-                                const EdgeInsets.only(
-                                  bottom: 10,
-                                ),
-                                child: OrderMobileCard(
-                                  orderNumber:
-                                  order.orderNumber,
-                                  date: order.date,
-                                  items: order.items,
-                                  total: order.total,
-                                  status: order.status,
-                                  onTap: () {},
-                                ),
-                              );
-                            },
-                          ).toList(),
-                        );
-                      }
-
-                      return OrderTable(
-                        orders: _currentOrders,
-                        onOrderPressed: (order) {},
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  OrderPagination(
-                    currentPage: _currentPage,
-                    totalPages: _totalPages,
-                    startIndex: _startIndex,
-                    endIndex: _endIndex,
-                    totalOrders: _filteredOrders.length,
-                    onPageChanged: _changePage,
                   ),
                 ],
               ),
             ),
-          ),
+
+            // ==================================================
+            // CONTENT
+            // ==================================================
+
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(
+                  16,
+                  6,
+                  16,
+                  30,
+                ),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: 900,
+                    ),
+                    child: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'View your previous purchases and order details.',
+                          style: GoogleFonts.inter(
+                            color: const Color(0xFF71827E),
+                            fontSize: 10.5,
+                            height: 1.4,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // SEARCH
+                        LayoutBuilder(
+                          builder:
+                              (context, constraints) {
+                            final isMobile =
+                                constraints.maxWidth < 650;
+
+                            return OrderSearchBar(
+                              controller:
+                              _searchController,
+                              onChanged:
+                              _onSearchChanged,
+                              onExport: () {},
+                              isMobile: isMobile,
+                            );
+                          },
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        // ORDERS
+                        LayoutBuilder(
+                          builder:
+                              (context, constraints) {
+                            final isMobile =
+                                constraints.maxWidth < 650;
+
+                            if (_currentOrders.isEmpty) {
+                              return _buildEmptyState();
+                            }
+
+                            if (isMobile) {
+                              return Column(
+                                children:
+                                _currentOrders.map(
+                                      (order) {
+                                    return Padding(
+                                      padding:
+                                      const EdgeInsets.only(
+                                        bottom: 10,
+                                      ),
+                                      child:
+                                      OrderMobileCard(
+                                        orderNumber:
+                                        order.orderNumber,
+                                        date: order.date,
+                                        items: order.items,
+                                        total: order.total,
+                                        status: order.status,
+                                        onTap: () {},
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
+                              );
+                            }
+
+                            return OrderTable(
+                              orders: _currentOrders,
+                              onOrderPressed:
+                                  (order) {},
+                            );
+                          },
+                        ),
+
+                        const SizedBox(height: 18),
+
+                        // PAGINATION
+                        OrderPagination(
+                          currentPage: _currentPage,
+                          totalPages: _totalPages,
+                          startIndex: _startIndex,
+                          endIndex: _endIndex,
+                          totalOrders:
+                          _filteredOrders.length,
+                          onPageChanged: _changePage,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // EMPTY STATE
+  // ============================================================
+
+  Widget _buildEmptyState() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        vertical: 40,
+        horizontal: 20,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.border,
+        ),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: 46,
+            height: 46,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE4F6F0),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.receipt_long_outlined,
+              size: 22,
+              color: Color(0xFF075E4D),
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          Text(
+            'No orders found',
+            style: GoogleFonts.inter(
+              color: const Color(0xFF073F38),
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+
+          const SizedBox(height: 5),
+
+          Text(
+            'Try searching with another order number or status.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(
+              color: const Color(0xFF71827E),
+              fontSize: 10,
+            ),
+          ),
+        ],
       ),
     );
   }

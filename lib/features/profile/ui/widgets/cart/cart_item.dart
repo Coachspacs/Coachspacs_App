@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
@@ -23,27 +24,46 @@ class CartItem extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.border,
+          color: const Color(0xFFDCE8E4),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.025),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // =====================================================
+          // COURSE IMAGE
+          // =====================================================
+
           Container(
-            width: 64,
-            height: 54,
+            width: 82,
+            height: 82,
             decoration: BoxDecoration(
-              color: AppColors.bgDefault,
-              borderRadius: BorderRadius.circular(8),
+              color: const Color(0xFFE5F1EE),
+              borderRadius: BorderRadius.circular(11),
             ),
-            child: const Icon(
-              Icons.code,
-              color: AppColors.textLight,
+            child: const Center(
+              child: Icon(
+                Icons.code_rounded,
+                size: 34,
+                color: Color(0xFF075E4D),
+              ),
             ),
           ),
 
           const SizedBox(width: 12),
+
+          // =====================================================
+          // COURSE INFORMATION
+          // =====================================================
 
           Expanded(
             child: Column(
@@ -51,46 +71,59 @@ class CartItem extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: AppColors.textBody,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF073F38),
                     fontSize: 13,
+                    height: 1.25,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
 
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
 
                 Text(
                   'Instructor: $instructor',
-                  style: const TextStyle(
-                    color: AppColors.textLight,
-                    fontSize: 10,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF788681),
+                    fontSize: 9.5,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
 
-                const SizedBox(height: 5),
+                const SizedBox(height: 7),
 
                 Text(
                   '\$${price.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF075E4D),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ],
             ),
           ),
 
+          // =====================================================
+          // DELETE BUTTON
+          // =====================================================
+
           IconButton(
             onPressed: onDelete,
-            icon: const Icon(
-              Icons.delete_outline,
-              size: 20,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(
+              minWidth: 32,
+              minHeight: 32,
             ),
-            color: AppColors.textLight,
+            icon: const Icon(
+              Icons.delete_outline_rounded,
+              size: 19,
+              color: Color(0xFF40514D),
+            ),
           ),
         ],
       ),

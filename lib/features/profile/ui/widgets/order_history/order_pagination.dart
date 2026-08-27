@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
@@ -23,20 +24,23 @@ class OrderPagination extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'Showing $startIndex-$endIndex of $totalOrders orders',
-          style: const TextStyle(
-            color: AppColors.textLight,
-            fontSize: 10,
+        Expanded(
+          child: Text(
+            'Showing $startIndex-$endIndex of $totalOrders orders',
+            style: GoogleFonts.inter(
+              color: AppColors.textLight,
+              fontSize: 9,
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
 
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             _PageButton(
-              icon: Icons.chevron_left,
+              icon: Icons.chevron_left_rounded,
               enabled: currentPage > 1,
               onPressed: () {
                 onPageChanged(currentPage - 1);
@@ -61,7 +65,7 @@ class OrderPagination extends StatelessWidget {
             const SizedBox(width: 5),
 
             _PageButton(
-              icon: Icons.chevron_right,
+              icon: Icons.chevron_right_rounded,
               enabled: currentPage < totalPages,
               onPressed: () {
                 onPageChanged(currentPage + 1);
@@ -96,18 +100,18 @@ class _PageButton extends StatelessWidget {
           padding: EdgeInsets.zero,
           backgroundColor: AppColors.white,
           side: const BorderSide(
-            color: AppColors.border,
+            color: Color(0xFFDCE8E4),
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(9),
           ),
         ),
         child: Icon(
           icon,
           size: 17,
           color: enabled
-              ? AppColors.textBody
-              : AppColors.textLight,
+              ? const Color(0xFF073F38)
+              : const Color(0xFFB7C2BF),
         ),
       ),
     );
@@ -143,16 +147,16 @@ class _PageNumberButton extends StatelessWidget {
           side: BorderSide(
             color: isSelected
                 ? AppColors.primary
-                : AppColors.border,
+                : const Color(0xFFDCE8E4),
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(9),
           ),
         ),
         child: Text(
           '$page',
-          style: const TextStyle(
-            fontSize: 11,
+          style: GoogleFonts.inter(
+            fontSize: 10,
             fontWeight: FontWeight.w700,
           ),
         ),

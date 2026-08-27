@@ -123,6 +123,7 @@ class CourseDetailsScreen extends StatelessWidget {
                     // --------------------------------------------------
                     CourseDetailsPurchaseCard(
                       price: price,
+                      courseTitle: title,
                     ),
 
                     const SizedBox(height: 24),

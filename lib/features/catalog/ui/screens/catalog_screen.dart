@@ -136,7 +136,6 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   crossAxisAlignment:
                   CrossAxisAlignment.start,
                   children: [
-
                     // =================================================
                     // TITLE
                     // =================================================
@@ -144,32 +143,33 @@ class _CatalogScreenState extends State<CatalogScreen> {
                     Text(
                       'Explore Courses',
                       style: GoogleFonts.inter(
-                        fontSize: 23,
+                        fontSize: 21,
                         fontWeight:
-                        FontWeight.w800,
+                        FontWeight.w700,
                         color:
                         const Color(0xFF073F38),
-                        height: 1.1,
+                        height: 1.2,
                       ),
                     ),
 
                     const SizedBox(
-                      height: 6,
+                      height: 5,
                     ),
 
                     Text(
                       'Find the right course to grow your skills.',
                       style: GoogleFonts.inter(
-                        fontSize: 11,
+                        fontSize: 10.5,
                         fontWeight:
                         FontWeight.w400,
                         color:
                         Colors.grey.shade600,
+                        height: 1.4,
                       ),
                     ),
 
                     const SizedBox(
-                      height: 18,
+                      height: 16,
                     ),
 
                     // =================================================
@@ -185,7 +185,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                     ),
 
                     const SizedBox(
-                      height: 14,
+                      height: 13,
                     ),
 
                     // =================================================
@@ -199,16 +199,13 @@ class _CatalogScreenState extends State<CatalogScreen> {
                         Axis.horizontal,
                         physics:
                         const BouncingScrollPhysics(),
-
                         itemCount:
                         categories.length,
-
                         separatorBuilder:
-                            (_, __) =>
+                            (_, _) =>
                         const SizedBox(
                           width: 8,
                         ),
-
                         itemBuilder:
                             (context, index) {
                           final category =
@@ -225,23 +222,19 @@ class _CatalogScreenState extends State<CatalogScreen> {
                                     category;
                               });
                             },
-
                             child:
                             AnimatedContainer(
                               duration:
                               const Duration(
                                 milliseconds: 160,
                               ),
-
                               padding:
                               const EdgeInsets
                                   .symmetric(
                                 horizontal: 16,
                               ),
-
                               alignment:
                               Alignment.center,
-
                               decoration:
                               BoxDecoration(
                                 color: isSelected
@@ -249,14 +242,13 @@ class _CatalogScreenState extends State<CatalogScreen> {
                                   0xFF075E4D,
                                 )
                                     : Colors.white,
-
                                 borderRadius:
                                 BorderRadius
                                     .circular(
                                   20,
                                 ),
-
-                                border: Border.all(
+                                border:
+                                Border.all(
                                   color: isSelected
                                       ? const Color(
                                     0xFF075E4D,
@@ -266,11 +258,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
                                   ),
                                 ),
                               ),
-
                               child: Text(
                                 category,
                                 style:
-                                GoogleFonts.inter(
+                                GoogleFonts
+                                    .inter(
                                   fontSize: 10,
                                   fontWeight:
                                   isSelected
@@ -321,8 +313,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                           _buildActionButton(
                             icon:
                             Icons.sort_rounded,
-                            label:
-                            'Most Popular',
+                            label: 'Most Popular',
                             onPressed:
                             _openSortSheet,
                           ),
@@ -331,7 +322,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                     ),
 
                     const SizedBox(
-                      height: 20,
+                      height: 19,
                     ),
 
                     // =================================================
@@ -344,7 +335,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                           'All Courses',
                           style:
                           GoogleFonts.inter(
-                            fontSize: 17,
+                            fontSize: 16,
                             fontWeight:
                             FontWeight.w700,
                             color:
@@ -392,43 +383,29 @@ class _CatalogScreenState extends State<CatalogScreen> {
                             child:
                             CatalogCourseCard(
                               title:
-                              course[
-                              'title']
+                              course['title']
                                   .toString(),
-
                               instructor:
-                              course[
-                              'instructor']
+                              course['instructor']
                                   .toString(),
-
                               price:
-                              course[
-                              'price']
+                              course['price']
                                   .toString(),
-
                               rating:
-                              course[
-                              'rating']
+                              course['rating']
                                   .toString(),
-
                               students:
-                              course[
-                              'students']
+                              course['students']
                                   .toString(),
-
                               image:
-                              course[
-                              'image']
+                              course['image']
                                   .toString(),
-
                               onTap: () {
-                                Navigator
-                                    .pushNamed(
+                                Navigator.pushNamed(
                                   context,
                                   AppRoutes
                                       .courseDetails,
-                                  arguments:
-                                  course,
+                                  arguments: course,
                                 );
                               },
                             ),
@@ -467,35 +444,25 @@ class _CatalogScreenState extends State<CatalogScreen> {
       height: 46,
       child: OutlinedButton.icon(
         onPressed: onPressed,
-
         icon: Icon(
           icon,
-          size: 18,
-          color:
-          const Color(0xFF075E4D),
+          size: 17,
+          color: const Color(0xFF075E4D),
         ),
-
         label: Text(
           label,
           style: GoogleFonts.inter(
-            fontSize: 12,
-            fontWeight:
-            FontWeight.w600,
-            color:
-            const Color(0xFF075E4D),
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF075E4D),
           ),
         ),
-
         style:
         OutlinedButton.styleFrom(
-          backgroundColor:
-          Colors.white,
-
+          backgroundColor: Colors.white,
           side: const BorderSide(
-            color:
-            Color(0xFFD5E4E0),
+            color: Color(0xFFD5E4E0),
           ),
-
           shape:
           RoundedRectangleBorder(
             borderRadius:
@@ -514,20 +481,15 @@ class _CatalogScreenState extends State<CatalogScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor:
-      Colors.transparent,
-
+      backgroundColor: Colors.transparent,
       builder: (context) {
         return CatalogFilterSheet(
           initialLanguage:
           selectedLanguage,
-
           initialLevel:
           selectedLevel,
-
           initialPrice:
           selectedPrice,
-
           onApply: (
               language,
               level,
@@ -556,9 +518,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
   void _openSortSheet() {
     showModalBottomSheet(
       context: context,
-      backgroundColor:
-      Colors.white,
-
+      backgroundColor: Colors.white,
       shape:
       const RoundedRectangleBorder(
         borderRadius:
@@ -566,7 +526,6 @@ class _CatalogScreenState extends State<CatalogScreen> {
           top: Radius.circular(22),
         ),
       ),
-
       builder: (context) {
         return const _SortBottomSheet();
       },
@@ -579,19 +538,17 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
   List<Map<String, dynamic>>
   _getFilteredCourses() {
-    final query =
-    searchQuery
+    final query = searchQuery
         .trim()
         .toLowerCase();
 
     return courses.where((course) {
-      final title =
-      course['title']
+      final title = course['title']
           .toString()
           .toLowerCase();
 
-      final instructor =
-      course['instructor']
+      final instructor = course[
+      'instructor']
           .toString()
           .toLowerCase();
 
@@ -601,8 +558,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
         return false;
       }
 
-      final category =
-      course['category']
+      final category = course['category']
           .toString()
           .toLowerCase();
 
@@ -624,32 +580,26 @@ class _CatalogScreenState extends State<CatalogScreen> {
   Widget _buildEmptyState() {
     return Container(
       width: double.infinity,
-
       padding:
       const EdgeInsets.symmetric(
         vertical: 45,
         horizontal: 20,
       ),
-
       decoration: BoxDecoration(
         color: Colors.white,
-
         borderRadius:
         BorderRadius.circular(16),
-
         border: Border.all(
           color:
           const Color(0xFFE0EAE7),
         ),
       ),
-
       child: Column(
         children: [
           Icon(
             Icons.search_off,
             size: 45,
-            color:
-            Colors.grey.shade400,
+            color: Colors.grey.shade400,
           ),
 
           const SizedBox(
@@ -658,8 +608,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
           Text(
             'No courses found',
-            style:
-            GoogleFonts.inter(
+            style: GoogleFonts.inter(
               fontSize: 14,
               fontWeight:
               FontWeight.w700,
@@ -674,8 +623,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
           Text(
             'Try another search.',
-            style:
-            GoogleFonts.inter(
+            style: GoogleFonts.inter(
               fontSize: 10,
               fontWeight:
               FontWeight.w400,
@@ -709,22 +657,18 @@ class _SortBottomSheet
           20,
           25,
         ),
-
         child: Column(
           mainAxisSize:
           MainAxisSize.min,
-
           crossAxisAlignment:
           CrossAxisAlignment.start,
-
           children: [
             Text(
               'Sort Courses',
-              style:
-              GoogleFonts.inter(
-                fontSize: 18,
+              style: GoogleFonts.inter(
+                fontSize: 17,
                 fontWeight:
-                FontWeight.w800,
+                FontWeight.w700,
                 color:
                 const Color(
                   0xFF073F38,
@@ -736,36 +680,32 @@ class _SortBottomSheet
               height: 16,
             ),
 
-            _SortOption(
-              title:
-              'Most Popular',
+            const _SortOption(
+              title: 'Most Popular',
               icon: Icons
                   .local_fire_department_outlined,
             ),
 
-            _SortOption(
+            const _SortOption(
               title: 'Newest',
               icon: Icons
                   .new_releases_outlined,
             ),
 
-            _SortOption(
-              title:
-              'Highest Rated',
+            const _SortOption(
+              title: 'Highest Rated',
               icon:
               Icons.star_outline,
             ),
 
-            _SortOption(
-              title:
-              'Price: Low to High',
+            const _SortOption(
+              title: 'Price: Low to High',
               icon:
               Icons.arrow_upward,
             ),
 
-            _SortOption(
-              title:
-              'Price: High to Low',
+            const _SortOption(
+              title: 'Price: High to Low',
               icon:
               Icons.arrow_downward,
             ),
@@ -797,16 +737,13 @@ class _SortOption
       onTap: () {
         Navigator.pop(context);
       },
-
       borderRadius:
       BorderRadius.circular(12),
-
       child: Padding(
         padding:
         const EdgeInsets.symmetric(
           vertical: 13,
         ),
-
         child: Row(
           children: [
             Icon(
@@ -822,9 +759,8 @@ class _SortOption
 
             Text(
               title,
-              style:
-              GoogleFonts.inter(
-                fontSize: 13,
+              style: GoogleFonts.inter(
+                fontSize: 12,
                 fontWeight:
                 FontWeight.w600,
                 color:

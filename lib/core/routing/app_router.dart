@@ -27,6 +27,12 @@ import 'package:coach_space/features/catalog/ui/screens/course_details_screen.da
 
 import 'package:coach_space/features/my_learning/ui/screens/my_learning_screen.dart';
 
+import 'package:coach_space/features/profile/ui/screens/learning_settings_screen.dart';
+import 'package:coach_space/features/profile/ui/screens/security_settings_screen.dart';
+import 'package:coach_space/features/profile/ui/screens/preferences_settings_screen.dart';
+
+import 'package:coach_space/features/notifications/ui/screens/notification_screen.dart';
+
 class AppRouter {
   Route<dynamic> generateRoute(
       RouteSettings settings,
@@ -162,9 +168,30 @@ class AppRouter {
           settings,
         );
 
-    // =====================================================
-    // FALLBACK
-    // =====================================================
+
+      case AppRoutes.learningSettings:
+        return _buildRoute(
+          const LearningSettingsScreen(),
+          settings,
+        );
+
+      case AppRoutes.securitySettings:
+        return _buildRoute(
+          const SecuritySettingsScreen(),
+          settings,
+        );
+
+      case AppRoutes.preferencesSettings:
+        return _buildRoute(
+          const PreferencesSettingsScreen(),
+          settings,
+        );
+
+      case AppRoutes.notifications:
+        return _buildRoute(
+          const NotificationScreen(),
+          settings,
+        );
 
       default:
         return _buildRoute(

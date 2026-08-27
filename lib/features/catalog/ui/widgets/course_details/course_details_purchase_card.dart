@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CourseDetailsPurchaseCard extends StatelessWidget {
-  final String price;
+import 'package:coach_space/features/notifications/data/models/notification.dart';
+import 'package:coach_space/features/notifications/logic/notification_service.dart';
 
+class CourseDetailsPurchaseCard extends StatelessWidget {
   const CourseDetailsPurchaseCard({
     super.key,
     required this.price,
+    required this.courseTitle,
   });
+
+  final String price;
+  final String courseTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -86,14 +91,12 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                const Color(0xFF075E4D),
+                backgroundColor: const Color(0xFF075E4D),
                 foregroundColor: Colors.white,
                 elevation: 0,
                 padding: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.circular(11),
+                  borderRadius: BorderRadius.circular(11),
                 ),
               ),
             ),
@@ -111,15 +114,13 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
             child: OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
-                foregroundColor:
-                const Color(0xFF075E4D),
+                foregroundColor: const Color(0xFF075E4D),
                 side: const BorderSide(
                   color: Color(0xFF075E4D),
                   width: 1.2,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.circular(11),
+                  borderRadius: BorderRadius.circular(11),
                 ),
               ),
               child: Text(
@@ -164,8 +165,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
       builder: (dialogContext) {
         return Dialog(
           backgroundColor: Colors.white,
-          insetPadding:
-          const EdgeInsets.symmetric(
+          insetPadding: const EdgeInsets.symmetric(
             horizontal: 28,
           ),
           shape: RoundedRectangleBorder(
@@ -181,7 +181,10 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Cart Icon
+                // =================================================
+                // CART ICON
+                // =================================================
+
                 Container(
                   width: 54,
                   height: 54,
@@ -223,7 +226,10 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // Buttons
+                // =================================================
+                // BUTTONS
+                // =================================================
+
                 Row(
                   children: [
                     Expanded(
@@ -231,36 +237,24 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                         height: 42,
                         child: OutlinedButton(
                           onPressed: () {
-                            Navigator.pop(
-                              dialogContext,
-                            );
+                            Navigator.pop(dialogContext);
                           },
-                          style:
-                          OutlinedButton.styleFrom(
+                          style: OutlinedButton.styleFrom(
                             foregroundColor:
-                            const Color(
-                              0xFF52615D,
-                            ),
+                            const Color(0xFF52615D),
                             side: const BorderSide(
-                              color: Color(
-                                0xFFD5E1DE,
-                              ),
+                              color: Color(0xFFD5E1DE),
                             ),
-                            shape:
-                            RoundedRectangleBorder(
+                            shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadius.circular(
-                                11,
-                              ),
+                              BorderRadius.circular(11),
                             ),
                           ),
                           child: Text(
                             'Cancel',
-                            style:
-                            GoogleFonts.inter(
+                            style: GoogleFonts.inter(
                               fontSize: 11,
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -274,38 +268,40 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                         height: 42,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.pop(
-                              dialogContext,
+                            Navigator.pop(dialogContext);
+
+                            // ==========================================
+                            // ADD NOTIFICATION
+                            // ==========================================
+
+                            NotificationService.instance
+                                .addNotification(
+                              title: 'Course Added to Cart',
+                              message:
+                              '$courseTitle has been added '
+                                  'to your cart successfully.',
+                              time: 'Just now',
+                              type:
+                              NotificationType.purchase,
                             );
 
-                            _showSuccessDialog(
-                              context,
-                            );
+                            _showSuccessDialog(context);
                           },
-                          style:
-                          ElevatedButton.styleFrom(
+                          style: ElevatedButton.styleFrom(
                             backgroundColor:
-                            const Color(
-                              0xFF075E4D,
-                            ),
-                            foregroundColor:
-                            Colors.white,
+                            const Color(0xFF075E4D),
+                            foregroundColor: Colors.white,
                             elevation: 0,
-                            shape:
-                            RoundedRectangleBorder(
+                            shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadius.circular(
-                                11,
-                              ),
+                              BorderRadius.circular(11),
                             ),
                           ),
                           child: Text(
                             'Yes, Add it',
-                            style:
-                            GoogleFonts.inter(
+                            style: GoogleFonts.inter(
                               fontSize: 11,
-                              fontWeight:
-                              FontWeight.w700,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
@@ -332,8 +328,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
       builder: (dialogContext) {
         return Dialog(
           backgroundColor: Colors.white,
-          insetPadding:
-          const EdgeInsets.symmetric(
+          insetPadding: const EdgeInsets.symmetric(
             horizontal: 28,
           ),
           shape: RoundedRectangleBorder(
@@ -349,7 +344,10 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Success Icon
+                // =================================================
+                // SUCCESS ICON
+                // =================================================
+
                 Container(
                   width: 58,
                   height: 58,
@@ -396,19 +394,14 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                   height: 42,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(
-                        dialogContext,
-                      );
+                      Navigator.pop(dialogContext);
                     },
-                    style:
-                    ElevatedButton.styleFrom(
+                    style: ElevatedButton.styleFrom(
                       backgroundColor:
                       const Color(0xFF075E4D),
-                      foregroundColor:
-                      Colors.white,
+                      foregroundColor: Colors.white,
                       elevation: 0,
-                      shape:
-                      RoundedRectangleBorder(
+                      shape: RoundedRectangleBorder(
                         borderRadius:
                         BorderRadius.circular(11),
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
@@ -29,22 +30,37 @@ class ProfileMenuItem extends StatelessWidget {
             ),
             child: Row(
               children: [
+                // =================================================
+                // ICON
+                // =================================================
+
                 Icon(
                   icon,
                   size: 21,
                   color: AppColors.primary,
                 ),
+
                 const SizedBox(width: 14),
+
+                // =================================================
+                // TITLE
+                // =================================================
+
                 Expanded(
                   child: Text(
                     title,
-                    style: const TextStyle(
+                    style: GoogleFonts.inter(
                       color: AppColors.textBody,
                       fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
+
+                // =================================================
+                // ARROW
+                // =================================================
+
                 const Icon(
                   Icons.chevron_right,
                   size: 20,
@@ -54,6 +70,11 @@ class ProfileMenuItem extends StatelessWidget {
             ),
           ),
         ),
+
+        // ===================================================
+        // DIVIDER
+        // ===================================================
+
         if (showDivider)
           const Divider(
             height: 1,

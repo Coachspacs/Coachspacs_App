@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/helpers/context_extensions.dart';
+import 'package:coach_space/core/routing/app_routes.dart';
 
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({
@@ -20,13 +21,20 @@ class _SearchBarWidgetState
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(_onFocusChanged);
+
+    _focusNode.addListener(
+      _onFocusChanged,
+    );
   }
 
   @override
   void dispose() {
-    _focusNode.removeListener(_onFocusChanged);
+    _focusNode.removeListener(
+      _onFocusChanged,
+    );
+
     _focusNode.dispose();
+
     super.dispose();
   }
 
@@ -34,9 +42,19 @@ class _SearchBarWidgetState
     setState(() {});
   }
 
+  void _openCatalog() {
+    _focusNode.unfocus();
+
+    Navigator.pushNamed(
+      context,
+      AppRoutes.catalog,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isFocused = _focusNode.hasFocus;
+    final isFocused =
+        _focusNode.hasFocus;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -46,11 +64,13 @@ class _SearchBarWidgetState
         0,
       ),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
+        duration:
+        const Duration(milliseconds: 180),
         height: 52,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius:
+          BorderRadius.circular(14),
           border: Border.all(
             color: isFocused
                 ? const Color(0xFF075E4D)
@@ -73,7 +93,8 @@ class _SearchBarWidgetState
             Expanded(
               child: TextField(
                 focusNode: _focusNode,
-                textInputAction: TextInputAction.search,
+                textInputAction:
+                TextInputAction.search,
                 style: GoogleFonts.inter(
                   fontSize: 12,
                   color: const Color(0xFF344842),
@@ -81,31 +102,44 @@ class _SearchBarWidgetState
                 decoration: InputDecoration(
                   hintText:
                   context.l10n.homeSearchHint,
-                  hintStyle: GoogleFonts.inter(
+                  hintStyle:
+                  GoogleFonts.inter(
                     fontSize: 12,
-                    color: const Color(0xFF8A9995),
+                    color:
+                    const Color(0xFF8A9995),
                   ),
                   border: InputBorder.none,
                   isDense: true,
                 ),
+                onSubmitted: (_) {
+                  _openCatalog();
+                },
               ),
             ),
 
-            Container(
-              margin: const EdgeInsets.only(
-                right: 5,
-              ),
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                color: const Color(0xFF075E4D),
-                borderRadius:
-                BorderRadius.circular(11),
-              ),
-              child: const Icon(
-                Icons.search_rounded,
-                size: 18,
-                color: Colors.white,
+            // =================================================
+            // SEARCH BUTTON
+            // =================================================
+
+            GestureDetector(
+              onTap: _openCatalog,
+              child: Container(
+                margin: const EdgeInsets.only(
+                  right: 5,
+                ),
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color:
+                  const Color(0xFF075E4D),
+                  borderRadius:
+                  BorderRadius.circular(11),
+                ),
+                child: const Icon(
+                  Icons.search_rounded,
+                  size: 18,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],

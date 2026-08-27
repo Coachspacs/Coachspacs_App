@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
+
 class HomeHeroSection extends StatelessWidget {
   const HomeHeroSection({
     super.key,
@@ -29,11 +31,12 @@ class HomeHeroSection extends StatelessWidget {
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+        CrossAxisAlignment.start,
         children: [
-          // ==============================
+          // =================================================
           // WELCOME BADGE
-          // ==============================
+          // =================================================
 
           Container(
             padding: const EdgeInsets.symmetric(
@@ -42,7 +45,8 @@ class HomeHeroSection extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: const Color(0xFFD4F3E9),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius:
+              BorderRadius.circular(20),
             ),
             child: Text(
               'WELCOME BACK',
@@ -56,9 +60,9 @@ class HomeHeroSection extends StatelessWidget {
 
           const SizedBox(height: 14),
 
-          // ==============================
+          // =================================================
           // MAIN TITLE
-          // ==============================
+          // =================================================
 
           Text(
             'Master New Skills with\nExpert Coaches',
@@ -72,9 +76,9 @@ class HomeHeroSection extends StatelessWidget {
 
           const SizedBox(height: 9),
 
-          // ==============================
+          // =================================================
           // DESCRIPTION
-          // ==============================
+          // =================================================
 
           Text(
             'Unlock your potential through personalized '
@@ -90,17 +94,26 @@ class HomeHeroSection extends StatelessWidget {
 
           const SizedBox(height: 18),
 
-          // ==============================
+          // =================================================
           // BUTTONS
-          // ==============================
+          // =================================================
 
           Row(
             children: [
+              // =================================================
+              // MY COURSES
+              // =================================================
+
               Expanded(
                 child: SizedBox(
                   height: 40,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.myLearning,
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                       const Color(0xFF075E4D),
@@ -125,11 +138,20 @@ class HomeHeroSection extends StatelessWidget {
 
               const SizedBox(width: 10),
 
+              // =================================================
+              // EXPLORE NEW COURSES
+              // =================================================
+
               Expanded(
                 child: SizedBox(
                   height: 40,
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.catalog,
+                      );
+                    },
                     style: OutlinedButton.styleFrom(
                       foregroundColor:
                       const Color(0xFF075E4D),
@@ -158,9 +180,9 @@ class HomeHeroSection extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          // ==============================
+          // =================================================
           // STATS
-          // ==============================
+          // =================================================
 
           Container(
             height: 118,
@@ -168,7 +190,8 @@ class HomeHeroSection extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius:
+              BorderRadius.circular(14),
               border: Border.all(
                 color: const Color(0xFFDCE7E4),
               ),
@@ -177,10 +200,14 @@ class HomeHeroSection extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 // Background logo
+
                 Image.asset(
                   'assets/images/Logo_img.png',
                   fit: BoxFit.contain,
-                  opacity: const AlwaysStoppedAnimation(0.08),
+                  opacity:
+                  const AlwaysStoppedAnimation(
+                    0.08,
+                  ),
                   errorBuilder: (
                       context,
                       error,
@@ -191,12 +218,14 @@ class HomeHeroSection extends StatelessWidget {
                 ),
 
                 // Stats
+
                 Row(
                   mainAxisAlignment:
                   MainAxisAlignment.spaceEvenly,
                   children: [
                     const _StatItem(
-                      icon: Icons.people_alt_outlined,
+                      icon:
+                      Icons.people_alt_outlined,
                       value: '12k+',
                       label: 'Active Students',
                     ),
@@ -204,14 +233,16 @@ class HomeHeroSection extends StatelessWidget {
                     Container(
                       width: 1,
                       height: 48,
-                      color: const Color(0xFFDCE7E4),
+                      color:
+                      const Color(0xFFDCE7E4),
                     ),
 
                     const _StatItem(
-                      icon:
-                      Icons.workspace_premium_outlined,
+                      icon: Icons
+                          .workspace_premium_outlined,
                       value: '2k+',
-                      label: 'Certificates Issued',
+                      label:
+                      'Certificates Issued',
                     ),
                   ],
                 ),
@@ -242,7 +273,8 @@ class _StatItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment:
+      MainAxisAlignment.center,
       children: [
         Container(
           width: 30,

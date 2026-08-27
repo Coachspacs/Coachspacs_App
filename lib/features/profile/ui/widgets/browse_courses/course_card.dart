@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
@@ -23,82 +24,142 @@ class CourseCard extends StatelessWidget {
   final CourseStatus status;
   final VoidCallback onPressed;
 
-  bool get isCompleted => status == CourseStatus.completed;
+  bool get isCompleted =>
+      status == CourseStatus.completed;
 
   @override
   Widget build(BuildContext context) {
+    final percentage = (progress * 100).round();
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.border,
+          color: const Color(0xFFDCE8E4),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.025),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Course image placeholder
-          Container(
-            width: double.infinity,
-            height: 150,
-            decoration: BoxDecoration(
-              color: AppColors.bgDefault,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Center(
-              child: Icon(
-                Icons.code,
-                size: 42,
-                color: AppColors.textLight,
+          // ===================================================
+          // COURSE IMAGE
+          // ===================================================
+
+          ClipRRect(
+            borderRadius: BorderRadius.circular(11),
+            child: Container(
+              width: double.infinity,
+              height: 150,
+              color: const Color(0xFFF0F6F4),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Icon(
+                    Icons.code_rounded,
+                    size: 40,
+                    color: Color(0xFF53615E),
+                  ),
+
+                  if (!isCompleted)
+                    Positioned(
+                      bottom: 10,
+                      left: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(
+                            alpha: 0.92,
+                          ),
+                          borderRadius:
+                          BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          '$percentage% complete',
+                          style: GoogleFonts.inter(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFF075E4D),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
 
           const SizedBox(height: 12),
 
+          // ===================================================
+          // TITLE
+          // ===================================================
+
           Text(
             title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: AppColors.textBody,
+            style: GoogleFonts.inter(
+              color: const Color(0xFF073F38),
               fontSize: 14,
+              height: 1.25,
               fontWeight: FontWeight.w700,
             ),
           ),
 
           const SizedBox(height: 5),
 
+          // ===================================================
+          // INSTRUCTOR
+          // ===================================================
+
           Text(
             instructor,
-            style: const TextStyle(
-              color: AppColors.textLight,
-              fontSize: 11,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.inter(
+              color: const Color(0xFF71827E),
+              fontSize: 10,
+              fontWeight: FontWeight.w400,
             ),
           ),
 
-          const SizedBox(height: 14),
+          const SizedBox(height: 13),
+
+          // ===================================================
+          // PROGRESS
+          // ===================================================
 
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Progress',
-                style: TextStyle(
-                  color: AppColors.textLight,
-                  fontSize: 10,
+              Text(
+                isCompleted ? 'Completed' : 'Progress',
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF71827E),
+                  fontSize: 9,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
-                '${(progress * 100).round()}%',
-                style: const TextStyle(
-                  color: AppColors.textLight,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
+                '$percentage%',
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF075E4D),
+                  fontSize: 9,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ],
@@ -111,8 +172,10 @@ class CourseCard extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 5,
-              backgroundColor: AppColors.bgDefault,
-              valueColor: const AlwaysStoppedAnimation<Color>(
+              backgroundColor:
+              const Color(0xFFE8EFED),
+              valueColor:
+              const AlwaysStoppedAnimation<Color>(
                 AppColors.primary,
               ),
             ),
@@ -120,71 +183,82 @@ class CourseCard extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 36,
-                  child: ElevatedButton.icon(
-                    onPressed: onPressed,
-                    icon: const Icon(
-                      Icons.play_arrow,
-                      size: 16,
-                    ),
-                    label: Text(
-                      isCompleted ? 'Completed' : 'Enrolled',
-                      style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: AppColors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+          // ===================================================
+          // ACTION BUTTON
+          // ===================================================
+
+          SizedBox(
+            width: double.infinity,
+            height: 38,
+            child: ElevatedButton.icon(
+              onPressed: onPressed,
+              icon: Icon(
+                isCompleted
+                    ? Icons.check_circle_outline
+                    : Icons.play_arrow_rounded,
+                size: 16,
+              ),
+              label: Text(
+                isCompleted
+                    ? 'Completed'
+                    : 'Continue Learning',
+                style: GoogleFonts.inter(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.white,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+
+          // ===================================================
+          // CERTIFICATE
+          // ===================================================
+
+          if (isCompleted) ...[
+            const SizedBox(height: 7),
+
+            SizedBox(
+              width: double.infinity,
+              height: 34,
+              child: OutlinedButton.icon(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.workspace_premium_outlined,
+                  size: 14,
+                ),
+                label: Text(
+                  'View Certificate',
+                  style: GoogleFonts.inter(
+                    fontSize: 9,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor:
+                  const Color(0xFF075E4D),
+                  side: const BorderSide(
+                    color: Color(0xFFBFE9D8),
+                  ),
+                  backgroundColor:
+                  const Color(0xFFEAF8F2),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(9),
                   ),
                 ),
               ),
-
-              if (isCompleted) ...[
-                const SizedBox(width: 8),
-
-                Expanded(
-                  child: SizedBox(
-                    height: 36,
-                    child: OutlinedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.workspace_premium_outlined,
-                        size: 15,
-                      ),
-                      label: const Text(
-                        'Certificate',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.primary,
-                        side: const BorderSide(
-                          color: AppColors.successLight,
-                        ),
-                        backgroundColor: AppColors.successLight,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ),
+            ),
+          ],
         ],
       ),
     );

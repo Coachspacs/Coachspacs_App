@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/features/home/data/models/mock_home_data.dart';
 
 class ProfileTopBar extends StatelessWidget {
   const ProfileTopBar({
@@ -12,47 +14,120 @@ class ProfileTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userName = MockHomeData.currentUser.name;
+
+    final userInitial = userName.trim().isNotEmpty
+        ? userName.trim()[0].toLowerCase()
+        : 'u';
+
     return Container(
-      width: double.infinity,
-      height: 58,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: Border.all(
-          color: AppColors.border,
+      height: 62,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0xFFE2EBE8),
+          ),
         ),
-        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          Image.asset(
-            'assets/images/Logo_img.png',
-            width: 32,
-            height: 32,
-            fit: BoxFit.contain,
+          // =====================================================
+          // LOGO
+          // =====================================================
+
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: const Color(0xFFE7F5F0),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                'assets/images/Logo_img.png',
+                fit: BoxFit.contain,
+                errorBuilder: (
+                    context,
+                    error,
+                    stackTrace,
+                    ) {
+                  return const Icon(
+                    Icons.auto_awesome,
+                    color: Color(0xFF075E4D),
+                    size: 20,
+                  );
+                },
+              ),
+            ),
           ),
 
-          const SizedBox(width: 8),
+          const SizedBox(width: 9),
 
-          const Text(
+          // =====================================================
+          // APP NAME
+          // =====================================================
+
+          Text(
             'Coach Space',
-            style: TextStyle(
-              color: AppColors.textBody,
-              fontSize: 16,
+            style: GoogleFonts.inter(
+              fontSize: 17,
               fontWeight: FontWeight.w700,
+              color: const Color(0xFF073F38),
             ),
           ),
 
           const Spacer(),
 
+          // =====================================================
+          // NOTIFICATION
+          // =====================================================
+
           IconButton(
             onPressed: onNotificationPressed,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(
+              minWidth: 40,
+              minHeight: 40,
+            ),
             icon: const Icon(
               Icons.notifications_none_outlined,
+              color: Color(0xFF263C38),
               size: 22,
             ),
-            color: AppColors.textLight,
-            padding: EdgeInsets.zero,
+          ),
+
+          const SizedBox(width: 5),
+
+          // =====================================================
+          // USER AVATAR
+          // =====================================================
+
+          GestureDetector(
+            onTap: () {
+              // Already on Profile.
+            },
+            child: Container(
+              width: 36,
+              height: 36,
+              decoration: const BoxDecoration(
+                color: Color(0xFFE7F5F0),
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                userInitial,
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF075E4D),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
           ),
         ],
       ),

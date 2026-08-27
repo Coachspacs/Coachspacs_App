@@ -17,15 +17,24 @@ class ProfileSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            color: AppColors.textBody,
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
+        // Show the title only when it is not empty.
+        if (title.trim().isNotEmpty) ...[
+          Text(
+            title,
+            style: const TextStyle(
+              color: AppColors.textBody,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
+
+          const SizedBox(height: 7),
+        ],
+
+        // =====================================================
+        // MENU CARD
+        // =====================================================
+
         Container(
           width: double.infinity,
           decoration: BoxDecoration(

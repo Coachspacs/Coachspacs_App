@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+
 import 'package:coach_space/features/profile/ui/widgets/browse_courses/browse_courses_header.dart';
 import 'package:coach_space/features/profile/ui/widgets/browse_courses/course_card.dart';
 
@@ -19,6 +21,10 @@ class _BrowseCoursesScreenState
     extends State<BrowseCoursesScreen> {
   CourseFilter _selectedFilter =
       CourseFilter.all;
+
+  // =====================================================
+  // COURSES
+  // =====================================================
 
   final List<_CourseData> _courses = [
     const _CourseData(
@@ -43,6 +49,10 @@ class _BrowseCoursesScreenState
       status: CourseStatus.inProgress,
     ),
   ];
+
+  // =====================================================
+  // FILTERED COURSES
+  // =====================================================
 
   List<_CourseData> get _filteredCourses {
     switch (_selectedFilter) {
@@ -89,20 +99,36 @@ class _BrowseCoursesScreenState
         .length;
   }
 
-  void _openCourseDetails(BuildContext context) {
+  // =====================================================
+  // OPEN COURSE
+  // =====================================================
+
+  void _openCourseDetails(
+      BuildContext context,
+      ) {
     Navigator.pushNamed(
       context,
       AppRoutes.courseDetails,
     );
   }
 
+  // =====================================================
+  // BUILD
+  // =====================================================
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
+
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(
+            16,
+            16,
+            16,
+            30,
+          ),
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(
@@ -112,6 +138,10 @@ class _BrowseCoursesScreenState
                 crossAxisAlignment:
                 CrossAxisAlignment.start,
                 children: [
+                  // =================================================
+                  // HEADER
+                  // =================================================
+
                   BrowseCoursesHeader(
                     selectedStatus: _selectedFilter,
                     allCount: _courses.length,
@@ -126,7 +156,49 @@ class _BrowseCoursesScreenState
                     },
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 18),
+
+                  // =================================================
+                  // SMALL SUMMARY
+                  // =================================================
+
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _selectedFilter ==
+                            CourseFilter.all
+                            ? 'All Courses'
+                            : _selectedFilter ==
+                            CourseFilter
+                                .inProgress
+                            ? 'In Progress'
+                            : 'Completed Courses',
+                        style: GoogleFonts.inter(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color:
+                          const Color(0xFF073F38),
+                        ),
+                      ),
+                      Text(
+                        '${_filteredCourses.length} courses',
+                        style: GoogleFonts.inter(
+                          fontSize: 9,
+                          color:
+                          const Color(0xFF899792),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // =================================================
+                  // COURSES
+                  // =================================================
 
                   LayoutBuilder(
                     builder:
@@ -145,7 +217,7 @@ class _BrowseCoursesScreenState
                                   padding:
                                   const EdgeInsets
                                       .only(
-                                    bottom: 16,
+                                    bottom: 14,
                                   ),
                                   child:
                                   CourseCard(
@@ -183,7 +255,7 @@ class _BrowseCoursesScreenState
                           crossAxisCount: 2,
                           crossAxisSpacing: 14,
                           mainAxisSpacing: 14,
-                          childAspectRatio: 0.82,
+                          childAspectRatio: 0.78,
                         ),
                         itemCount:
                         _filteredCourses.length,
@@ -219,6 +291,10 @@ class _BrowseCoursesScreenState
     );
   }
 }
+
+// =====================================================
+// COURSE DATA
+// =====================================================
 
 class _CourseData {
   const _CourseData({

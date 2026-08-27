@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
@@ -18,105 +19,86 @@ class OrderSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isMobile) {
-      return TextField(
-        controller: controller,
-        onChanged: onChanged,
-        decoration: InputDecoration(
-          hintText: 'Search orders...',
-          hintStyle: const TextStyle(
-            color: AppColors.textLight,
-            fontSize: 12,
-          ),
-          prefixIcon: const Icon(
-            Icons.search,
-            size: 20,
-            color: AppColors.textLight,
-          ),
-          filled: true,
-          fillColor: AppColors.white,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              color: AppColors.border,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(
-              color: AppColors.border,
-            ),
+    final searchField = TextField(
+      controller: controller,
+      onChanged: onChanged,
+      style: GoogleFonts.inter(
+        fontSize: 11,
+        color: AppColors.textBody,
+      ),
+      decoration: InputDecoration(
+        hintText: 'Search orders...',
+        hintStyle: GoogleFonts.inter(
+          color: AppColors.textLight,
+          fontSize: 11,
+        ),
+        prefixIcon: const Icon(
+          Icons.search_rounded,
+          size: 19,
+          color: Color(0xFF6D7E79),
+        ),
+        filled: true,
+        fillColor: AppColors.white,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 13,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: Color(0xFFDCE8E4),
           ),
         ),
-      );
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: Color(0xFFDCE8E4),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: AppColors.primary,
+          ),
+        ),
+      ),
+    );
+
+    if (isMobile) {
+      return searchField;
     }
 
     return Row(
       children: [
         Expanded(
-          child: TextField(
-            controller: controller,
-            onChanged: onChanged,
-            decoration: InputDecoration(
-              hintText: 'Search orders...',
-              hintStyle: const TextStyle(
-                color: AppColors.textLight,
-                fontSize: 12,
-              ),
-              prefixIcon: const Icon(
-                Icons.search,
-                size: 20,
-                color: AppColors.textLight,
-              ),
-              filled: true,
-              fillColor: AppColors.white,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 12,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(
-                  color: AppColors.border,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(
-                  color: AppColors.border,
-                ),
-              ),
-            ),
-          ),
+          child: searchField,
         ),
 
-        const SizedBox(width: 12),
+        const SizedBox(width: 10),
 
         SizedBox(
-          height: 44,
+          height: 46,
           child: OutlinedButton.icon(
             onPressed: onExport,
             icon: const Icon(
               Icons.download_outlined,
               size: 16,
             ),
-            label: const Text(
+            label: Text(
               'Export',
-              style: TextStyle(
-                fontSize: 11,
+              style: GoogleFonts.inter(
+                fontSize: 10.5,
                 fontWeight: FontWeight.w600,
               ),
             ),
             style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.textBody,
+              foregroundColor: AppColors.primary,
               backgroundColor: AppColors.white,
               side: const BorderSide(
-                color: AppColors.border,
+                color: Color(0xFFDCE8E4),
               ),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
           ),

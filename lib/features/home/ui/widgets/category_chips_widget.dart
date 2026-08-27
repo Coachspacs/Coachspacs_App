@@ -32,7 +32,7 @@ class _CategoryChipsWidgetState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 82,
+      height: 86,
       child: ListView.separated(
         padding: const EdgeInsets.symmetric(
           horizontal: 16,
@@ -41,8 +41,13 @@ class _CategoryChipsWidgetState
         itemCount: widget.categories.length,
         separatorBuilder: (_, __) =>
         const SizedBox(width: 10),
+
         itemBuilder: (context, index) {
-          final category = widget.categories[index];
+          final category =
+          widget.categories[index];
+
+          final isSelected =
+              _selectedIndex == index;
 
           return GestureDetector(
             onTap: () {
@@ -50,43 +55,96 @@ class _CategoryChipsWidgetState
                 _selectedIndex = index;
               });
             },
+
             child: AnimatedContainer(
               duration: const Duration(
                 milliseconds: 180,
               ),
+
               width: 92,
+
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 9,
+              ),
+
               decoration: BoxDecoration(
-                color: _selectedIndex == index
+                color: isSelected
                     ? const Color(0xFFE4F5EF)
                     : Colors.white,
-                borderRadius: BorderRadius.circular(13),
+
+                borderRadius:
+                BorderRadius.circular(13),
+
                 border: Border.all(
-                  color: _selectedIndex == index
+                  color: isSelected
                       ? const Color(0xFFB9DED2)
                       : const Color(0xFFDCE7E4),
                 ),
               ),
+
               child: Column(
                 mainAxisAlignment:
                 MainAxisAlignment.center,
+
                 children: [
-                  Icon(
-                    _icons[index % _icons.length],
-                    size: 20,
-                    color: const Color(0xFF075E4D),
+                  // =================================================
+                  // ICON
+                  // =================================================
+
+                  Container(
+                    width: 30,
+                    height: 30,
+
+                    alignment: Alignment.center,
+
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? const Color(0xFFD4F3E9)
+                          : const Color(0xFFF4F8F7),
+
+                      shape: BoxShape.circle,
+                    ),
+
+                    child: Icon(
+                      _icons[
+                      index % _icons.length],
+                      size: 17,
+                      color:
+                      const Color(0xFF075E4D),
+                    ),
                   ),
 
-                  const SizedBox(height: 7),
+                  const SizedBox(height: 6),
 
-                  Text(
-                    category.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF344842),
+                  // =================================================
+                  // CATEGORY NAME
+                  // =================================================
+
+                  Padding(
+                    padding:
+                    const EdgeInsets.symmetric(
+                      horizontal: 2,
+                    ),
+
+                    child: Text(
+                      category.name,
+
+                      maxLines: 1,
+
+                      overflow:
+                      TextOverflow.ellipsis,
+
+                      textAlign:
+                      TextAlign.center,
+
+                      style: GoogleFonts.inter(
+                        fontSize: 9,
+                        fontWeight:
+                        FontWeight.w700,
+                        color:
+                        const Color(0xFF344842),
+                      ),
                     ),
                   ),
                 ],

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/helpers/context_extensions.dart';
+import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 
 import 'package:coach_space/features/home/data/models/home_data.dart';
@@ -22,7 +23,9 @@ import 'package:coach_space/features/home/ui/widgets/trending_course_card.dart';
 import 'package:coach_space/features/home/ui/widgets/why_coach_space_widget.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +44,23 @@ class _HomeView extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FBFA),
 
+      // =====================================================
+      // TOP BAR
+      // =====================================================
+
       appBar: const TopAppBarWidget(),
+
+      // =====================================================
+      // BOTTOM NAVIGATION
+      // =====================================================
 
       bottomNavigationBar: const BottomNavBarWidget(
         currentIndex: 0,
       ),
+
+      // =====================================================
+      // BODY
+      // =====================================================
 
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
@@ -72,6 +87,10 @@ class _HomeView extends StatelessWidget {
   }
 }
 
+// =====================================================
+// SUCCESS VIEW
+// =====================================================
+
 class _SuccessView extends StatelessWidget {
   const _SuccessView({
     required this.data,
@@ -87,31 +106,36 @@ class _SuccessView extends StatelessWidget {
         bottom: 32,
       ),
       children: [
-        // ==============================
+        // =================================================
         // HERO
-        // ==============================
+        // =================================================
 
         const HomeHeroSection(),
 
         const SizedBox(height: 22),
 
-        // ==============================
+        // =================================================
         // SEARCH
-        // ==============================
+        // =================================================
 
         const SearchBarWidget(),
 
         const SizedBox(height: 30),
 
-        // ==============================
+        // =================================================
         // TOP CATEGORIES
-        // ==============================
+        // =================================================
 
         _SectionHeader(
           title: 'Top Categories',
           subtitle: 'Discover your next skill',
           actionLabel: 'See All',
-          onAction: () {},
+          onAction: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.catalog,
+            );
+          },
         ),
 
         const SizedBox(height: 14),
@@ -122,15 +146,20 @@ class _SuccessView extends StatelessWidget {
 
         const SizedBox(height: 34),
 
-        // ==============================
+        // =================================================
         // RECOMMENDED COURSES
-        // ==============================
+        // =================================================
 
         _SectionHeader(
           title: 'Recommended Courses',
           subtitle: 'Courses picked for your learning journey',
           actionLabel: 'See All',
-          onAction: () {},
+          onAction: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.catalog,
+            );
+          },
         ),
 
         const SizedBox(height: 14),
@@ -145,6 +174,7 @@ class _SuccessView extends StatelessWidget {
                 FeaturedCourseCard(
                   course: course,
                 ),
+
                 const SizedBox(height: 16),
               ],
             ],
@@ -153,9 +183,9 @@ class _SuccessView extends StatelessWidget {
 
         const SizedBox(height: 18),
 
-        // ==============================
+        // =================================================
         // BROWSE CATALOG
-        // ==============================
+        // =================================================
 
         Padding(
           padding: const EdgeInsets.symmetric(
@@ -165,14 +195,21 @@ class _SuccessView extends StatelessWidget {
             height: 44,
             width: double.infinity,
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.catalog,
+                );
+              },
               style: OutlinedButton.styleFrom(
-                foregroundColor: const Color(0xFF075E4D),
+                foregroundColor:
+                const Color(0xFF075E4D),
                 side: const BorderSide(
                   color: Color(0xFF075E4D),
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius:
+                  BorderRadius.circular(12),
                 ),
               ),
               child: Text(
@@ -188,48 +225,53 @@ class _SuccessView extends StatelessWidget {
 
         const SizedBox(height: 38),
 
-        // ==============================
+        // =================================================
         // WHY COACH SPACE
-        // ==============================
+        // =================================================
 
         const WhyCoachSpaceWidget(),
 
         const SizedBox(height: 36),
 
-        // ==============================
+        // =================================================
         // TESTIMONIALS
-        // ==============================
+        // =================================================
 
         const TestimonialsWidget(),
 
         const SizedBox(height: 36),
 
-        // ==============================
+        // =================================================
         // FAQ
-        // ==============================
+        // =================================================
 
         const FaqWidget(),
 
         const SizedBox(height: 36),
 
-        // ==============================
+        // =================================================
         // BECOME AN INSTRUCTOR
-        // ==============================
+        // =================================================
 
         const JoinLearningWidget(),
 
         const SizedBox(height: 36),
 
-        // ==============================
+        // =================================================
         // TRENDING COURSES
-        // ==============================
+        // =================================================
 
         if (data.trendingCourses.isNotEmpty) ...[
           _SectionHeader(
             title: 'Trending Courses',
             subtitle: 'Popular courses learners love',
             actionLabel: 'See All',
-            onAction: () {},
+            onAction: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.catalog,
+              );
+            },
           ),
 
           const SizedBox(height: 14),
@@ -240,10 +282,12 @@ class _SuccessView extends StatelessWidget {
             ),
             child: Column(
               children: [
-                for (final course in data.trendingCourses) ...[
+                for (final course
+                in data.trendingCourses) ...[
                   TrendingCourseCard(
                     course: course,
                   ),
+
                   const SizedBox(height: 12),
                 ],
               ],
@@ -281,14 +325,13 @@ class _SectionHeader extends StatelessWidget {
         horizontal: 16,
       ),
       child: Row(
-        // IMPORTANT:
-        // Keep See All aligned with the title,
-        // not with the bottom of the whole Column.
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+        CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
               children: [
                 Text(
                   title,

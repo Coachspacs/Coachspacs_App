@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/features/profile/ui/widgets/order_history/order_status_badge.dart';
@@ -23,64 +24,106 @@ class OrderMobileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: AppColors.border,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: const Color(0xFFDCE8E4),
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  orderNumber,
-                  style: const TextStyle(
-                    color: AppColors.textBody,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Order icon
+                  Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE5F4EF),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.receipt_long_outlined,
+                      size: 19,
+                      color: Color(0xFF075E4D),
+                    ),
                   ),
-                ),
-                OrderStatusBadge(
-                  status: status,
-                ),
-              ],
-            ),
 
-            const SizedBox(height: 7),
+                  const SizedBox(width: 11),
 
-            Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '$date · $items',
-                  style: const TextStyle(
-                    color: AppColors.textLight,
-                    fontSize: 9,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          orderNumber,
+                          style: GoogleFonts.inter(
+                            color: const Color(0xFF075E4D),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '$date · $items',
+                          style: GoogleFonts.inter(
+                            color: const Color(0xFF71827E),
+                            fontSize: 9.5,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Text(
-                  '\$${total.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                    color: AppColors.textBody,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
+
+                  OrderStatusBadge(
+                    status: status,
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+
+              const SizedBox(height: 12),
+
+              const Divider(
+                height: 1,
+                color: Color(0xFFE4ECE9),
+              ),
+
+              const SizedBox(height: 11),
+
+              Row(
+                mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Order Total',
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF71827E),
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    '\$${total.toStringAsFixed(2)}',
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF073F38),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

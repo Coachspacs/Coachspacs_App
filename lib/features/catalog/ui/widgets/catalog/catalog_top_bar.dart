@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/features/home/data/models/mock_home_data.dart';
@@ -63,12 +64,12 @@ class CatalogTopBar extends StatelessWidget {
 
               const SizedBox(width: 9),
 
-              const Text(
+              Text(
                 'Coach Space',
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   fontSize: 17,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF073F38),
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF073F38),
                 ),
               ),
             ],
@@ -78,7 +79,13 @@ class CatalogTopBar extends StatelessWidget {
 
           // Notifications
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.notifications,
+              );
+
+            },
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(
               minWidth: 40,
@@ -111,10 +118,10 @@ class CatalogTopBar extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 userInitial,
-                style: const TextStyle(
-                  color: Color(0xFF075E4D),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF075E4D),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),

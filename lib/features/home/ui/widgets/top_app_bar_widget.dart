@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:coach_space/core/routing/app_routes.dart';
 
 class TopAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -20,80 +23,86 @@ class TopAppBarWidget extends StatelessWidget
 
       title: Row(
         children: [
-          // Coach Space Logo
+          // =================================================
+          // COACH SPACE LOGO
+          // =================================================
+
           Container(
-            width: 38,
-            height: 38,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
-              color: const Color(0xFFE5F5F0),
-              borderRadius: BorderRadius.circular(11),
+              color: const Color(0xFFE7F5F0),
+              borderRadius: BorderRadius.circular(10),
             ),
-            padding: const EdgeInsets.all(5),
-            child: Image.asset(
-              'assets/images/Logo_img.png',
-              fit: BoxFit.contain,
-              errorBuilder: (
-                  context,
-                  error,
-                  stackTrace,
-                  ) {
-                return const Icon(
-                  Icons.auto_awesome,
-                  size: 20,
-                  color: Color(0xFF075E4D),
-                );
-              },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                'assets/images/Logo_img.png',
+                fit: BoxFit.contain,
+                errorBuilder: (
+                    context,
+                    error,
+                    stackTrace,
+                    ) {
+                  return const Icon(
+                    Icons.auto_awesome,
+                    color: Color(0xFF075E4D),
+                    size: 20,
+                  );
+                },
+              ),
             ),
           ),
 
           const SizedBox(width: 9),
 
+          // =================================================
+          // APP NAME
+          // =================================================
+
           Text(
             'Coach Space',
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
+            style: GoogleFonts.inter(
+              fontSize: 17,
+              fontWeight: FontWeight.w700,
               color: const Color(0xFF073F38),
             ),
           ),
+
+          const Spacer(),
         ],
       ),
 
       actions: [
-        // Language
-        Container(
-          margin: const EdgeInsets.only(
-            right: 8,
+        // =================================================
+        // NOTIFICATIONS
+        // =================================================
+
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.notifications,
+            );
+          },
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(
+            minWidth: 38,
+            minHeight: 38,
           ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 6,
-          ),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF5F8F7),
-            borderRadius:
-            BorderRadius.circular(10),
-            border: Border.all(
-              color: const Color(0xFFDCE7E4),
-            ),
-          ),
-          child: Text(
-            'EN',
-            style: Theme.of(context)
-                .textTheme
-                .labelSmall
-                ?.copyWith(
-              fontSize: 9,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF53645F),
-            ),
+          icon: const Icon(
+            Icons.notifications_none_outlined,
+            color: Color(0xFF263C38),
+            size: 21,
           ),
         ),
 
-        // Profile
+        const SizedBox(width: 4),
+
+        // =================================================
+        // PROFILE
+        // =================================================
+
         Container(
           width: 34,
           height: 34,

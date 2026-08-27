@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/features/profile/ui/widgets/order_history/order_status_badge.dart';
@@ -18,52 +19,51 @@ class OrderTable extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.border,
+          color: const Color(0xFFDCE8E4),
         ),
       ),
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(
+          // =====================================================
+          // HEADER
+          // =====================================================
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
               horizontal: 14,
-              vertical: 14,
+              vertical: 13,
             ),
             child: Row(
               children: [
-                Expanded(
-                  child: Text(
-                    'ORDER #',
-                    style: _headerStyle,
+                const Expanded(
+                  child: _TableHeader(
+                    text: 'ORDER #',
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    'DATE',
-                    style: _headerStyle,
+                const Expanded(
+                  child: _TableHeader(
+                    text: 'DATE',
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    'ITEMS',
-                    style: _headerStyle,
+                const Expanded(
+                  child: _TableHeader(
+                    text: 'ITEMS',
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    'TOTAL',
-                    style: _headerStyle,
+                const Expanded(
+                  child: _TableHeader(
+                    text: 'TOTAL',
                   ),
                 ),
-                Expanded(
-                  child: Text(
-                    'STATUS',
-                    style: _headerStyle,
+                const Expanded(
+                  child: _TableHeader(
+                    text: 'STATUS',
                   ),
                 ),
-                SizedBox(
-                  width: 40,
+                const SizedBox(
+                  width: 30,
                 ),
               ],
             ),
@@ -71,79 +71,89 @@ class OrderTable extends StatelessWidget {
 
           const Divider(
             height: 1,
-            color: AppColors.border,
+            color: Color(0xFFE4ECE9),
           ),
+
+          // =====================================================
+          // ROWS
+          // =====================================================
 
           ...orders.map(
                 (order) {
-              return InkWell(
-                onTap: () {
-                  onOrderPressed(order);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 16,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          order.orderNumber,
-                          style: const TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
+              return Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    onOrderPressed(order);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 14,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            order.orderNumber,
+                            style: GoogleFonts.inter(
+                              color: AppColors.primary,
+                              fontSize: 10.5,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
-                      ),
 
-                      Expanded(
-                        child: Text(
-                          order.date,
-                          style: const TextStyle(
-                            color: AppColors.textLight,
-                            fontSize: 11,
+                        Expanded(
+                          child: Text(
+                            order.date,
+                            style: GoogleFonts.inter(
+                              color: AppColors.textLight,
+                              fontSize: 10,
+                            ),
                           ),
                         ),
-                      ),
 
-                      Expanded(
-                        child: Text(
-                          order.items,
-                          style: const TextStyle(
-                            color: AppColors.textLight,
-                            fontSize: 11,
+                        Expanded(
+                          child: Text(
+                            order.items,
+                            style: GoogleFonts.inter(
+                              color: AppColors.textLight,
+                              fontSize: 10,
+                            ),
                           ),
                         ),
-                      ),
 
-                      Expanded(
-                        child: Text(
-                          '\$${order.total.toStringAsFixed(2)}',
-                          style: const TextStyle(
-                            color: AppColors.textBody,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
+                        Expanded(
+                          child: Text(
+                            '\$${order.total.toStringAsFixed(2)}',
+                            style: GoogleFonts.inter(
+                              color: AppColors.textBody,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
-                      ),
 
-                      Expanded(
-                        child: OrderStatusBadge(
-                          status: order.status,
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: OrderStatusBadge(
+                              status: order.status,
+                            ),
+                          ),
                         ),
-                      ),
 
-                      const SizedBox(
-                        width: 40,
-                        child: Icon(
-                          Icons.keyboard_arrow_down,
-                          size: 18,
-                          color: AppColors.textLight,
+                        const SizedBox(
+                          width: 30,
+                          child: Icon(
+                            Icons.chevron_right_rounded,
+                            size: 18,
+                            color: Color(0xFF9AA7A3),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -154,6 +164,35 @@ class OrderTable extends StatelessWidget {
     );
   }
 }
+
+// ===============================================================
+// TABLE HEADER
+// ===============================================================
+
+class _TableHeader extends StatelessWidget {
+  const _TableHeader({
+    required this.text,
+  });
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: GoogleFonts.inter(
+        color: AppColors.textLight,
+        fontSize: 8.5,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.2,
+      ),
+    );
+  }
+}
+
+// ===============================================================
+// ORDER DATA
+// ===============================================================
 
 class OrderTableData {
   const OrderTableData({
@@ -170,9 +209,3 @@ class OrderTableData {
   final double total;
   final String status;
 }
-
-const TextStyle _headerStyle = TextStyle(
-  color: AppColors.textLight,
-  fontSize: 9,
-  fontWeight: FontWeight.w600,
-);
