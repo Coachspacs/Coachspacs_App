@@ -30,6 +30,18 @@ abstract final class AppRoutes {
   // Home
   static const String home = '/home';
 
+  // Instructor
+  static const String instructorDashboard =
+      '/instructor-dashboard';
+
+  static const String instructorCourses =
+      '/instructor-courses';
+
+
+  static const String createInstructorCourse =
+      '/instructor-create-course';
+
+
   // My Learning
   static const String myLearning = '/my-learning';
 

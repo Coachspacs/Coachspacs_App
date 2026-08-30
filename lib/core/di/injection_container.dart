@@ -7,12 +7,12 @@ import 'package:coach_space/core/storage/session_storage.dart';
 import 'package:coach_space/features/auth/data/repo/auth_repository.dart';
 import 'package:coach_space/features/auth/data/repo/auth_repository_impl.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_cubit.dart';
-import 'package:coach_space/features/home/data/repo/home_repository.dart';
-import 'package:coach_space/features/home/data/repo/home_repository_impl.dart';
-import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
-import 'package:coach_space/features/profile/data/repo/profile_repository.dart';
-import 'package:coach_space/features/profile/data/repo/profile_repository_impl.dart';
-import 'package:coach_space/features/profile/logic/cubit/profile_cubit.dart';
+import 'package:coach_space/features/student/home/data/repo/home_repository.dart';
+import 'package:coach_space/features/student/home/data/repo/home_repository_impl.dart';
+import 'package:coach_space/features/student/home/logic/cubit/home_cubit.dart';
+import 'package:coach_space/features/student/profile/data/repo/profile_repository.dart';
+import 'package:coach_space/features/student/profile/data/repo/profile_repository_impl.dart';
+import 'package:coach_space/features/student/profile/logic/cubit/profile_cubit.dart';
 
 /// Application composition root.
 ///

@@ -8,30 +8,33 @@ import 'package:coach_space/features/auth/ui/screens/forgot_password_screen.dart
 import 'package:coach_space/features/auth/ui/screens/login_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/pending_approval_screen.dart';
 
-import 'package:coach_space/features/home/ui/screens/home_screen.dart';
+import 'package:coach_space/features/student/home/ui/screens/home_screen.dart';
 
 import 'package:coach_space/features/signup/presentation/screens/signup_screen.dart';
 
 import 'package:coach_space/features/splash/ui/screens/splash_screen.dart';
 
-import 'package:coach_space/features/profile/ui/screens/profile_screen.dart';
-import 'package:coach_space/features/profile/ui/screens/browse_courses_screen.dart';
-import 'package:coach_space/features/profile/ui/screens/dashboard_screen.dart';
-import 'package:coach_space/features/profile/ui/screens/cart_screen.dart';
-import 'package:coach_space/features/profile/ui/screens/order_history_screen.dart';
-import 'package:coach_space/features/profile/ui/screens/certificates_screen.dart';
-import 'package:coach_space/features/profile/ui/screens/settings_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/profile_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/browse_courses_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/dashboard_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/cart_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/order_history_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/certificates_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/settings_screen.dart';
 
-import 'package:coach_space/features/catalog/ui/screens/catalog_screen.dart';
-import 'package:coach_space/features/catalog/ui/screens/course_details_screen.dart';
+import 'package:coach_space/features/student/catalog/ui/screens/catalog_screen.dart';
+import 'package:coach_space/features/student/catalog/ui/screens/course_details_screen.dart';
 
-import 'package:coach_space/features/my_learning/ui/screens/my_learning_screen.dart';
+import 'package:coach_space/features/student/my_learning/ui/screens/my_learning_screen.dart';
 
-import 'package:coach_space/features/profile/ui/screens/learning_settings_screen.dart';
-import 'package:coach_space/features/profile/ui/screens/security_settings_screen.dart';
-import 'package:coach_space/features/profile/ui/screens/preferences_settings_screen.dart';
+import 'package:coach_space/features/instructor/courses/ui/screens/create_course_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/learning_settings_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/security_settings_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/preferences_settings_screen.dart';
+import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
 
-import 'package:coach_space/features/notifications/ui/screens/notification_screen.dart';
+import 'package:coach_space/features/instructor/dashboard/ui/screens/instructor_dashboard_screen.dart';
+import 'package:coach_space/features/student/notifications/ui/screens/notification_screen.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(
@@ -129,6 +132,27 @@ class AppRouter {
       case AppRoutes.profile:
         return _buildRoute(
           const ProfileScreen(),
+          settings,
+        );
+    // =====================================================
+// INSTRUCTOR
+// =====================================================
+
+      case AppRoutes.instructorDashboard:
+        return _buildRoute(
+          const InstructorDashboardScreen(),
+          settings,
+        );
+
+      case AppRoutes.instructorCourses:
+        return _buildRoute(
+          const InstructorCoursesScreen(),
+          settings,
+        );
+
+      case AppRoutes.createInstructorCourse:
+        return _buildRoute(
+          const CreateCourseScreen(),
           settings,
         );
 
