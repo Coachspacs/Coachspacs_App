@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/helpers/protected_navigation.dart';
 import 'package:coach_space/features/home/data/models/mock_home_data.dart';
 
 class ProfileTopBar extends StatelessWidget {
@@ -88,7 +88,13 @@ class ProfileTopBar extends StatelessWidget {
           // =====================================================
 
           IconButton(
-            onPressed: onNotificationPressed,
+            onPressed:
+            onNotificationPressed ??
+                    () {
+                  ProtectedNavigation.openNotifications(
+                    context,
+                  );
+                },
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(
               minWidth: 40,

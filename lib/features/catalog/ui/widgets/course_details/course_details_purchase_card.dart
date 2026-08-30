@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:coach_space/features/notifications/data/models/notification.dart';
 import 'package:coach_space/features/notifications/logic/notification_service.dart';
 
+import 'package:coach_space/core/auth/guest_session.dart';
+import 'package:coach_space/core/widgets/login_required_dialog.dart';
+
 class CourseDetailsPurchaseCard extends StatelessWidget {
   const CourseDetailsPurchaseCard({
     super.key,
@@ -77,6 +80,12 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
             height: 46,
             child: ElevatedButton.icon(
               onPressed: () {
+                // Guest cannot add courses to cart
+                if (GuestSession.isGuest) {
+                  LoginRequiredDialog.show(context);
+                  return;
+                }
+
                 _showAddToCartDialog(context);
               },
               icon: const Icon(
@@ -112,7 +121,22 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
             width: double.infinity,
             height: 44,
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Guest cannot buy courses
+                if (GuestSession.isGuest) {
+                  LoginRequiredDialog.show(context);
+                  return;
+                }
+
+                // =================================================
+                // BUY NOW ACTION
+                // =================================================
+                //
+                // Add the real purchase logic here later.
+                //
+                // For now, the important part is that guests
+                // cannot continue with the purchase.
+              },
               style: OutlinedButton.styleFrom(
                 foregroundColor: const Color(0xFF075E4D),
                 side: const BorderSide(
@@ -281,8 +305,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                               '$courseTitle has been added '
                                   'to your cart successfully.',
                               time: 'Just now',
-                              type:
-                              NotificationType.purchase,
+                              type: NotificationType.purchase,
                             );
 
                             _showSuccessDialog(context);

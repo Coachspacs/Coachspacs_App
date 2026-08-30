@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/auth/guest_session.dart';
 import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
+import 'package:coach_space/core/widgets/login_required_dialog.dart';
 
 import 'package:coach_space/features/profile/ui/widgets/profile/profile_logout_button.dart';
 import 'package:coach_space/features/profile/ui/widgets/profile/profile_menu_item.dart';
@@ -61,6 +64,8 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(dialogContext);
 
+                GuestSession.logout();
+
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRoutes.login,
@@ -82,8 +87,51 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  // =====================================================
+  // PROTECTED NAVIGATION
+  // =====================================================
+
+  void _openProtectedRoute(
+      BuildContext context,
+      String route,
+      ) {
+    if (GuestSession.isGuest) {
+      LoginRequiredDialog.show(context);
+      return;
+    }
+
+    Navigator.pushNamed(
+      context,
+      route,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // =====================================================
+    // GUEST PROTECTION
+    // =====================================================
+
+    if (GuestSession.isGuest) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) return;
+
+        LoginRequiredDialog.show(context).then((_) {
+          if (!context.mounted) return;
+
+          Navigator.pushReplacementNamed(
+            context,
+            AppRoutes.home,
+          );
+        });
+      });
+
+      return const Scaffold(
+        backgroundColor: AppColors.bgDefault,
+        body: SizedBox.shrink(),
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
 
@@ -156,28 +204,30 @@ class ProfileScreen extends StatelessWidget {
                               icon: Icons.search_rounded,
                               title: 'Browse Courses',
                               onTap: () {
-                                Navigator.pushNamed(
+                                _openProtectedRoute(
                                   context,
                                   AppRoutes.browseCourses,
                                 );
                               },
                             ),
+
                             ProfileMenuItem(
                               icon:
                               Icons.shopping_cart_outlined,
-                              title:  'My Cart',
+                              title: 'My Cart',
                               onTap: () {
-                                Navigator.pushNamed(
+                                _openProtectedRoute(
                                   context,
                                   AppRoutes.cart,
                                 );
                               },
                             ),
+
                             ProfileMenuItem(
                               icon: Icons.history_rounded,
                               title: 'Order History',
                               onTap: () {
-                                Navigator.pushNamed(
+                                _openProtectedRoute(
                                   context,
                                   AppRoutes.orderHistory,
                                 );
@@ -207,17 +257,18 @@ class ProfileScreen extends StatelessWidget {
                                   .workspace_premium_outlined,
                               title: 'Certificates',
                               onTap: () {
-                                Navigator.pushNamed(
+                                _openProtectedRoute(
                                   context,
                                   AppRoutes.certificates,
                                 );
                               },
                             ),
+
                             ProfileMenuItem(
                               icon: Icons.settings_outlined,
                               title: 'Account Settings',
                               onTap: () {
-                                Navigator.pushNamed(
+                                _openProtectedRoute(
                                   context,
                                   AppRoutes.accountSettings,
                                 );

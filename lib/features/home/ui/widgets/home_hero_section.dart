@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/widgets/login_required_dialog.dart';
 
 class HomeHeroSection extends StatelessWidget {
   const HomeHeroSection({
@@ -31,8 +32,7 @@ class HomeHeroSection extends StatelessWidget {
         ),
       ),
       child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // =================================================
           // WELCOME BADGE
@@ -45,8 +45,7 @@ class HomeHeroSection extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: const Color(0xFFD4F3E9),
-              borderRadius:
-              BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               'WELCOME BACK',
@@ -109,20 +108,15 @@ class HomeHeroSection extends StatelessWidget {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.myLearning,
-                      );
+                      LoginRequiredDialog.show(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                      const Color(0xFF075E4D),
+                      backgroundColor: const Color(0xFF075E4D),
                       foregroundColor: Colors.white,
                       elevation: 0,
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     child: Text(
@@ -153,15 +147,13 @@ class HomeHeroSection extends StatelessWidget {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      foregroundColor:
-                      const Color(0xFF075E4D),
+                      foregroundColor: const Color(0xFF075E4D),
                       side: const BorderSide(
                         color: Color(0xFF075E4D),
                       ),
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     child: Text(
@@ -190,8 +182,7 @@ class HomeHeroSection extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius:
-              BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: const Color(0xFFDCE7E4),
               ),
@@ -199,15 +190,14 @@ class HomeHeroSection extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                // Background logo
+                // =================================================
+                // BACKGROUND LOGO
+                // =================================================
 
                 Image.asset(
                   'assets/images/Logo_img.png',
                   fit: BoxFit.contain,
-                  opacity:
-                  const AlwaysStoppedAnimation(
-                    0.08,
-                  ),
+                  opacity: const AlwaysStoppedAnimation(0.08),
                   errorBuilder: (
                       context,
                       error,
@@ -217,15 +207,16 @@ class HomeHeroSection extends StatelessWidget {
                   },
                 ),
 
-                // Stats
+                // =================================================
+                // STATS
+                // =================================================
 
                 Row(
                   mainAxisAlignment:
                   MainAxisAlignment.spaceEvenly,
                   children: [
                     const _StatItem(
-                      icon:
-                      Icons.people_alt_outlined,
+                      icon: Icons.people_alt_outlined,
                       value: '12k+',
                       label: 'Active Students',
                     ),
@@ -233,16 +224,13 @@ class HomeHeroSection extends StatelessWidget {
                     Container(
                       width: 1,
                       height: 48,
-                      color:
-                      const Color(0xFFDCE7E4),
+                      color: const Color(0xFFDCE7E4),
                     ),
 
                     const _StatItem(
-                      icon: Icons
-                          .workspace_premium_outlined,
+                      icon: Icons.workspace_premium_outlined,
                       value: '2k+',
-                      label:
-                      'Certificates Issued',
+                      label: 'Certificates Issued',
                     ),
                   ],
                 ),
@@ -273,8 +261,7 @@ class _StatItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment:
-      MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           width: 30,
@@ -283,10 +270,10 @@ class _StatItem extends StatelessWidget {
             color: Color(0xFFDDF3EB),
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            icon,
+          child: const Icon(
+            Icons.people_alt_outlined,
             size: 16,
-            color: const Color(0xFF075E4D),
+            color: Color(0xFF075E4D),
           ),
         ),
 

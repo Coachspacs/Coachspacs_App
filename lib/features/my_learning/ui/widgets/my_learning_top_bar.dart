@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:coach_space/core/routing/app_routes.dart';
+
+import 'package:coach_space/core/helpers/protected_navigation.dart';
 
 class MyLearningTopBar extends StatelessWidget {
   const MyLearningTopBar({
@@ -24,7 +25,10 @@ class MyLearningTopBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Logo
+          // =====================================================
+          // LOGO
+          // =====================================================
+
           Container(
             width: 36,
             height: 36,
@@ -54,6 +58,10 @@ class MyLearningTopBar extends StatelessWidget {
 
           const SizedBox(width: 9),
 
+          // =====================================================
+          // APP NAME
+          // =====================================================
+
           Text(
             'Coach Space',
             style: GoogleFonts.inter(
@@ -65,13 +73,16 @@ class MyLearningTopBar extends StatelessWidget {
 
           const Spacer(),
 
-          // Notifications
+          // =====================================================
+          // NOTIFICATIONS
+          // =====================================================
+
           IconButton(
-            onPressed: () {Navigator.pushNamed(
-              context,
-              AppRoutes.notifications,
-            );
-              },
+            onPressed: () {
+              ProtectedNavigation.openNotifications(
+                context,
+              );
+            },
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(
               minWidth: 38,
@@ -86,21 +97,31 @@ class MyLearningTopBar extends StatelessWidget {
 
           const SizedBox(width: 4),
 
-          // User
-          Container(
-            width: 36,
-            height: 36,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE7F5F0),
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'S',
-              style: GoogleFonts.inter(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFF075E4D),
+          // =====================================================
+          // USER PROFILE
+          // =====================================================
+
+          GestureDetector(
+            onTap: () {
+              ProtectedNavigation.openProfile(
+                context,
+              );
+            },
+            child: Container(
+              width: 36,
+              height: 36,
+              decoration: const BoxDecoration(
+                color: Color(0xFFE7F5F0),
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                'S',
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF075E4D),
+                ),
               ),
             ),
           ),

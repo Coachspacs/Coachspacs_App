@@ -8,6 +8,7 @@ import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/buttons.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_state.dart';
+import 'package:coach_space/core/auth/guest_session.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
 
   bool _rememberMe = false;
@@ -29,6 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
+
+  // =====================================================
+  // LOGIN
+  // =====================================================
 
   void _handleLogin() {
     final email = _emailController.text.trim();
@@ -43,14 +49,16 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       );
+
       return;
     }
 
-    context.read<AuthCubit>().login(
-      email: email,
-      password: password,
-    );
+    context.read<AuthCubit>().login(email: email, password: password);
   }
+
+  // =====================================================
+  // INPUT DECORATION
+  // =====================================================
 
   InputDecoration _inputDecoration({
     required String hintText,
@@ -59,52 +67,50 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return InputDecoration(
       hintText: hintText,
-      hintStyle: GoogleFonts.inter(
-        fontSize: 14,
-        color: AppColors.textLight,
-      ),
+      hintStyle: GoogleFonts.inter(fontSize: 14, color: AppColors.textLight),
 
-      prefixIcon: Icon(
-        icon,
-        color: AppColors.textLight,
-        size: 20,
-      ),
+      prefixIcon: Icon(icon, color: AppColors.textLight, size: 20),
 
       suffixIcon: suffixIcon,
 
       filled: true,
       fillColor: AppColors.white,
 
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 18,
-        vertical: 18,
-      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
 
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(
-          color: AppColors.borderColor,
-          width: 1,
-        ),
+        borderSide: const BorderSide(color: AppColors.borderColor, width: 1),
       ),
 
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(
-          color: AppColors.borderColor,
-          width: 1,
-        ),
+        borderSide: const BorderSide(color: AppColors.borderColor, width: 1),
       ),
 
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(
-          color: AppColors.primary,
-          width: 1.4,
-        ),
+        borderSide: const BorderSide(color: AppColors.primary, width: 1.4),
       ),
     );
   }
+
+  // =====================================================
+  // CONTINUE AS GUEST
+  // =====================================================
+
+  void _continueAsGuest() {
+    GuestSession.continueAsGuest();
+
+    Navigator.pushReplacementNamed(
+      context,
+      AppRoutes.home,
+    );
+  }
+
+  // =====================================================
+  // BUILD
+  // =====================================================
 
   @override
   Widget build(BuildContext context) {
@@ -112,35 +118,25 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) {
         if (state is AuthLoginFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.message,
-                style: GoogleFonts.inter(),
-              ),
-            ),
+            SnackBar(content: Text(state.message, style: GoogleFonts.inter())),
           );
         }
       },
+
       child: Scaffold(
         backgroundColor: AppColors.bgDefault,
 
         body: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(
-              16,
-              30,
-              16,
-              20,
-            ),
+            padding: const EdgeInsets.fromLTRB(16, 30, 16, 20),
 
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
+
               children: [
-
-                // --------------------------------------------------
+                // =================================================
                 // LOGO
-                // --------------------------------------------------
-
+                // =================================================
                 Center(
                   child: Image.asset(
                     'assets/images/Logo_img.png',
@@ -152,10 +148,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 18),
 
-                // --------------------------------------------------
+                // =================================================
                 // WELCOME TITLE
-                // --------------------------------------------------
-
+                // =================================================
                 Text(
                   context.l10n.loginWelcome,
                   textAlign: TextAlign.center,
@@ -168,10 +163,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 8),
 
-                // --------------------------------------------------
+                // =================================================
                 // SUBTITLE
-                // --------------------------------------------------
-
+                // =================================================
                 Text(
                   'Empower your career with top-tier coaching',
                   textAlign: TextAlign.center,
@@ -181,16 +175,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                // --------------------------------------------------
-                // SPACE BEFORE FORM
-                // --------------------------------------------------
-
                 const SizedBox(height: 58),
 
-                // --------------------------------------------------
+                // =================================================
                 // EMAIL LABEL
-                // --------------------------------------------------
-
+                // =================================================
                 Text(
                   context.l10n.loginEmailLabel,
                   style: GoogleFonts.inter(
@@ -202,10 +191,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 8),
 
-                // --------------------------------------------------
+                // =================================================
                 // EMAIL FIELD
-                // --------------------------------------------------
-
+                // =================================================
                 SizedBox(
                   height: 58,
                   child: TextField(
@@ -226,10 +214,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 26),
 
-                // --------------------------------------------------
+                // =================================================
                 // PASSWORD LABEL
-                // --------------------------------------------------
-
+                // =================================================
                 Text(
                   context.l10n.loginPasswordLabel,
                   style: GoogleFonts.inter(
@@ -241,10 +228,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 8),
 
-                // --------------------------------------------------
+                // =================================================
                 // PASSWORD FIELD
-                // --------------------------------------------------
-
+                // =================================================
                 SizedBox(
                   height: 58,
                   child: TextField(
@@ -281,24 +267,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 10),
 
-                // --------------------------------------------------
+                // =================================================
                 // REMEMBER ME + FORGOT PASSWORD
-                // --------------------------------------------------
-
+                // =================================================
                 Row(
                   children: [
-
                     SizedBox(
                       width: 24,
                       height: 24,
                       child: Checkbox(
                         value: _rememberMe,
-
                         activeColor: AppColors.primary,
 
-                        side: const BorderSide(
-                          color: AppColors.borderColor,
-                        ),
+                        side: const BorderSide(color: AppColors.borderColor),
 
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(3),
@@ -326,17 +307,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.forgotPassword,
-                        );
+                        Navigator.pushNamed(context, AppRoutes.forgotPassword);
                       },
 
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size.zero,
-                        tapTargetSize:
-                        MaterialTapTargetSize.shrinkWrap,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
 
                       child: Text(
@@ -353,26 +330,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 18),
 
-                // --------------------------------------------------
+                // =================================================
                 // SIGN IN BUTTON
-                // --------------------------------------------------
-
+                // =================================================
                 BlocBuilder<AuthCubit, AuthState>(
                   buildWhen: (previous, current) =>
-                  previous is AuthLoginLoading ||
+                      previous is AuthLoginLoading ||
                       current is AuthLoginLoading,
 
                   builder: (context, state) {
-                    final isLoading =
-                    state is AuthLoginLoading;
+                    final isLoading = state is AuthLoginLoading;
 
                     return MyButton(
                       text: isLoading
                           ? context.l10n.loginButtonLoading
                           : context.l10n.loginButton,
 
-                      onPressed:
-                      isLoading ? () {} : _handleLogin,
+                      onPressed: isLoading ? () {} : _handleLogin,
 
                       color: AppColors.primary,
                       textColor: AppColors.white,
@@ -390,15 +364,90 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
 
+                const SizedBox(height: 24),
+
+                // =================================================
+                // OR DIVIDER
+                // =================================================
+                Row(
+                  children: [
+                    const Expanded(
+                      child: Divider(
+                        color: AppColors.borderColor,
+                        thickness: 0.8,
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: Text(
+                        'OR',
+                        style: GoogleFonts.inter(
+                          color: AppColors.textLight,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+
+                    const Expanded(
+                      child: Divider(
+                        color: AppColors.borderColor,
+                        thickness: 0.8,
+                      ),
+                    ),
+                  ],
+                ),
 
                 const SizedBox(height: 20),
 
+                // =================================================
+                // CONTINUE AS GUEST
+                // =================================================
+                Center(
+                  child: TextButton(
+                    onPressed: _continueAsGuest,
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 7,
+                      ),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.person_outline_rounded,
+                          size: 17,
+                          color: AppColors.primary,
+                        ),
 
+                        const SizedBox(width: 7),
 
+                        Text(
+                          'Continue as Guest',
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // المسافة المهمة بين Guest و Security
+                const SizedBox(height: 22),
+
+                // =================================================
+                // SECURITY MESSAGE
+                // =================================================
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     const Icon(
                       Icons.verified_user_outlined,
                       size: 14,
@@ -417,67 +466,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
 
+                const SizedBox(height: 34),
 
-                const SizedBox(height: 42),
-
-
-
-                Row(
-                  children: [
-
-                    const Expanded(
-                      child: Divider(
-                        color: AppColors.borderColor,
-                        thickness: 0.8,
-                      ),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                      ),
-
-                      child: Text(
-                        'OR',
-                        style: GoogleFonts.inter(
-                          color: AppColors.textLight,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-
-                    const Expanded(
-                      child: Divider(
-                        color: AppColors.borderColor,
-                        thickness: 0.8,
-                      ),
-                    ),
-                  ],
-                ),
-
-
-                const SizedBox(height: 28),
-
-
-
+                // =================================================
+                // CREATE ACCOUNT
+                // =================================================
                 Center(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.signup,
-                      );
+                      Navigator.pushNamed(context, AppRoutes.signup);
                     },
-
                     child: RichText(
                       text: TextSpan(
                         children: [
-
                           TextSpan(
-                            text:
-                            "Don't have an account? ",
-
+                            text: "Don't have an account? ",
                             style: GoogleFonts.inter(
                               fontSize: 11,
                               color: AppColors.textLight,
@@ -486,7 +489,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           TextSpan(
                             text: 'Create account',
-
                             style: GoogleFonts.inter(
                               fontSize: 11,
                               fontWeight: FontWeight.w700,

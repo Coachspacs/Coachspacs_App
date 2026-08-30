@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/helpers/protected_navigation.dart';
 import 'package:coach_space/features/home/data/models/mock_home_data.dart';
 
 class CatalogTopBar extends StatelessWidget {
@@ -13,14 +13,15 @@ class CatalogTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final userName = MockHomeData.currentUser.name;
 
-    // Take the first letter from the user's name automatically.
     final userInitial = userName.trim().isNotEmpty
         ? userName.trim()[0].toLowerCase()
         : 'u';
 
     return Container(
       height: 62,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
       decoration: const BoxDecoration(
         color: Colors.white,
         border: Border(
@@ -31,7 +32,10 @@ class CatalogTopBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Logo + Coach Space
+          // =====================================================
+          // LOGO + APP NAME
+          // =====================================================
+
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -40,10 +44,12 @@ class CatalogTopBar extends StatelessWidget {
                 height: 36,
                 decoration: BoxDecoration(
                   color: const Color(0xFFE7F5F0),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius:
+                  BorderRadius.circular(10),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius:
+                  BorderRadius.circular(10),
                   child: Image.asset(
                     'assets/images/Logo_img.png',
                     fit: BoxFit.contain,
@@ -77,14 +83,15 @@ class CatalogTopBar extends StatelessWidget {
 
           const Spacer(),
 
-          // Notifications
+          // =====================================================
+          // NOTIFICATIONS
+          // =====================================================
+
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(
+              ProtectedNavigation.openNotifications(
                 context,
-                AppRoutes.notifications,
               );
-
             },
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(
@@ -100,12 +107,14 @@ class CatalogTopBar extends StatelessWidget {
 
           const SizedBox(width: 6),
 
-          // User Avatar
+          // =====================================================
+          // USER AVATAR
+          // =====================================================
+
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(
+              ProtectedNavigation.openProfile(
                 context,
-                AppRoutes.profile,
               );
             },
             child: Container(

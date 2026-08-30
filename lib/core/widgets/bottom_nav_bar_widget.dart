@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/auth/guest_session.dart';
 import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_shadows.dart';
+import 'package:coach_space/core/widgets/login_required_dialog.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
   const BottomNavBarWidget({
@@ -20,6 +22,46 @@ class BottomNavBarWidget extends StatelessWidget {
 
   static const Color inactiveColor =
   Color(0xFF354640);
+
+  // =====================================================
+  // CHECK GUEST ACCESS
+  // =====================================================
+
+  void _handleProtectedNavigation(
+      BuildContext context,
+      String route,
+      ) {
+    if (GuestSession.isGuest) {
+      LoginRequiredDialog.show(context);
+      return;
+    }
+
+    if (currentIndex != _getRouteIndex(route)) {
+      Navigator.pushReplacementNamed(
+        context,
+        route,
+      );
+    }
+  }
+
+  int _getRouteIndex(String route) {
+    switch (route) {
+      case AppRoutes.home:
+        return 0;
+
+      case AppRoutes.catalog:
+        return 1;
+
+      case AppRoutes.myLearning:
+        return 2;
+
+      case AppRoutes.profile:
+        return 3;
+
+      default:
+        return -1;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +123,7 @@ class BottomNavBarWidget extends StatelessWidget {
               ),
 
               // =========================================
-              // MY LEARNING
+              // MY LEARNING - PROTECTED
               // =========================================
 
               _NavItem(
@@ -90,17 +132,15 @@ class BottomNavBarWidget extends StatelessWidget {
                 label: 'My Learning',
                 isActive: currentIndex == 2,
                 onTap: () {
-                  if (currentIndex != 2) {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      AppRoutes.myLearning,
-                    );
-                  }
+                  _handleProtectedNavigation(
+                    context,
+                    AppRoutes.myLearning,
+                  );
                 },
               ),
 
               // =========================================
-              // PROFILE
+              // PROFILE - PROTECTED
               // =========================================
 
               _NavItem(
@@ -109,12 +149,10 @@ class BottomNavBarWidget extends StatelessWidget {
                 label: 'Profile',
                 isActive: currentIndex == 3,
                 onTap: () {
-                  if (currentIndex != 3) {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      AppRoutes.profile,
-                    );
-                  }
+                  _handleProtectedNavigation(
+                    context,
+                    AppRoutes.profile,
+                  );
                 },
               ),
             ],
@@ -193,7 +231,9 @@ class _NavItem extends StatelessWidget {
                     ? primaryColor
                     : inactiveColor,
               ),
+
               const SizedBox(height: 2),
+
               Text(
                 label,
                 maxLines: 1,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/helpers/protected_navigation.dart';
 
 class TopAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -80,9 +80,8 @@ class TopAppBarWidget extends StatelessWidget
 
         IconButton(
           onPressed: () {
-            Navigator.pushNamed(
+            ProtectedNavigation.openNotifications(
               context,
-              AppRoutes.notifications,
             );
           },
           padding: EdgeInsets.zero,
@@ -103,26 +102,33 @@ class TopAppBarWidget extends StatelessWidget
         // PROFILE
         // =================================================
 
-        Container(
-          width: 34,
-          height: 34,
-          margin: const EdgeInsets.only(
-            right: 16,
-          ),
-          decoration: const BoxDecoration(
-            color: Color(0xFFE4F5F0),
-            shape: BoxShape.circle,
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            'S',
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge
-                ?.copyWith(
-              fontSize: 12,
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFF075E4D),
+        GestureDetector(
+          onTap: () {
+            ProtectedNavigation.openProfile(
+              context,
+            );
+          },
+          child: Container(
+            width: 34,
+            height: 34,
+            margin: const EdgeInsets.only(
+              right: 16,
+            ),
+            decoration: const BoxDecoration(
+              color: Color(0xFFE4F5F0),
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              'S',
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge
+                  ?.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+                color: const Color(0xFF075E4D),
+              ),
             ),
           ),
         ),
