@@ -41,6 +41,13 @@ abstract final class AppRoutes {
   static const String createInstructorCourse =
       '/instructor-create-course';
 
+  static const String instructorStudents =
+      '/instructor-students';
+
+
+  static const String instructorProfile =
+      '/instructor-profile';
+
 
   // My Learning
   static const String myLearning = '/my-learning';

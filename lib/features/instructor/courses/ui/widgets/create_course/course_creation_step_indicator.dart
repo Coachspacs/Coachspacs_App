@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CourseCreationStepIndicator
-    extends StatelessWidget {
+class CourseCreationStepIndicator extends StatelessWidget {
   const CourseCreationStepIndicator({
     super.key,
     required this.currentStep,
@@ -10,102 +9,106 @@ class CourseCreationStepIndicator
 
   final int currentStep;
 
+  static const List<String> _steps = [
+    'Course Info',
+    'Curriculum',
+    'Review & Publish',
+  ];
+
   @override
   Widget build(BuildContext context) {
-    const labels = [
-      'Course Info',
-      'Curriculum',
-      'Review & Publish',
-    ];
+    final progress = currentStep / (_steps.length - 1);
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // =================================================
+        // PROGRESS BAR
+        // =================================================
+
         Row(
-          children: List.generate(
-            labels.length,
-                (index) {
-              final isActive =
-                  index <= currentStep;
+          children: [
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Stack(
+                    children: [
+                      // Background
+                      Container(
+                        height: 4,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFDCEAE6),
+                          borderRadius:
+                          BorderRadius.circular(10),
+                        ),
+                      ),
 
-              return Expanded(
-                child: Row(
-                  children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: isActive
-                            ? const Color(
-                          0xFF075E4D,
-                        )
-                            : const Color(
-                          0xFFE6EFEC,
-                        ),
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '${index + 1}',
-                        style:
-                        GoogleFonts.inter(
-                          fontSize: 8,
-                          fontWeight:
-                          FontWeight.w700,
-                          color: isActive
-                              ? Colors.white
-                              : const Color(
-                            0xFF7A8984,
-                          ),
+                      // Progress
+                      AnimatedContainer(
+                        duration:
+                        const Duration(milliseconds: 250),
+                        height: 4,
+                        width: constraints.maxWidth * progress,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF075E4D),
+                          borderRadius:
+                          BorderRadius.circular(10),
                         ),
                       ),
-                    ),
+                    ],
+                  );
+                },
+              ),
+            ),
 
-                    if (index < 2)
-                      Expanded(
-                        child: Container(
-                          height: 2,
-                          margin:
-                          const EdgeInsets
-                              .symmetric(
-                            horizontal: 5,
-                          ),
-                          color: index <
-                              currentStep
-                              ? const Color(
-                            0xFF075E4D,
-                          )
-                              : const Color(
-                            0xFFDCE8E4,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              );
-            },
-          ),
+            const SizedBox(width: 10),
+
+            Text(
+              'Step ${currentStep + 1} of ${_steps.length}',
+              style: GoogleFonts.inter(
+                fontSize: 7.5,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF71807C),
+              ),
+            ),
+          ],
         ),
 
-        const SizedBox(height: 6),
+        const SizedBox(height: 9),
+
+        // =================================================
+        // STEP LABELS
+        // =================================================
 
         Row(
-          mainAxisAlignment:
-          MainAxisAlignment.spaceBetween,
           children: List.generate(
-            labels.length,
+            _steps.length,
                 (index) {
-              return Text(
-                labels[index],
-                style: GoogleFonts.inter(
-                  fontSize: 7.5,
-                  fontWeight:
-                  index == currentStep
-                      ? FontWeight.w700
-                      : FontWeight.w500,
-                  color: index == currentStep
-                      ? const Color(0xFF075E4D)
-                      : const Color(
-                    0xFF899792,
+              final isActive = index == currentStep;
+              final isCompleted = index < currentStep;
+
+              return Expanded(
+                child: Align(
+                  alignment: index == 0
+                      ? Alignment.centerLeft
+                      : index == _steps.length - 1
+                      ? Alignment.centerRight
+                      : Alignment.center,
+                  child: Text(
+                    _steps[index],
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                      fontSize: 7,
+                      fontWeight:
+                      isActive || isCompleted
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                      color:
+                      isActive || isCompleted
+                          ? const Color(0xFF075E4D)
+                          : const Color(0xFF899792),
+                    ),
                   ),
                 ),
               );

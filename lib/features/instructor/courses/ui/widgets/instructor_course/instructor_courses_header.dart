@@ -61,7 +61,7 @@ class InstructorCoursesHeader
             label: Text(
               'New Course',
               style: GoogleFonts.inter(
-                fontSize: 8,
+                fontSize: 10,
                 fontWeight: FontWeight.w700,
               ),
             ),

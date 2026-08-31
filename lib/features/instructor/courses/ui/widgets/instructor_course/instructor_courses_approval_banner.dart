@@ -81,7 +81,7 @@ class InstructorCoursesApprovalBanner
                         'Approved',
                         style:
                         GoogleFonts.inter(
-                          fontSize: 6.5,
+                          fontSize: 8,
                           fontWeight:
                           FontWeight.w700,
                           color:
@@ -100,7 +100,7 @@ class InstructorCoursesApprovalBanner
                   overflow:
                   TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                    fontSize: 7.5,
+                    fontSize: 10,
                     color:
                     const Color(0xFF7B8985),
                   ),

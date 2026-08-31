@@ -115,7 +115,7 @@ class _FilterItem extends StatelessWidget {
             child: Text(
               label,
               style: GoogleFonts.inter(
-                fontSize: 7.5,
+                fontSize: 10,
                 fontWeight: FontWeight.w700,
                 color: isSelected
                     ? Colors.white

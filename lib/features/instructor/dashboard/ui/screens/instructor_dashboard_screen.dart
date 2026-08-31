@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_bottom_nav_bar.dart';
@@ -15,6 +16,65 @@ class InstructorDashboardScreen extends StatelessWidget {
   const InstructorDashboardScreen({
     super.key,
   });
+
+  // =====================================================
+  // BOTTOM NAVIGATION
+  // =====================================================
+
+  void _handleNavigation(
+      BuildContext context,
+      int index,
+      ) {
+    switch (index) {
+    // =================================================
+    // DASHBOARD
+    // =================================================
+
+      case 0:
+      // Already on Dashboard.
+        break;
+
+    // =================================================
+    // COURSES
+    // =================================================
+
+      case 1:
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.instructorCourses,
+              (route) => false,
+        );
+        break;
+
+    // =================================================
+    // STUDENTS
+    // =================================================
+
+      case 2:
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.instructorStudents,
+              (route) => false,
+        );
+        break;
+
+    // =================================================
+    // PROFILE
+    // =================================================
+
+      case 3:
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.instructorProfile,
+              (route) => false,
+        );
+        break;
+    }
+  }
+
+  // =====================================================
+  // BUILD
+  // =====================================================
 
   @override
   Widget build(BuildContext context) {
@@ -50,32 +110,50 @@ class InstructorDashboardScreen extends StatelessWidget {
                   crossAxisAlignment:
                   CrossAxisAlignment.start,
                   children: const [
-                    // Welcome
+                    // =================================================
+                    // WELCOME
+                    // =================================================
+
                     InstructorWelcomeCard(),
 
                     SizedBox(height: 16),
 
-                    // Main statistics
+                    // =================================================
+                    // MAIN STATISTICS
+                    // =================================================
+
                     InstructorStatsGrid(),
 
                     SizedBox(height: 14),
 
-                    // Earnings
+                    // =================================================
+                    // EARNINGS
+                    // =================================================
+
                     InstructorEarningsCard(),
 
                     SizedBox(height: 22),
 
-                    // Instructor overview
+                    // =================================================
+                    // INSTRUCTOR OVERVIEW
+                    // =================================================
+
                     InstructorOverviewCard(),
 
                     SizedBox(height: 22),
 
-                    // Quick actions
+                    // =================================================
+                    // QUICK ACTIONS
+                    // =================================================
+
                     InstructorQuickActions(),
 
                     SizedBox(height: 24),
 
-                    // Recent courses
+                    // =================================================
+                    // RECENT COURSES
+                    // =================================================
+
                     InstructorRecentCourses(),
                   ],
                 ),
@@ -89,9 +167,14 @@ class InstructorDashboardScreen extends StatelessWidget {
       // BOTTOM NAVIGATION
       // =====================================================
 
-      bottomNavigationBar:
-      const InstructorBottomNavBar(
+      bottomNavigationBar: InstructorBottomNavBar(
         currentIndex: 0,
+        onItemSelected: (index) {
+          _handleNavigation(
+            context,
+            index,
+          );
+        },
       ),
     );
   }

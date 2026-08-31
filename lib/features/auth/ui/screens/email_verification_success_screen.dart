@@ -1,13 +1,46 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/buttons.dart';
+import 'package:coach_space/features/auth/data/models/user_role.dart';
 
-class EmailVerificationSuccessScreen extends StatelessWidget {
-  const EmailVerificationSuccessScreen({super.key});
+class EmailVerificationSuccessScreen
+    extends StatelessWidget {
+  const EmailVerificationSuccessScreen({
+    super.key,
+    required this.role,
+  });
+
+  final UserRole role;
+
+  void _continue(BuildContext context) {
+    final String route;
+
+    switch (role) {
+      case UserRole.instructor:
+        route = AppRoutes.instructorDashboard;
+        break;
+
+      case UserRole.student:
+      case UserRole.admin:
+      case UserRole.unknown:
+        route = AppRoutes.home;
+        break;
+    }
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      route,
+          (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final bool isInstructor =
+        role == UserRole.instructor;
+
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
       body: SafeArea(
@@ -25,6 +58,7 @@ class EmailVerificationSuccessScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             Positioned(
               bottom: -50,
               left: -40,
@@ -37,11 +71,15 @@ class EmailVerificationSuccessScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             Center(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(20),
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 430),
+                  constraints:
+                  const BoxConstraints(
+                    maxWidth: 430,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -65,7 +103,9 @@ class EmailVerificationSuccessScreen extends StatelessWidget {
                           color: AppColors.primary,
                         ),
                       ),
+
                       const SizedBox(height: 28),
+
                       const Text(
                         'تم التحقق بنجاح!',
                         textAlign: TextAlign.center,
@@ -75,23 +115,29 @@ class EmailVerificationSuccessScreen extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
+
                       const SizedBox(height: 12),
-                      const Text(
-                        'تهانينا! تم تفعيل حسابك بنجاح. يمكنك الآن البدء في رحلة التعلم الخاصة بك.',
+
+                      Text(
+                        isInstructor
+                            ? 'تهانينا! تم تفعيل حسابك بنجاح. يمكنك الآن متابعة حساب المدرب الخاص بك.'
+                            : 'تهانينا! تم تفعيل حسابك بنجاح. يمكنك الآن البدء في رحلة التعلم الخاصة بك.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColors.textLight,
                           fontSize: 16,
                           height: 1.6,
                         ),
                       ),
+
                       const SizedBox(height: 28),
+
                       MyButton(
-                        text: 'ابدأ التعلم',
-                        onPressed: () => Navigator.popUntil(
-                          context,
-                          (route) => route.isFirst,
-                        ),
+                        text: isInstructor
+                            ? 'الانتقال إلى لوحة التحكم'
+                            : 'ابدأ التعلم',
+                        onPressed: () =>
+                            _continue(context),
                         color: AppColors.primary,
                         textColor: AppColors.white,
                         fontSize: 16,

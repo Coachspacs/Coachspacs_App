@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// =====================================================
-// CURRICULUM LESSON MODEL
-// =====================================================
-
 class CurriculumLesson {
   const CurriculumLesson({
     required this.title,
@@ -17,10 +13,6 @@ class CurriculumLesson {
   final String duration;
 }
 
-// =====================================================
-// CURRICULUM LESSON TILE
-// =====================================================
-
 class CurriculumLessonTile extends StatelessWidget {
   const CurriculumLessonTile({
     super.key,
@@ -31,38 +23,20 @@ class CurriculumLessonTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final IconData lessonIcon;
-    final Color iconColor;
-
-    switch (lesson.type) {
-      case 'Quiz':
-        lessonIcon = Icons.quiz_outlined;
-        iconColor = const Color(0xFF9A6A00);
-        break;
-
-      case 'Text':
-        lessonIcon = Icons.article_outlined;
-        iconColor = const Color(0xFF075E4D);
-        break;
-
-      default:
-        lessonIcon = Icons.play_circle_outline;
-        iconColor = const Color(0xFF075E4D);
-    }
+    final bool isVideo = lesson.type == 'Video';
+    final bool isQuiz = lesson.type == 'Quiz';
 
     return Container(
-      margin: const EdgeInsets.only(
-        bottom: 6,
-      ),
+      margin: const EdgeInsets.only(bottom: 6),
       padding: const EdgeInsets.symmetric(
-        horizontal: 8,
+        horizontal: 9,
         vertical: 8,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFFF7FAF9),
+        color: const Color(0xFFF8FBFA),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: const Color(0xFFE1EAE7),
+          color: const Color(0xFFE0EAE7),
         ),
       ),
       child: Row(
@@ -72,70 +46,62 @@ class CurriculumLessonTile extends StatelessWidget {
           // =================================================
 
           const Icon(
-            Icons.drag_indicator,
+            Icons.drag_indicator_rounded,
             size: 14,
-            color: Color(0xFF9AA7A3),
+            color: Color(0xFFA2B1AD),
           ),
 
-          const SizedBox(width: 4),
+          const SizedBox(width: 5),
 
           // =================================================
-          // LESSON ICON
+          // TYPE ICON
           // =================================================
 
           Container(
-            width: 26,
-            height: 26,
+            width: 24,
+            height: 24,
             decoration: BoxDecoration(
-              color: const Color(0xFFE4F4EF),
-              borderRadius: BorderRadius.circular(7),
+              color: isQuiz
+                  ? const Color(0xFFFFF2D9)
+                  : const Color(0xFFE5F5F0),
+              shape: BoxShape.circle,
             ),
-            alignment: Alignment.center,
             child: Icon(
-              lessonIcon,
+              isQuiz
+                  ? Icons.quiz_outlined
+                  : isVideo
+                  ? Icons.play_arrow_rounded
+                  : Icons.article_outlined,
               size: 13,
-              color: iconColor,
+              color: isQuiz
+                  ? const Color(0xFFB87900)
+                  : const Color(0xFF075E4D),
             ),
           ),
 
           const SizedBox(width: 8),
 
           // =================================================
-          // LESSON INFO
+          // LESSON TITLE
           // =================================================
 
           Expanded(
-            child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-                Text(
-                  lesson.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    fontSize: 8.5,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF354640),
-                  ),
-                ),
-
-                const SizedBox(height: 2),
-
-                Text(
-                  lesson.type,
-                  style: GoogleFonts.inter(
-                    fontSize: 7,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF899792),
-                  ),
-                ),
-              ],
+            child: Text(
+              lesson.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.inter(
+                fontSize: 9,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF263C38),
+              ),
             ),
           ),
 
+          const SizedBox(width: 6),
+
           // =================================================
-          // DURATION / TYPE
+          // TYPE / DURATION
           // =================================================
 
           if (lesson.duration.isNotEmpty)
@@ -144,32 +110,30 @@ class CurriculumLessonTile extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 7,
                 fontWeight: FontWeight.w500,
-                color: const Color(0xFF899792),
+                color: const Color(0xFF7A8985),
+              ),
+            )
+          else
+            Text(
+              lesson.type,
+              style: GoogleFonts.inter(
+                fontSize: 7,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF7A8985),
               ),
             ),
 
-          if (lesson.type == 'Quiz')
-            Container(
-              margin: const EdgeInsets.only(
-                left: 6,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 5,
-                vertical: 3,
-              ),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFF3D6),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Text(
-                'Quiz',
-                style: GoogleFonts.inter(
-                  fontSize: 6.5,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF9A6A00),
-                ),
-              ),
-            ),
+          const SizedBox(width: 5),
+
+          // =================================================
+          // MORE
+          // =================================================
+
+          const Icon(
+            Icons.more_vert,
+            size: 14,
+            color: Color(0xFF9AA8A4),
+          ),
         ],
       ),
     );

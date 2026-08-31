@@ -201,7 +201,7 @@ class InstructorCourseCard
             child: Text(
               course.rejectionReason!,
               style: GoogleFonts.inter(
-                fontSize: 7.5,
+                fontSize: 8,
                 height: 1.3,
                 color: const Color(0xFFB65B48),
               ),
@@ -241,7 +241,7 @@ class InstructorCourseCard
             child: Text(
               'Edit Course',
               style: GoogleFonts.inter(
-                fontSize: 8,
+                fontSize: 10,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF075E4D),
               ),
@@ -272,7 +272,7 @@ class InstructorCourseCard
                   ? 'Resubmit'
                   : 'Manage',
               style: GoogleFonts.inter(
-                fontSize: 8,
+                fontSize: 10,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),

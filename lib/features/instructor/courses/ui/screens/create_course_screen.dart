@@ -4,13 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 import 'package:coach_space/features/instructor/courses/ui/widgets/create_course/course_creation_step_indicator.dart';
-
 import 'package:coach_space/features/instructor/courses/ui/widgets/create_course/create_course_basic_info.dart';
-
 import 'package:coach_space/features/instructor/courses/ui/widgets/create_course/create_course_curriculum.dart';
-
 import 'package:coach_space/features/instructor/courses/ui/widgets/create_course/create_course_review.dart';
-
 
 class CreateCourseScreen extends StatefulWidget {
   const CreateCourseScreen({
@@ -85,12 +81,11 @@ class _CreateCourseScreenState
         content: Text(
           'Course submitted for review.',
           style: GoogleFonts.inter(
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: FontWeight.w600,
           ),
         ),
-        backgroundColor:
-        const Color(0xFF075E4D),
+        backgroundColor: const Color(0xFF075E4D),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -105,49 +100,104 @@ class _CreateCourseScreenState
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
 
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: _previousStep,
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            size: 18,
-            color: Color(0xFF263C38),
-          ),
-        ),
-        title: Text(
-          _currentStep == 0
-              ? 'Create New Course'
-              : _currentStep == 1
-              ? 'Curriculum Builder'
-              : 'Review & Publish',
-          style: GoogleFonts.inter(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF073F38),
-          ),
-        ),
-      ),
-
       body: SafeArea(
-        top: false,
         child: Column(
           children: [
             // =================================================
-            // STEP INDICATOR
-            // =================================================
+// COURSE CREATION HEADER
+// =================================================
 
-            Padding(
+            Container(
+              width: double.infinity,
               padding: const EdgeInsets.fromLTRB(
                 16,
-                14,
+                10,
                 16,
-                0,
+                14,
               ),
-              child: CourseCreationStepIndicator(
-                currentStep: _currentStep,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(0xFFE4ECE9),
+                  ),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // =============================================
+                  // BACK + TITLE
+                  // =============================================
+
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: _previousStep,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(
+                          minWidth: 28,
+                          minHeight: 28,
+                        ),
+                        icon: const Icon(
+                          Icons.arrow_back_rounded,
+                          size: 21,
+                          color: Color(0xFF263C38),
+                        ),
+                      ),
+
+                      const SizedBox(width: 7),
+
+                      Expanded(
+                        child: Text(
+                          _currentStep == 0
+                              ? 'Create New Course'
+                              : _currentStep == 1
+                              ? 'Curriculum Builder'
+                              : 'Review & Publish',
+                          style: GoogleFonts.inter(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: const Color(0xFF073F38),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  // =============================================
+                  // SUBTITLE
+                  // =============================================
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 35,
+                      top: 3,
+                    ),
+                    child: Text(
+                      _currentStep == 0
+                          ? 'Start with the basics. You can always change these later.'
+                          : _currentStep == 1
+                          ? 'Organize your course into sections, lessons and activities.'
+                          : 'Check everything one last time before submitting your course.',
+                      style: GoogleFonts.inter(
+                        fontSize: 9.5,
+                        height: 1.4,
+                        color: const Color(0xFF788681),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 13),
+
+                  // =============================================
+                  // STEP INDICATOR
+                  // =============================================
+
+                  CourseCreationStepIndicator(
+                    currentStep: _currentStep,
+                  ),
+                ],
               ),
             ),
 
@@ -159,9 +209,9 @@ class _CreateCourseScreenState
               child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(
                   16,
+                  18,
                   16,
-                  16,
-                  20,
+                  24,
                 ),
                 child: _buildCurrentStep(),
               ),
@@ -188,7 +238,7 @@ class _CreateCourseScreenState
               ),
               child: SizedBox(
                 width: double.infinity,
-                height: 42,
+                height: 44,
                 child: ElevatedButton(
                   onPressed: _nextStep,
                   style: ElevatedButton.styleFrom(
@@ -196,8 +246,7 @@ class _CreateCourseScreenState
                     const Color(0xFF075E4D),
                     foregroundColor: Colors.white,
                     elevation: 0,
-                    shape:
-                    RoundedRectangleBorder(
+                    shape: RoundedRectangleBorder(
                       borderRadius:
                       BorderRadius.circular(10),
                     ),
@@ -209,7 +258,7 @@ class _CreateCourseScreenState
                         ? 'Save & Continue  →'
                         : 'Submit for Review  →',
                     style: GoogleFonts.inter(
-                      fontSize: 10,
+                      fontSize: 13,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -228,6 +277,10 @@ class _CreateCourseScreenState
 
   Widget _buildCurrentStep() {
     switch (_currentStep) {
+    // ===================================================
+    // STEP 1
+    // ===================================================
+
       case 0:
         return CreateCourseBasicInfo(
           titleController: _titleController,
@@ -255,8 +308,16 @@ class _CreateCourseScreenState
           },
         );
 
+    // ===================================================
+    // STEP 2
+    // ===================================================
+
       case 1:
         return const CreateCourseCurriculum();
+
+    // ===================================================
+    // STEP 3
+    // ===================================================
 
       case 2:
         return CreateCourseReview(

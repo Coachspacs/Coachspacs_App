@@ -50,13 +50,7 @@ class CreateCourseBasicInfo
 
         const SizedBox(height: 4),
 
-        Text(
-          'Start with the basics. You can always change these later.',
-          style: GoogleFonts.inter(
-            fontSize: 9,
-            color: const Color(0xFF788681),
-          ),
-        ),
+
 
         const SizedBox(height: 18),
 

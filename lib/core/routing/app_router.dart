@@ -12,6 +12,7 @@ import 'package:coach_space/features/student/home/ui/screens/home_screen.dart';
 
 import 'package:coach_space/features/signup/presentation/screens/signup_screen.dart';
 
+import 'package:coach_space/features/instructor/students/ui/screens/instructor_students_screen.dart';
 import 'package:coach_space/features/splash/ui/screens/splash_screen.dart';
 
 import 'package:coach_space/features/student/profile/ui/screens/profile_screen.dart';
@@ -32,9 +33,11 @@ import 'package:coach_space/features/student/profile/ui/screens/learning_setting
 import 'package:coach_space/features/student/profile/ui/screens/security_settings_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/preferences_settings_screen.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
-
+import 'package:coach_space/features/instructor/profile/ui/screens/instructor_profile_screen.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/screens/instructor_dashboard_screen.dart';
 import 'package:coach_space/features/student/notifications/ui/screens/notification_screen.dart';
+
+import '../../features/auth/data/models/user_role.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(
@@ -79,7 +82,9 @@ class AppRouter {
 
       case AppRoutes.emailVerificationSuccess:
         return _buildRoute(
-          const EmailVerificationSuccessScreen(),
+          EmailVerificationSuccessScreen(
+            role: settings.arguments as UserRole,
+          ),
           settings,
         );
 
@@ -147,6 +152,18 @@ class AppRouter {
       case AppRoutes.instructorCourses:
         return _buildRoute(
           const InstructorCoursesScreen(),
+          settings,
+        );
+
+      case AppRoutes.instructorStudents:
+        return _buildRoute(
+          const InstructorStudentsScreen(),
+          settings,
+        );
+
+      case AppRoutes.instructorProfile:
+        return _buildRoute(
+          const InstructorProfileScreen(),
           settings,
         );
 

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/features/instructor/courses/ui/widgets/create_course/curriculum_lesson_tile.dart';
-class CreateCourseCurriculum
-    extends StatelessWidget {
+
+class CreateCourseCurriculum extends StatelessWidget {
   const CreateCourseCurriculum({
     super.key,
   });
@@ -11,13 +11,16 @@ class CreateCourseCurriculum
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment:
-      CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // =================================================
+        // TITLE
+        // =================================================
+
         Text(
           'Curriculum Builder',
           style: GoogleFonts.inter(
-            fontSize: 18,
+            fontSize: 19,
             fontWeight: FontWeight.w800,
             color: const Color(0xFF073F38),
           ),
@@ -28,21 +31,22 @@ class CreateCourseCurriculum
         Text(
           'Organize your course into sections, lessons and activities.',
           style: GoogleFonts.inter(
-            fontSize: 9,
+            fontSize: 9.5,
+            height: 1.4,
             color: const Color(0xFF788681),
           ),
         ),
 
-        const SizedBox(height: 18),
+        const SizedBox(height: 16),
 
         // =================================================
         // SECTION 1
         // =================================================
 
-        _CurriculumSection(
-          title: 'Introduction & Fundamentals',
+        const _CurriculumSection(
           sectionNumber: '01',
-          lessons: const [
+          title: 'Introduction & Fundamentals',
+          lessons: [
             CurriculumLesson(
               title: 'Welcome to the Course',
               type: 'Video',
@@ -62,10 +66,10 @@ class CreateCourseCurriculum
         // SECTION 2
         // =================================================
 
-        _CurriculumSection(
-          title: 'Core Concepts',
+        const _CurriculumSection(
           sectionNumber: '02',
-          lessons: const [
+          title: 'Core Concepts',
+          lessons: [
             CurriculumLesson(
               title: 'Understanding the Framework',
               type: 'Video',
@@ -79,40 +83,14 @@ class CreateCourseCurriculum
           ],
         ),
 
-        const SizedBox(height: 14),
+        const SizedBox(height: 12),
 
         // =================================================
         // ADD SECTION
         // =================================================
 
-        Container(
-          width: double.infinity,
-          height: 45,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius:
-            BorderRadius.circular(10),
-            border: Border.all(
-              color: const Color(0xFFD3E2DE),
-            ),
-          ),
-          child: TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.add,
-              size: 15,
-              color: Color(0xFF075E4D),
-            ),
-            label: Text(
-              'Add New Section',
-              style: GoogleFonts.inter(
-                fontSize: 9,
-                fontWeight: FontWeight.w700,
-                color:
-                const Color(0xFF075E4D),
-              ),
-            ),
-          ),
+        _AddSectionButton(
+          onPressed: () {},
         ),
       ],
     );
@@ -120,24 +98,24 @@ class CreateCourseCurriculum
 }
 
 // =====================================================
-// SECTION
+// CURRICULUM SECTION
 // =====================================================
 
-class _CurriculumSection
-    extends StatelessWidget {
+class _CurriculumSection extends StatelessWidget {
   const _CurriculumSection({
-    required this.title,
     required this.sectionNumber,
+    required this.title,
     required this.lessons,
   });
 
-  final String title;
   final String sectionNumber;
+  final String title;
   final List<CurriculumLesson> lessons;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.fromLTRB(
         10,
         10,
@@ -146,19 +124,33 @@ class _CurriculumSection
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:
-        BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: const Color(0xFFDCE7E4),
         ),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // =============================================
+          // SECTION HEADER
+          // =============================================
+
           Row(
             children: [
+              // Drag
+              const Icon(
+                Icons.drag_indicator_rounded,
+                size: 14,
+                color: Color(0xFFA2B1AD),
+              ),
+
+              const SizedBox(width: 3),
+
+              // Number
               Container(
-                width: 25,
-                height: 25,
+                width: 24,
+                height: 24,
                 decoration: const BoxDecoration(
                   color: Color(0xFFE4F4EF),
                   shape: BoxShape.circle,
@@ -168,10 +160,8 @@ class _CurriculumSection
                   sectionNumber,
                   style: GoogleFonts.inter(
                     fontSize: 7,
-                    fontWeight:
-                    FontWeight.w700,
-                    color:
-                    const Color(0xFF075E4D),
+                    fontWeight: FontWeight.w800,
+                    color: const Color(0xFF075E4D),
                   ),
                 ),
               ),
@@ -181,25 +171,53 @@ class _CurriculumSection
               Expanded(
                 child: Text(
                   title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
                     fontSize: 10,
-                    fontWeight:
-                    FontWeight.w700,
-                    color:
-                    const Color(0xFF263C38),
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF263C38),
                   ),
                 ),
               ),
 
-              const Icon(
-                Icons.more_vert,
-                size: 17,
-                color: Color(0xFF788681),
+              // Edit
+              IconButton(
+                onPressed: () {},
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(
+                  minWidth: 25,
+                  minHeight: 25,
+                ),
+                icon: const Icon(
+                  Icons.edit_outlined,
+                  size: 13,
+                  color: Color(0xFF8A9995),
+                ),
+              ),
+
+              // Delete
+              IconButton(
+                onPressed: () {},
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(
+                  minWidth: 25,
+                  minHeight: 25,
+                ),
+                icon: const Icon(
+                  Icons.delete_outline_rounded,
+                  size: 13,
+                  color: Color(0xFF8A9995),
+                ),
               ),
             ],
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 7),
+
+          // =============================================
+          // LESSONS
+          // =============================================
 
           ...lessons.map(
                 (lesson) => CurriculumLessonTile(
@@ -207,11 +225,15 @@ class _CurriculumSection
             ),
           ),
 
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
+
+          // =============================================
+          // ADD LESSON
+          // =============================================
 
           SizedBox(
             width: double.infinity,
-            height: 31,
+            height: 32,
             child: OutlinedButton.icon(
               onPressed: () {},
               icon: const Icon(
@@ -221,29 +243,67 @@ class _CurriculumSection
               label: Text(
                 'Add Lesson',
                 style: GoogleFonts.inter(
-                  fontSize: 7.5,
-                  fontWeight:
-                  FontWeight.w600,
+                  fontSize: 8,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              style: OutlinedButton
-                  .styleFrom(
+              style: OutlinedButton.styleFrom(
                 foregroundColor:
-                const Color(
-                  0xFF075E4D,
-                ),
+                const Color(0xFF075E4D),
                 side: const BorderSide(
                   color: Color(0xFFD5E4DF),
                 ),
-                shape:
-                RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.circular(7),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7),
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// =====================================================
+// ADD SECTION
+// =====================================================
+
+class _AddSectionButton extends StatelessWidget {
+  const _AddSectionButton({
+    required this.onPressed,
+  });
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 45,
+      child: OutlinedButton.icon(
+        onPressed: onPressed,
+        icon: const Icon(
+          Icons.add,
+          size: 15,
+        ),
+        label: Text(
+          'Add New Section',
+          style: GoogleFonts.inter(
+            fontSize: 9,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: const Color(0xFF075E4D),
+          backgroundColor: Colors.white,
+          side: const BorderSide(
+            color: Color(0xFFD3E2DE),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
       ),
     );
   }
