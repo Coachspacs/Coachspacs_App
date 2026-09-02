@@ -7,6 +7,7 @@ import 'package:coach_space/features/catalog/ui/widgets/course_details/course_de
 import 'package:coach_space/features/catalog/ui/widgets/course_details/course_details_instructor_card.dart';
 import 'package:coach_space/features/catalog/ui/widgets/course_details/course_details_purchase_card.dart';
 import 'package:coach_space/features/catalog/ui/widgets/course_details/course_details_top_bar.dart';
+import 'package:coach_space/features/home/data/models/course.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
   const CourseDetailsScreen({
@@ -15,36 +16,77 @@ class CourseDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final course =
-    ModalRoute.of(context)?.settings.arguments
-    as Map<String, dynamic>?;
+    final arguments =
+        ModalRoute.of(context)?.settings.arguments;
 
-    final title =
-        course?['title'] ??
-            'Next.js 15 & React 19 Fullstack Masterclass';
+    // Default values
+    String title =
+        'Next.js 15 & React 19 Fullstack Masterclass';
 
-    final instructor =
-        course?['instructor'] ??
-            'Dr. Tareq Al-Mansoor';
+    String instructor =
+        'Dr. Tareq Al-Mansoor';
 
-    final price =
-        course?['price'] ??
-            '\$89.00';
+    String price =
+        '\$89.00';
 
-    final rating =
-        course?['rating']?.toString() ??
-            '4.9';
+    String rating =
+        '4.9';
 
-    final students =
-        course?['students']?.toString() ??
-            '2.4k';
+    String students =
+        '2.4k';
 
-    final image =
-        course?['image'] ??
-            '';
+    String image =
+        '';
+
+    // --------------------------------------------------
+    // Course coming from Home
+    // --------------------------------------------------
+    if (arguments is Course) {
+      title = arguments.title;
+
+      instructor = arguments.instructor.name;
+
+      price = arguments.formattedPrice;
+
+      rating = arguments.rating.toStringAsFixed(1);
+
+      students = arguments.reviewCount.toString();
+
+      image = arguments.coverImageUrl ?? '';
+    }
+
+    // --------------------------------------------------
+    // Course coming from Catalog
+    // --------------------------------------------------
+    else if (arguments is Map<String, dynamic>) {
+      title =
+          arguments['title']?.toString() ??
+              title;
+
+      instructor =
+          arguments['instructor']?.toString() ??
+              instructor;
+
+      price =
+          arguments['price']?.toString() ??
+              price;
+
+      rating =
+          arguments['rating']?.toString() ??
+              rating;
+
+      students =
+          arguments['students']?.toString() ??
+              students;
+
+      image =
+          arguments['image']?.toString() ??
+              image;
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7FAF9),
+
       body: SafeArea(
         child: Column(
           children: [
@@ -134,7 +176,9 @@ class CourseDetailsScreen extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            Navigator.pop(context);
+          },
           child: const Text(
             'Catalog',
             style: TextStyle(
@@ -144,14 +188,18 @@ class CourseDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
+
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
+          padding: EdgeInsets.symmetric(
+            horizontal: 5,
+          ),
           child: Icon(
             Icons.chevron_right,
             size: 13,
             color: Color(0xFF899792),
           ),
         ),
+
         const Expanded(
           child: Text(
             'Course Details',

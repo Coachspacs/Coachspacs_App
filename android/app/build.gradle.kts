@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.coach_space"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

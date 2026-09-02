@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:coach_space/features/profile/ui/widgets/profile/profile_logout_button.dart';
 import 'package:coach_space/features/profile/ui/widgets/profile/profile_menu_item.dart';
 import 'package:coach_space/features/profile/ui/widgets/profile/profile_section.dart';
@@ -55,6 +56,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -174,6 +176,11 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+
+      // Profile = index 3
+      bottomNavigationBar: const BottomNavBarWidget(
+        currentIndex: 2,
       ),
     );
   }
