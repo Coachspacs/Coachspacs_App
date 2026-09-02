@@ -167,18 +167,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPasswordBackToLogin => 'Back to login';
 
   @override
-  String get emailVerificationTitle => 'Check your email';
+  String get emailVerificationTitle => 'Email Resent';
 
   @override
   String get emailVerificationBodyPrefix =>
-      'We\'ve sent a verification link to ';
+      'We\'ve sent a new verification link to your email address. Please check your inbox (and spam folder) to proceed.';
 
   @override
-  String get emailVerificationBodySuffix =>
-      '. Click the link in your email to activate your account.';
+  String get emailVerificationBodySuffix => '';
 
   @override
-  String get emailVerificationOpenEmail => 'Open Email';
+  String get emailVerificationOpenEmail => 'GO to inbox';
 
   @override
   String get emailVerificationOpenEmailHint =>
@@ -192,11 +191,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String emailVerificationResendCountdown(String time) {
-    return 'Resend ($time)';
+    return 'Wait $time seconds to resend again.';
   }
 
   @override
   String get emailVerificationResent => 'Verification link sent again';
+
+  @override
+  String get emailVerifiedSuccessTitle => 'Email Verified Successfully!';
+
+  @override
+  String get emailVerifiedSuccessBody =>
+      'Your email has been confirmed. You can now proceed to complete your profile and start your coaching journey.';
+
+  @override
+  String get emailVerifiedContinue => 'Continue';
+
+  @override
+  String get emailAlreadyVerifiedTitle => 'Already Verified';
+
+  @override
+  String get emailAlreadyVerifiedBody =>
+      'Your email address has already been verified. You can sign in to your account directly.';
+
+  @override
+  String get emailAlreadyVerifiedSignIn => 'Sign in Now';
 
   @override
   String get pendingApprovalTitle => 'Pending Approval';
@@ -207,6 +226,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pendingApprovalLogout => 'Log Out';
+
+  @override
+  String get accountUnderReviewTitle => 'Your Account is Under Review';
+
+  @override
+  String get accountUnderReviewSubtitle =>
+      'Thank you for joining Coach Space. Our team is currently reviewing your information to ensure the highest quality for our students. We will notify you as soon as your account is activated.';
+
+  @override
+  String get accountUnderReviewContactSupport => 'Contact Support';
+
+  @override
+  String get accountNotApprovedTitle => 'Account Not Approved';
+
+  @override
+  String get accountNotApprovedSubtitle =>
+      'We\'re sorry, your application to join as an instructor has not been approved by the administration at this time.';
+
+  @override
+  String get accountNotApprovedReasonLabel => 'Reason for Rejection:';
+
+  @override
+  String get accountNotApprovedDefaultReason =>
+      'Unable to verify attached professional certifications. Please ensure documents are clear and valid.';
+
+  @override
+  String get accountNotApprovedNeedHelp => 'Need Help?';
+
+  @override
+  String get accountNotApprovedHelpBody =>
+      'If you believe this is an error or wish to provide additional documents, please contact our support team:';
+
+  @override
+  String get supportEmail => 'support@coachspace.com';
+
+  @override
+  String get accountNotApprovedSignOut => 'Sign Out';
+
+  @override
+  String get supportIntro =>
+      'Have a question or need assistance? Our team is here to help you get the most out of your coaching journey.';
+
+  @override
+  String get supportSendMessageTitle => 'Send a Message';
+
+  @override
+  String get supportMessageLabel => 'Message';
+
+  @override
+  String get supportMessageHint => 'Describe your issue in detail...';
+
+  @override
+  String get supportSendButton => 'Send Message';
+
+  @override
+  String get supportSending => 'Sending...';
+
+  @override
+  String get supportCancel => 'Cancel';
+
+  @override
+  String get supportMessageEmpty => 'Please enter a message';
+
+  @override
+  String get supportMessageTooShort => 'Message is too short';
+
+  @override
+  String get supportMessageSent => 'Message sent. We\'ll get back to you soon.';
+
+  @override
+  String get linkExpiredTitle => 'Link Expired';
+
+  @override
+  String get linkExpiredSubtitle =>
+      'The verification link you clicked is no longer valid or has already been used. Please request a new link to verify your account.';
+
+  @override
+  String get linkExpiredResendButton => 'Resend Verification Link';
+
+  @override
+  String get linkExpiredBackToLogin => 'Back to Login';
+
+  @override
+  String get linkExpiredNoEmail => 'No email found. Please log in again.';
 
   @override
   String get settingsSaveSuccess => 'Profile updated successfully.';

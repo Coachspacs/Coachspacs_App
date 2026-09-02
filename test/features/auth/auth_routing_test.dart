@@ -52,7 +52,7 @@ void main() {
       );
     });
 
-    test('rejected instructor has no access and is sent to login', () {
+    test('rejected instructor is shown the account-not-approved screen', () {
       expect(
         routeForSession(
           session(
@@ -60,7 +60,7 @@ void main() {
             approvalStatus: ApprovalStatus.rejected,
           ),
         ),
-        AppRoutes.login,
+        AppRoutes.accountNotApproved,
       );
     });
 

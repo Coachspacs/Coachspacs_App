@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:coach_space/core/routing/app_routes.dart';
 
+import 'package:coach_space/features/auth/ui/screens/account_not_approved_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/email_verification_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/email_verification_success_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/forgot_password_screen.dart';
+import 'package:coach_space/features/auth/ui/screens/link_expired_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/login_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/pending_approval_screen.dart';
+import 'package:coach_space/features/auth/ui/screens/support_screen.dart';
 
 import 'package:coach_space/features/student/home/ui/screens/home_screen.dart';
 
@@ -40,215 +43,144 @@ import 'package:coach_space/features/student/notifications/ui/screens/notificati
 import '../../features/auth/data/models/user_role.dart';
 
 class AppRouter {
-  Route<dynamic> generateRoute(
-      RouteSettings settings,
-      ) {
+  Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-    // =====================================================
-    // AUTH
-    // =====================================================
+      // =====================================================
+      // AUTH
+      // =====================================================
 
       case AppRoutes.splash:
-        return _buildRoute(
-          const SplashScreen(),
-          settings,
-        );
+        return _buildRoute(const SplashScreen(), settings);
 
       case AppRoutes.login:
-        return _buildRoute(
-          const LoginScreen(),
-          settings,
-        );
+        return _buildRoute(const LoginScreen(), settings);
 
       case AppRoutes.signup:
-        return _buildRoute(
-          const SignupScreen(),
-          settings,
-        );
+        return _buildRoute(const SignupScreen(), settings);
 
       case AppRoutes.forgotPassword:
-        return _buildRoute(
-          const ForgotPasswordScreen(),
-          settings,
-        );
+        return _buildRoute(const ForgotPasswordScreen(), settings);
 
       case AppRoutes.emailVerification:
         return _buildRoute(
-          EmailVerificationScreen(
-            email: settings.arguments as String?,
-          ),
+          EmailVerificationScreen(email: settings.arguments as String?),
           settings,
         );
 
       case AppRoutes.emailVerificationSuccess:
         return _buildRoute(
-          EmailVerificationSuccessScreen(
-            role: settings.arguments as UserRole,
+          EmailVerificationSuccessScreen(role: settings.arguments as UserRole),
+          settings,
+        );
+
+      case AppRoutes.emailAlreadyVerified:
+        return _buildRoute(const VerificationAlreadyCompleteScreen(), settings);
+
+      case AppRoutes.pendingApproval:
+        return _buildRoute(const PendingApprovalScreen(), settings);
+
+      case AppRoutes.accountNotApproved:
+        return _buildRoute(
+          AccountNotApprovedScreen(
+            rejectionReason: settings.arguments as String?,
           ),
           settings,
         );
 
-      case AppRoutes.pendingApproval:
+      case AppRoutes.support:
+        return _buildRoute(const SupportScreen(), settings);
+
+      case AppRoutes.linkExpired:
         return _buildRoute(
-          const PendingApprovalScreen(),
+          LinkExpiredScreen(email: settings.arguments as String?),
           settings,
         );
 
-    // =====================================================
-    // HOME
-    // =====================================================
+      // =====================================================
+      // HOME
+      // =====================================================
 
       case AppRoutes.home:
-        return _buildRoute(
-          const HomeScreen(),
-          settings,
-        );
+        return _buildRoute(const HomeScreen(), settings);
 
-    // =====================================================
-    // CATALOG
-    // =====================================================
+      // =====================================================
+      // CATALOG
+      // =====================================================
 
       case AppRoutes.catalog:
-        return _buildRoute(
-          const CatalogScreen(),
-          settings,
-        );
+        return _buildRoute(const CatalogScreen(), settings);
 
       case AppRoutes.courseDetails:
-        return _buildRoute(
-          const CourseDetailsScreen(),
-          settings,
-        );
+        return _buildRoute(const CourseDetailsScreen(), settings);
 
-    // =====================================================
-    // MY LEARNING
-    // =====================================================
+      // =====================================================
+      // MY LEARNING
+      // =====================================================
 
       case AppRoutes.myLearning:
-        return _buildRoute(
-          const MyLearningScreen(),
-          settings,
-        );
+        return _buildRoute(const MyLearningScreen(), settings);
 
-    // =====================================================
-    // PROFILE
-    // =====================================================
+      // =====================================================
+      // PROFILE
+      // =====================================================
 
       case AppRoutes.profile:
-        return _buildRoute(
-          const ProfileScreen(),
-          settings,
-        );
-    // =====================================================
-// INSTRUCTOR
-// =====================================================
+        return _buildRoute(const ProfileScreen(), settings);
+      // =====================================================
+      // INSTRUCTOR
+      // =====================================================
 
       case AppRoutes.instructorDashboard:
-        return _buildRoute(
-          const InstructorDashboardScreen(),
-          settings,
-        );
+        return _buildRoute(const InstructorDashboardScreen(), settings);
 
       case AppRoutes.instructorCourses:
-        return _buildRoute(
-          const InstructorCoursesScreen(),
-          settings,
-        );
+        return _buildRoute(const InstructorCoursesScreen(), settings);
 
       case AppRoutes.instructorStudents:
-        return _buildRoute(
-          const InstructorStudentsScreen(),
-          settings,
-        );
+        return _buildRoute(const InstructorStudentsScreen(), settings);
 
       case AppRoutes.instructorProfile:
-        return _buildRoute(
-          const InstructorProfileScreen(),
-          settings,
-        );
+        return _buildRoute(const InstructorProfileScreen(), settings);
 
       case AppRoutes.createInstructorCourse:
-        return _buildRoute(
-          const CreateCourseScreen(),
-          settings,
-        );
+        return _buildRoute(const CreateCourseScreen(), settings);
 
       case AppRoutes.dashboard:
-        return _buildRoute(
-          const DashboardScreen(),
-          settings,
-        );
+        return _buildRoute(const DashboardScreen(), settings);
 
       case AppRoutes.browseCourses:
-        return _buildRoute(
-          const BrowseCoursesScreen(),
-          settings,
-        );
+        return _buildRoute(const BrowseCoursesScreen(), settings);
 
       case AppRoutes.cart:
-        return _buildRoute(
-          const CartScreen(),
-          settings,
-        );
+        return _buildRoute(const CartScreen(), settings);
 
       case AppRoutes.orderHistory:
-        return _buildRoute(
-          const OrderHistoryScreen(),
-          settings,
-        );
+        return _buildRoute(const OrderHistoryScreen(), settings);
 
       case AppRoutes.certificates:
-        return _buildRoute(
-          const CertificatesScreen(),
-          settings,
-        );
+        return _buildRoute(const CertificatesScreen(), settings);
 
       case AppRoutes.accountSettings:
-        return _buildRoute(
-          const SettingsScreen(),
-          settings,
-        );
-
+        return _buildRoute(const SettingsScreen(), settings);
 
       case AppRoutes.learningSettings:
-        return _buildRoute(
-          const LearningSettingsScreen(),
-          settings,
-        );
+        return _buildRoute(const LearningSettingsScreen(), settings);
 
       case AppRoutes.securitySettings:
-        return _buildRoute(
-          const SecuritySettingsScreen(),
-          settings,
-        );
+        return _buildRoute(const SecuritySettingsScreen(), settings);
 
       case AppRoutes.preferencesSettings:
-        return _buildRoute(
-          const PreferencesSettingsScreen(),
-          settings,
-        );
+        return _buildRoute(const PreferencesSettingsScreen(), settings);
 
       case AppRoutes.notifications:
-        return _buildRoute(
-          const NotificationScreen(),
-          settings,
-        );
+        return _buildRoute(const NotificationScreen(), settings);
 
       default:
-        return _buildRoute(
-          const LoginScreen(),
-          settings,
-        );
+        return _buildRoute(const LoginScreen(), settings);
     }
   }
 
-  Route<dynamic> _buildRoute(
-      Widget page,
-      RouteSettings settings,
-      ) {
-    return MaterialPageRoute(
-      builder: (_) => page,
-      settings: settings,
-    );
+  Route<dynamic> _buildRoute(Widget page, RouteSettings settings) {
+    return MaterialPageRoute(builder: (_) => page, settings: settings);
   }
 }

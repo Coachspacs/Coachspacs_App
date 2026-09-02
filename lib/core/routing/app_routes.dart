@@ -5,8 +5,8 @@ abstract final class AppRoutes {
   static const String signup = '/signup';
   static const String forgotPassword = '/forgot-password';
   static const String emailVerification = '/email-verification';
-  static const String emailVerificationSuccess =
-      '/email-verification-success';
+  static const String emailVerificationSuccess = '/email-verification-success';
+  static const String emailAlreadyVerified = '/email-already-verified';
   static const String editProfile = '/edit-profile';
 
   // Profile
@@ -31,27 +31,22 @@ abstract final class AppRoutes {
   static const String home = '/home';
 
   // Instructor
-  static const String instructorDashboard =
-      '/instructor-dashboard';
+  static const String instructorDashboard = '/instructor-dashboard';
 
-  static const String instructorCourses =
-      '/instructor-courses';
+  static const String instructorCourses = '/instructor-courses';
 
+  static const String createInstructorCourse = '/instructor-create-course';
 
-  static const String createInstructorCourse =
-      '/instructor-create-course';
+  static const String instructorStudents = '/instructor-students';
 
-  static const String instructorStudents =
-      '/instructor-students';
-
-
-  static const String instructorProfile =
-      '/instructor-profile';
-
+  static const String instructorProfile = '/instructor-profile';
 
   // My Learning
   static const String myLearning = '/my-learning';
 
   static const String pendingApproval = '/pending-approval';
+  static const String accountNotApproved = '/account-not-approved';
+  static const String support = '/support';
+  static const String linkExpired = '/link-expired';
   static const String notifications = '/notifications';
 }

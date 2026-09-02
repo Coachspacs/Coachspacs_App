@@ -166,17 +166,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgotPasswordBackToLogin => 'العودة لتسجيل الدخول';
 
   @override
-  String get emailVerificationTitle => 'تحقق من بريدك الإلكتروني';
+  String get emailVerificationTitle => 'تمت إعادة إرسال البريد';
 
   @override
-  String get emailVerificationBodyPrefix => 'لقد أرسلنا رابط التحقق إلى ';
+  String get emailVerificationBodyPrefix =>
+      'لقد أرسلنا رابط تحقق جديداً إلى بريدك الإلكتروني. يرجى تفقد صندوق الوارد ومجلد الرسائل غير المرغوب فيها للمتابعة.';
 
   @override
-  String get emailVerificationBodySuffix =>
-      '. اضغط على الرابط في بريدك الإلكتروني لتفعيل حسابك.';
+  String get emailVerificationBodySuffix => '';
 
   @override
-  String get emailVerificationOpenEmail => 'فتح البريد الإلكتروني';
+  String get emailVerificationOpenEmail => 'اذهب إلى البريد الوارد';
 
   @override
   String get emailVerificationOpenEmailHint =>
@@ -190,11 +190,32 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String emailVerificationResendCountdown(String time) {
-    return 'إعادة الإرسال ($time)';
+    return 'انتظر $time ثانية لإعادة الإرسال.';
   }
 
   @override
   String get emailVerificationResent => 'تم إعادة إرسال رابط التحقق';
+
+  @override
+  String get emailVerifiedSuccessTitle =>
+      'تم التحقق من البريد الإلكتروني بنجاح!';
+
+  @override
+  String get emailVerifiedSuccessBody =>
+      'تم تأكيد بريدك الإلكتروني. يمكنك الآن إكمال ملفك الشخصي وبدء رحلتك التدريبية.';
+
+  @override
+  String get emailVerifiedContinue => 'متابعة';
+
+  @override
+  String get emailAlreadyVerifiedTitle => 'تم التحقق مسبقاً';
+
+  @override
+  String get emailAlreadyVerifiedBody =>
+      'تم التحقق من عنوان بريدك الإلكتروني مسبقاً. يمكنك تسجيل الدخول إلى حسابك مباشرةً.';
+
+  @override
+  String get emailAlreadyVerifiedSignIn => 'تسجيل الدخول الآن';
 
   @override
   String get pendingApprovalTitle => 'بانتظار موافقة الإدارة';
@@ -205,6 +226,91 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pendingApprovalLogout => 'تسجيل الخروج';
+
+  @override
+  String get accountUnderReviewTitle => 'حسابك قيد المراجعة';
+
+  @override
+  String get accountUnderReviewSubtitle =>
+      'شكراً لانضمامك إلى كوتش سبيس. فريقنا يراجع معلوماتك حالياً لضمان أعلى جودة لطلابنا. سنعلمك فور تفعيل حسابك.';
+
+  @override
+  String get accountUnderReviewContactSupport => 'التواصل مع الدعم';
+
+  @override
+  String get accountNotApprovedTitle => 'لم تتم الموافقة على الحساب';
+
+  @override
+  String get accountNotApprovedSubtitle =>
+      'نأسف، لم تتم الموافقة على طلب انضمامك كمدرب من قبل الإدارة في الوقت الحالي.';
+
+  @override
+  String get accountNotApprovedReasonLabel => 'سبب الرفض:';
+
+  @override
+  String get accountNotApprovedDefaultReason =>
+      'تعذر التحقق من الشهادات المهنية المرفقة. يرجى التأكد من وضوح المستندات وصلاحيتها.';
+
+  @override
+  String get accountNotApprovedNeedHelp => 'تحتاج مساعدة؟';
+
+  @override
+  String get accountNotApprovedHelpBody =>
+      'إذا كنت تعتقد أن هذا خطأ أو ترغب في تقديم مستندات إضافية، يرجى التواصل مع فريق الدعم:';
+
+  @override
+  String get supportEmail => 'support@coachspace.com';
+
+  @override
+  String get accountNotApprovedSignOut => 'تسجيل الخروج';
+
+  @override
+  String get supportIntro =>
+      'هل لديك سؤال أو تحتاج مساعدة؟ فريقنا هنا لمساعدتك على الاستفادة القصوى من رحلتك التدريبية.';
+
+  @override
+  String get supportSendMessageTitle => 'إرسال رسالة';
+
+  @override
+  String get supportMessageLabel => 'الرسالة';
+
+  @override
+  String get supportMessageHint => 'صف مشكلتك بالتفصيل...';
+
+  @override
+  String get supportSendButton => 'إرسال الرسالة';
+
+  @override
+  String get supportSending => 'جاري الإرسال...';
+
+  @override
+  String get supportCancel => 'إلغاء';
+
+  @override
+  String get supportMessageEmpty => 'يرجى إدخال الرسالة';
+
+  @override
+  String get supportMessageTooShort => 'الرسالة قصيرة جداً';
+
+  @override
+  String get supportMessageSent => 'تم إرسال الرسالة. سنعود إليك قريباً.';
+
+  @override
+  String get linkExpiredTitle => 'انتهت صلاحية الرابط';
+
+  @override
+  String get linkExpiredSubtitle =>
+      'رابط التحقق الذي ضغطت عليه لم يعد صالحاً أو تم استخدامه مسبقاً. يرجى طلب رابط جديد للتحقق من حسابك.';
+
+  @override
+  String get linkExpiredResendButton => 'إعادة إرسال رابط التحقق';
+
+  @override
+  String get linkExpiredBackToLogin => 'العودة لتسجيل الدخول';
+
+  @override
+  String get linkExpiredNoEmail =>
+      'لا يوجد بريد إلكتروني. يرجى تسجيل الدخول مرة أخرى.';
 
   @override
   String get settingsSaveSuccess => 'تم تحديث الملف الشخصي بنجاح.';

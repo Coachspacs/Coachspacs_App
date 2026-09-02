@@ -20,7 +20,7 @@ String routeForSession(UserSession session) {
         case ApprovalStatus.pending:
           return AppRoutes.pendingApproval;
         case ApprovalStatus.rejected:
-          return AppRoutes.login;
+          return AppRoutes.accountNotApproved;
         case ApprovalStatus.unknown:
           return AppRoutes.login;
       }

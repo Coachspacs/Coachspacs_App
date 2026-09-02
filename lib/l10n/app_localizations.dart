@@ -407,25 +407,25 @@ abstract class AppLocalizations {
   /// Email verification screen title
   ///
   /// In ar, this message translates to:
-  /// **'تحقق من بريدك الإلكتروني'**
+  /// **'تمت إعادة إرسال البريد'**
   String get emailVerificationTitle;
 
   /// First part of the verification body text
   ///
   /// In ar, this message translates to:
-  /// **'لقد أرسلنا رابط التحقق إلى '**
+  /// **'لقد أرسلنا رابط تحقق جديداً إلى بريدك الإلكتروني. يرجى تفقد صندوق الوارد ومجلد الرسائل غير المرغوب فيها للمتابعة.'**
   String get emailVerificationBodyPrefix;
 
   /// Second part of the verification body text
   ///
   /// In ar, this message translates to:
-  /// **'. اضغط على الرابط في بريدك الإلكتروني لتفعيل حسابك.'**
+  /// **''**
   String get emailVerificationBodySuffix;
 
   /// Open email button
   ///
   /// In ar, this message translates to:
-  /// **'فتح البريد الإلكتروني'**
+  /// **'اذهب إلى البريد الوارد'**
   String get emailVerificationOpenEmail;
 
   /// Hint after tapping the open-email button
@@ -449,7 +449,7 @@ abstract class AppLocalizations {
   /// Resend button with countdown. {time} is a mm:ss value.
   ///
   /// In ar, this message translates to:
-  /// **'إعادة الإرسال ({time})'**
+  /// **'انتظر {time} ثانية لإعادة الإرسال.'**
   String emailVerificationResendCountdown(String time);
 
   /// Success message after resending the link
@@ -457,6 +457,42 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تم إعادة إرسال رابط التحقق'**
   String get emailVerificationResent;
+
+  /// Title on the successful email verification screen
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التحقق من البريد الإلكتروني بنجاح!'**
+  String get emailVerifiedSuccessTitle;
+
+  /// Body on the successful email verification screen
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تأكيد بريدك الإلكتروني. يمكنك الآن إكمال ملفك الشخصي وبدء رحلتك التدريبية.'**
+  String get emailVerifiedSuccessBody;
+
+  /// Continue action after email verification
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة'**
+  String get emailVerifiedContinue;
+
+  /// Title when an email link was already used
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التحقق مسبقاً'**
+  String get emailAlreadyVerifiedTitle;
+
+  /// Body when an email link was already used
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التحقق من عنوان بريدك الإلكتروني مسبقاً. يمكنك تسجيل الدخول إلى حسابك مباشرةً.'**
+  String get emailAlreadyVerifiedBody;
+
+  /// Sign in action when email is already verified
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول الآن'**
+  String get emailAlreadyVerifiedSignIn;
 
   /// Pending approval screen title
   ///
@@ -475,6 +511,162 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تسجيل الخروج'**
   String get pendingApprovalLogout;
+
+  /// Heading for the under-review variant
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابك قيد المراجعة'**
+  String get accountUnderReviewTitle;
+
+  /// Body for the under-review screen
+  ///
+  /// In ar, this message translates to:
+  /// **'شكراً لانضمامك إلى كوتش سبيس. فريقنا يراجع معلوماتك حالياً لضمان أعلى جودة لطلابنا. سنعلمك فور تفعيل حسابك.'**
+  String get accountUnderReviewSubtitle;
+
+  /// CTA on the under-review screen
+  ///
+  /// In ar, this message translates to:
+  /// **'التواصل مع الدعم'**
+  String get accountUnderReviewContactSupport;
+
+  /// Title for the rejected instructor screen
+  ///
+  /// In ar, this message translates to:
+  /// **'لم تتم الموافقة على الحساب'**
+  String get accountNotApprovedTitle;
+
+  /// Subtitle for the rejected screen
+  ///
+  /// In ar, this message translates to:
+  /// **'نأسف، لم تتم الموافقة على طلب انضمامك كمدرب من قبل الإدارة في الوقت الحالي.'**
+  String get accountNotApprovedSubtitle;
+
+  /// Label above the rejection reason text
+  ///
+  /// In ar, this message translates to:
+  /// **'سبب الرفض:'**
+  String get accountNotApprovedReasonLabel;
+
+  /// Fallback rejection reason
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذر التحقق من الشهادات المهنية المرفقة. يرجى التأكد من وضوح المستندات وصلاحيتها.'**
+  String get accountNotApprovedDefaultReason;
+
+  /// Heading of the help card on the rejected screen
+  ///
+  /// In ar, this message translates to:
+  /// **'تحتاج مساعدة؟'**
+  String get accountNotApprovedNeedHelp;
+
+  /// Body of the help card on the rejected screen
+  ///
+  /// In ar, this message translates to:
+  /// **'إذا كنت تعتقد أن هذا خطأ أو ترغب في تقديم مستندات إضافية، يرجى التواصل مع فريق الدعم:'**
+  String get accountNotApprovedHelpBody;
+
+  /// Support mailbox shown as a mailto link
+  ///
+  /// In ar, this message translates to:
+  /// **'support@coachspace.com'**
+  String get supportEmail;
+
+  /// Sign-out link on the rejected screen
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الخروج'**
+  String get accountNotApprovedSignOut;
+
+  /// Intro paragraph on the support form screen
+  ///
+  /// In ar, this message translates to:
+  /// **'هل لديك سؤال أو تحتاج مساعدة؟ فريقنا هنا لمساعدتك على الاستفادة القصوى من رحلتك التدريبية.'**
+  String get supportIntro;
+
+  /// Title inside the support card
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال رسالة'**
+  String get supportSendMessageTitle;
+
+  /// Label for the message textarea
+  ///
+  /// In ar, this message translates to:
+  /// **'الرسالة'**
+  String get supportMessageLabel;
+
+  /// Placeholder for the message textarea
+  ///
+  /// In ar, this message translates to:
+  /// **'صف مشكلتك بالتفصيل...'**
+  String get supportMessageHint;
+
+  /// Primary CTA on the support screen
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الرسالة'**
+  String get supportSendButton;
+
+  /// Loading state for the support send button
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري الإرسال...'**
+  String get supportSending;
+
+  /// Secondary cancel link on the support screen
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء'**
+  String get supportCancel;
+
+  /// Validation when the support message is empty
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إدخال الرسالة'**
+  String get supportMessageEmpty;
+
+  /// Validation when the support message is too short
+  ///
+  /// In ar, this message translates to:
+  /// **'الرسالة قصيرة جداً'**
+  String get supportMessageTooShort;
+
+  /// Confirmation after sending the support message
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إرسال الرسالة. سنعود إليك قريباً.'**
+  String get supportMessageSent;
+
+  /// Title for the expired-link screen
+  ///
+  /// In ar, this message translates to:
+  /// **'انتهت صلاحية الرابط'**
+  String get linkExpiredTitle;
+
+  /// Subtitle for the expired-link screen
+  ///
+  /// In ar, this message translates to:
+  /// **'رابط التحقق الذي ضغطت عليه لم يعد صالحاً أو تم استخدامه مسبقاً. يرجى طلب رابط جديد للتحقق من حسابك.'**
+  String get linkExpiredSubtitle;
+
+  /// CTA to resend the verification link on the expired screen
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة إرسال رابط التحقق'**
+  String get linkExpiredResendButton;
+
+  /// Secondary back action on the expired-link screen
+  ///
+  /// In ar, this message translates to:
+  /// **'العودة لتسجيل الدخول'**
+  String get linkExpiredBackToLogin;
+
+  /// Error when resend is attempted without an email
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يوجد بريد إلكتروني. يرجى تسجيل الدخول مرة أخرى.'**
+  String get linkExpiredNoEmail;
 
   /// Profile updated success message
   ///
