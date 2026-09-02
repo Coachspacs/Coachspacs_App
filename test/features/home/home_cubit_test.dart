@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:coach_space/features/home/data/models/category.dart';
-import 'package:coach_space/features/home/data/models/home_data.dart';
-import 'package:coach_space/features/home/data/models/mock_home_data.dart';
-import 'package:coach_space/features/home/data/repo/home_repository.dart';
-import 'package:coach_space/features/home/logic/cubit/home_cubit.dart';
-import 'package:coach_space/features/home/logic/cubit/home_state.dart';
+import 'package:coach_space/features/student/home/data/models/category.dart';
+import 'package:coach_space/features/student/home/data/models/home_data.dart';
+import 'package:coach_space/features/student/home/data/models/mock_home_data.dart';
+import 'package:coach_space/features/student/home/data/repo/home_repository.dart';
+import 'package:coach_space/features/student/home/logic/cubit/home_cubit.dart';
+import 'package:coach_space/features/student/home/logic/cubit/home_state.dart';
 
 class _FakeHomeRepository implements HomeRepository {
   List<Category> categories = MockHomeData.categories;

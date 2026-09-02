@@ -40,7 +40,7 @@ class CoachSpaceApp extends StatelessWidget {
         onGenerateRoute: AppRouter().generateRoute,
 
         // Keep the authentication flow as the app entry point.
-        initialRoute: AppRoutes.splash,
+        initialRoute: AppRoutes.instructorProfile,
         // App language
         locale: const Locale('en'),
 
@@ -76,7 +76,7 @@ void _onAuthStateChanged(
   final String? target = switch (state) {
     AuthAuthenticated(:final session) => routeForSession(session),
     AuthPendingApproval(:final session) => routeForSession(session),
-    AuthUnauthenticated() => AppRoutes.login,
+    AuthUnauthenticated() => AppRoutes.home,
     _ => null,
   };
 
