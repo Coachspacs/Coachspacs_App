@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:coach_space/core/networking/api_service.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
+import 'package:coach_space/core/networking/paginated_response.dart';
 import '../models/instructor_course_dto.dart';
 import 'instructor_courses_repository.dart';
 
@@ -25,14 +26,26 @@ class InstructorCoursesRepositoryImpl implements InstructorCoursesRepository {
     int pageSize = 20,
   }) => _guard(() => _api.getInstructorCourses(page, pageSize));
   @override
-  Future<InstructorCourseDto> createCourse(Map<String, dynamic> data) =>
+  Future<InstructorCourseDto> createCourse(CourseWriteRequest data) =>
       _guard(() => _api.createInstructorCourse(data));
   @override
-  Future<InstructorCourseDto> updateCourse(int id, Map<String, dynamic> data) =>
+  Future<InstructorCourseDto> updateCourse(int id, CoursePatchRequest data) =>
       _guard(() => _api.updateInstructorCourse(id, data));
+  @override
+  Future<InstructorCourseDto> getCourse(int id) =>
+      _guard(() => _api.getInstructorCourse(id));
+  @override
+  Future<InstructorCourseDto> replaceCourse(int id, CourseWriteRequest data) =>
+      _guard(() => _api.replaceInstructorCourse(id, data));
+  @override
+  Future<void> deleteCourse(int id) =>
+      _guard(() => _api.deleteInstructorCourse(id));
   @override
   Future<void> uploadCoverImage(int id, File image) =>
       _guard(() => _api.uploadInstructorCoverImage(id, image));
+  @override
+  Future<void> getVideoUploadSignature(int id) =>
+      _guard(() => _api.getVideoUploadSignature(id));
   @override
   Future<List<InstructorSectionDto>> getSections(int courseId) async =>
       (await _guard(
@@ -41,13 +54,21 @@ class InstructorCoursesRepositoryImpl implements InstructorCoursesRepository {
   @override
   Future<InstructorSectionDto> createSection(
     int courseId,
-    Map<String, dynamic> data,
+    SectionWriteRequest data,
   ) => _guard(() => _api.createInstructorSection(courseId, data));
   @override
   Future<InstructorSectionDto> updateSection(
     int id,
-    Map<String, dynamic> data,
+    SectionPatchRequest data,
   ) => _guard(() => _api.updateInstructorSection(id, data));
+  @override
+  Future<InstructorSectionDto> getSection(int id) =>
+      _guard(() => _api.getInstructorSection(id));
+  @override
+  Future<InstructorSectionDto> replaceSection(
+    int id,
+    SectionWriteRequest data,
+  ) => _guard(() => _api.replaceInstructorSection(id, data));
   @override
   Future<void> deleteSection(int id) =>
       _guard(() => _api.deleteInstructorSection(id));
@@ -59,20 +80,29 @@ class InstructorCoursesRepositoryImpl implements InstructorCoursesRepository {
   @override
   Future<InstructorLessonDto> createLesson(
     int sectionId,
-    Map<String, dynamic> data,
+    LessonWriteRequest data,
   ) => _guard(() => _api.createInstructorLesson(sectionId, data));
   @override
-  Future<InstructorLessonDto> updateLesson(int id, Map<String, dynamic> data) =>
+  Future<InstructorLessonDto> updateLesson(int id, LessonPatchRequest data) =>
       _guard(() => _api.updateInstructorLesson(id, data));
+  @override
+  Future<InstructorLessonDto> getLesson(int id) =>
+      _guard(() => _api.getInstructorLesson(id));
+  @override
+  Future<InstructorLessonDto> replaceLesson(int id, LessonWriteRequest data) =>
+      _guard(() => _api.replaceInstructorLesson(id, data));
   @override
   Future<void> deleteLesson(int id) =>
       _guard(() => _api.deleteInstructorLesson(id));
   @override
   Future<void> reorderCourse(
     int courseId,
-    List<Map<String, dynamic>> sections,
+    List<SectionReorderRequest> sections,
   ) => _guard(
-    () => _api.reorderInstructorCourse(courseId, {'sections': sections}),
+    () => _api.reorderInstructorCourse(
+      courseId,
+      CourseReorderRequest(sections: sections),
+    ),
   );
   @override
   Future<void> submitCourse(int courseId) =>
