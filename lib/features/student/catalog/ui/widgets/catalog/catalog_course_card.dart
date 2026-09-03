@@ -28,9 +28,7 @@ class CatalogCourseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFE0EAE7),
-        ),
+        border: Border.all(color: const Color(0xFFE0EAE7)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -105,11 +103,7 @@ class CatalogCourseCard extends StatelessWidget {
                 // Rating + Students
                 Row(
                   children: [
-                    const Icon(
-                      Icons.star,
-                      size: 15,
-                      color: Color(0xFFF2B52E),
-                    ),
+                    const Icon(Icons.star, size: 15, color: Color(0xFFF2B52E)),
 
                     const SizedBox(width: 4),
 
@@ -136,17 +130,13 @@ class CatalogCourseCard extends StatelessWidget {
 
                 const SizedBox(height: 12),
 
-                const Divider(
-                  height: 1,
-                  color: Color(0xFFE8EFED),
-                ),
+                const Divider(height: 1, color: Color(0xFFE8EFED)),
 
                 const SizedBox(height: 12),
 
                 // Price + View Course
                 Row(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Text(
@@ -164,20 +154,14 @@ class CatalogCourseCard extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: onTap,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                          const Color(0xFF075E4D),
+                          backgroundColor: const Color(0xFF075E4D),
                           foregroundColor: Colors.white,
                           elevation: 0,
 
-                          padding:
-                          const EdgeInsets.symmetric(
-                            horizontal: 18,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 18),
 
-                          shape:
-                          RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
 
@@ -202,16 +186,12 @@ class CatalogCourseCard extends StatelessWidget {
 
   Widget _buildCourseImage() {
     if (image.isNotEmpty) {
-      return Image.asset(
+      return Image.network(
         image,
         width: double.infinity,
         height: 175,
         fit: BoxFit.cover,
-        errorBuilder: (
-            context,
-            error,
-            stackTrace,
-            ) {
+        errorBuilder: (context, error, stackTrace) {
           return _placeholder();
         },
       );
