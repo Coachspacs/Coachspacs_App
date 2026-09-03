@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class InstructorRecentCourses
-    extends StatelessWidget {
+import 'package:coach_space/core/routing/app_routes.dart';
+
+class InstructorRecentCourses extends StatelessWidget {
   const InstructorRecentCourses({
     super.key,
   });
@@ -37,9 +38,12 @@ class InstructorRecentCourses
     ];
 
     return Column(
-      crossAxisAlignment:
-      CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // =====================================================
+        // SECTION HEADER
+        // =====================================================
+
         Row(
           children: [
             Text(
@@ -53,8 +57,17 @@ class InstructorRecentCourses
 
             const Spacer(),
 
+            // =================================================
+            // VIEW ALL
+            // =================================================
+
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.instructorCourses,
+                );
+              },
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
                 minimumSize: Size.zero,
@@ -74,6 +87,10 @@ class InstructorRecentCourses
         ),
 
         const SizedBox(height: 9),
+
+        // =====================================================
+        // COURSES CONTAINER
+        // =====================================================
 
         Container(
           decoration: BoxDecoration(
@@ -127,8 +144,7 @@ class _CourseData {
 // COURSE ITEM
 // =============================================================
 
-class _RecentCourseItem
-    extends StatelessWidget {
+class _RecentCourseItem extends StatelessWidget {
   const _RecentCourseItem({
     required this.course,
     required this.showDivider,
@@ -152,14 +168,18 @@ class _RecentCourseItem
       ),
       child: Row(
         children: [
+          // =================================================
+          // COURSE ICON
+          // =================================================
+
           Container(
             width: 52,
             height: 48,
             decoration: BoxDecoration(
               color: const Color(0xFFE8F2EF),
-              borderRadius:
-              BorderRadius.circular(9),
+              borderRadius: BorderRadius.circular(9),
             ),
+            alignment: Alignment.center,
             child: Icon(
               course.icon,
               size: 22,
@@ -169,14 +189,18 @@ class _RecentCourseItem
 
           const SizedBox(width: 11),
 
+          // =================================================
+          // COURSE INFO
+          // =================================================
+
           Expanded(
             child: Column(
               crossAxisAlignment:
               CrossAxisAlignment.start,
               children: [
+                // STATUS
                 Container(
-                  padding:
-                  const EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 6,
                     vertical: 3,
                   ),
@@ -189,8 +213,7 @@ class _RecentCourseItem
                     course.status,
                     style: GoogleFonts.inter(
                       fontSize: 6.5,
-                      fontWeight:
-                      FontWeight.w800,
+                      fontWeight: FontWeight.w800,
                       color: course.statusColor,
                     ),
                   ),
@@ -198,21 +221,21 @@ class _RecentCourseItem
 
                 const SizedBox(height: 5),
 
+                // TITLE
                 Text(
                   course.title,
                   maxLines: 1,
-                  overflow:
-                  TextOverflow.ellipsis,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color:
-                    const Color(0xFF263C38),
+                    color: const Color(0xFF263C38),
                   ),
                 ),
 
                 const SizedBox(height: 4),
 
+                // TIME
                 Row(
                   children: [
                     const Icon(
@@ -227,8 +250,7 @@ class _RecentCourseItem
                       course.time,
                       style: GoogleFonts.inter(
                         fontSize: 7.5,
-                        color:
-                        const Color(0xFF899590),
+                        color: const Color(0xFF899590),
                       ),
                     ),
                   ],
@@ -236,6 +258,10 @@ class _RecentCourseItem
               ],
             ),
           ),
+
+          // =================================================
+          // MORE
+          // =================================================
 
           IconButton(
             onPressed: () {},

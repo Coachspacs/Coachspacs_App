@@ -6,7 +6,6 @@ import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_bottom_nav_bar.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_earnings_card.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_overview_card.dart';
-import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_quick_actions.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_recent_courses.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_stats_grid.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_top_bar.dart';
@@ -107,8 +106,7 @@ class InstructorDashboardScreen extends StatelessWidget {
                   28,
                 ),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
                     // =================================================
                     // WELCOME
@@ -139,14 +137,6 @@ class InstructorDashboardScreen extends StatelessWidget {
                     // =================================================
 
                     InstructorOverviewCard(),
-
-                    SizedBox(height: 22),
-
-                    // =================================================
-                    // QUICK ACTIONS
-                    // =================================================
-
-                    InstructorQuickActions(),
 
                     SizedBox(height: 24),
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 import 'package:coach_space/features/instructor/courses/ui/widgets/create_course/course_creation_step_indicator.dart';
@@ -11,7 +12,33 @@ import 'package:coach_space/features/instructor/courses/ui/widgets/create_course
 class CreateCourseScreen extends StatefulWidget {
   const CreateCourseScreen({
     super.key,
+
+    // =====================================================
+    // EDIT MODE
+    // =====================================================
+
+    this.isEditing = false,
+
+    this.initialTitle,
+    this.initialDescription,
+    this.initialCategory,
+    this.initialLevel,
+    this.initialLanguage,
+    this.initialPrice,
   });
+
+  // =====================================================
+  // EDIT MODE DATA
+  // =====================================================
+
+  final bool isEditing;
+
+  final String? initialTitle;
+  final String? initialDescription;
+  final String? initialCategory;
+  final String? initialLevel;
+  final String? initialLanguage;
+  final String? initialPrice;
 
   @override
   State<CreateCourseScreen> createState() =>
@@ -20,31 +47,87 @@ class CreateCourseScreen extends StatefulWidget {
 
 class _CreateCourseScreenState
     extends State<CreateCourseScreen> {
+  // =====================================================
+  // CURRENT STEP
+  // =====================================================
+
   int _currentStep = 0;
 
-  final TextEditingController _titleController =
-  TextEditingController();
+  // =====================================================
+  // CONTROLLERS
+  // =====================================================
 
-  final TextEditingController _descriptionController =
-  TextEditingController();
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
+  late final TextEditingController _priceController;
 
-  final TextEditingController _priceController =
-  TextEditingController();
+  // =====================================================
+  // SELECTED VALUES
+  // =====================================================
 
-  String _selectedCategory = 'Select a category';
-  String _selectedLevel = 'Beginner';
-  String _selectedLanguage = 'English';
+  late String _selectedCategory;
+  late String _selectedLevel;
+  late String _selectedLanguage;
+
+  // =====================================================
+  // INIT
+  // =====================================================
+
+  @override
+  void initState() {
+    super.initState();
+
+    _titleController = TextEditingController(
+      text: widget.initialTitle ?? '',
+    );
+
+    _descriptionController = TextEditingController(
+      text: widget.initialDescription ?? '',
+    );
+
+    _priceController = TextEditingController(
+      text: _cleanPrice(widget.initialPrice),
+    );
+
+    _selectedCategory =
+        widget.initialCategory ?? 'Select a category';
+
+    _selectedLevel =
+        widget.initialLevel ?? 'Beginner';
+
+    _selectedLanguage =
+        widget.initialLanguage ?? 'English';
+  }
+
+  // =====================================================
+  // CLEAN PRICE
+  // =====================================================
+
+  String _cleanPrice(String? price) {
+    if (price == null || price.isEmpty) {
+      return '';
+    }
+
+    return price
+        .replaceAll('\$', '')
+        .trim();
+  }
+
+  // =====================================================
+  // DISPOSE
+  // =====================================================
 
   @override
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
     _priceController.dispose();
+
     super.dispose();
   }
 
   // =====================================================
-  // NEXT
+  // NEXT STEP
   // =====================================================
 
   void _nextStep() {
@@ -52,13 +135,14 @@ class _CreateCourseScreenState
       setState(() {
         _currentStep++;
       });
-    } else {
-      _submitCourse();
+      return;
     }
+
+    _saveCourse();
   }
 
   // =====================================================
-  // BACK
+  // PREVIOUS STEP
   // =====================================================
 
   void _previousStep() {
@@ -66,16 +150,54 @@ class _CreateCourseScreenState
       setState(() {
         _currentStep--;
       });
-    } else {
-      Navigator.pop(context);
+      return;
     }
+
+    Navigator.pop(context);
   }
 
   // =====================================================
-  // SUBMIT
+  // SAVE / SUBMIT
   // =====================================================
 
-  void _submitCourse() {
+  void _saveCourse() {
+    if (widget.isEditing) {
+      // ===================================================
+      // EDIT MODE
+      // ===================================================
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Changes saved successfully.',
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          backgroundColor:
+          const Color(0xFF075E4D),
+          behavior:
+          SnackBarBehavior.floating,
+          duration:
+          const Duration(seconds: 2),
+        ),
+      );
+
+      // Go back to Instructor Courses.
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.instructorCourses,
+            (route) => false,
+      );
+
+      return;
+    }
+
+    // =====================================================
+    // CREATE MODE
+    // =====================================================
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -85,10 +207,70 @@ class _CreateCourseScreenState
             fontWeight: FontWeight.w600,
           ),
         ),
-        backgroundColor: const Color(0xFF075E4D),
-        behavior: SnackBarBehavior.floating,
+        backgroundColor:
+        const Color(0xFF075E4D),
+        behavior:
+        SnackBarBehavior.floating,
       ),
     );
+  }
+
+  // =====================================================
+  // STEP TITLE
+  // =====================================================
+
+  String _stepTitle() {
+    if (_currentStep == 0) {
+      return widget.isEditing
+          ? 'Edit Course'
+          : 'Create New Course';
+    }
+
+    if (_currentStep == 1) {
+      return 'Curriculum Builder';
+    }
+
+    return widget.isEditing
+        ? 'Review & Save'
+        : 'Review & Publish';
+  }
+
+  // =====================================================
+  // STEP SUBTITLE
+  // =====================================================
+
+  String _stepSubtitle() {
+    if (_currentStep == 0) {
+      return widget.isEditing
+          ? 'Update your course information and make the changes you need.'
+          : 'Start with the basics. You can always change these later.';
+    }
+
+    if (_currentStep == 1) {
+      return 'Organize your course into sections, lessons and activities.';
+    }
+
+    return widget.isEditing
+        ? 'Review your changes before saving the updated course.'
+        : 'Check everything one last time before submitting your course.';
+  }
+
+  // =====================================================
+  // BOTTOM BUTTON TEXT
+  // =====================================================
+
+  String _bottomButtonText() {
+    if (_currentStep == 0) {
+      return 'Save & Continue  →';
+    }
+
+    if (_currentStep == 1) {
+      return 'Save & Continue  →';
+    }
+
+    return widget.isEditing
+        ? 'Save Changes  →'
+        : 'Submit for Review  →';
   }
 
   // =====================================================
@@ -98,24 +280,27 @@ class _CreateCourseScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgDefault,
+      backgroundColor:
+      AppColors.bgDefault,
 
       body: SafeArea(
         child: Column(
           children: [
             // =================================================
-// COURSE CREATION HEADER
-// =================================================
+            // HEADER
+            // =================================================
 
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(
+              padding:
+              const EdgeInsets.fromLTRB(
                 16,
                 10,
                 16,
                 14,
               ),
-              decoration: const BoxDecoration(
+              decoration:
+              const BoxDecoration(
                 color: Colors.white,
                 border: Border(
                   bottom: BorderSide(
@@ -124,7 +309,8 @@ class _CreateCourseScreenState
                 ),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
                 children: [
                   // =============================================
                   // BACK + TITLE
@@ -133,32 +319,40 @@ class _CreateCourseScreenState
                   Row(
                     children: [
                       IconButton(
-                        onPressed: _previousStep,
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(
+                        onPressed:
+                        _previousStep,
+                        padding:
+                        EdgeInsets.zero,
+                        constraints:
+                        const BoxConstraints(
                           minWidth: 28,
                           minHeight: 28,
                         ),
-                        icon: const Icon(
+                        icon:
+                        const Icon(
                           Icons.arrow_back_rounded,
                           size: 21,
-                          color: Color(0xFF263C38),
+                          color:
+                          Color(0xFF263C38),
                         ),
                       ),
 
-                      const SizedBox(width: 7),
+                      const SizedBox(
+                        width: 7,
+                      ),
 
                       Expanded(
                         child: Text(
-                          _currentStep == 0
-                              ? 'Create New Course'
-                              : _currentStep == 1
-                              ? 'Curriculum Builder'
-                              : 'Review & Publish',
-                          style: GoogleFonts.inter(
+                          _stepTitle(),
+                          style:
+                          GoogleFonts.inter(
                             fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                            color: const Color(0xFF073F38),
+                            fontWeight:
+                            FontWeight.w800,
+                            color:
+                            const Color(
+                              0xFF073F38,
+                            ),
                           ),
                         ),
                       ),
@@ -170,32 +364,36 @@ class _CreateCourseScreenState
                   // =============================================
 
                   Padding(
-                    padding: const EdgeInsets.only(
+                    padding:
+                    const EdgeInsets.only(
                       left: 35,
                       top: 3,
                     ),
                     child: Text(
-                      _currentStep == 0
-                          ? 'Start with the basics. You can always change these later.'
-                          : _currentStep == 1
-                          ? 'Organize your course into sections, lessons and activities.'
-                          : 'Check everything one last time before submitting your course.',
-                      style: GoogleFonts.inter(
+                      _stepSubtitle(),
+                      style:
+                      GoogleFonts.inter(
                         fontSize: 9.5,
                         height: 1.4,
-                        color: const Color(0xFF788681),
+                        color:
+                        const Color(
+                          0xFF788681,
+                        ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 13),
+                  const SizedBox(
+                    height: 13,
+                  ),
 
                   // =============================================
                   // STEP INDICATOR
                   // =============================================
 
                   CourseCreationStepIndicator(
-                    currentStep: _currentStep,
+                    currentStep:
+                    _currentStep,
                   ),
                 ],
               ),
@@ -206,29 +404,34 @@ class _CreateCourseScreenState
             // =================================================
 
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(
+              child:
+              SingleChildScrollView(
+                padding:
+                const EdgeInsets.fromLTRB(
                   16,
                   18,
                   16,
                   24,
                 ),
-                child: _buildCurrentStep(),
+                child:
+                _buildCurrentStep(),
               ),
             ),
 
             // =================================================
-            // BOTTOM BUTTON
+            // BOTTOM ACTION
             // =================================================
 
             Container(
-              padding: const EdgeInsets.fromLTRB(
+              padding:
+              const EdgeInsets.fromLTRB(
                 16,
                 10,
                 16,
                 14,
               ),
-              decoration: const BoxDecoration(
+              decoration:
+              const BoxDecoration(
                 color: Colors.white,
                 border: Border(
                   top: BorderSide(
@@ -241,25 +444,30 @@ class _CreateCourseScreenState
                 height: 44,
                 child: ElevatedButton(
                   onPressed: _nextStep,
-                  style: ElevatedButton.styleFrom(
+                  style:
+                  ElevatedButton.styleFrom(
                     backgroundColor:
-                    const Color(0xFF075E4D),
-                    foregroundColor: Colors.white,
+                    const Color(
+                      0xFF075E4D,
+                    ),
+                    foregroundColor:
+                    Colors.white,
                     elevation: 0,
-                    shape: RoundedRectangleBorder(
+                    shape:
+                    RoundedRectangleBorder(
                       borderRadius:
-                      BorderRadius.circular(10),
+                      BorderRadius.circular(
+                        10,
+                      ),
                     ),
                   ),
                   child: Text(
-                    _currentStep == 0
-                        ? 'Save & Continue  →'
-                        : _currentStep == 1
-                        ? 'Save & Continue  →'
-                        : 'Submit for Review  →',
-                    style: GoogleFonts.inter(
+                    _bottomButtonText(),
+                    style:
+                    GoogleFonts.inter(
                       fontSize: 13,
-                      fontWeight: FontWeight.w700,
+                      fontWeight:
+                      FontWeight.w700,
                     ),
                   ),
                 ),
@@ -283,27 +491,40 @@ class _CreateCourseScreenState
 
       case 0:
         return CreateCourseBasicInfo(
-          titleController: _titleController,
+          titleController:
+          _titleController,
           descriptionController:
           _descriptionController,
-          priceController: _priceController,
+          priceController:
+          _priceController,
           selectedCategory:
           _selectedCategory,
-          selectedLevel: _selectedLevel,
-          selectedLanguage: _selectedLanguage,
-          onCategoryChanged: (value) {
+          selectedLevel:
+          _selectedLevel,
+          selectedLanguage:
+          _selectedLanguage,
+
+          onCategoryChanged:
+              (value) {
             setState(() {
-              _selectedCategory = value;
+              _selectedCategory =
+                  value;
             });
           },
-          onLevelChanged: (value) {
+
+          onLevelChanged:
+              (value) {
             setState(() {
-              _selectedLevel = value;
+              _selectedLevel =
+                  value;
             });
           },
-          onLanguageChanged: (value) {
+
+          onLanguageChanged:
+              (value) {
             setState(() {
-              _selectedLanguage = value;
+              _selectedLanguage =
+                  value;
             });
           },
         );
@@ -321,15 +542,25 @@ class _CreateCourseScreenState
 
       case 2:
         return CreateCourseReview(
-          title: _titleController.text.isEmpty
+          title:
+          _titleController.text.isEmpty
               ? 'Mastering Leadership Communication'
               : _titleController.text,
+
           description:
           _descriptionController.text,
-          category: _selectedCategory,
-          level: _selectedLevel,
-          language: _selectedLanguage,
-          price: _priceController.text.isEmpty
+
+          category:
+          _selectedCategory,
+
+          level:
+          _selectedLevel,
+
+          language:
+          _selectedLanguage,
+
+          price:
+          _priceController.text.isEmpty
               ? '\$299.00'
               : '\$${_priceController.text}',
         );

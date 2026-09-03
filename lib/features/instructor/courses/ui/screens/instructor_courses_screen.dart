@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_bottom_nav_bar.dart';
@@ -30,8 +31,7 @@ class _InstructorCoursesScreenState
 
   final List<InstructorCourse> _courses = [
     const InstructorCourse(
-      title:
-      'React 19 & Next.js App Router Masterclass',
+      title: 'React 19 & Next.js App Router Masterclass',
       image: 'assets/images/course1.png',
       status: CourseStatus.published,
       students: '350',
@@ -57,8 +57,7 @@ class _InstructorCoursesScreenState
     ),
 
     const InstructorCourse(
-      title:
-      'Advanced Leadership Strategies for Modern Teams',
+      title: 'Advanced Leadership Strategies for Modern Teams',
       image: 'assets/images/course4.png',
       status: CourseStatus.draft,
       students: '0',
@@ -75,8 +74,7 @@ class _InstructorCoursesScreenState
     ),
 
     const InstructorCourse(
-      title:
-      'Peak Performance: Productivity Systems',
+      title: 'Peak Performance: Productivity Systems',
       image: 'assets/images/course6.png',
       status: CourseStatus.published,
       students: '215',
@@ -98,8 +96,7 @@ class _InstructorCoursesScreenState
         return _courses
             .where(
               (course) =>
-          course.status ==
-              CourseStatus.published,
+          course.status == CourseStatus.published,
         )
             .toList();
 
@@ -107,8 +104,7 @@ class _InstructorCoursesScreenState
         return _courses
             .where(
               (course) =>
-          course.status ==
-              CourseStatus.pendingReview,
+          course.status == CourseStatus.pendingReview,
         )
             .toList();
 
@@ -116,8 +112,7 @@ class _InstructorCoursesScreenState
         return _courses
             .where(
               (course) =>
-          course.status ==
-              CourseStatus.draft,
+          course.status == CourseStatus.draft,
         )
             .toList();
     }
@@ -132,10 +127,22 @@ class _InstructorCoursesScreenState
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
 
+      // =====================================================
+      // BODY
+      // =====================================================
+
       body: SafeArea(
         child: Column(
           children: [
+            // =================================================
+            // TOP BAR
+            // =================================================
+
             const InstructorTopBar(),
+
+            // =================================================
+            // CONTENT
+            // =================================================
 
             Expanded(
               child: SingleChildScrollView(
@@ -147,29 +154,42 @@ class _InstructorCoursesScreenState
                 ),
                 child: Center(
                   child: ConstrainedBox(
-                    constraints:
-                    const BoxConstraints(
+                    constraints: const BoxConstraints(
                       maxWidth: 900,
                     ),
                     child: Column(
                       crossAxisAlignment:
                       CrossAxisAlignment.start,
                       children: [
+                        // =================================================
+                        // APPROVAL BANNER
+                        // =================================================
+
                         const InstructorCoursesApprovalBanner(),
 
                         const SizedBox(height: 18),
 
+                        // =================================================
+                        // COURSES HEADER
+                        // =================================================
+
                         InstructorCoursesHeader(
                           onCreateCourse: () {
-                            // Create course screen will be added later.
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.createInstructorCourse,
+                            );
                           },
                         ),
 
                         const SizedBox(height: 16),
 
+                        // =================================================
+                        // FILTER
+                        // =================================================
+
                         InstructorCoursesFilter(
-                          selectedFilter:
-                          _selectedFilter,
+                          selectedFilter: _selectedFilter,
                           onFilterChanged: (filter) {
                             setState(() {
                               _selectedFilter = filter;
@@ -178,6 +198,10 @@ class _InstructorCoursesScreenState
                         ),
 
                         const SizedBox(height: 16),
+
+                        // =================================================
+                        // COURSES
+                        // =================================================
 
                         _buildCourses(),
                       ],
@@ -190,9 +214,60 @@ class _InstructorCoursesScreenState
         ),
       ),
 
-      bottomNavigationBar:
-      const InstructorBottomNavBar(
+      // =====================================================
+      // BOTTOM NAVIGATION
+      // =====================================================
+
+      bottomNavigationBar: InstructorBottomNavBar(
         currentIndex: 1,
+
+        onItemSelected: (index) {
+          switch (index) {
+          // ===============================================
+          // DASHBOARD
+          // ===============================================
+
+            case 0:
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.instructorDashboard,
+                    (route) => false,
+              );
+              break;
+
+          // ===============================================
+          // COURSES
+          // ===============================================
+
+            case 1:
+            // We are already on Courses.
+              break;
+
+          // ===============================================
+          // STUDENTS
+          // ===============================================
+
+            case 2:
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.instructorStudents,
+                    (route) => false,
+              );
+              break;
+
+          // ===============================================
+          // PROFILE
+          // ===============================================
+
+            case 3:
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.instructorProfile,
+                    (route) => false,
+              );
+              break;
+          }
+        },
       ),
     );
   }
@@ -208,20 +283,22 @@ class _InstructorCoursesScreenState
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isWide =
+        final bool isWide =
             constraints.maxWidth >= 650;
+
+        // ===================================================
+        // MOBILE
+        // ===================================================
 
         if (!isWide) {
           return Column(
             children: _filteredCourses
                 .map(
                   (course) => Padding(
-                padding:
-                const EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   bottom: 14,
                 ),
-                child:
-                InstructorCourseCard(
+                child: InstructorCourseCard(
                   course: course,
                 ),
               ),
@@ -229,6 +306,10 @@ class _InstructorCoursesScreenState
                 .toList(),
           );
         }
+
+        // ===================================================
+        // WEB / TABLET
+        // ===================================================
 
         return GridView.builder(
           shrinkWrap: true,
@@ -253,9 +334,9 @@ class _InstructorCoursesScreenState
   }
 }
 
-// =====================================================
+// =============================================================
 // EMPTY STATE
-// =====================================================
+// =============================================================
 
 class _EmptyCoursesState extends StatelessWidget {
   const _EmptyCoursesState();
@@ -310,9 +391,9 @@ class _EmptyCoursesState extends StatelessWidget {
   }
 }
 
-// =====================================================
+// =============================================================
 // COURSE MODEL
-// =====================================================
+// =============================================================
 
 class InstructorCourse {
   const InstructorCourse({
@@ -332,9 +413,9 @@ class InstructorCourse {
   final String? rejectionReason;
 }
 
-// =====================================================
+// =============================================================
 // COURSE STATUS
-// =====================================================
+// =============================================================
 
 enum CourseStatus {
   published,

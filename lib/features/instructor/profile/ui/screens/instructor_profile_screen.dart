@@ -13,8 +13,9 @@ import 'package:coach_space/features/instructor/profile/ui/widgets/instructor_pr
 import 'package:coach_space/features/instructor/profile/ui/screens/instructor_social_links_screen.dart';
 import 'package:coach_space/features/instructor/profile/ui/screens/instructor_payout_screen.dart';
 import 'package:coach_space/features/instructor/profile/ui/screens/instructor_security_screen.dart';
-
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_bottom_nav_bar.dart';
+
+import 'instructor_basic_info_screen.dart';
 
 class InstructorProfileScreen extends StatelessWidget {
   const InstructorProfileScreen({
@@ -36,10 +37,6 @@ class InstructorProfileScreen extends StatelessWidget {
             // =================================================
             // APP HEADER
             // =================================================
-            //
-            // Profile icon is hidden because we are already
-            // inside the Profile screen.
-            //
 
             const InstructorStudentsHeader(
               showProfile: false,
@@ -91,7 +88,17 @@ class InstructorProfileScreen extends StatelessWidget {
                     // USER CARD
                     // =================================================
 
-                    const InstructorProfileUserCard(),
+                    InstructorProfileUserCard(
+                      onEdit: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                            const InstructorBasicInfoScreen(),
+                          ),
+                        );
+                      },
+                    ),
 
                     const SizedBox(height: 22),
 
@@ -107,13 +114,18 @@ class InstructorProfileScreen extends StatelessWidget {
                         // =================================================
 
                         InstructorProfileMenuItem(
-                          icon:
-                          Icons.person_outline_rounded,
+                          icon: Icons.person_outline_rounded,
                           title: 'Basic Info & Skills',
                           subtitle:
                           'Name, specialization and experience',
                           onTap: () {
-                            // Screen will be added later.
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                const InstructorBasicInfoScreen(),
+                              ),
+                            );
                           },
                         ),
 
@@ -174,8 +186,7 @@ class InstructorProfileScreen extends StatelessWidget {
                         // =================================================
 
                         InstructorProfileMenuItem(
-                          icon:
-                          Icons.lock_outline_rounded,
+                          icon: Icons.lock_outline_rounded,
                           title: 'Security & Password',
                           subtitle:
                           'Password and account security',
@@ -213,8 +224,7 @@ class InstructorProfileScreen extends StatelessWidget {
                           style: GoogleFonts.inter(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color:
-                            const Color(0xFFD9534F),
+                            color: const Color(0xFFD9534F),
                           ),
                         ),
                       ),
@@ -233,8 +243,7 @@ class InstructorProfileScreen extends StatelessWidget {
       // BOTTOM NAVIGATION
       // =====================================================
 
-      bottomNavigationBar:
-      InstructorBottomNavBar(
+      bottomNavigationBar: InstructorBottomNavBar(
         currentIndex: 3,
         onItemSelected: (index) {
           _handleBottomNavigation(
@@ -312,8 +321,7 @@ class InstructorProfileScreen extends StatelessWidget {
         return AlertDialog(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius:
-            BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(18),
           ),
           title: Text(
             'Sign Out',
@@ -344,8 +352,7 @@ class InstructorProfileScreen extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
-                  color:
-                  const Color(0xFF667570),
+                  color: const Color(0xFF667570),
                 ),
               ),
             ),
@@ -365,13 +372,11 @@ class InstructorProfileScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                const Color(0xFF075E4D),
+                backgroundColor: const Color(0xFF075E4D),
                 foregroundColor: Colors.white,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.circular(9),
+                  borderRadius: BorderRadius.circular(9),
                 ),
               ),
               child: Text(

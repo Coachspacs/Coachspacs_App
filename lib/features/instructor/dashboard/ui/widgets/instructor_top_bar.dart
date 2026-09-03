@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
+
 class InstructorTopBar extends StatelessWidget {
   const InstructorTopBar({
     super.key,
@@ -72,16 +74,22 @@ class InstructorTopBar extends StatelessWidget {
           const Spacer(),
 
           // =====================================================
-          // NOTIFICATION
+          // NOTIFICATIONS
           // =====================================================
 
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.instructorNotifications,
+              );
+            },
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(
               minWidth: 38,
               minHeight: 38,
             ),
+            splashRadius: 22,
             icon: const Icon(
               Icons.notifications_none_outlined,
               color: Color(0xFF263C38),
@@ -96,7 +104,12 @@ class InstructorTopBar extends StatelessWidget {
           // =====================================================
 
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.instructorProfile,
+              );
+            },
             child: Container(
               width: 35,
               height: 35,

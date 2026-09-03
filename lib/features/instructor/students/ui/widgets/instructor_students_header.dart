@@ -7,9 +7,11 @@ class InstructorStudentsHeader extends StatelessWidget {
   const InstructorStudentsHeader({
     super.key,
     this.showProfile = true,
+    this.onNotifications,
   });
 
   final bool showProfile;
+  final VoidCallback? onNotifications;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,13 @@ class InstructorStudentsHeader extends StatelessWidget {
                 // =================================================
 
                 IconButton(
-                  onPressed: () {},
+                  onPressed: onNotifications ??
+                          () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.instructorNotifications,
+                        );
+                      },
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(
                     minWidth: 36,
@@ -80,10 +88,6 @@ class InstructorStudentsHeader extends StatelessWidget {
                 // =================================================
                 // PROFILE
                 // =================================================
-                //
-                // Hidden on the Profile screen because the user
-                // is already inside Profile.
-                //
 
                 if (showProfile) ...[
                   const SizedBox(width: 4),
@@ -92,7 +96,7 @@ class InstructorStudentsHeader extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(
                         context,
-                        AppRoutes.profile,
+                        AppRoutes.instructorProfile,
                       );
                     },
                     child: Container(

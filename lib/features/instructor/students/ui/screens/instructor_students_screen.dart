@@ -23,6 +23,7 @@ class InstructorStudentsScreen extends StatefulWidget {
 class _InstructorStudentsScreenState
     extends State<InstructorStudentsScreen> {
   int _selectedFilter = 0;
+  String _searchQuery = '';
 
   final List<_StudentData> _students = const [
     _StudentData(
@@ -68,38 +69,28 @@ class _InstructorStudentsScreenState
   ];
 
   List<_StudentData> get _filteredStudents {
-    switch (_selectedFilter) {
-      case 1:
-        return _students
-            .where(
-              (student) => student.status == 'Active',
-        )
-            .toList();
+    return _students.where((student) {
+      final matchesSearch =
+      student.name.toLowerCase().contains(
+        _searchQuery.toLowerCase(),
+      );
 
-      case 2:
-        return _students
-            .where(
-              (student) => student.status == 'Completed',
-        )
-            .toList();
+      final matchesFilter = switch (_selectedFilter) {
+        1 => student.status == 'Active',
+        2 => student.status == 'Completed',
+        _ => true,
+      };
 
-      default:
-        return _students;
-    }
+      return matchesSearch && matchesFilter;
+    }).toList();
   }
 
-  // =========================================================
-  // NAVIGATION
-  // =========================================================
 
   void _handleNavigation(
       BuildContext context,
       int index,
       ) {
     switch (index) {
-    // =================================================
-    // DASHBOARD
-    // =================================================
 
       case 0:
         Navigator.pushNamedAndRemoveUntil(
@@ -109,9 +100,6 @@ class _InstructorStudentsScreenState
         );
         break;
 
-    // =================================================
-    // COURSES
-    // =================================================
 
       case 1:
         Navigator.pushNamedAndRemoveUntil(
@@ -121,17 +109,10 @@ class _InstructorStudentsScreenState
         );
         break;
 
-    // =================================================
-    // STUDENTS
-    // =================================================
 
       case 2:
-      // Already on Students.
         break;
 
-    // =================================================
-    // PROFILE
-    // =================================================
 
       case 3:
         Navigator.pushNamedAndRemoveUntil(
@@ -143,37 +124,22 @@ class _InstructorStudentsScreenState
     }
   }
 
-  // =========================================================
-  // BUILD
-  // =========================================================
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
 
-      // =====================================================
-      // BODY
-      // =====================================================
 
       body: SafeArea(
         child: Column(
           children: [
-            // =================================================
-            // APP HEADER
-            // =================================================
 
             const InstructorStudentsHeader(),
 
-            // =================================================
-            // PAGE TITLE
-            // =================================================
 
             const _StudentsPageTitle(),
 
-            // =================================================
-            // CONTENT
-            // =================================================
 
             Expanded(
               child: SingleChildScrollView(
@@ -187,33 +153,21 @@ class _InstructorStudentsScreenState
                   crossAxisAlignment:
                   CrossAxisAlignment.start,
                   children: [
-                    // =================================================
-                    // STATS
-                    // =================================================
 
                     const InstructorStudentsStats(),
 
                     const SizedBox(height: 18),
 
-                    // =================================================
-                    // SEARCH
-                    // =================================================
 
                     _buildSearchField(),
 
                     const SizedBox(height: 12),
 
-                    // =================================================
-                    // FILTERS
-                    // =================================================
 
                     _buildFilters(),
 
                     const SizedBox(height: 14),
 
-                    // =================================================
-                    // STUDENTS
-                    // =================================================
 
                     ..._filteredStudents.map(
                           (student) => Padding(
@@ -233,9 +187,6 @@ class _InstructorStudentsScreenState
         ),
       ),
 
-      // =====================================================
-      // BOTTOM NAVIGATION
-      // =====================================================
 
       bottomNavigationBar: InstructorBottomNavBar(
         currentIndex: 2,
@@ -249,9 +200,6 @@ class _InstructorStudentsScreenState
     );
   }
 
-  // =========================================================
-  // SEARCH
-  // =========================================================
 
   Widget _buildSearchField() {
     return Container(
@@ -264,6 +212,12 @@ class _InstructorStudentsScreenState
         ),
       ),
       child: TextField(
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value;
+          });
+        },
+
         style: GoogleFonts.inter(
           fontSize: 13,
           color: const Color(0xFF173D37),
@@ -288,9 +242,6 @@ class _InstructorStudentsScreenState
     );
   }
 
-  // =========================================================
-  // FILTERS
-  // =========================================================
 
   Widget _buildFilters() {
     const filters = [
@@ -354,9 +305,6 @@ class _InstructorStudentsScreenState
   }
 }
 
-// =============================================================
-// STUDENTS PAGE TITLE
-// =============================================================
 
 class _StudentsPageTitle extends StatelessWidget {
   const _StudentsPageTitle();
@@ -379,9 +327,6 @@ class _StudentsPageTitle extends StatelessWidget {
               crossAxisAlignment:
               CrossAxisAlignment.start,
               children: [
-                // =================================================
-                // TITLE
-                // =================================================
 
                 Text(
                   'Enrolled Students',
@@ -395,10 +340,6 @@ class _StudentsPageTitle extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 5),
-
-                // =================================================
-                // SUBTITLE
-                // =================================================
 
                 Text(
                   'Manage and track your students',
@@ -418,9 +359,6 @@ class _StudentsPageTitle extends StatelessWidget {
   }
 }
 
-// =============================================================
-// STUDENT MODEL
-// =============================================================
 
 class _StudentData {
   const _StudentData({

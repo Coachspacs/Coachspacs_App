@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
+import 'package:coach_space/core/routing/app_routes.dart';
 
-class InstructorCourseCard
-    extends StatelessWidget {
+import '../../screens/instructor_course_edit_screen.dart';
+
+class InstructorCourseCard extends StatelessWidget {
   const InstructorCourseCard({
     super.key,
     required this.course,
@@ -25,10 +27,17 @@ class InstructorCourseCard
         ),
       ),
       child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // =====================================================
+          // IMAGE
+          // =====================================================
+
           _buildImage(),
+
+          // =====================================================
+          // CONTENT
+          // =====================================================
 
           Padding(
             padding: const EdgeInsets.fromLTRB(
@@ -38,24 +47,38 @@ class InstructorCourseCard
               12,
             ),
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // =================================================
+                // TITLE
+                // =================================================
+
                 _buildTitle(),
 
                 const SizedBox(height: 7),
 
+                // =================================================
+                // COURSE INFO
+                // =================================================
+
                 _buildCourseInfo(),
 
-                if (course.rejectionReason !=
-                    null) ...[
+                // =================================================
+                // REJECTION MESSAGE
+                // =================================================
+
+                if (course.rejectionReason != null) ...[
                   const SizedBox(height: 9),
                   _buildRejectionMessage(),
                 ],
 
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
 
-                _buildActions(),
+                // =================================================
+                // ACTIONS
+                // =================================================
+
+                _buildActions(context),
               ],
             ),
           ),
@@ -77,8 +100,11 @@ class InstructorCourseCard
           Image.asset(
             course.image,
             fit: BoxFit.cover,
-            errorBuilder:
-                (context, error, stackTrace) {
+            errorBuilder: (
+                context,
+                error,
+                stackTrace,
+                ) {
               return Container(
                 color: const Color(0xFFE5F2EE),
                 child: const Center(
@@ -91,6 +117,10 @@ class InstructorCourseCard
               );
             },
           ),
+
+          // =================================================
+          // STATUS BADGE
+          // =================================================
 
           Positioned(
             top: 9,
@@ -131,6 +161,10 @@ class InstructorCourseCard
       spacing: 10,
       runSpacing: 4,
       children: [
+        // =================================================
+        // STUDENTS
+        // =================================================
+
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -139,7 +173,9 @@ class InstructorCourseCard
               size: 13,
               color: Color(0xFF788681),
             ),
+
             const SizedBox(width: 4),
+
             Text(
               '${course.students} students',
               style: GoogleFonts.inter(
@@ -150,6 +186,10 @@ class InstructorCourseCard
           ],
         ),
 
+        // =================================================
+        // PRICE
+        // =================================================
+
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -158,7 +198,9 @@ class InstructorCourseCard
               size: 13,
               color: Color(0xFF788681),
             ),
+
             const SizedBox(width: 4),
+
             Text(
               course.price,
               style: GoogleFonts.inter(
@@ -186,8 +228,7 @@ class InstructorCourseCard
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Icon(
             Icons.warning_amber_rounded,
@@ -216,65 +257,84 @@ class InstructorCourseCard
   // ACTIONS
   // =====================================================
 
-  Widget _buildActions() {
-    final isRejected =
+  Widget _buildActions(BuildContext context) {
+    final bool isRejected =
         course.status == CourseStatus.rejected;
 
     return Row(
       children: [
+        // =================================================
+        // EDIT COURSE
+        // =================================================
+
         Expanded(
-          child: OutlinedButton(
-            onPressed: () {},
-            style: OutlinedButton.styleFrom(
-              minimumSize:
-              const Size(0, 32),
-              padding: EdgeInsets.zero,
-              side: const BorderSide(
-                color: Color(0xFFD6E4E0),
+          child: SizedBox(
+            height: 38,
+            child: OutlinedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.instructorCourseEdit,
+                  arguments: course,
+                );
+              },
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                side: const BorderSide(
+                  color: Color(0xFFD6E4E0),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
-              shape:
-              RoundedRectangleBorder(
-                borderRadius:
-                BorderRadius.circular(8),
-              ),
-            ),
-            child: Text(
-              'Edit Course',
-              style: GoogleFonts.inter(
-                fontSize: 10,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFF075E4D),
+              child: Text(
+                'Edit Course',
+                style: GoogleFonts.inter(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF075E4D),
+                ),
               ),
             ),
           ),
         ),
 
-        const SizedBox(width: 7),
+        const SizedBox(width: 9),
+
+        // =================================================
+        // MANAGE / RESUBMIT
+        // =================================================
 
         Expanded(
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              minimumSize:
-              const Size(0, 32),
-              padding: EdgeInsets.zero,
-              elevation: 0,
-              backgroundColor:
-              const Color(0xFF075E4D),
-              shape:
-              RoundedRectangleBorder(
-                borderRadius:
-                BorderRadius.circular(8),
+          child: SizedBox(
+            height: 38,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.instructorCourseManagement,
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                elevation: 0,
+                backgroundColor: const Color(0xFF075E4D),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
-            ),
-            child: Text(
-              isRejected
-                  ? 'Resubmit'
-                  : 'Manage',
-              style: GoogleFonts.inter(
-                fontSize: 10,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+              child: Text(
+                isRejected ? 'Resubmit' : 'Manage',
+                style: GoogleFonts.inter(
+                  fontSize: 10.5,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -284,9 +344,9 @@ class InstructorCourseCard
   }
 }
 
-// =====================================================
+// =============================================================
 // STATUS BADGE
-// =====================================================
+// =============================================================
 
 class _StatusBadge extends StatelessWidget {
   const _StatusBadge({
@@ -302,11 +362,19 @@ class _StatusBadge extends StatelessWidget {
     late Color foreground;
 
     switch (status) {
+    // =================================================
+    // PUBLISHED
+    // =================================================
+
       case CourseStatus.published:
         text = 'Published';
         background = const Color(0xFFDDF3EB);
         foreground = const Color(0xFF075E4D);
         break;
+
+    // =================================================
+    // PENDING REVIEW
+    // =================================================
 
       case CourseStatus.pendingReview:
         text = 'Pending Review';
@@ -314,11 +382,19 @@ class _StatusBadge extends StatelessWidget {
         foreground = const Color(0xFF9A6A00);
         break;
 
+    // =================================================
+    // DRAFT
+    // =================================================
+
       case CourseStatus.draft:
         text = 'Draft';
         background = const Color(0xFFEDEFF0);
         foreground = const Color(0xFF687772);
         break;
+
+    // =================================================
+    // REJECTED
+    // =================================================
 
       case CourseStatus.rejected:
         text = 'Rejected';
@@ -334,8 +410,7 @@ class _StatusBadge extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: background,
-        borderRadius:
-        BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         text,

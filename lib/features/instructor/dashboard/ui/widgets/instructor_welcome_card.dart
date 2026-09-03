@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../../core/routing/app_routes.dart';
+
 class InstructorWelcomeCard extends StatelessWidget {
   const InstructorWelcomeCard({
     super.key,
@@ -64,8 +66,32 @@ class InstructorWelcomeCard extends StatelessWidget {
 
               const SizedBox(height: 7),
 
+              Row(
+                children: [
+                  Text(
+                    'Welcome back ,',
+                    style: GoogleFonts.inter(
+                      fontSize: 21,
+                      height: 1.15,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+
+                  const SizedBox(width: 7),
+
+                  const Icon(
+                    Icons.waving_hand_rounded,
+                    color: const Color(0xFFFFCA28),
+                    size: 22,
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 2),
+
               Text(
-                'Welcome back,\nCoach Hadeel 👋',
+                'Coach Hadeel',
                 style: GoogleFonts.inter(
                   fontSize: 21,
                   height: 1.15,
@@ -91,7 +117,12 @@ class InstructorWelcomeCard extends StatelessWidget {
               SizedBox(
                 height: 38,
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.createInstructorCourse,
+                    );
+                  },
                   icon: const Icon(
                     Icons.add_rounded,
                     size: 17,

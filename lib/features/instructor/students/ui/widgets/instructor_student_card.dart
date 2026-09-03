@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/features/instructor/students/data/models/instructor_student_progress.dart';
+
 class InstructorStudentCard extends StatelessWidget {
   const InstructorStudentCard({
     super.key,
@@ -37,6 +40,10 @@ class InstructorStudentCard extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // =====================================================
+          // STUDENT HEADER
+          // =====================================================
+
           Row(
             children: [
               Container(
@@ -96,6 +103,10 @@ class InstructorStudentCard extends StatelessWidget {
 
           const SizedBox(height: 13),
 
+          // =====================================================
+          // PROGRESS
+          // =====================================================
+
           Row(
             children: [
               const Text(
@@ -123,8 +134,7 @@ class InstructorStudentCard extends StatelessWidget {
           const SizedBox(height: 6),
 
           ClipRRect(
-            borderRadius:
-            BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20),
             child: LinearProgressIndicator(
               value: progress / 100,
               minHeight: 6,
@@ -138,6 +148,10 @@ class InstructorStudentCard extends StatelessWidget {
           ),
 
           const SizedBox(height: 10),
+
+          // =====================================================
+          // LAST ACTIVE + DETAILS
+          // =====================================================
 
           Row(
             children: [
@@ -159,18 +173,68 @@ class InstructorStudentCard extends StatelessWidget {
 
               const Spacer(),
 
-              Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE6F4F0),
-                  borderRadius:
-                  BorderRadius.circular(9),
-                ),
-                child: const Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 16,
-                  color: Color(0xFF075E4D),
+              // =================================================
+              // STUDENT DETAILS BUTTON
+              // =================================================
+
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    final progressData =
+                    InstructorStudentProgress(
+                      name: student.name,
+                      initials: student.initials,
+                      courseName: student.course,
+                      progress: student.progress,
+
+                      // Temporary values until the
+                      // students API provides them.
+                      completedLessons:
+                      student.progress == 100 ? 20 : 17,
+                      totalLessons: 20,
+
+                      status: student.status,
+                      enrolledDate: 'Oct 12, 2024',
+                      lastActive: student.lastActive,
+                      timeSpent: '18h 45m',
+
+                      quizScores: const [
+                        InstructorStudentQuizScore(
+                          title:
+                          'Module 1: Clean Architecture',
+                          score: 95,
+                        ),
+                        InstructorStudentQuizScore(
+                          title:
+                          'Module 2: State Management',
+                          score: 88,
+                        ),
+                      ],
+                    );
+
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.instructorStudentProgress,
+                      arguments: progressData,
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE6F4F0),
+                      borderRadius:
+                      BorderRadius.circular(10),
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.arrow_forward_rounded,
+                      size: 18,
+                      color: Color(0xFF075E4D),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -179,6 +243,10 @@ class InstructorStudentCard extends StatelessWidget {
       ),
     );
   }
+
+  // =====================================================
+  // STATUS
+  // =====================================================
 
   Widget _buildStatus(String status) {
     Color background;

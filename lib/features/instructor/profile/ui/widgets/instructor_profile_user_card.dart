@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class InstructorProfileUserCard
-    extends StatelessWidget {
+class InstructorProfileUserCard extends StatelessWidget {
+  final VoidCallback onEdit;
+
   const InstructorProfileUserCard({
     super.key,
+    required this.onEdit,
   });
 
   @override
@@ -58,8 +60,7 @@ class InstructorProfileUserCard
 
           Expanded(
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Hassan Sayed',
@@ -92,8 +93,7 @@ class InstructorProfileUserCard
                   ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFDDF6EB),
-                    borderRadius:
-                    BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     'Approved',
@@ -112,18 +112,24 @@ class InstructorProfileUserCard
           // EDIT
           // =================================================
 
-          Container(
-            width: 34,
-            height: 34,
-            decoration: BoxDecoration(
-              color: const Color(0xFFF4F8F7),
-              borderRadius:
-              BorderRadius.circular(10),
-            ),
-            child: const Icon(
-              Icons.edit_outlined,
-              size: 17,
-              color: Color(0xFF075E4D),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onEdit,
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF4F8F7),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.edit_outlined,
+                  size: 17,
+                  color: Color(0xFF075E4D),
+                ),
+              ),
             ),
           ),
         ],
