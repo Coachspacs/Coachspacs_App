@@ -15,6 +15,11 @@ import 'package:coach_space/features/student/profile/data/repo/profile_repositor
 import 'package:coach_space/features/student/profile/logic/cubit/profile_cubit.dart';
 import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository.dart';
 import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository_impl.dart';
+import 'package:coach_space/features/student/catalog/data/repo/catalog_repository.dart';
+import 'package:coach_space/features/student/catalog/data/repo/catalog_repository_impl.dart';
+import 'package:coach_space/features/student/catalog/logic/cubit/catalog_cubit.dart';
+import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository.dart';
+import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository_impl.dart';
 
 /// Application composition root.
 ///
@@ -47,10 +52,19 @@ void setupLocator() {
   getIt.registerLazySingleton<InstructorCoursesRepository>(
     () => InstructorCoursesRepositoryImpl(apiService: getIt<ApiService>()),
   );
+  getIt.registerLazySingleton<CatalogRepository>(
+    () => CatalogRepositoryImpl(apiService: getIt<ApiService>()),
+  );
+  getIt.registerLazySingleton<EnrollmentRepository>(
+    () => EnrollmentRepositoryImpl(apiService: getIt<ApiService>()),
+  );
   getIt.registerFactory<HomeCubit>(
     () => HomeCubit(repository: getIt<HomeRepository>()),
   );
   getIt.registerFactory<ProfileCubit>(
     () => ProfileCubit(repository: getIt<ProfileRepository>()),
+  );
+  getIt.registerFactory<CatalogCubit>(
+    () => CatalogCubit(getIt<CatalogRepository>()),
   );
 }
