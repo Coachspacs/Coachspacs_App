@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import 'paginated_response.dart';
+
 import 'package:coach_space/features/auth/data/models/change_password_request.dart';
 import 'package:coach_space/features/auth/data/models/forgot_password_request.dart';
 import 'package:coach_space/features/auth/data/models/login_request.dart';
@@ -15,6 +17,8 @@ import 'package:coach_space/features/auth/data/models/register_response.dart';
 import 'package:coach_space/features/auth/data/models/resend_verification_request.dart';
 import 'package:coach_space/features/auth/data/models/reset_password_request.dart';
 import 'package:coach_space/features/student/catalog/data/models/category_dto.dart';
+import 'package:coach_space/features/student/catalog/data/models/catalog_course_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/change_email_request.dart';
 import 'package:coach_space/features/student/profile/data/models/confirm_email_change_request.dart';
 import 'package:coach_space/features/student/profile/data/models/update_profile_request.dart';
@@ -85,6 +89,45 @@ abstract class ApiService {
   @GET('api/catalog/categories')
   Future<List<CategoryDto>> getCategories();
 
+  @GET('api/catalog/courses')
+  Future<PaginatedResponse<CatalogCourseDto>> getCatalogCourses({
+    @Query('category') int? category,
+    @Query('language') String? language,
+    @Query('level') String? level,
+    @Query('price_min') num? priceMin,
+    @Query('price_max') num? priceMax,
+    @Query('search') String? search,
+    @Query('page') int? page,
+    @Query('page_size') int? pageSize,
+  });
+
+  @GET('api/catalog/courses/{id}')
+  Future<CourseDetailDto> getCatalogCourse(@Path('id') int id);
+
+  @GET('api/enrollments')
+  Future<PaginatedResponse<EnrollmentDto>> getEnrollments(
+    @Query('page') int page,
+    @Query('page_size') int pageSize,
+  );
+
+  @GET('api/enrollments/{enrollmentId}/lessons/{lessonId}')
+  Future<LessonPlayerDto> getEnrollmentLesson(
+    @Path('enrollmentId') int enrollmentId,
+    @Path('lessonId') int lessonId,
+  );
+
+  @POST('api/enrollments/{enrollmentId}/lessons/{lessonId}/complete')
+  Future<void> markLessonComplete(
+    @Path('enrollmentId') int enrollmentId,
+    @Path('lessonId') int lessonId,
+  );
+
+  @DELETE('api/enrollments/{enrollmentId}/lessons/{lessonId}/complete')
+  Future<void> markLessonIncomplete(
+    @Path('enrollmentId') int enrollmentId,
+    @Path('lessonId') int lessonId,
+  );
+
   @GET('api/instructor/courses')
   Future<PaginatedResponse<InstructorCourseDto>> getInstructorCourses(
     @Query('page') int page,
@@ -93,14 +136,26 @@ abstract class ApiService {
 
   @POST('api/instructor/courses')
   Future<InstructorCourseDto> createInstructorCourse(
-    @Body() Map<String, dynamic> body,
+    @Body() CourseWriteRequest body,
   );
 
   @PATCH('api/instructor/courses/{id}')
   Future<InstructorCourseDto> updateInstructorCourse(
     @Path('id') int id,
-    @Body() Map<String, dynamic> body,
+    @Body() CoursePatchRequest body,
   );
+
+  @GET('api/instructor/courses/{id}')
+  Future<InstructorCourseDto> getInstructorCourse(@Path('id') int id);
+
+  @PUT('api/instructor/courses/{id}')
+  Future<InstructorCourseDto> replaceInstructorCourse(
+    @Path('id') int id,
+    @Body() CourseWriteRequest body,
+  );
+
+  @DELETE('api/instructor/courses/{id}')
+  Future<void> deleteInstructorCourse(@Path('id') int id);
 
   @POST('api/instructor/courses/{id}/cover-image')
   @MultiPart()
@@ -108,6 +163,10 @@ abstract class ApiService {
     @Path('id') int id,
     @Part(name: 'cover_image') File image,
   );
+
+  /// The OpenAPI document intentionally specifies no response schema.
+  @POST('api/instructor/courses/{id}/video-upload-signature')
+  Future<void> getVideoUploadSignature(@Path('id') int id);
 
   @GET('api/instructor/courses/{courseId}/sections')
   Future<PaginatedResponse<InstructorSectionDto>> getInstructorSections(
@@ -119,13 +178,22 @@ abstract class ApiService {
   @POST('api/instructor/courses/{courseId}/sections')
   Future<InstructorSectionDto> createInstructorSection(
     @Path('courseId') int courseId,
-    @Body() Map<String, dynamic> body,
+    @Body() SectionWriteRequest body,
   );
 
   @PATCH('api/instructor/sections/{id}')
   Future<InstructorSectionDto> updateInstructorSection(
     @Path('id') int id,
-    @Body() Map<String, dynamic> body,
+    @Body() SectionPatchRequest body,
+  );
+
+  @GET('api/instructor/sections/{id}')
+  Future<InstructorSectionDto> getInstructorSection(@Path('id') int id);
+
+  @PUT('api/instructor/sections/{id}')
+  Future<InstructorSectionDto> replaceInstructorSection(
+    @Path('id') int id,
+    @Body() SectionWriteRequest body,
   );
 
   @DELETE('api/instructor/sections/{id}')
@@ -141,13 +209,22 @@ abstract class ApiService {
   @POST('api/instructor/sections/{sectionId}/lessons')
   Future<InstructorLessonDto> createInstructorLesson(
     @Path('sectionId') int sectionId,
-    @Body() Map<String, dynamic> body,
+    @Body() LessonWriteRequest body,
   );
 
   @PATCH('api/instructor/lessons/{id}')
   Future<InstructorLessonDto> updateInstructorLesson(
     @Path('id') int id,
-    @Body() Map<String, dynamic> body,
+    @Body() LessonPatchRequest body,
+  );
+
+  @GET('api/instructor/lessons/{id}')
+  Future<InstructorLessonDto> getInstructorLesson(@Path('id') int id);
+
+  @PUT('api/instructor/lessons/{id}')
+  Future<InstructorLessonDto> replaceInstructorLesson(
+    @Path('id') int id,
+    @Body() LessonWriteRequest body,
   );
 
   @DELETE('api/instructor/lessons/{id}')
@@ -156,9 +233,13 @@ abstract class ApiService {
   @PUT('api/instructor/courses/{id}/reorder')
   Future<void> reorderInstructorCourse(
     @Path('id') int id,
-    @Body() Map<String, dynamic> body,
+    @Body() CourseReorderRequest body,
   );
 
   @POST('api/instructor/courses/{id}/submit')
   Future<void> submitInstructorCourse(@Path('id') int id);
+
+  /// Redirects to the signed media URL; the OpenAPI document has no body.
+  @GET('api/media/stream')
+  Future<void> streamMedia(@Query('token') String token);
 }
