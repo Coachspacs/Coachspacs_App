@@ -3,11 +3,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/auth/guest_session.dart';
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:coach_space/core/widgets/login_required_dialog.dart';
-
 
 import '../widgets/profile/profile_logout_button.dart';
 import '../widgets/profile/profile_menu_item.dart';
@@ -16,9 +15,7 @@ import '../widgets/profile/profile_top_bar.dart';
 import '../widgets/profile/profile_user_card.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({
-    super.key,
-  });
+  const ProfileScreen({super.key});
 
   // =====================================================
   // LOGOUT DIALOG
@@ -70,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRoutes.login,
-                      (route) => false,
+                  (route) => false,
                 );
               },
               child: Text(
@@ -92,19 +89,13 @@ class ProfileScreen extends StatelessWidget {
   // PROTECTED NAVIGATION
   // =====================================================
 
-  void _openProtectedRoute(
-      BuildContext context,
-      String route,
-      ) {
+  void _openProtectedRoute(BuildContext context, String route) {
     if (GuestSession.isGuest) {
       LoginRequiredDialog.show(context);
       return;
     }
 
-    Navigator.pushNamed(
-      context,
-      route,
-    );
+    Navigator.pushNamed(context, route);
   }
 
   @override
@@ -120,10 +111,7 @@ class ProfileScreen extends StatelessWidget {
         LoginRequiredDialog.show(context).then((_) {
           if (!context.mounted) return;
 
-          Navigator.pushReplacementNamed(
-            context,
-            AppRoutes.home,
-          );
+          Navigator.pushReplacementNamed(context, AppRoutes.home);
         });
       });
 
@@ -139,53 +127,37 @@ class ProfileScreen extends StatelessWidget {
       // =====================================================
       // BODY
       // =====================================================
-
       body: SafeArea(
         child: Column(
           children: [
             // =================================================
             // TOP BAR
             // =================================================
-
             ProfileTopBar(
               onNotificationPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.notifications,
-                );
+                Navigator.pushNamed(context, AppRoutes.notifications);
               },
             ),
 
             // =================================================
             // CONTENT
             // =================================================
-
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(
-                  16,
-                  16,
-                  16,
-                  24,
-                ),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
                 child: Center(
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 600,
-                    ),
+                    constraints: const BoxConstraints(maxWidth: 600),
                     child: Column(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // =====================================
                         // PROFILE
                         // =====================================
-
                         const ProfileUserCard(
                           name: 'Sondos Abu Skhail',
                           role: 'Student',
-                          specialization:
-                          'Information Technology',
+                          specialization: 'Information Technology',
                         ),
 
                         const SizedBox(height: 22),
@@ -193,7 +165,6 @@ class ProfileScreen extends StatelessWidget {
                         // =====================================
                         // MY LEARNING
                         // =====================================
-
                         _sectionTitle('My Learning'),
 
                         const SizedBox(height: 10),
@@ -213,14 +184,10 @@ class ProfileScreen extends StatelessWidget {
                             ),
 
                             ProfileMenuItem(
-                              icon:
-                              Icons.shopping_cart_outlined,
+                              icon: Icons.shopping_cart_outlined,
                               title: 'My Cart',
                               onTap: () {
-                                _openProtectedRoute(
-                                  context,
-                                  AppRoutes.cart,
-                                );
+                                _openProtectedRoute(context, AppRoutes.cart);
                               },
                             ),
 
@@ -243,10 +210,7 @@ class ProfileScreen extends StatelessWidget {
                         // =====================================
                         // ACCOUNT SETTINGS
                         // =====================================
-
-                        _sectionTitle(
-                          'Account Settings',
-                        ),
+                        _sectionTitle('Account Settings'),
 
                         const SizedBox(height: 10),
 
@@ -254,8 +218,7 @@ class ProfileScreen extends StatelessWidget {
                           title: '',
                           children: [
                             ProfileMenuItem(
-                              icon: Icons
-                                  .workspace_premium_outlined,
+                              icon: Icons.workspace_premium_outlined,
                               title: 'Certificates',
                               onTap: () {
                                 _openProtectedRoute(
@@ -284,7 +247,6 @@ class ProfileScreen extends StatelessWidget {
                         // =====================================
                         // LOG OUT
                         // =====================================
-
                         ProfileLogoutButton(
                           onPressed: () {
                             _showLogoutDialog(context);
@@ -305,9 +267,9 @@ class ProfileScreen extends StatelessWidget {
       // =====================================================
       // BOTTOM NAVIGATION
       // =====================================================
+      bottomNavigationBar: const BottomNavBarWidget(
+        navType: NavType.student,
 
-      bottomNavigationBar:
-      const BottomNavBarWidget(
         currentIndex: 3,
       ),
     );

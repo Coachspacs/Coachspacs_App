@@ -1,10 +1,10 @@
+import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
-import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_bottom_nav_bar.dart';
 
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_header.dart';
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_stats.dart';
@@ -188,8 +188,9 @@ class _InstructorStudentsScreenState
       ),
 
 
-      bottomNavigationBar: InstructorBottomNavBar(
+      bottomNavigationBar: BottomNavBarWidget(
         currentIndex: 2,
+        navType: NavType.instructor,
         onItemSelected: (index) {
           _handleNavigation(
             context,

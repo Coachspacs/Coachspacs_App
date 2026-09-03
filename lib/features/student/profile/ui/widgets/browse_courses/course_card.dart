@@ -3,10 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
-enum CourseStatus {
-  inProgress,
-  completed,
-}
+enum CourseStatus { inProgress, completed }
 
 class CourseCard extends StatelessWidget {
   const CourseCard({
@@ -16,6 +13,7 @@ class CourseCard extends StatelessWidget {
     required this.progress,
     required this.status,
     required this.onPressed,
+    this.onCertificatePressed,
   });
 
   final String title;
@@ -23,13 +21,15 @@ class CourseCard extends StatelessWidget {
   final double progress;
   final CourseStatus status;
   final VoidCallback onPressed;
+  final VoidCallback? onCertificatePressed;
 
-  bool get isCompleted =>
-      status == CourseStatus.completed;
+  bool get isCompleted => status == CourseStatus.completed;
 
   @override
   Widget build(BuildContext context) {
-    final percentage = (progress * 100).round();
+    assert(progress >= 0 && progress <= 1, 'Progress must be between 0 and 1.');
+    final normalizedProgress = progress.clamp(0.0, 1.0);
+    final percentage = (normalizedProgress * 100).round();
 
     return Container(
       width: double.infinity,
@@ -37,9 +37,7 @@ class CourseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFDCE8E4),
-        ),
+        border: Border.all(color: const Color(0xFFDCE8E4)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.025),
@@ -54,7 +52,6 @@ class CourseCard extends StatelessWidget {
           // ===================================================
           // COURSE IMAGE
           // ===================================================
-
           ClipRRect(
             borderRadius: BorderRadius.circular(11),
             child: Container(
@@ -80,11 +77,8 @@ class CourseCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(
-                            alpha: 0.92,
-                          ),
-                          borderRadius:
-                          BorderRadius.circular(6),
+                          color: Colors.white.withValues(alpha: 0.92),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
                           '$percentage% complete',
@@ -106,7 +100,6 @@ class CourseCard extends StatelessWidget {
           // ===================================================
           // TITLE
           // ===================================================
-
           Text(
             title,
             maxLines: 2,
@@ -124,7 +117,6 @@ class CourseCard extends StatelessWidget {
           // ===================================================
           // INSTRUCTOR
           // ===================================================
-
           Text(
             instructor,
             maxLines: 1,
@@ -141,10 +133,8 @@ class CourseCard extends StatelessWidget {
           // ===================================================
           // PROGRESS
           // ===================================================
-
           Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 isCompleted ? 'Completed' : 'Progress',
@@ -170,12 +160,10 @@ class CourseCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: LinearProgressIndicator(
-              value: progress,
+              value: normalizedProgress,
               minHeight: 5,
-              backgroundColor:
-              const Color(0xFFE8EFED),
-              valueColor:
-              const AlwaysStoppedAnimation<Color>(
+              backgroundColor: const Color(0xFFE8EFED),
+              valueColor: const AlwaysStoppedAnimation<Color>(
                 AppColors.primary,
               ),
             ),
@@ -186,7 +174,6 @@ class CourseCard extends StatelessWidget {
           // ===================================================
           // ACTION BUTTON
           // ===================================================
-
           SizedBox(
             width: double.infinity,
             height: 38,
@@ -199,9 +186,7 @@ class CourseCard extends StatelessWidget {
                 size: 16,
               ),
               label: Text(
-                isCompleted
-                    ? 'Completed'
-                    : 'Continue Learning',
+                isCompleted ? 'Completed' : 'Continue Learning',
                 style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
@@ -211,9 +196,7 @@ class CourseCard extends StatelessWidget {
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.white,
                 elevation: 0,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -224,19 +207,15 @@ class CourseCard extends StatelessWidget {
           // ===================================================
           // CERTIFICATE
           // ===================================================
-
-          if (isCompleted) ...[
+          if (isCompleted && onCertificatePressed != null) ...[
             const SizedBox(height: 7),
 
             SizedBox(
               width: double.infinity,
               height: 34,
               child: OutlinedButton.icon(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.workspace_premium_outlined,
-                  size: 14,
-                ),
+                onPressed: onCertificatePressed,
+                icon: const Icon(Icons.workspace_premium_outlined, size: 14),
                 label: Text(
                   'View Certificate',
                   style: GoogleFonts.inter(
@@ -245,13 +224,9 @@ class CourseCard extends StatelessWidget {
                   ),
                 ),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor:
-                  const Color(0xFF075E4D),
-                  side: const BorderSide(
-                    color: Color(0xFFBFE9D8),
-                  ),
-                  backgroundColor:
-                  const Color(0xFFEAF8F2),
+                  foregroundColor: const Color(0xFF075E4D),
+                  side: const BorderSide(color: Color(0xFFBFE9D8)),
+                  backgroundColor: const Color(0xFFEAF8F2),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(9),
                   ),

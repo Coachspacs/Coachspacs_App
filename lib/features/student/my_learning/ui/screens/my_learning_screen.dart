@@ -4,7 +4,6 @@ import 'package:coach_space/core/auth/guest_session.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 
-
 import '../widgets/continue_learning_section.dart';
 import '../widgets/my_certificates_section.dart';
 import '../widgets/my_courses_section.dart';
@@ -14,18 +13,13 @@ import '../widgets/my_learning_top_bar.dart';
 import '../widgets/recent_activity_section.dart';
 
 class MyLearningScreen extends StatefulWidget {
-  const MyLearningScreen({
-    super.key,
-  });
+  const MyLearningScreen({super.key});
 
   @override
-  State<MyLearningScreen> createState() =>
-      _MyLearningScreenState();
+  State<MyLearningScreen> createState() => _MyLearningScreenState();
 }
 
-class _MyLearningScreenState
-    extends State<MyLearningScreen> {
-
+class _MyLearningScreenState extends State<MyLearningScreen> {
   @override
   void initState() {
     super.initState();
@@ -69,24 +63,16 @@ class _MyLearningScreenState
             // =================================================
             // TOP BAR
             // =================================================
-
             const MyLearningTopBar(),
 
             // =================================================
             // CONTENT
             // =================================================
-
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(
-                  16,
-                  16,
-                  16,
-                  30,
-                ),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
                     MyLearningHeader(),
 
@@ -120,9 +106,9 @@ class _MyLearningScreenState
       // =====================================================
       // BOTTOM NAVIGATION
       // =====================================================
+      bottomNavigationBar: const BottomNavBarWidget(
+        navType: NavType.student,
 
-      bottomNavigationBar:
-      const BottomNavBarWidget(
         currentIndex: 2,
       ),
     );

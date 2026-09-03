@@ -13,6 +13,8 @@ import 'package:coach_space/features/student/home/logic/cubit/home_cubit.dart';
 import 'package:coach_space/features/student/profile/data/repo/profile_repository.dart';
 import 'package:coach_space/features/student/profile/data/repo/profile_repository_impl.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/profile_cubit.dart';
+import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository.dart';
+import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository_impl.dart';
 
 /// Application composition root.
 ///
@@ -41,6 +43,9 @@ void setupLocator() {
   );
   getIt.registerLazySingleton<ProfileRepository>(
     () => ProfileRepositoryImpl(apiService: getIt<ApiService>()),
+  );
+  getIt.registerLazySingleton<InstructorCoursesRepository>(
+    () => InstructorCoursesRepositoryImpl(apiService: getIt<ApiService>()),
   );
   getIt.registerFactory<HomeCubit>(
     () => HomeCubit(repository: getIt<HomeRepository>()),

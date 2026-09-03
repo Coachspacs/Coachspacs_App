@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 
 import 'package:coach_space/features/auth/ui/screens/account_not_approved_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/email_verification_screen.dart';

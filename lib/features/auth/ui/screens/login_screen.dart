@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/helpers/context_extensions.dart';
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/buttons.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_cubit.dart';

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
-
 class InstructorCoursesFilter
     extends StatelessWidget {
   const InstructorCoursesFilter({

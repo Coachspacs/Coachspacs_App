@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/helpers/context_extensions.dart';
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/buttons.dart';
 import 'package:coach_space/features/auth/data/models/register_request.dart';
@@ -11,7 +11,6 @@ import 'package:coach_space/features/auth/data/models/user_role.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_state.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_custom_text_field.dart';
-import 'package:coach_space/features/signup/presentation/widgets/signup_name_text_field.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_role_card.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_terms_rich_text.dart';
 

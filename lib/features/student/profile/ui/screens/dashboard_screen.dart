@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 
 import '../widgets/dashboard/continue_learning_card.dart';
 import '../widgets/dashboard/dashboard_header.dart';

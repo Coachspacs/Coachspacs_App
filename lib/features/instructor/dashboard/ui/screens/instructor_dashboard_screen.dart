@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
-
-import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_bottom_nav_bar.dart';
+import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_earnings_card.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_overview_card.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_recent_courses.dart';
@@ -157,8 +156,9 @@ class InstructorDashboardScreen extends StatelessWidget {
       // BOTTOM NAVIGATION
       // =====================================================
 
-      bottomNavigationBar: InstructorBottomNavBar(
+      bottomNavigationBar: BottomNavBarWidget(
         currentIndex: 0,
+        navType: NavType.instructor,
         onItemSelected: (index) {
           _handleNavigation(
             context,

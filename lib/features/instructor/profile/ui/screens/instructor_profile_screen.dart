@@ -1,7 +1,8 @@
+import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_header.dart';
@@ -13,7 +14,6 @@ import 'package:coach_space/features/instructor/profile/ui/widgets/instructor_pr
 import 'package:coach_space/features/instructor/profile/ui/screens/instructor_social_links_screen.dart';
 import 'package:coach_space/features/instructor/profile/ui/screens/instructor_payout_screen.dart';
 import 'package:coach_space/features/instructor/profile/ui/screens/instructor_security_screen.dart';
-import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_bottom_nav_bar.dart';
 
 import 'instructor_basic_info_screen.dart';
 
@@ -243,8 +243,9 @@ class InstructorProfileScreen extends StatelessWidget {
       // BOTTOM NAVIGATION
       // =====================================================
 
-      bottomNavigationBar: InstructorBottomNavBar(
+      bottomNavigationBar: BottomNavBarWidget(
         currentIndex: 3,
+        navType: NavType.instructor,
         onItemSelected: (index) {
           _handleBottomNavigation(
             context,

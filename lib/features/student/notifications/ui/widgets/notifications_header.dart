@@ -18,26 +18,26 @@ class NotificationsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        16,
-        14,
-        16,
-        0,
-      ),
+      padding: const EdgeInsets.fromLTRB(40, 24, 40, 24),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          IconButton(
-            onPressed: onBack,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(
-              minWidth: 32,
-              minHeight: 32,
+          Container(
+            width: 64,
+            height: 64,
+            decoration: const BoxDecoration(
+              color: Color(0xFFE8EFFF),
+              shape: BoxShape.circle,
             ),
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              size: 24,
-              color: AppColors.textBody,
+            child: IconButton(
+              onPressed: onBack,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 64, minHeight: 64),
+              icon: const Icon(
+                Icons.arrow_back_rounded,
+                size: 38,
+                color: AppColors.textBody,
+              ),
             ),
           ),
 
@@ -48,36 +48,15 @@ class NotificationsHeader extends StatelessWidget {
               'Notifications',
               style: GoogleFonts.inter(
                 color: AppColors.textBody,
-                fontSize: 20,
+                fontSize: 30,
                 fontWeight: FontWeight.w700,
               ),
             ),
           ),
 
-          if (hasUnread)
-            TextButton(
-              onPressed: onMarkAllRead,
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 4,
-                ),
-                minimumSize: Size.zero,
-                tapTargetSize:
-                MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Text(
-                'Mark all as read',
-                style: GoogleFonts.inter(
-                  color: AppColors.primary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+          const SizedBox(width: 64),
         ],
       ),
     );
   }
 }
-
-

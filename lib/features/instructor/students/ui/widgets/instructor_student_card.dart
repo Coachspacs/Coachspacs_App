@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/features/instructor/students/data/models/instructor_student_progress.dart';
 
 class InstructorStudentCard extends StatelessWidget {

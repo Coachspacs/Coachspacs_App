@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../../core/routing/app_routes.dart';
+import '../../../../../core/routing/routes.dart';
 
 class InstructorWelcomeCard extends StatelessWidget {
   const InstructorWelcomeCard({

@@ -40,6 +40,7 @@ void main() {
               body: SizedBox(),
               bottomNavigationBar: BottomNavBarWidget(
                 currentIndex: 0,
+                navType: NavType.student,
               ),
             ),
           ),

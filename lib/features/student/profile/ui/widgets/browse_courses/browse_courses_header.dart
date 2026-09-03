@@ -21,115 +21,76 @@ class BrowseCoursesHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filterOptions = [
+      (filter: CourseFilter.all, count: allCount),
+      (filter: CourseFilter.inProgress, count: inProgressCount),
+      (filter: CourseFilter.completed, count: completedCount),
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // =====================================================
-        // BACK BUTTON + TITLE
-        // =====================================================
-
         Row(
           children: [
             IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => Navigator.maybePop(context),
+              tooltip: 'Back',
               padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(
-                minWidth: 30,
-                minHeight: 30,
-              ),
+              constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
               icon: const Icon(
                 Icons.arrow_back_rounded,
                 size: 23,
-                color: Color(0xFF073F38),
+                color: AppColors.primaryDark,
               ),
             ),
-
             const SizedBox(width: 8),
-
             Expanded(
               child: Text(
                 'My Courses',
                 style: GoogleFonts.inter(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: const Color(0xFF073F38),
+                  color: AppColors.primaryDark,
                 ),
               ),
             ),
           ],
         ),
-
         const SizedBox(height: 4),
-
         Text(
           'Continue your learning journey',
           style: GoogleFonts.inter(
             fontSize: 11,
             color: const Color(0xFF71827E),
-            fontWeight: FontWeight.w400,
           ),
         ),
-
         const SizedBox(height: 16),
-
-        // =====================================================
-        // FILTER TABS
-        // =====================================================
-
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(13),
-            border: Border.all(
-              color: const Color(0xFFDCE8E4),
-            ),
+            border: Border.all(color: const Color(0xFFDCE8E4)),
           ),
           child: Row(
-            children: [
-              Expanded(
-                child: _FilterButton(
-                  title: 'All',
-                  count: allCount,
-                  isSelected:
-                  selectedStatus == CourseFilter.all,
-                  onTap: () {
-                    onStatusChanged(CourseFilter.all);
-                  },
-                ),
-              ),
-              const SizedBox(width: 4),
-              Expanded(
-                child: _FilterButton(
-                  title: 'In Progress',
-                  count: inProgressCount,
-                  isSelected:
-                  selectedStatus == CourseFilter.inProgress,
-                  onTap: () {
-                    onStatusChanged(
-                      CourseFilter.inProgress,
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(width: 4),
-              Expanded(
-                child: _FilterButton(
-                  title: 'Completed',
-                  count: completedCount,
-                  isSelected:
-                  selectedStatus == CourseFilter.completed,
-                  onTap: () {
-                    onStatusChanged(
-                      CourseFilter.completed,
-                    );
-                  },
-                ),
-              ),
-            ],
+            children: filterOptions
+                .map(
+                  (option) => Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: option.filter == CourseFilter.completed ? 0 : 4,
+                      ),
+                      child: _FilterButton(
+                        filter: option.filter,
+                        count: option.count,
+                        isSelected: selectedStatus == option.filter,
+                        onTap: () => onStatusChanged(option.filter),
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
           ),
         ),
       ],
@@ -137,58 +98,57 @@ class BrowseCoursesHeader extends StatelessWidget {
   }
 }
 
-// =========================================================
-// FILTER
-// =========================================================
+enum CourseFilter { all, inProgress, completed }
 
-enum CourseFilter {
-  all,
-  inProgress,
-  completed,
+extension CourseFilterLabel on CourseFilter {
+  String get label => switch (this) {
+    CourseFilter.all => 'All',
+    CourseFilter.inProgress => 'In Progress',
+    CourseFilter.completed => 'Completed',
+  };
 }
 
 class _FilterButton extends StatelessWidget {
   const _FilterButton({
-    required this.title,
+    required this.filter,
     required this.count,
     required this.isSelected,
     required this.onTap,
   });
 
-  final String title;
+  final CourseFilter filter;
   final int count;
   final bool isSelected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: isSelected
-          ? const Color(0xFFCFF5E3)
-          : Colors.transparent,
-      borderRadius: BorderRadius.circular(10),
-      child: InkWell(
-        onTap: onTap,
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: '${filter.label}, $count courses',
+      child: Material(
+        color: isSelected ? const Color(0xFFCFF5E3) : Colors.transparent,
         borderRadius: BorderRadius.circular(10),
-        child: Container(
-          height: 39,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 4,
-          ),
-          child: Text(
-            '$title ($count)',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              fontSize: 10,
-              fontWeight: isSelected
-                  ? FontWeight.w700
-                  : FontWeight.w500,
-              color: isSelected
-                  ? const Color(0xFF075E4D)
-                  : const Color(0xFF52635F),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(10),
+          child: SizedBox(
+            height: 39,
+            child: Center(
+              child: Text(
+                '${filter.label} ($count)',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.inter(
+                  fontSize: 10,
+                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  color: isSelected
+                      ? const Color(0xFF075E4D)
+                      : const Color(0xFF52635F),
+                ),
+              ),
             ),
           ),
         ),

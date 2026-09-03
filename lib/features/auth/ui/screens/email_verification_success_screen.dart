@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:coach_space/core/helpers/context_extensions.dart';
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/features/auth/data/models/user_role.dart';
 

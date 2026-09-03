@@ -27,7 +27,7 @@ class AppNotification {
   IconData get icon {
     switch (type) {
       case NotificationType.course:
-        return Icons.menu_book_outlined;
+        return Icons.celebration_outlined;
 
       case NotificationType.purchase:
         return Icons.shopping_cart_outlined;
@@ -39,16 +39,14 @@ class AppNotification {
         return Icons.workspace_premium_outlined;
 
       case NotificationType.update:
-        return Icons.notifications_none_rounded;
+        return Icons.info_outline_rounded;
 
       case NotificationType.reminder:
         return Icons.alarm_outlined;
     }
   }
 
-  AppNotification copyWith({
-    bool? isRead,
-  }) {
+  AppNotification copyWith({bool? isRead}) {
     return AppNotification(
       title: title,
       message: message,

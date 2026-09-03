@@ -24,17 +24,12 @@ class NotificationCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(32),
           decoration: BoxDecoration(
-            color: notification.isRead
-                ? AppColors.white
-                : const Color(0xFFF9FFFC),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: notification.isRead
-                  ? AppColors.border
-                  : const Color(0xFFD5EAE3),
-            ),
+            color: notification.type == NotificationType.course
+                ? const Color(0xFF93F39E)
+                : const Color(0xFFD6EDFB),
+            borderRadius: BorderRadius.circular(28),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,67 +37,42 @@ class NotificationCard extends StatelessWidget {
               // =================================================
               // ICON
               // =================================================
-
               Container(
-                width: 46,
-                height: 46,
+                width: 72,
+                height: 72,
                 decoration: BoxDecoration(
-                  color: _iconBackground(
-                    notification.type,
-                  ),
+                  color: _iconBackground(notification.type),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   notification.icon,
-                  size: 22,
-                  color: _iconColor(
-                    notification.type,
-                  ),
+                  size: 38,
+                  color: _iconColor(notification.type),
                 ),
               ),
 
-              const SizedBox(width: 12),
+              const SizedBox(width: 24),
 
               // =================================================
               // CONTENT
               // =================================================
-
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           child: Text(
                             notification.title,
                             style: GoogleFonts.inter(
                               color: AppColors.textBody,
-                              fontSize: 13,
-                              fontWeight:
-                              FontWeight.w700,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-
-                        if (!notification.isRead)
-                          Container(
-                            width: 8,
-                            height: 8,
-                            margin:
-                            const EdgeInsets.only(
-                              top: 4,
-                              left: 6,
-                            ),
-                            decoration:
-                            const BoxDecoration(
-                              color: AppColors.primary,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
                       ],
                     ),
 
@@ -114,19 +84,8 @@ class NotificationCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.inter(
                         color: AppColors.textLight,
-                        fontSize: 10.5,
+                        fontSize: 20,
                         height: 1.45,
-                      ),
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    Text(
-                      notification.time,
-                      style: GoogleFonts.inter(
-                        color: AppColors.textLight,
-                        fontSize: 9,
-                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -142,7 +101,7 @@ class NotificationCard extends StatelessWidget {
   Color _iconBackground(NotificationType type) {
     switch (type) {
       case NotificationType.course:
-        return const Color(0xFFE5F4EF);
+        return const Color(0xFFE0FCD9);
 
       case NotificationType.purchase:
         return const Color(0xFFEAF7F2);
@@ -154,7 +113,7 @@ class NotificationCard extends StatelessWidget {
         return const Color(0xFFE8F0FA);
 
       case NotificationType.update:
-        return const Color(0xFFEAF3F1);
+        return Colors.white;
 
       case NotificationType.reminder:
         return const Color(0xFFF4ECE6);
@@ -177,12 +136,3 @@ class NotificationCard extends StatelessWidget {
     }
   }
 }
-
-
-
-
-
-
-
-
-

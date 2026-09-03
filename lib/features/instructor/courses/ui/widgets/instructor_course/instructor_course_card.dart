@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
-import 'package:coach_space/core/routing/app_routes.dart';
-
-import '../../screens/instructor_course_edit_screen.dart';
+import 'package:coach_space/core/routing/routes.dart';
 
 class InstructorCourseCard extends StatelessWidget {
   const InstructorCourseCard({

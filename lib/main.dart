@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/di/injection_container.dart';
 import 'core/routing/app_router.dart';
-import 'core/routing/app_routes.dart';
+import 'core/routing/routes.dart';
 import 'core/theming/app_theme.dart';
 import 'features/auth/logic/auth_routing.dart';
 import 'features/auth/logic/cubit/auth_cubit.dart';
@@ -18,9 +18,7 @@ void main() async {
 
   setupLocator();
 
-  unawaited(
-    getIt<AuthCubit>().restoreSession(),
-  );
+  unawaited(getIt<AuthCubit>().restoreSession());
 
   runApp(const CoachSpaceApp());
 }
@@ -40,7 +38,7 @@ class CoachSpaceApp extends StatelessWidget {
         onGenerateRoute: AppRouter().generateRoute,
 
         // Keep the authentication flow as the app entry point.
-        initialRoute: AppRoutes.instructorProfile,
+        initialRoute: AppRoutes.login,
         // App language
         locale: const Locale('en'),
 
@@ -66,13 +64,9 @@ class CoachSpaceApp extends StatelessWidget {
 
 /// Owned by the app root so the auth gate can navigate from above the
 /// `MaterialApp` (the `BlocListener` sits above the `Navigator`).
-final GlobalKey<NavigatorState> _navigatorKey =
-GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
-void _onAuthStateChanged(
-    BuildContext context,
-    AuthState state,
-    ) {
+void _onAuthStateChanged(BuildContext context, AuthState state) {
   final String? target = switch (state) {
     AuthAuthenticated(:final session) => routeForSession(session),
     AuthPendingApproval(:final session) => routeForSession(session),
@@ -90,14 +84,10 @@ void _onAuthStateChanged(
   final currentContext = _navigatorKey.currentContext;
 
   if (currentContext != null) {
-    final currentName =
-        ModalRoute.of(currentContext)?.settings.name;
+    final currentName = ModalRoute.of(currentContext)?.settings.name;
 
     if (currentName == target) return;
   }
 
-  navigator.pushNamedAndRemoveUntil(
-    target,
-        (route) => false,
-  );
+  navigator.pushNamedAndRemoveUntil(target, (route) => false);
 }

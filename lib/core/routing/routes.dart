@@ -41,6 +41,12 @@ abstract final class AppRoutes {
 
   static const String instructorProfile = '/instructor-profile';
 
+  // Instructor screens (feature/student-app-ui)
+  static const String instructorNotifications = '/instructor-notifications';
+  static const String instructorCourseEdit = '/instructor-course-edit';
+  static const String instructorCourseManagement = '/instructor-course-management';
+  static const String instructorStudentProgress = '/instructor-student-progress';
+
   // My Learning
   static const String myLearning = '/my-learning';
 

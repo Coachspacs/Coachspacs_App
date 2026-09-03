@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
-
 import 'instructor_course_management_shared.dart';
 
 class InstructorCourseManagementStudents

@@ -1,11 +1,8 @@
+import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:flutter/material.dart';
-
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
-
-import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_bottom_nav_bar.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/widgets/instructor_top_bar.dart';
-
 import 'package:coach_space/features/instructor/courses/ui/widgets/instructor_course/instructor_course_card.dart';
 import 'package:coach_space/features/instructor/courses/ui/widgets/instructor_course/instructor_courses_approval_banner.dart';
 import 'package:coach_space/features/instructor/courses/ui/widgets/instructor_course/instructor_courses_filter.dart';
@@ -218,7 +215,8 @@ class _InstructorCoursesScreenState
       // BOTTOM NAVIGATION
       // =====================================================
 
-      bottomNavigationBar: InstructorBottomNavBar(
+      bottomNavigationBar: BottomNavBarWidget(
+        navType: NavType.instructor,
         currentIndex: 1,
 
         onItemSelected: (index) {

@@ -1,4 +1,4 @@
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/features/auth/data/models/approval_status.dart';
 import 'package:coach_space/features/auth/data/models/user_role.dart';
 import 'package:coach_space/features/auth/data/models/user_session.dart';

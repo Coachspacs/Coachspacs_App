@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/routing/app_routes.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 
 import '../widgets/catalog/catalog_course_card.dart';
@@ -427,6 +427,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
       bottomNavigationBar:
       const BottomNavBarWidget(
+        navType: NavType.student,
         currentIndex: 1,
       ),
     );

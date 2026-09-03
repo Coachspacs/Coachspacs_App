@@ -4,7 +4,7 @@ import 'package:coach_space/core/theming/app_colors.dart';
 
 import '../../data/models/instructor_student_progress.dart';
 
-import '../widgets/student_progress/ instructor_student_profile_card.dart';
+import '../widgets/student_progress/instructor_student_profile_card.dart';
 import '../widgets/student_progress/instructor_student_progress_header.dart';
 import '../widgets/student_progress/instructor_student_course_progress_card.dart';
 import '../widgets/student_progress/instructor_student_quiz_scores_card.dart';
