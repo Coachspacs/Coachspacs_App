@@ -39,6 +39,10 @@ import 'package:coach_space/features/instructor/courses/ui/screens/instructor_co
 import 'package:coach_space/features/instructor/profile/ui/screens/instructor_profile_screen.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/screens/instructor_dashboard_screen.dart';
 import 'package:coach_space/features/student/notifications/ui/screens/notification_screen.dart';
+import 'package:coach_space/features/instructor/notifications/ui/screens/instructor_notifications_screen.dart';
+import 'package:coach_space/features/instructor/courses/ui/screens/instructor_course_edit_screen.dart';
+import 'package:coach_space/features/instructor/courses/ui/screens/instructor_course_management_screen.dart';
+import 'package:coach_space/features/instructor/students/ui/screens/instructor_student_progress_screen.dart';
 
 import '../../features/auth/data/models/user_role.dart';
 
@@ -174,6 +178,24 @@ class AppRouter {
 
       case AppRoutes.notifications:
         return _buildRoute(const NotificationScreen(), settings);
+
+      case AppRoutes.instructorNotifications:
+        return _buildRoute(const InstructorNotificationsScreen(), settings);
+
+      case AppRoutes.instructorCourseEdit:
+        return _buildRoute(
+          InstructorCourseEditScreen(course: settings.arguments as dynamic),
+          settings,
+        );
+
+      case AppRoutes.instructorCourseManagement:
+        return _buildRoute(const InstructorCourseManagementScreen(), settings);
+
+      case AppRoutes.instructorStudentProgress:
+        return _buildRoute(
+          InstructorStudentProgressScreen(student: settings.arguments as dynamic),
+          settings,
+        );
 
       default:
         return _buildRoute(const LoginScreen(), settings);
