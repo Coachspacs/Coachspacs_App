@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/routing/routes.dart';
+import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
 
 class MyCoursesSection extends StatelessWidget {
-  const MyCoursesSection({
-    super.key,
-  });
+  const MyCoursesSection({super.key, required this.enrollments});
+
+  final List<EnrollmentDto> enrollments;
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +22,11 @@ class MyCoursesSection extends StatelessWidget {
             // Clicking My Courses opens all enrolled courses.
             InkWell(
               onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.browseCourses,
-                );
+                Navigator.pushNamed(context, AppRoutes.browseCourses);
               },
               borderRadius: BorderRadius.circular(8),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 4,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Text(
                   'My Courses',
                   style: GoogleFonts.inter(
@@ -47,16 +43,12 @@ class MyCoursesSection extends StatelessWidget {
             // View All opens all enrolled courses.
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.browseCourses,
-                );
+                Navigator.pushNamed(context, AppRoutes.browseCourses);
               },
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
                 minimumSize: Size.zero,
-                tapTargetSize:
-                MaterialTapTargetSize.shrinkWrap,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
               child: Text(
                 'View All',
@@ -72,58 +64,30 @@ class MyCoursesSection extends StatelessWidget {
 
         const SizedBox(height: 10),
 
-        // =====================================================
-        // COURSE 1
-        // =====================================================
-        _LearningCourseCard(
-          title:
-          'React 19 & Next.js App Router',
-          progress: 0.65,
-          completedLessons: '12 / 18 lessons',
-          onContinue: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.courseDetails,
-              arguments: {
-                'title':
-                'React 19 & Next.js App Router',
-                'instructor': 'Mohamed Katanani',
-                'price': '\$89.00',
-                'rating': '4.9',
-                'students': '2.4k',
-                'image': '',
-              },
-            );
-          },
-        ),
-
-        const SizedBox(height: 10),
-
-        // =====================================================
-        // COURSE 2
-        // =====================================================
-        _LearningCourseCard(
-          title:
-          'UI/UX Design Systems for Enterprise',
-          progress: 0.40,
-          completedLessons: '6 / 15 lessons',
-          onContinue: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.courseDetails,
-              arguments: {
-                'title':
-                'UI/UX Design Systems for Enterprise',
-                'instructor':
-                'Dr. Tareq Al-Mansoor',
-                'price': '\$69.00',
-                'rating': '4.8',
-                'students': '1.8k',
-                'image': '',
-              },
-            );
-          },
-        ),
+        ...enrollments
+            .take(2)
+            .map(
+              (enrollment) => Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: _LearningCourseCard(
+                  title: enrollment.course.title,
+                  progress: enrollment.progressPercent / 100,
+                  completedLessons: enrollment.isCompleted
+                      ? 'Completed'
+                      : '${enrollment.progressPercent}% complete',
+                  onContinue: () => Navigator.pushNamed(
+                    context,
+                    AppRoutes.courseDetails,
+                    arguments: {
+                      'id': enrollment.course.id,
+                      'title': enrollment.course.title,
+                      'instructor': enrollment.course.instructor.fullName,
+                      'image': enrollment.course.coverImage,
+                    },
+                  ),
+                ),
+              ),
+            ),
       ],
     );
   }
@@ -150,9 +114,7 @@ class _LearningCourseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: const Color(0xFFDCE8E4),
-        ),
+        border: Border.all(color: const Color(0xFFDCE8E4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,15 +136,12 @@ class _LearningCourseCard extends StatelessWidget {
             children: [
               Expanded(
                 child: ClipRRect(
-                  borderRadius:
-                  BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20),
                   child: LinearProgressIndicator(
                     value: progress,
                     minHeight: 6,
-                    backgroundColor:
-                    const Color(0xFFE5EFEC),
-                    valueColor:
-                    const AlwaysStoppedAnimation<Color>(
+                    backgroundColor: const Color(0xFFE5EFEC),
+                    valueColor: const AlwaysStoppedAnimation<Color>(
                       Color(0xFF075E4D),
                     ),
                   ),
@@ -222,8 +181,7 @@ class _LearningCourseCard extends StatelessWidget {
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   minimumSize: Size.zero,
-                  tapTargetSize:
-                  MaterialTapTargetSize.shrinkWrap,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: Text(
                   'Continue →',

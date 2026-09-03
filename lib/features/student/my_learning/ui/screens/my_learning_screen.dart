@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:coach_space/core/auth/guest_session.dart';
+import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
+import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository.dart';
 
 import '../widgets/continue_learning_section.dart';
 import '../widgets/my_certificates_section.dart';
@@ -20,6 +23,8 @@ class MyLearningScreen extends StatefulWidget {
 }
 
 class _MyLearningScreenState extends State<MyLearningScreen> {
+  List<EnrollmentDto> _enrollments = const [];
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +40,19 @@ class _MyLearningScreenState extends State<MyLearningScreen> {
         Navigator.pop(context);
       }
     });
+    _loadEnrollments();
+  }
+
+  Future<void> _loadEnrollments() async {
+    try {
+      final page = await getIt<EnrollmentRepository>().getEnrollments(
+        pageSize: 50,
+      );
+      if (mounted) setState(() => _enrollments = page.results);
+    } catch (_) {
+      // The dedicated browse screen presents retry feedback; this overview
+      // remains usable when its optional summary request fails.
+    }
   }
 
   @override
@@ -73,28 +91,18 @@ class _MyLearningScreenState extends State<MyLearningScreen> {
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    MyLearningHeader(),
-
-                    SizedBox(height: 18),
-
-                    MyLearningStats(),
-
-                    SizedBox(height: 22),
-
-                    ContinueLearningSection(),
-
-                    SizedBox(height: 24),
-
-                    MyCoursesSection(),
-
-                    SizedBox(height: 24),
-
-                    MyCertificatesSection(),
-
-                    SizedBox(height: 24),
-
-                    RecentActivitySection(),
+                  children: [
+                    const MyLearningHeader(),
+                    const SizedBox(height: 18),
+                    const MyLearningStats(),
+                    const SizedBox(height: 22),
+                    ContinueLearningSection(enrollments: _enrollments),
+                    const SizedBox(height: 24),
+                    MyCoursesSection(enrollments: _enrollments),
+                    const SizedBox(height: 24),
+                    const MyCertificatesSection(),
+                    const SizedBox(height: 24),
+                    const RecentActivitySection(),
                   ],
                 ),
               ),

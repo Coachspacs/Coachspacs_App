@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository.dart';
 
 import '../widgets/browse_courses/browse_courses_header.dart';
 import '../widgets/browse_courses/course_card.dart';
@@ -21,26 +23,51 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
   // COURSES
   // =====================================================
 
-  static const _courses = [
-    _CourseData(
-      title: 'React 19 & Next.js App Router Masterclass',
-      instructor: 'Mohamed Katanani',
-      progress: 0.75,
-      status: CourseStatus.inProgress,
-    ),
-    _CourseData(
-      title: 'Building Professional UI/UX Design Systems with Figma',
-      instructor: 'Dr. Tareq Al-Mansoor',
-      progress: 1.0,
-      status: CourseStatus.completed,
-    ),
-    _CourseData(
-      title: 'Python Machine Learning & AI Fundamentals',
-      instructor: 'Dr. Tareq Al-Mansoor',
-      progress: 0.30,
-      status: CourseStatus.inProgress,
-    ),
-  ];
+  final List<_CourseData> _courses = [];
+  bool _isLoading = true;
+  String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCourses();
+  }
+
+  Future<void> _loadCourses() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    try {
+      final enrollments = await getIt<EnrollmentRepository>().getEnrollments(
+        pageSize: 50,
+      );
+      if (!mounted) return;
+      setState(() {
+        _courses
+          ..clear()
+          ..addAll(
+            enrollments.results.map(
+              (enrollment) => _CourseData(
+                title: enrollment.course.title,
+                instructor: enrollment.course.instructor.fullName,
+                progress: enrollment.progressPercent / 100,
+                status: enrollment.isCompleted
+                    ? CourseStatus.completed
+                    : CourseStatus.inProgress,
+              ),
+            ),
+          );
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _errorMessage = 'Unable to load your courses.';
+      });
+    }
+  }
 
   // =====================================================
   // FILTERED COURSES
@@ -150,58 +177,74 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
                   // =================================================
                   // COURSES
                   // =================================================
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      final isMobile = constraints.maxWidth < 650;
+                  if (_isLoading)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(32),
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  else if (_errorMessage != null)
+                    Center(
+                      child: TextButton.icon(
+                        onPressed: _loadCourses,
+                        icon: const Icon(Icons.refresh_rounded),
+                        label: Text('$_errorMessage Tap to retry.'),
+                      ),
+                    )
+                  else
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final isMobile = constraints.maxWidth < 650;
 
-                      if (isMobile) {
-                        return Column(
-                          children: filteredCourses
-                              .map(
-                                (course) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 14),
-                                  child: CourseCard(
-                                    title: course.title,
-                                    instructor: course.instructor,
-                                    progress: course.progress,
-                                    status: course.status,
-                                    onPressed: () {
-                                      _openCourseDetails(context);
-                                    },
+                        if (isMobile) {
+                          return Column(
+                            children: filteredCourses
+                                .map(
+                                  (course) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 14),
+                                    child: CourseCard(
+                                      title: course.title,
+                                      instructor: course.instructor,
+                                      progress: course.progress,
+                                      status: course.status,
+                                      onPressed: () {
+                                        _openCourseDetails(context);
+                                      },
+                                    ),
                                   ),
-                                ),
-                              )
-                              .toList(),
-                        );
-                      }
-
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 14,
-                              mainAxisSpacing: 14,
-                              childAspectRatio: 0.78,
-                            ),
-                        itemCount: filteredCourses.length,
-                        itemBuilder: (context, index) {
-                          final course = filteredCourses[index];
-
-                          return CourseCard(
-                            title: course.title,
-                            instructor: course.instructor,
-                            progress: course.progress,
-                            status: course.status,
-                            onPressed: () {
-                              _openCourseDetails(context);
-                            },
+                                )
+                                .toList(),
                           );
-                        },
-                      );
-                    },
-                  ),
+                        }
+
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 14,
+                                mainAxisSpacing: 14,
+                                childAspectRatio: 0.78,
+                              ),
+                          itemCount: filteredCourses.length,
+                          itemBuilder: (context, index) {
+                            final course = filteredCourses[index];
+
+                            return CourseCard(
+                              title: course.title,
+                              instructor: course.instructor,
+                              progress: course.progress,
+                              status: course.status,
+                              onPressed: () {
+                                _openCourseDetails(context);
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
                 ],
               ),
             ),
