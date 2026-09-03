@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/auth/guest_session.dart';
+import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:coach_space/core/widgets/login_required_dialog.dart';
+
+import 'package:coach_space/features/auth/data/models/user_role.dart';
+import 'package:coach_space/features/student/profile/logic/cubit/profile_cubit.dart';
+import 'package:coach_space/features/student/profile/logic/cubit/profile_state.dart';
 
 import '../widgets/profile/profile_logout_button.dart';
 import '../widgets/profile/profile_menu_item.dart';
@@ -17,11 +23,40 @@ import '../widgets/profile/profile_user_card.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    // =====================================================
+    // GUEST PROTECTION
+    // =====================================================
+
+    if (GuestSession.isGuest) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) return;
+
+        LoginRequiredDialog.show(context).then((_) {
+          if (!context.mounted) return;
+
+          Navigator.pushReplacementNamed(context, AppRoutes.home);
+        });
+      });
+
+      return const Scaffold(
+        backgroundColor: AppColors.bgDefault,
+        body: SizedBox.shrink(),
+      );
+    }
+
+    return BlocProvider<ProfileCubit>(
+      create: (_) => getIt<ProfileCubit>()..loadProfile(),
+      child: const _ProfileView(),
+    );
+  }
+
   // =====================================================
   // LOGOUT DIALOG
   // =====================================================
 
-  void _showLogoutDialog(BuildContext context) {
+  static void _showLogoutDialog(BuildContext context) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) {
@@ -84,43 +119,13 @@ class ProfileScreen extends StatelessWidget {
       },
     );
   }
+}
 
-  // =====================================================
-  // PROTECTED NAVIGATION
-  // =====================================================
-
-  void _openProtectedRoute(BuildContext context, String route) {
-    if (GuestSession.isGuest) {
-      LoginRequiredDialog.show(context);
-      return;
-    }
-
-    Navigator.pushNamed(context, route);
-  }
+class _ProfileView extends StatelessWidget {
+  const _ProfileView();
 
   @override
   Widget build(BuildContext context) {
-    // =====================================================
-    // GUEST PROTECTION
-    // =====================================================
-
-    if (GuestSession.isGuest) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        if (!context.mounted) return;
-
-        LoginRequiredDialog.show(context).then((_) {
-          if (!context.mounted) return;
-
-          Navigator.pushReplacementNamed(context, AppRoutes.home);
-        });
-      });
-
-      return const Scaffold(
-        backgroundColor: AppColors.bgDefault,
-        body: SizedBox.shrink(),
-      );
-    }
-
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
 
@@ -154,10 +159,30 @@ class ProfileScreen extends StatelessWidget {
                         // =====================================
                         // PROFILE
                         // =====================================
-                        const ProfileUserCard(
-                          name: 'Sondos Abu Skhail',
-                          role: 'Student',
-                          specialization: 'Information Technology',
+                        BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            String name = 'Student';
+                            String role = 'Student';
+                            String specialization = '';
+                            String avatar = '';
+
+                            if (state is ProfileLoadSuccess) {
+                              final profile = state.profile;
+                              name = profile.fullName ?? 'Student';
+                              role = profile.role == UserRole.instructor
+                                  ? 'Instructor'
+                                  : 'Student';
+                              specialization = profile.email ?? '';
+                              avatar = profile.avatar ?? '';
+                            }
+
+                            return ProfileUserCard(
+                              name: name,
+                              role: role,
+                              specialization: specialization,
+                              imagePath: avatar,
+                            );
+                          },
                         ),
 
                         const SizedBox(height: 22),
@@ -249,7 +274,7 @@ class ProfileScreen extends StatelessWidget {
                         // =====================================
                         ProfileLogoutButton(
                           onPressed: () {
-                            _showLogoutDialog(context);
+                            ProfileScreen._showLogoutDialog(context);
                           },
                         ),
 
@@ -273,6 +298,19 @@ class ProfileScreen extends StatelessWidget {
         currentIndex: 3,
       ),
     );
+  }
+
+  // =====================================================
+  // PROTECTED NAVIGATION
+  // =====================================================
+
+  void _openProtectedRoute(BuildContext context, String route) {
+    if (GuestSession.isGuest) {
+      LoginRequiredDialog.show(context);
+      return;
+    }
+
+    Navigator.pushNamed(context, route);
   }
 
   // =====================================================
