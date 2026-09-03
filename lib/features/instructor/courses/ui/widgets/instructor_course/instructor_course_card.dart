@@ -5,10 +5,7 @@ import 'package:coach_space/features/instructor/courses/ui/screens/instructor_co
 import 'package:coach_space/core/routing/routes.dart';
 
 class InstructorCourseCard extends StatelessWidget {
-  const InstructorCourseCard({
-    super.key,
-    required this.course,
-  });
+  const InstructorCourseCard({super.key, required this.course});
 
   final InstructorCourse course;
 
@@ -20,9 +17,7 @@ class InstructorCourseCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFDCE7E4),
-        ),
+        border: Border.all(color: const Color(0xFFDCE7E4)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,27 +25,19 @@ class InstructorCourseCard extends StatelessWidget {
           // =====================================================
           // IMAGE
           // =====================================================
-
           _buildImage(),
 
           // =====================================================
           // CONTENT
           // =====================================================
-
           Padding(
-            padding: const EdgeInsets.fromLTRB(
-              12,
-              11,
-              12,
-              12,
-            ),
+            padding: const EdgeInsets.fromLTRB(12, 11, 12, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // =================================================
                 // TITLE
                 // =================================================
-
                 _buildTitle(),
 
                 const SizedBox(height: 7),
@@ -58,13 +45,11 @@ class InstructorCourseCard extends StatelessWidget {
                 // =================================================
                 // COURSE INFO
                 // =================================================
-
                 _buildCourseInfo(),
 
                 // =================================================
                 // REJECTION MESSAGE
                 // =================================================
-
                 if (course.rejectionReason != null) ...[
                   const SizedBox(height: 9),
                   _buildRejectionMessage(),
@@ -75,7 +60,6 @@ class InstructorCourseCard extends StatelessWidget {
                 // =================================================
                 // ACTIONS
                 // =================================================
-
                 _buildActions(context),
               ],
             ),
@@ -95,14 +79,10 @@ class InstructorCourseCard extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
+          Image.network(
             course.image,
             fit: BoxFit.cover,
-            errorBuilder: (
-                context,
-                error,
-                stackTrace,
-                ) {
+            errorBuilder: (context, error, stackTrace) {
               return Container(
                 color: const Color(0xFFE5F2EE),
                 child: const Center(
@@ -119,13 +99,10 @@ class InstructorCourseCard extends StatelessWidget {
           // =================================================
           // STATUS BADGE
           // =================================================
-
           Positioned(
             top: 9,
             right: 9,
-            child: _StatusBadge(
-              status: course.status,
-            ),
+            child: _StatusBadge(status: course.status),
           ),
         ],
       ),
@@ -162,7 +139,6 @@ class InstructorCourseCard extends StatelessWidget {
         // =================================================
         // STUDENTS
         // =================================================
-
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -187,7 +163,6 @@ class InstructorCourseCard extends StatelessWidget {
         // =================================================
         // PRICE
         // =================================================
-
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -256,15 +231,13 @@ class InstructorCourseCard extends StatelessWidget {
   // =====================================================
 
   Widget _buildActions(BuildContext context) {
-    final bool isRejected =
-        course.status == CourseStatus.rejected;
+    final bool isRejected = course.status == CourseStatus.rejected;
 
     return Row(
       children: [
         // =================================================
         // EDIT COURSE
         // =================================================
-
         Expanded(
           child: SizedBox(
             height: 38,
@@ -277,12 +250,8 @@ class InstructorCourseCard extends StatelessWidget {
                 );
               },
               style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                side: const BorderSide(
-                  color: Color(0xFFD6E4E0),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                side: const BorderSide(color: Color(0xFFD6E4E0)),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -304,7 +273,6 @@ class InstructorCourseCard extends StatelessWidget {
         // =================================================
         // MANAGE / RESUBMIT
         // =================================================
-
         Expanded(
           child: SizedBox(
             height: 38,
@@ -316,9 +284,7 @@ class InstructorCourseCard extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 elevation: 0,
                 backgroundColor: const Color(0xFF075E4D),
                 foregroundColor: Colors.white,
@@ -347,9 +313,7 @@ class InstructorCourseCard extends StatelessWidget {
 // =============================================================
 
 class _StatusBadge extends StatelessWidget {
-  const _StatusBadge({
-    required this.status,
-  });
+  const _StatusBadge({required this.status});
 
   final CourseStatus status;
 
@@ -360,9 +324,9 @@ class _StatusBadge extends StatelessWidget {
     late Color foreground;
 
     switch (status) {
-    // =================================================
-    // PUBLISHED
-    // =================================================
+      // =================================================
+      // PUBLISHED
+      // =================================================
 
       case CourseStatus.published:
         text = 'Published';
@@ -370,9 +334,9 @@ class _StatusBadge extends StatelessWidget {
         foreground = const Color(0xFF075E4D);
         break;
 
-    // =================================================
-    // PENDING REVIEW
-    // =================================================
+      // =================================================
+      // PENDING REVIEW
+      // =================================================
 
       case CourseStatus.pendingReview:
         text = 'Pending Review';
@@ -380,9 +344,9 @@ class _StatusBadge extends StatelessWidget {
         foreground = const Color(0xFF9A6A00);
         break;
 
-    // =================================================
-    // DRAFT
-    // =================================================
+      // =================================================
+      // DRAFT
+      // =================================================
 
       case CourseStatus.draft:
         text = 'Draft';
@@ -390,9 +354,9 @@ class _StatusBadge extends StatelessWidget {
         foreground = const Color(0xFF687772);
         break;
 
-    // =================================================
-    // REJECTED
-    // =================================================
+      // =================================================
+      // REJECTED
+      // =================================================
 
       case CourseStatus.rejected:
         text = 'Rejected';
@@ -402,10 +366,7 @@ class _StatusBadge extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 7,
-        vertical: 4,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(20),

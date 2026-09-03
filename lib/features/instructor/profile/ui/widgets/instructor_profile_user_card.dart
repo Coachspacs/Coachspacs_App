@@ -3,14 +3,24 @@ import 'package:google_fonts/google_fonts.dart';
 
 class InstructorProfileUserCard extends StatelessWidget {
   final VoidCallback onEdit;
+  final String name;
+  final String role;
+  final String status;
 
   const InstructorProfileUserCard({
     super.key,
     required this.onEdit,
+    this.name = 'Instructor',
+    this.role = 'Instructor',
+    this.status = 'Approved',
   });
 
   @override
   Widget build(BuildContext context) {
+    final initial = name.trim().isNotEmpty
+        ? name.trim()[0].toUpperCase()
+        : 'I';
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -43,7 +53,7 @@ class InstructorProfileUserCard extends StatelessWidget {
             ),
             alignment: Alignment.center,
             child: Text(
-              'H',
+              initial,
               style: GoogleFonts.inter(
                 fontSize: 21,
                 fontWeight: FontWeight.w700,
@@ -63,7 +73,7 @@ class InstructorProfileUserCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hassan Sayed',
+                  name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
@@ -76,7 +86,7 @@ class InstructorProfileUserCard extends StatelessWidget {
                 const SizedBox(height: 4),
 
                 Text(
-                  'Instructor',
+                  role,
                   style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
@@ -96,7 +106,7 @@ class InstructorProfileUserCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    'Approved',
+                    status,
                     style: GoogleFonts.inter(
                       fontSize: 8,
                       fontWeight: FontWeight.w700,

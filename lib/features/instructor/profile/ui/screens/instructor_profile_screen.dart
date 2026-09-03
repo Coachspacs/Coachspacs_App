@@ -1,9 +1,16 @@
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+
+import 'package:coach_space/features/auth/data/models/approval_status.dart';
+import 'package:coach_space/features/auth/data/models/user_role.dart';
+import 'package:coach_space/features/student/profile/logic/cubit/profile_cubit.dart';
+import 'package:coach_space/features/student/profile/logic/cubit/profile_state.dart';
 
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_header.dart';
 
@@ -21,6 +28,18 @@ class InstructorProfileScreen extends StatelessWidget {
   const InstructorProfileScreen({
     super.key,
   });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<ProfileCubit>(
+      create: (_) => getIt<ProfileCubit>()..loadProfile(),
+      child: const _InstructorProfileView(),
+    );
+  }
+}
+
+class _InstructorProfileView extends StatelessWidget {
+  const _InstructorProfileView();
 
   @override
   Widget build(BuildContext context) {
@@ -88,14 +107,34 @@ class InstructorProfileScreen extends StatelessWidget {
                     // USER CARD
                     // =================================================
 
-                    InstructorProfileUserCard(
-                      onEdit: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                            const InstructorBasicInfoScreen(),
-                          ),
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      builder: (context, state) {
+                        String name = 'Instructor';
+                        String role = 'Instructor';
+                        String status = 'Approved';
+
+                        if (state is ProfileLoadSuccess) {
+                          final profile = state.profile;
+                          name = profile.fullName ?? 'Instructor';
+                          role = profile.role == UserRole.instructor
+                              ? 'Instructor'
+                              : 'Student';
+                          status = _formatApprovalStatus(profile.approvalStatus);
+                        }
+
+                        return InstructorProfileUserCard(
+                          name: name,
+                          role: role,
+                          status: status,
+                          onEdit: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                const InstructorBasicInfoScreen(),
+                              ),
+                            );
+                          },
                         );
                       },
                     ),
@@ -254,6 +293,15 @@ class InstructorProfileScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String _formatApprovalStatus(ApprovalStatus? status) {
+    return switch (status) {
+      ApprovalStatus.approved => 'Approved',
+      ApprovalStatus.pending => 'Pending',
+      ApprovalStatus.rejected => 'Rejected',
+      ApprovalStatus.unknown || null => 'Unknown',
+    };
   }
 
   // =============================================================
