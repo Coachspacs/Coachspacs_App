@@ -14,9 +14,7 @@ String routeForSession(UserSession session) {
     case UserRole.instructor:
       switch (session.approvalStatus) {
         case ApprovalStatus.approved:
-          // No instructor dashboard exists yet — students and approved
-          // instructors share the home screen (documented fallback).
-          return AppRoutes.home;
+          return AppRoutes.instructorDashboard;
         case ApprovalStatus.pending:
           return AppRoutes.pendingApproval;
         case ApprovalStatus.rejected:
@@ -25,7 +23,6 @@ String routeForSession(UserSession session) {
           return AppRoutes.login;
       }
     case UserRole.admin:
-      // No admin dashboard exists yet (documented fallback).
       return AppRoutes.home;
     case UserRole.unknown:
       return AppRoutes.login;
