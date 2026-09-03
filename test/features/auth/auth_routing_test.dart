@@ -40,7 +40,7 @@ void main() {
       );
     });
 
-    test('approved instructor shares the home route (no dashboard yet)', () {
+    test('approved instructor routes to the instructor dashboard', () {
       expect(
         routeForSession(
           session(
@@ -48,7 +48,7 @@ void main() {
             approvalStatus: ApprovalStatus.approved,
           ),
         ),
-        AppRoutes.home,
+        AppRoutes.instructorDashboard,
       );
     });
 
