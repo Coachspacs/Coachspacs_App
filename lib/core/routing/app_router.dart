@@ -9,7 +9,10 @@ import 'package:coach_space/features/auth/ui/screens/forgot_password_screen.dart
 import 'package:coach_space/features/auth/ui/screens/link_expired_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/login_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/pending_approval_screen.dart';
+import 'package:coach_space/features/auth/ui/screens/reset_password_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/support_screen.dart';
+
+import 'package:coach_space/features/onboarding/screens/onboarding_screen.dart';
 
 import 'package:coach_space/features/student/home/ui/screens/home_screen.dart';
 
@@ -65,6 +68,12 @@ class AppRouter {
       case AppRoutes.forgotPassword:
         return _buildRoute(const ForgotPasswordScreen(), settings);
 
+      case AppRoutes.resetPassword:
+        return _buildRoute(const ResetPasswordScreen(), settings);
+
+      case AppRoutes.onboarding:
+        return _buildRoute(const OnboardingScreen(), settings);
+
       case AppRoutes.emailVerification:
         return _buildRoute(
           EmailVerificationScreen(email: settings.arguments as String?),
@@ -78,7 +87,7 @@ class AppRouter {
         );
 
       case AppRoutes.emailAlreadyVerified:
-        return _buildRoute(const VerificationAlreadyCompleteScreen(), settings);
+        return _buildRoute(const LoginScreen(), settings);
 
       case AppRoutes.pendingApproval:
         return _buildRoute(const PendingApprovalScreen(), settings);

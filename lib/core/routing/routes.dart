@@ -4,10 +4,12 @@ abstract final class AppRoutes {
   static const String login = '/login';
   static const String signup = '/signup';
   static const String forgotPassword = '/forgot-password';
+  static const String resetPassword = '/reset-password';
   static const String emailVerification = '/email-verification';
   static const String emailVerificationSuccess = '/email-verification-success';
   static const String emailAlreadyVerified = '/email-already-verified';
   static const String editProfile = '/edit-profile';
+  static const String onboarding = '/onboarding';
 
   // Profile
   static const String profile = '/profile';

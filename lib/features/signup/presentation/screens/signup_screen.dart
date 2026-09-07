@@ -11,7 +11,6 @@ import 'package:coach_space/features/auth/data/models/user_role.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_state.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_custom_text_field.dart';
-import 'package:coach_space/features/signup/presentation/widgets/signup_role_card.dart';
 import 'package:coach_space/features/signup/presentation/widgets/signup_terms_rich_text.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -44,6 +43,10 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
+  // =====================================================
+  // SIGN UP
+  // =====================================================
+
   void _handleSignup() {
     final name = _nameController.text.trim();
     final email = _emailController.text.trim();
@@ -54,7 +57,9 @@ class _SignupScreenState extends State<SignupScreen> {
         SnackBar(
           content: Text(
             context.l10n.signupValidationError,
-            style: GoogleFonts.inter(),
+            style: GoogleFonts.inter(
+              fontSize: 12,
+            ),
           ),
         ),
       );
@@ -66,7 +71,9 @@ class _SignupScreenState extends State<SignupScreen> {
         SnackBar(
           content: Text(
             context.l10n.signupTermsError,
-            style: GoogleFonts.inter(),
+            style: GoogleFonts.inter(
+              fontSize: 12,
+            ),
           ),
         ),
       );
@@ -82,6 +89,10 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
+
+  // =====================================================
+  // BUILD
+  // =====================================================
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +114,9 @@ class _SignupScreenState extends State<SignupScreen> {
               SnackBar(
                 content: Text(
                   message,
-                  style: GoogleFonts.inter(),
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                  ),
                 ),
               ),
             );
@@ -112,105 +125,170 @@ class _SignupScreenState extends State<SignupScreen> {
             break;
         }
       },
+
       child: Scaffold(
-        backgroundColor: AppColors.bgDefault,
+        backgroundColor: const Color(0xFFF7FAF9),
+
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(
-              14,
+              20,
               12,
-              14,
-              24,
+              20,
+              28,
             ),
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // --------------------------------------------------
-                // Back button
-                // --------------------------------------------------
+
+                // =================================================
+                // BACK BUTTON
+                // =================================================
+
                 IconButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(
-                    minWidth: 40,
-                    minHeight: 40,
+                    minWidth: 36,
+                    minHeight: 36,
                   ),
                   icon: const Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: AppColors.primary,
-                    size: 22,
+                    Icons.arrow_back_rounded,
+                    color: Color(0xFF073F38),
+                    size: 21,
                   ),
                 ),
 
-                const SizedBox(height: 2),
+                const SizedBox(height: 10),
 
-                // --------------------------------------------------
-                // Logo
-                // --------------------------------------------------
+                // =================================================
+                // LOGO
+                // =================================================
+
                 Center(
-                  child: Image.asset(
-                    'assets/images/Logo_img.png',
-                    width: 92,
-                    height: 92,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-
-                const SizedBox(height: 8),
-
-                // --------------------------------------------------
-                // Title
-                // --------------------------------------------------
-                Center(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      'Join the Future of Learning',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
-                        color: AppColors.primary,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
+                  child: Container(
+                    width: 105,
+                    height: 105,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFFDCEAE5),
+                        width: 1,
                       ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(
+                            alpha: 0.03,
+                          ),
+                          blurRadius: 18,
+                          offset: const Offset(0, 7),
+                        ),
+                      ],
+                    ),
+                    child: Image.asset(
+                      'assets/images/Logo_img.png',
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 18),
 
-                // --------------------------------------------------
-                // Subtitle
-                // --------------------------------------------------
+                // =================================================
+                // TITLE
+                // =================================================
+
                 Center(
                   child: Text(
-                    'Start your learning journey with CoachSpace',
+                    'Join the Future of Learning',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
-                      color: AppColors.textLight,
-                      fontSize: 12.5,
+                      color: const Color(0xFF073F38),
+                      fontSize: 21,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.4,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 7),
+
+                // =================================================
+                // SUBTITLE
+                // =================================================
+
+                Center(
+                  child: Text(
+                    'Start your learning journey with Coach Space',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFF8A9995),
+                      fontSize: 11,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
 
-                // Space between header and form
-                const SizedBox(height: 38),
+                const SizedBox(height: 28),
 
-                // --------------------------------------------------
-                // Full Name
-                // --------------------------------------------------
+                // =================================================
+                // ROLE SELECTOR
+                // =================================================
+
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF0F5F3),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: const Color(0xFFE2EBE8),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _buildRoleOption(
+                          title: 'Student',
+                          icon: Icons.menu_book_outlined,
+                          role: UserRole.student,
+                        ),
+                      ),
+
+                      const SizedBox(width: 4),
+
+                      Expanded(
+                        child: _buildRoleOption(
+                          title: 'Instructor',
+                          icon: Icons.business_center_outlined,
+                          role: UserRole.instructor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 28),
+
+                // =================================================
+                // FULL NAME
+                // =================================================
+
                 Text(
                   'Full Name',
                   style: GoogleFonts.inter(
-                    color: AppColors.primary,
-                    fontSize: 12,
+                    color: const Color(0xFF31554E),
+                    fontSize: 11,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
 
-                const SizedBox(height: 7),
+                const SizedBox(height: 6),
 
                 SignupCustomTextField(
                   controller: _nameController,
@@ -219,123 +297,79 @@ class _SignupScreenState extends State<SignupScreen> {
                   textInputAction: TextInputAction.next,
                 ),
 
-                const SizedBox(height: 19),
+                const SizedBox(height: 16),
 
-                // --------------------------------------------------
-                // Email
-                // --------------------------------------------------
+                // =================================================
+                // EMAIL
+                // =================================================
+
                 Text(
                   'Email Address',
                   style: GoogleFonts.inter(
-                    color: AppColors.primary,
-                    fontSize: 12,
+                    color: const Color(0xFF31554E),
+                    fontSize: 11,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
 
-                const SizedBox(height: 7),
+                const SizedBox(height: 6),
 
                 SignupCustomTextField(
                   controller: _emailController,
                   hintText: 'jane@example.com',
                   prefixIcon: Icons.mail_outline_rounded,
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType:
+                  TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                 ),
 
-                const SizedBox(height: 19),
+                const SizedBox(height: 16),
 
-                // --------------------------------------------------
-                // Password
-                // --------------------------------------------------
+                // =================================================
+                // PASSWORD
+                // =================================================
+
                 Text(
                   'Password',
                   style: GoogleFonts.inter(
-                    color: AppColors.primary,
-                    fontSize: 12,
+                    color: const Color(0xFF31554E),
+                    fontSize: 11,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
 
-                const SizedBox(height: 7),
+                const SizedBox(height: 6),
 
                 SignupCustomTextField(
                   controller: _passwordController,
                   hintText: '••••••••',
-                  prefixIcon: Icons.lock_outline_rounded,
+                  prefixIcon:
+                  Icons.lock_outline_rounded,
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
-                        _obscurePassword = !_obscurePassword;
+                        _obscurePassword =
+                        !_obscurePassword;
                       });
                     },
                     icon: Icon(
                       _obscurePassword
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
-                      color: AppColors.textLight,
-                      size: 20,
+                      color: const Color(0xFFB4C0BC),
+                      size: 18,
                     ),
                   ),
-                ),
-
-                const SizedBox(height: 23),
-
-                // --------------------------------------------------
-                // Joining as
-                // --------------------------------------------------
-                Text(
-                  'I am joining as',
-                  style: GoogleFonts.inter(
-                    color: AppColors.primary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 9),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: SignupRoleCard(
-                        title: 'Student',
-                        icon: Icons.school_rounded,
-                        selected:
-                        _selectedRole == UserRole.student,
-                        onTap: () {
-                          setState(() {
-                            _selectedRole = UserRole.student;
-                          });
-                        },
-                      ),
-                    ),
-
-                    const SizedBox(width: 10),
-
-                    Expanded(
-                      child: SignupRoleCard(
-                        title: 'Instructor',
-                        icon: Icons.business_center_outlined,
-                        selected:
-                        _selectedRole == UserRole.instructor,
-                        onTap: () {
-                          setState(() {
-                            _selectedRole = UserRole.instructor;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
                 ),
 
                 const SizedBox(height: 20),
 
-                // --------------------------------------------------
-                // Terms
-                // --------------------------------------------------
+                // =================================================
+                // TERMS
+                // =================================================
+
                 SignupTermsRichText(
                   agreed: _agreedToTerms,
                   onChanged: (value) {
@@ -347,72 +381,50 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 const SizedBox(height: 22),
 
-                // --------------------------------------------------
-                // Create Account
-                // --------------------------------------------------
+                // =================================================
+                // CREATE ACCOUNT
+                // =================================================
+
                 BlocBuilder<AuthCubit, AuthState>(
                   buildWhen: (previous, current) =>
                   previous is AuthRegisterLoading ||
                       current is AuthRegisterLoading,
+
                   builder: (context, state) {
                     final isLoading =
                     state is AuthRegisterLoading;
 
                     return MyButton(
                       text: isLoading
-                          ? context.l10n.signupCreatingAccount
-                          : 'Create Account  →',
+                          ? context
+                          .l10n
+                          .signupCreatingAccount
+                          : 'Create Account',
+
                       onPressed:
                       isLoading ? () {} : _handleSignup,
+
                       color: AppColors.primary,
                       textColor: AppColors.white,
-                      fontSize: 14,
+
+                      fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      borderRadius: 10,
+
+                      borderRadius: 26,
+
                       width: double.infinity,
-                      height: 52,
+                      height: 50,
+
                       padding: EdgeInsets.zero,
                     );
                   },
                 ),
 
-                const SizedBox(height: 17),
+                const SizedBox(height: 30),
 
-                // --------------------------------------------------
-                // Security
-                // --------------------------------------------------
-                Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.verified_user_outlined,
-                        color: AppColors.textLight,
-                        size: 14,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        '100% encrypted and secure connection',
-                        style: GoogleFonts.inter(
-                          color: AppColors.textLight,
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                // --------------------------------------------------
-                // Already have account - LAST
-                // --------------------------------------------------
-                const Divider(
-                  color: AppColors.borderColor,
-                  thickness: 0.8,
-                ),
-
-                const SizedBox(height: 18),
+                // =================================================
+                // ALREADY HAVE ACCOUNT
+                // =================================================
 
                 Center(
                   child: GestureDetector(
@@ -426,18 +438,21 @@ class _SignupScreenState extends State<SignupScreen> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Already have an account? ',
+                            text:
+                            'Already have an account? ',
                             style: GoogleFonts.inter(
-                              color: AppColors.textLight,
-                              fontSize: 11,
+                              color:
+                              const Color(0xFF8A9995),
+                              fontSize: 10,
                             ),
                           ),
                           TextSpan(
                             text: 'Log in',
                             style: GoogleFonts.inter(
                               color: AppColors.primary,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
+                              fontSize: 10,
+                              fontWeight:
+                              FontWeight.w700,
                             ),
                           ),
                         ],
@@ -446,10 +461,90 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  // =====================================================
+  // ROLE OPTION
+  // =====================================================
+
+  Widget _buildRoleOption({
+    required String title,
+    required IconData icon,
+    required UserRole role,
+  }) {
+    final isSelected = _selectedRole == role;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedRole = role;
+        });
+      },
+
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+
+        height: 58,
+
+        decoration: BoxDecoration(
+          color: isSelected
+              ? const Color(0xFFD7EAE4)
+              : Colors.transparent,
+
+          borderRadius: BorderRadius.circular(16),
+
+          border: Border.all(
+            color: isSelected
+                ? const Color(0xFFC5DED6)
+                : Colors.transparent,
+          ),
+
+          boxShadow: isSelected
+              ? [
+            BoxShadow(
+              color: Colors.black.withValues(
+                alpha: 0.035,
+              ),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ]
+              : null,
+        ),
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 20,
+              color: isSelected
+                  ? const Color(0xFF075E4D)
+                  : const Color(0xFF7B8985),
+            ),
+
+            const SizedBox(width: 8),
+
+            Text(
+              title,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: isSelected
+                    ? FontWeight.w700
+                    : FontWeight.w500,
+                color: isSelected
+                    ? const Color(0xFF075E4D)
+                    : const Color(0xFF697773),
+              ),
+            ),
+          ],
         ),
       ),
     );

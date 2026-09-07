@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/auth/guest_session.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/widgets/login_required_dialog.dart';
 
@@ -108,7 +109,11 @@ class HomeHeroSection extends StatelessWidget {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      LoginRequiredDialog.show(context);
+                      if (GuestSession.isGuest) {
+                        LoginRequiredDialog.show(context);
+                        return;
+                      }
+                      Navigator.pushNamed(context, AppRoutes.myLearning);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF075E4D),
