@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/theming/app_colors.dart';
-
 class ProfileMenuItem extends StatelessWidget {
   const ProfileMenuItem({
     super.key,
@@ -23,64 +21,53 @@ class ProfileMenuItem extends StatelessWidget {
       children: [
         InkWell(
           onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
-            ),
-            child: Row(
-              children: [
-                // =================================================
-                // ICON
-                // =================================================
+          borderRadius: BorderRadius.circular(12),
+          child: SizedBox(
+            height: 47,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    icon,
 
-                Icon(
-                  icon,
-                  size: 21,
-                  color: AppColors.primary,
-                ),
+                    size: 17,
+                    color: const Color(0xFF637873),
+                  ),
 
-                const SizedBox(width: 14),
+                  const SizedBox(width: 11),
 
-                // =================================================
-                // TITLE
-                // =================================================
-
-                Expanded(
-                  child: Text(
-                    title,
-                    style: GoogleFonts.inter(
-                      color: AppColors.textBody,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF263C38),
+                      ),
                     ),
                   ),
-                ),
 
-                // =================================================
-                // ARROW
-                // =================================================
-
-                const Icon(
-                  Icons.chevron_right,
-                  size: 20,
-                  color: AppColors.textLight,
-                ),
-              ],
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    size: 18,
+                    color: Color(0xFFA6B6B1),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
 
-        // ===================================================
-        // DIVIDER
-        // ===================================================
-
         if (showDivider)
           const Divider(
             height: 1,
-            indent: 50,
-            endIndent: 16,
-            color: AppColors.border,
+            thickness: 1,
+            indent: 12,
+            endIndent: 12,
+            color: Color(0xFFF0F4F3),
           ),
       ],
     );

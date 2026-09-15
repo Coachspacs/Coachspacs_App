@@ -3,10 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
-class SettingsHeader extends StatelessWidget {
-  const SettingsHeader({
+class AccountSettingsHeader extends StatelessWidget {
+  const AccountSettingsHeader({
     super.key,
+    this.onBack,
   });
+
+  final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,7 @@ class SettingsHeader extends StatelessWidget {
           // =====================================================
 
           IconButton(
-            onPressed: () {
+            onPressed: onBack ?? () {
               Navigator.pop(context);
             },
             padding: EdgeInsets.zero,

@@ -103,7 +103,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                           Text(
                             'Explore Courses',
                             style: GoogleFonts.inter(
-                              fontSize: 21,
+                              fontSize: 23,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF073F38),
                               height: 1.2,
@@ -115,7 +115,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                           Text(
                             'Find the right course to grow your skills.',
                             style: GoogleFonts.inter(
-                              fontSize: 10.5,
+                              fontSize: 12.5,
                               fontWeight: FontWeight.w400,
                               color: Colors.grey.shade600,
                               height: 1.4,
@@ -179,7 +179,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                                     child: Text(
                                       category,
                                       style: GoogleFonts.inter(
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         fontWeight: isSelected
                                             ? FontWeight.w700
                                             : FontWeight.w500,
@@ -231,7 +231,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                               Text(
                                 'All Courses',
                                 style: GoogleFonts.inter(
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w700,
                                   color: const Color(0xFF073F38),
                                 ),
@@ -242,7 +242,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                               Text(
                                 '${filteredCourses.length} courses',
                                 style: GoogleFonts.inter(
-                                  fontSize: 10,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.grey.shade500,
                                 ),
@@ -337,7 +337,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
         label: Text(
           label,
           style: GoogleFonts.inter(
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: FontWeight.w600,
             color: const Color(0xFF075E4D),
           ),
@@ -458,7 +458,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           Text(
             'No courses found',
             style: GoogleFonts.inter(
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF073F38),
             ),
@@ -469,7 +469,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           Text(
             'Try another search.',
             style: GoogleFonts.inter(
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: FontWeight.w400,
               color: Colors.grey.shade500,
             ),
@@ -499,7 +499,7 @@ class _SortBottomSheet extends StatelessWidget {
             Text(
               'Sort Courses',
               style: GoogleFonts.inter(
-                fontSize: 17,
+                fontSize: 19,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF073F38),
               ),
@@ -563,7 +563,7 @@ class _SortOption extends StatelessWidget {
             Text(
               title,
               style: GoogleFonts.inter(
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF263B36),
               ),

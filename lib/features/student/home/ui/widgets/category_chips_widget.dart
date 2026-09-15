@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 import '../../data/models/category.dart';
 
-class CategoryChipsWidget extends StatefulWidget {
+class CategoryChipsWidget extends StatelessWidget {
   const CategoryChipsWidget({
     super.key,
     required this.categories,
@@ -12,144 +11,113 @@ class CategoryChipsWidget extends StatefulWidget {
 
   final List<Category> categories;
 
-  @override
-  State<CategoryChipsWidget> createState() =>
-      _CategoryChipsWidgetState();
-}
-
-class _CategoryChipsWidgetState
-    extends State<CategoryChipsWidget> {
-  int _selectedIndex = 0;
-
-  final List<IconData> _icons = [
-    Icons.auto_awesome_outlined,
-    Icons.code,
-    Icons.bar_chart_outlined,
-    Icons.campaign_outlined,
-    Icons.trending_up,
-    Icons.design_services_outlined,
+  static const List<IconData> _icons = [
+    Icons.laptop_mac_rounded,
+    Icons.rocket_launch_rounded,
+    Icons.trending_up_rounded,
+    Icons.auto_awesome_rounded,
+    Icons.code_rounded,
+    Icons.design_services_rounded,
   ];
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 86,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
-        scrollDirection: Axis.horizontal,
-        itemCount: widget.categories.length,
-        separatorBuilder: (_, __) =>
-        const SizedBox(width: 10),
+    final visibleCategories =
+    categories.take(4).toList();
 
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: visibleCategories.length,
+        gridDelegate:
+        const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+          childAspectRatio: 1.65,
+        ),
         itemBuilder: (context, index) {
           final category =
-          widget.categories[index];
+          visibleCategories[index];
 
-          final isSelected =
-              _selectedIndex == index;
-
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-
-            child: AnimatedContainer(
-              duration: const Duration(
-                milliseconds: 180,
+          return Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                color: const Color(0xFFDCE7F7),
               ),
-
-              width: 92,
-
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 9,
-              ),
-
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? const Color(0xFFE4F5EF)
-                    : Colors.white,
-
-                borderRadius:
-                BorderRadius.circular(13),
-
-                border: Border.all(
-                  color: isSelected
-                      ? const Color(0xFFB9DED2)
-                      : const Color(0xFFDCE7E4),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x08075E4D),
+                  blurRadius: 5,
+                  offset: Offset(0, 2),
                 ),
-              ),
-
-              child: Column(
-                mainAxisAlignment:
-                MainAxisAlignment.center,
-
-                children: [
-                  // =================================================
-                  // ICON
-                  // =================================================
-
-                  Container(
-                    width: 30,
-                    height: 30,
-
-                    alignment: Alignment.center,
-
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? const Color(0xFFD4F3E9)
-                          : const Color(0xFFF4F8F7),
-
-                      shape: BoxShape.circle,
-                    ),
-
-                    child: Icon(
-                      _icons[
-                      index % _icons.length],
-                      size: 17,
-                      color:
-                      const Color(0xFF075E4D),
-                    ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF0F4FF),
+                    borderRadius:
+                    BorderRadius.circular(11),
                   ),
+                  child: Icon(
+                    _icons[
+                    index % _icons.length],
+                    size: 20,
+                    color: const Color(0xFF075E4D),
+                  ),
+                ),
 
-                  const SizedBox(height: 6),
+                const Spacer(),
 
-                  // =================================================
-                  // CATEGORY NAME
-                  // =================================================
+                Text(
+                  category.name,
+                  maxLines: 1,
+                  overflow:
+                  TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF182432),
+                  ),
+                ),
 
-                  Padding(
-                    padding:
-                    const EdgeInsets.symmetric(
-                      horizontal: 2,
-                    ),
+                const SizedBox(height: 3),
 
-                    child: Text(
-                      category.name,
-
-                      maxLines: 1,
-
-                      overflow:
-                      TextOverflow.ellipsis,
-
-                      textAlign:
-                      TextAlign.center,
-
-                      style: GoogleFonts.inter(
-                        fontSize: 9,
-                        fontWeight:
-                        FontWeight.w700,
-                        color:
-                        const Color(0xFF344842),
+                Row(
+                  children: [
+                    Container(
+                      width: 7,
+                      height: 7,
+                      decoration:
+                      const BoxDecoration(
+                        color: Color(0xFF5EE0C5),
+                        shape: BoxShape.circle,
                       ),
                     ),
-                  ),
-                ],
-              ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'Courses',
+                      style: GoogleFonts.inter(
+                        fontSize: 9,
+                        color: const Color(0xFF52615D),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           );
         },

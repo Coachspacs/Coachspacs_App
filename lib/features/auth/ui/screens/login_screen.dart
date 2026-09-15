@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
         content: Text(
           message,
           style: GoogleFonts.inter(
-            fontSize: 12,
+            fontSize: 14,
           ),
         ),
       ),
@@ -113,8 +113,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Logo
                     Center(
                       child: Container(
-                        width: 110,
-                        height: 110,
+                        width: 130,
+                        height: 130,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                        padding: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(24),
                         child: Image.asset(
                           'assets/images/Logo_img.png',
                           fit: BoxFit.contain,
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       'Welcome Back',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.inter(
-                        fontSize: 22,
+                        fontSize: 24,
                         fontWeight: FontWeight.w800,
                         color: const Color(0xFF073F38),
                         letterSpacing: -0.4,
@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       'Sign in to continue your learning journey.',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.inter(
-                        fontSize: 11,
+                        fontSize: 13,
                         height: 1.5,
                         color: const Color(0xFF8A9793),
                       ),
@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       'Email',
                       style: GoogleFonts.inter(
-                        fontSize: 11,
+                        fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF52615D),
                       ),
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         style: GoogleFonts.inter(
-                          fontSize: 12,
+                          fontSize: 14,
                           color: const Color(0xFF073F38),
                         ),
                         validator: (value) {
@@ -201,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           hintText: 'Enter your email',
                           hintStyle: GoogleFonts.inter(
-                            fontSize: 11,
+                            fontSize: 13,
                             color: const Color(0xFFB4C0BC),
                           ),
                           prefixIcon: const Icon(
@@ -256,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       'Password',
                       style: GoogleFonts.inter(
-                        fontSize: 11,
+                        fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF52615D),
                       ),
@@ -272,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         textInputAction: TextInputAction.done,
                         onFieldSubmitted: (_) => _handleLogin(),
                         style: GoogleFonts.inter(
-                          fontSize: 12,
+                          fontSize: 14,
                           color: const Color(0xFF073F38),
                         ),
                         validator: (value) {
@@ -285,7 +285,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           hintText: 'Enter your password',
                           hintStyle: GoogleFonts.inter(
-                            fontSize: 11,
+                            fontSize: 13,
                             color: const Color(0xFFB4C0BC),
                           ),
                           prefixIcon: const Icon(
@@ -368,7 +368,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Forgot Password?',
                           style: GoogleFonts.inter(
-                            fontSize: 10.5,
+                            fontSize: 12.5,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFF075E4D),
                           ),
@@ -412,7 +412,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 : Text(
                               'Sign In',
                               style: GoogleFonts.inter(
-                                fontSize: 13,
+                                fontSize: 15,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -440,7 +440,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Continue as Guest',
                           style: GoogleFonts.inter(
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -456,7 +456,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           "Don't have an account?",
                           style: GoogleFonts.inter(
-                            fontSize: 10.5,
+                            fontSize: 12.5,
                             color: const Color(0xFF8A9793),
                           ),
                         ),
@@ -471,7 +471,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text(
                             'Create Account',
                             style: GoogleFonts.inter(
-                              fontSize: 10.5,
+                              fontSize: 12.5,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF075E4D),
                             ),

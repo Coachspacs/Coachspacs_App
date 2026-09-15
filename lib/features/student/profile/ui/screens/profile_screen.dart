@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/auth/guest_session.dart';
 import 'package:coach_space/core/di/injection_container.dart';
@@ -17,17 +16,73 @@ import 'package:coach_space/features/student/profile/logic/cubit/profile_state.d
 import '../widgets/profile/profile_logout_button.dart';
 import '../widgets/profile/profile_menu_item.dart';
 import '../widgets/profile/profile_section.dart';
-import '../widgets/profile/profile_top_bar.dart';
 import '../widgets/profile/profile_user_card.dart';
 
+
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({
+    super.key,
+  });
+
+  // =========================================================
+  // LOGOUT
+  // =========================================================
+
+  static void _showLogoutDialog(
+      BuildContext context,
+      ) {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          title: const Text(
+            'Sign Out',
+          ),
+          content: const Text(
+            'Are you sure you want to sign out?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+              },
+              child: const Text(
+                'Cancel',
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+
+                GuestSession.logout();
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRoutes.login,
+                      (route) => false,
+                );
+              },
+              child: const Text(
+                'Sign Out',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // =====================================================
-    // GUEST PROTECTION
-    // =====================================================
+    // =========================================================
+    // GUEST
+    // =========================================================
 
     if (GuestSession.isGuest) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -36,7 +91,10 @@ class ProfileScreen extends StatelessWidget {
         LoginRequiredDialog.show(context).then((_) {
           if (!context.mounted) return;
 
-          Navigator.pushReplacementNamed(context, AppRoutes.home);
+          Navigator.pushReplacementNamed(
+            context,
+            AppRoutes.home,
+          );
         });
       });
 
@@ -51,75 +109,11 @@ class ProfileScreen extends StatelessWidget {
       child: const _ProfileView(),
     );
   }
-
-  // =====================================================
-  // LOGOUT DIALOG
-  // =====================================================
-
-  static void _showLogoutDialog(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
-          ),
-          title: Text(
-            'Sign Out',
-            style: GoogleFonts.inter(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF073F38),
-            ),
-          ),
-          content: Text(
-            'Are you sure you want to sign out?',
-            style: GoogleFonts.inter(
-              fontSize: 12,
-              color: const Color(0xFF687772),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-              },
-              child: Text(
-                'Cancel',
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF075E4D),
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-
-                GuestSession.logout();
-
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  AppRoutes.login,
-                  (route) => false,
-                );
-              },
-              child: Text(
-                'Sign Out',
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
+
+// =============================================================
+// PROFILE VIEW
+// =============================================================
 
 class _ProfileView extends StatelessWidget {
   const _ProfileView();
@@ -129,202 +123,138 @@ class _ProfileView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
 
-      // =====================================================
-      // BODY
-      // =====================================================
       body: SafeArea(
-        child: Column(
-          children: [
-            // =================================================
-            // TOP BAR
-            // =================================================
-            ProfileTopBar(
-              onNotificationPressed: () {
-                Navigator.pushNamed(context, AppRoutes.notifications);
-              },
-            ),
+        child: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            String name = 'Student';
+            String role = 'Student';
+            String avatar = '';
 
-            // =================================================
-            // CONTENT
-            // =================================================
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 600),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // =====================================
-                        // PROFILE
-                        // =====================================
-                        BlocBuilder<ProfileCubit, ProfileState>(
-                          builder: (context, state) {
-                            String name = 'Student';
-                            String role = 'Student';
-                            String specialization = '';
-                            String avatar = '';
+            if (state is ProfileLoadSuccess) {
+              final profile = state.profile;
 
-                            if (state is ProfileLoadSuccess) {
-                              final profile = state.profile;
-                              name = profile.fullName ?? 'Student';
-                              role = profile.role == UserRole.instructor
-                                  ? 'Instructor'
-                                  : 'Student';
-                              specialization = profile.email ?? '';
-                              avatar = profile.avatar ?? '';
-                            }
+              name = profile.fullName ?? 'Student';
 
-                            return ProfileUserCard(
-                              name: name,
-                              role: role,
-                              specialization: specialization,
-                              imagePath: avatar,
-                            );
-                          },
-                        ),
+              role = profile.role == UserRole.instructor
+                  ? 'Instructor'
+                  : 'Student';
 
-                        const SizedBox(height: 22),
+              avatar = profile.avatar ?? '';
+            }
 
-                        // =====================================
-                        // MY LEARNING
-                        // =====================================
-                        _sectionTitle('My Learning'),
-
-                        const SizedBox(height: 10),
-
-                        ProfileSection(
-                          title: '',
-                          children: [
-                            ProfileMenuItem(
-                              icon: Icons.search_rounded,
-                              title: 'Browse Courses',
-                              onTap: () {
-                                _openProtectedRoute(
-                                  context,
-                                  AppRoutes.browseCourses,
-                                );
-                              },
-                            ),
-
-                            ProfileMenuItem(
-                              icon: Icons.shopping_cart_outlined,
-                              title: 'My Cart',
-                              onTap: () {
-                                _openProtectedRoute(context, AppRoutes.cart);
-                              },
-                            ),
-
-                            ProfileMenuItem(
-                              icon: Icons.history_rounded,
-                              title: 'Order History',
-                              onTap: () {
-                                _openProtectedRoute(
-                                  context,
-                                  AppRoutes.orderHistory,
-                                );
-                              },
-                              showDivider: false,
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 18),
-
-                        // =====================================
-                        // ACCOUNT SETTINGS
-                        // =====================================
-                        _sectionTitle('Account Settings'),
-
-                        const SizedBox(height: 10),
-
-                        ProfileSection(
-                          title: '',
-                          children: [
-                            ProfileMenuItem(
-                              icon: Icons.workspace_premium_outlined,
-                              title: 'Certificates',
-                              onTap: () {
-                                _openProtectedRoute(
-                                  context,
-                                  AppRoutes.certificates,
-                                );
-                              },
-                            ),
-
-                            ProfileMenuItem(
-                              icon: Icons.settings_outlined,
-                              title: 'Account Settings',
-                              onTap: () {
-                                _openProtectedRoute(
-                                  context,
-                                  AppRoutes.accountSettings,
-                                );
-                              },
-                              showDivider: false,
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // =====================================
-                        // LOG OUT
-                        // =====================================
-                        ProfileLogoutButton(
-                          onPressed: () {
-                            ProfileScreen._showLogoutDialog(context);
-                          },
-                        ),
-
-                        const SizedBox(height: 8),
-                      ],
-                    ),
-                  ),
-                ),
+            return SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(
+                16,
+                28,
+                16,
+                24,
               ),
-            ),
-          ],
+              child: Column(
+                children: [
+                  // =================================================
+                  // USER CARD
+                  // =================================================
+
+                  ProfileUserCard(
+                    name: name,
+                    role: role,
+                    avatar: avatar,
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // =================================================
+                  // PROFILE MENU
+                  // =================================================
+
+                  ProfileSection(
+                    children: [
+                      ProfileMenuItem(
+                        icon: Icons.settings_outlined,
+                        title: 'Account Settings',
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.accountSettings,
+                          );
+                        },
+                      ),
+
+                      ProfileMenuItem(
+                        icon: Icons.history_rounded,
+                        title: 'Order History',
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.orderHistory,
+                          );
+                        },
+                      ),
+
+                      ProfileMenuItem(
+                        icon: Icons.shopping_cart_outlined,
+                        title: 'My Cart',
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.cart,
+                          );
+                        },
+                      ),
+
+                      ProfileMenuItem(
+                        icon:
+                        Icons.workspace_premium_outlined,
+                        title: 'Certificates',
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.certificates,
+                          );
+                        },
+                      ),
+
+                      ProfileMenuItem(
+                        icon: Icons.support_agent_outlined,
+                        title: 'Contact us',
+                        showDivider: false,
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.contactUs,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  // =================================================
+                  // SIGN OUT
+                  // =================================================
+
+                  ProfileLogoutButton(
+                    onPressed: () {
+                      ProfileScreen._showLogoutDialog(
+                        context,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
 
-      // =====================================================
+      // =========================================================
       // BOTTOM NAVIGATION
-      // =====================================================
+      // =========================================================
+
       bottomNavigationBar: const BottomNavBarWidget(
         navType: NavType.student,
-
         currentIndex: 3,
-      ),
-    );
-  }
-
-  // =====================================================
-  // PROTECTED NAVIGATION
-  // =====================================================
-
-  void _openProtectedRoute(BuildContext context, String route) {
-    if (GuestSession.isGuest) {
-      LoginRequiredDialog.show(context);
-      return;
-    }
-
-    Navigator.pushNamed(context, route);
-  }
-
-  // =====================================================
-  // SECTION TITLE
-  // =====================================================
-
-  Widget _sectionTitle(String title) {
-    return Text(
-      title,
-      style: GoogleFonts.inter(
-        fontSize: 17,
-        height: 1.2,
-        fontWeight: FontWeight.w700,
-        color: const Color(0xFF073F38),
       ),
     );
   }

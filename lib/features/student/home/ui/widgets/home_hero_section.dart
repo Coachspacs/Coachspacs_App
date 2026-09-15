@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/auth/guest_session.dart';
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/routing/routes.dart';
-import 'package:coach_space/core/widgets/login_required_dialog.dart';
 
-class HomeHeroSection extends StatelessWidget {
+class HomeHeroSection extends StatefulWidget {
   const HomeHeroSection({
     super.key,
   });
+
+  @override
+  State<HomeHeroSection> createState() =>
+      _HomeHeroSectionState();
+}
+
+class _HomeHeroSectionState
+    extends State<HomeHeroSection> {
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _openCatalog() {
+    _focusNode.unfocus();
+
+    Navigator.pushNamed(
+      context,
+      AppRoutes.catalog,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +43,21 @@ class HomeHeroSection extends StatelessWidget {
         0,
       ),
       padding: const EdgeInsets.fromLTRB(
-        18,
         16,
-        18,
+        16,
+        16,
         18,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFFE8F6F1),
-        borderRadius: BorderRadius.circular(20),
+        color: const Color(0xFFE7F8F2),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: const Color(0xFFD5EAE3),
+          color: const Color(0xFFC7EEE2),
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+        CrossAxisAlignment.start,
         children: [
           // =================================================
           // WELCOME BADGE
@@ -41,11 +65,11 @@ class HomeHeroSection extends StatelessWidget {
 
           Container(
             padding: const EdgeInsets.symmetric(
-              horizontal: 10,
+              horizontal: 12,
               vertical: 6,
             ),
             decoration: BoxDecoration(
-              color: const Color(0xFFD4F3E9),
+              color: const Color(0xFFD2F1E7),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -53,6 +77,7 @@ class HomeHeroSection extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 9,
                 fontWeight: FontWeight.w800,
+                letterSpacing: .4,
                 color: const Color(0xFF075E4D),
               ),
             ),
@@ -61,248 +86,96 @@ class HomeHeroSection extends StatelessWidget {
           const SizedBox(height: 14),
 
           // =================================================
-          // MAIN TITLE
+          // TITLE
           // =================================================
 
           Text(
             'Master New Skills with\nExpert Coaches',
             style: GoogleFonts.inter(
-              fontSize: 24,
-              height: 1.12,
+              fontSize: 20,
+              height: 1.3,
               fontWeight: FontWeight.w800,
               color: const Color(0xFF073F38),
             ),
           ),
 
-          const SizedBox(height: 9),
+          const SizedBox(height: 14),
 
           // =================================================
-          // DESCRIPTION
-          // =================================================
-
-          Text(
-            'Unlock your potential through personalized '
-                'learning paths led by industry veterans. '
-                'From design to development, gain the edge '
-                'you need in the modern professional landscape.',
-            style: GoogleFonts.inter(
-              fontSize: 10.5,
-              height: 1.5,
-              color: const Color(0xFF5F716C),
-            ),
-          ),
-
-          const SizedBox(height: 18),
-
-          // =================================================
-          // BUTTONS
-          // =================================================
-
-          Row(
-            children: [
-              // =================================================
-              // MY COURSES
-              // =================================================
-
-              Expanded(
-                child: SizedBox(
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (GuestSession.isGuest) {
-                        LoginRequiredDialog.show(context);
-                        return;
-                      }
-                      Navigator.pushNamed(context, AppRoutes.myLearning);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF075E4D),
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      padding: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      'My Courses  →',
-                      style: GoogleFonts.inter(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(width: 10),
-
-              // =================================================
-              // EXPLORE NEW COURSES
-              // =================================================
-
-              Expanded(
-                child: SizedBox(
-                  height: 40,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.catalog,
-                      );
-                    },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: const Color(0xFF075E4D),
-                      side: const BorderSide(
-                        color: Color(0xFF075E4D),
-                      ),
-                      padding: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      'Explore New Courses',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
-                        fontSize: 9.5,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 16),
-
-          // =================================================
-          // STATS
+          // SEARCH
           // =================================================
 
           Container(
-            height: 118,
-            width: double.infinity,
-            clipBehavior: Clip.antiAlias,
+            height: 52,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: const Color(0xFFDCE7E4),
+                color: const Color(0xFFD8E8E3),
               ),
             ),
-            child: Stack(
-              fit: StackFit.expand,
+            child: Row(
               children: [
-                // =================================================
-                // BACKGROUND LOGO
-                // =================================================
+                const SizedBox(width: 14),
 
-                Image.asset(
-                  'assets/images/Logo_img.png',
-                  fit: BoxFit.contain,
-                  opacity: const AlwaysStoppedAnimation(0.08),
-                  errorBuilder: (
-                      context,
-                      error,
-                      stackTrace,
-                      ) {
-                    return const SizedBox.shrink();
-                  },
+                const Icon(
+                  Icons.search_rounded,
+                  size: 21,
+                  color: Color(0xFF879A95),
                 ),
 
-                // =================================================
-                // STATS
-                // =================================================
+                const SizedBox(width: 9),
 
-                Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const _StatItem(
-                      icon: Icons.people_alt_outlined,
-                      value: '12k+',
-                      label: 'Active Students',
+                Expanded(
+                  child: TextField(
+                    focusNode: _focusNode,
+                    textInputAction:
+                    TextInputAction.search,
+                    style: GoogleFonts.inter(
+                      fontSize: 11,
+                      color: const Color(0xFF344842),
                     ),
+                    decoration: InputDecoration(
+                      hintText:
+                      context.l10n.homeSearchHint,
+                      hintStyle: GoogleFonts.inter(
+                        fontSize: 11,
+                        color: const Color(0xFF9AA7A3),
+                      ),
+                      border: InputBorder.none,
+                      isDense: true,
+                    ),
+                    onSubmitted: (_) {
+                      _openCatalog();
+                    },
+                  ),
+                ),
 
-                    Container(
-                      width: 1,
-                      height: 48,
-                      color: const Color(0xFFDCE7E4),
+                GestureDetector(
+                  onTap: _openCatalog,
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      right: 5,
                     ),
-
-                    const _StatItem(
-                      icon: Icons.workspace_premium_outlined,
-                      value: '2k+',
-                      label: 'Certificates Issued',
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF075E4D),
+                      borderRadius:
+                      BorderRadius.circular(11),
                     ),
-                  ],
+                    child: const Icon(
+                      Icons.search_rounded,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-// =====================================================
-// STAT ITEM
-// =====================================================
-
-class _StatItem extends StatelessWidget {
-  const _StatItem({
-    required this.icon,
-    required this.value,
-    required this.label,
-  });
-
-  final IconData icon;
-  final String value;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 30,
-          height: 30,
-          decoration: const BoxDecoration(
-            color: Color(0xFFDDF3EB),
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(
-            Icons.people_alt_outlined,
-            size: 16,
-            color: Color(0xFF075E4D),
-          ),
-        ),
-
-        const SizedBox(height: 5),
-
-        Text(
-          value,
-          style: GoogleFonts.inter(
-            fontSize: 17,
-            fontWeight: FontWeight.w800,
-            color: const Color(0xFF073F38),
-          ),
-        ),
-
-        const SizedBox(height: 2),
-
-        Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 8,
-            color: const Color(0xFF71807C),
-          ),
-        ),
-      ],
     );
   }
 }

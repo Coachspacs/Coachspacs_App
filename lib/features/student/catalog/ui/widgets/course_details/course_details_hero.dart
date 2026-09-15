@@ -111,7 +111,7 @@ class CourseDetailsHero extends StatelessWidget {
                         Text(
                           'Watch Preview',
                           style: GoogleFonts.inter(
-                            fontSize: 9,
+                            fontSize: 11,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
                           ),
@@ -143,7 +143,7 @@ class CourseDetailsHero extends StatelessWidget {
           child: Text(
             'BEST SELLER',
             style: GoogleFonts.inter(
-              fontSize: 8,
+              fontSize: 10,
               fontWeight: FontWeight.w800,
               color: const Color(0xFF075E4D),
             ),
@@ -177,7 +177,7 @@ class CourseDetailsHero extends StatelessWidget {
         Text(
           description,
           style: GoogleFonts.inter(
-            fontSize: 11.5,
+            fontSize: 13.5,
             height: 1.5,
             fontWeight: FontWeight.w400,
             color: Colors.grey.shade600,
@@ -265,7 +265,7 @@ class CourseDetailsHero extends StatelessWidget {
                       'You can watch the preview without signing in.',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
-                    fontSize: 11,
+                    fontSize: 13,
                     height: 1.45,
                     color: const Color(0xFF71807C),
                   ),
@@ -293,7 +293,7 @@ class CourseDetailsHero extends StatelessWidget {
                     child: Text(
                       'Close Preview',
                       style: GoogleFonts.inter(
-                        fontSize: 11,
+                        fontSize: 13,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

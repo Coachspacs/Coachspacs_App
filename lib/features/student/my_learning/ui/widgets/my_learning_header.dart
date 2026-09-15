@@ -20,16 +20,6 @@ class MyLearningHeader extends StatelessWidget {
             color: const Color(0xFF073F38),
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          'Welcome back, Sondos 👋',
-          style: GoogleFonts.inter(
-            fontSize: 11,
-            height: 1.4,
-            fontWeight: FontWeight.w400,
-            color: const Color(0xFF71807C),
-          ),
-        ),
       ],
     );
   }

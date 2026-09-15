@@ -51,7 +51,7 @@ class CourseDetailsInstructor extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF263C38),
                 ),
@@ -73,7 +73,7 @@ class CourseDetailsInstructor extends StatelessWidget {
                   Text(
                     rating,
                     style: GoogleFonts.inter(
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF263C38),
                     ),
@@ -84,7 +84,7 @@ class CourseDetailsInstructor extends StatelessWidget {
                   Text(
                     '($students students)',
                     style: GoogleFonts.inter(
-                      fontSize: 9,
+                      fontSize: 11,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xFF899792),
                     ),

@@ -61,7 +61,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
               Text(
                 '\$119.00',
                 style: GoogleFonts.inter(
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey.shade500,
                   decoration: TextDecoration.lineThrough,
@@ -96,7 +96,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
               label: Text(
                 'Add to Cart',
                 style: GoogleFonts.inter(
-                  fontSize: 13,
+                  fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -151,7 +151,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
               child: Text(
                 'Buy Now',
                 style: GoogleFonts.inter(
-                  fontSize: 13,
+                  fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -168,7 +168,8 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
             child: Text(
               '30-Day Money-Back Guarantee',
               style: GoogleFonts.inter(
-                fontSize: 8.5,
+
+                fontSize: 10.5,
                 fontWeight: FontWeight.w400,
                 color: const Color(0xFF899792),
               ),
@@ -243,7 +244,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                       'to your cart?',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
-                    fontSize: 11,
+                    fontSize: 13,
                     height: 1.45,
                     color: const Color(0xFF71807C),
                   ),
@@ -278,7 +279,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                           child: Text(
                             'Cancel',
                             style: GoogleFonts.inter(
-                              fontSize: 11,
+                              fontSize: 13,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -324,7 +325,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                           child: Text(
                             'Yes, Add it',
                             style: GoogleFonts.inter(
-                              fontSize: 11,
+                              fontSize: 13,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -405,7 +406,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                       'to your cart successfully.',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
-                    fontSize: 11,
+                    fontSize: 13,
                     height: 1.45,
                     color: const Color(0xFF71807C),
                   ),
@@ -433,7 +434,7 @@ class CourseDetailsPurchaseCard extends StatelessWidget {
                     child: Text(
                       'Done',
                       style: GoogleFonts.inter(
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

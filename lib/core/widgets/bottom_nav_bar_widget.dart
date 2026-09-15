@@ -1,3 +1,9 @@
+
+
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -201,7 +207,7 @@ class BottomNavBarWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFFF7FAF9),
         boxShadow: AppShadows.nav,
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(22),

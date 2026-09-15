@@ -8,7 +8,7 @@ abstract final class AppRoutes {
   static const String emailVerification = '/email-verification';
   static const String emailVerificationSuccess = '/email-verification-success';
   static const String emailAlreadyVerified = '/email-already-verified';
-  static const String editProfile = '/edit-profile';
+  static const String profileInformation = '/profile-information';
   static const String onboarding = '/onboarding';
 
   // Profile
@@ -16,9 +16,11 @@ abstract final class AppRoutes {
   static const String dashboard = '/dashboard';
   static const String browseCourses = '/browse-courses';
   static const String cart = '/cart';
+  static const String checkout = '/checkout';
   static const String orderHistory = '/order-history';
   static const String certificates = '/certificates';
   static const String accountSettings = '/account-settings';
+  static const String contactUs = '/contact-us';
 
   // Account Settings Tabs
   static const String learningSettings = '/learning-settings';

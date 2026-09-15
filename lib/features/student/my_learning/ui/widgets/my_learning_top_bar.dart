@@ -16,12 +16,7 @@ class MyLearningTopBar extends StatelessWidget {
         horizontal: 16,
       ),
       decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFFE2EBE8),
-          ),
-        ),
+        color: Color(0xFFF7FAF9),
       ),
       child: Row(
         children: [

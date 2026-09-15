@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 import '../widgets/cart/cart_item.dart';
@@ -118,7 +119,10 @@ class CartScreen extends StatelessWidget {
                     CartSummary(
                       subtotal: coursePrice,
                       onCheckout: () {
-                        _showCheckoutDialog(context);
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.checkout,
+                        );
                       },
                     ),
 
@@ -159,8 +163,8 @@ class CartScreen extends StatelessWidget {
           color: const Color(0xFFDCE8E4),
         ),
       ),
-      child: Row(
-        children: const [
+      child: const Row(
+        children: [
           Expanded(
             child: _BenefitItem(
               icon: Icons.verified_user_outlined,
@@ -263,92 +267,6 @@ class CartScreen extends StatelessWidget {
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: Colors.red,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // ===============================================================
-  // CHECKOUT DIALOG
-  // ===============================================================
-
-  void _showCheckoutDialog(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
-          ),
-          title: Text(
-            'Ready to Checkout?',
-            style: GoogleFonts.inter(
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF073F38),
-            ),
-          ),
-          content: Text(
-            'You are about to continue with your purchase.',
-            style: GoogleFonts.inter(
-              fontSize: 12,
-              color: const Color(0xFF687772),
-              height: 1.4,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-              },
-              child: Text(
-                'Cancel',
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF687772),
-                ),
-              ),
-            ),
-
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Checkout started successfully',
-                      style: GoogleFonts.inter(
-                        fontSize: 12,
-                      ),
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: const Color(0xFF075E4D),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF075E4D),
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Text(
-                'Continue',
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),

@@ -170,9 +170,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 Center(
                   child: Container(
-                    width: 105,
-                    height: 105,
-                    padding: const EdgeInsets.all(20),
+                    width: 125,
+                    height: 125,
+                    padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
@@ -209,7 +209,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
                       color: const Color(0xFF073F38),
-                      fontSize: 21,
+                      fontSize: 24,
                       fontWeight: FontWeight.w700,
                       letterSpacing: -0.4,
                     ),
@@ -228,7 +228,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(
                       color: const Color(0xFF8A9995),
-                      fontSize: 11,
+                      fontSize: 13,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -283,7 +283,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   'Full Name',
                   style: GoogleFonts.inter(
                     color: const Color(0xFF31554E),
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -307,7 +307,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   'Email Address',
                   style: GoogleFonts.inter(
                     color: const Color(0xFF31554E),
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -333,7 +333,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   'Password',
                   style: GoogleFonts.inter(
                     color: const Color(0xFF31554E),
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -407,7 +407,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       color: AppColors.primary,
                       textColor: AppColors.white,
 
-                      fontSize: 13,
+                      fontSize: 15,
                       fontWeight: FontWeight.w700,
 
                       borderRadius: 26,
@@ -443,14 +443,14 @@ class _SignupScreenState extends State<SignupScreen> {
                             style: GoogleFonts.inter(
                               color:
                               const Color(0xFF8A9995),
-                              fontSize: 10,
+                              fontSize: 12.5,
                             ),
                           ),
                           TextSpan(
                             text: 'Log in',
                             style: GoogleFonts.inter(
                               color: AppColors.primary,
-                              fontSize: 10,
+                              fontSize: 12.5,
                               fontWeight:
                               FontWeight.w700,
                             ),
@@ -529,6 +529,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ? const Color(0xFF075E4D)
                   : const Color(0xFF7B8985),
             ),
+
 
             const SizedBox(width: 8),
 

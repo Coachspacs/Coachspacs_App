@@ -10,16 +10,13 @@ import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import '../../data/models/home_data.dart';
 import '../../logic/cubit/home_cubit.dart';
 import '../../logic/cubit/home_state.dart';
+
 import '../widgets/category_chips_widget.dart';
-import '../widgets/faq_widget.dart';
+import '../widgets/continue_learning_card.dart';
 import '../widgets/featured_course_card.dart';
 import '../widgets/home_hero_section.dart';
-import '../widgets/join_learning_widget.dart';
-import '../widgets/search_bar_widget.dart';
-import '../widgets/testimonials_widget.dart';
+import '../widgets/streak_card.dart';
 import '../widgets/top_app_bar_widget.dart';
-import '../widgets/trending_course_card.dart';
-import '../widgets/why_coach_space_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -39,25 +36,15 @@ class _HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FBFA),
+      backgroundColor: const Color(0xFFF7FAF9),
 
-      // =====================================================
-      // TOP BAR
-      // =====================================================
       appBar: const TopAppBarWidget(),
 
-      // =====================================================
-      // BOTTOM NAVIGATION
-      // =====================================================
       bottomNavigationBar: const BottomNavBarWidget(
         navType: NavType.student,
-
         currentIndex: 0,
       ),
 
-      // =====================================================
-      // BODY
-      // =====================================================
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return switch (state) {
@@ -67,11 +54,15 @@ class _HomeView extends StatelessWidget {
 
             HomeEmpty() => const _EmptyView(),
 
-            HomeError() => _ErrorView(message: state.message),
+            HomeError() => _ErrorView(
+              message: state.message,
+            ),
 
             HomeOffline() => const _OfflineView(),
 
-            HomeSuccess() => _SuccessView(data: state.data),
+            HomeSuccess() => _SuccessView(
+              data: state.data,
+            ),
           };
         },
       ),
@@ -84,7 +75,9 @@ class _HomeView extends StatelessWidget {
 // =====================================================
 
 class _SuccessView extends StatelessWidget {
-  const _SuccessView({required this.data});
+  const _SuccessView({
+    required this.data,
+  });
 
   final HomeData data;
 
@@ -92,159 +85,97 @@ class _SuccessView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: 32),
+      padding: const EdgeInsets.only(
+        bottom: 24,
+      ),
       children: [
         // =================================================
-        // HERO
+        // WELCOME + SEARCH
         // =================================================
+
         const HomeHeroSection(),
 
-        const SizedBox(height: 22),
+        const SizedBox(height: 26),
 
         // =================================================
-        // SEARCH
+        // STREAK
         // =================================================
-        const SearchBarWidget(),
 
-        const SizedBox(height: 30),
+        const StreakCard(),
+
+        const SizedBox(height: 28),
+
+        // =================================================
+        // CONTINUE LEARNING
+        // =================================================
+
+        const _SectionHeader(
+          title: 'Continue Learning',
+          actionLabel: 'Current Module',
+        ),
+
+        const SizedBox(height: 12),
+
+        const ContinueLearningCard(),
+
+        const SizedBox(height: 28),
 
         // =================================================
         // TOP CATEGORIES
         // =================================================
+
         _SectionHeader(
           title: 'Top Categories',
-          subtitle: 'Discover your next skill',
-          actionLabel: 'See All',
+          actionLabel: 'See all',
           onAction: () {
-            Navigator.pushNamed(context, AppRoutes.catalog);
+            Navigator.pushNamed(
+              context,
+              AppRoutes.catalog,
+            );
           },
         ),
 
-        const SizedBox(height: 14),
+        const SizedBox(height: 12),
 
-        CategoryChipsWidget(categories: data.categories),
+        CategoryChipsWidget(
+          categories: data.categories,
+        ),
 
-        const SizedBox(height: 34),
+        const SizedBox(height: 32),
 
         // =================================================
         // RECOMMENDED COURSES
         // =================================================
+
         _SectionHeader(
           title: 'Recommended Courses',
           subtitle: 'Courses picked for your learning journey',
           actionLabel: 'See All',
           onAction: () {
-            Navigator.pushNamed(context, AppRoutes.catalog);
+            Navigator.pushNamed(
+              context,
+              AppRoutes.catalog,
+            );
           },
         ),
 
         const SizedBox(height: 14),
 
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+          ),
           child: Column(
             children: [
               for (final course in data.featuredCourses) ...[
-                FeaturedCourseCard(course: course),
-
+                FeaturedCourseCard(
+                  course: course,
+                ),
                 const SizedBox(height: 16),
               ],
             ],
           ),
         ),
-
-        const SizedBox(height: 18),
-
-        // =================================================
-        // BROWSE CATALOG
-        // =================================================
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: SizedBox(
-            height: 44,
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.catalog);
-              },
-              style: OutlinedButton.styleFrom(
-                foregroundColor: const Color(0xFF075E4D),
-                side: const BorderSide(color: Color(0xFF075E4D)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: Text(
-                'Browse Catalog →',
-                style: GoogleFonts.inter(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
-        ),
-
-        const SizedBox(height: 38),
-
-        // =================================================
-        // WHY COACH SPACE
-        // =================================================
-        const WhyCoachSpaceWidget(),
-
-        const SizedBox(height: 36),
-
-        // =================================================
-        // TESTIMONIALS
-        // =================================================
-        const TestimonialsWidget(),
-
-        const SizedBox(height: 36),
-
-        // =================================================
-        // FAQ
-        // =================================================
-        const FaqWidget(),
-
-        const SizedBox(height: 36),
-
-        // =================================================
-        // BECOME AN INSTRUCTOR
-        // =================================================
-        const JoinLearningWidget(),
-
-        const SizedBox(height: 36),
-
-        // =================================================
-        // TRENDING COURSES
-        // =================================================
-        if (data.trendingCourses.isNotEmpty) ...[
-          _SectionHeader(
-            title: 'Trending Courses',
-            subtitle: 'Popular courses learners love',
-            actionLabel: 'See All',
-            onAction: () {
-              Navigator.pushNamed(context, AppRoutes.catalog);
-            },
-          ),
-
-          const SizedBox(height: 14),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                for (final course in data.trendingCourses) ...[
-                  TrendingCourseCard(course: course),
-
-                  const SizedBox(height: 12),
-                ],
-              ],
-            ),
-          ),
-        ],
-
-        const SizedBox(height: 20),
       ],
     );
   }
@@ -257,54 +188,85 @@ class _SuccessView extends StatelessWidget {
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader({
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     this.actionLabel,
     this.onAction,
   });
 
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final String? actionLabel;
   final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: GoogleFonts.inter(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: const Color(0xFF073F38),
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.inter(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFF073F38),
+                      ),
+                    ),
+
+                    if (title == 'Continue Learning')
+                      Container(
+                        margin: const EdgeInsets.only(
+                          left: 7,
+                        ),
+                        width: 7,
+                        height: 7,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF087A65),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                  ],
                 ),
 
-                const SizedBox(height: 4),
-
-                Text(
-                  subtitle,
-                  style: GoogleFonts.inter(
-                    fontSize: 10,
-                    color: const Color(0xFF71807C),
+                if (subtitle != null) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle!,
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      color: const Color(0xFF71807C),
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),
 
           if (actionLabel != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 3),
-              child: GestureDetector(
-                onTap: onAction,
+            GestureDetector(
+              onTap: onAction,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 11,
+                  vertical: 5,
+                ),
+                decoration: title == 'Continue Learning'
+                    ? BoxDecoration(
+                  color: const Color(0xFFCDEFE5),
+                  borderRadius:
+                  BorderRadius.circular(20),
+                )
+                    : null,
                 child: Text(
                   actionLabel!,
                   style: GoogleFonts.inter(
@@ -331,7 +293,9 @@ class _LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: CircularProgressIndicator(color: Color(0xFF075E4D)),
+      child: CircularProgressIndicator(
+        color: Color(0xFF075E4D),
+      ),
     );
   }
 }
@@ -360,7 +324,9 @@ class _EmptyView extends StatelessWidget {
 // =====================================================
 
 class _ErrorView extends StatelessWidget {
-  const _ErrorView({this.message});
+  const _ErrorView({
+    this.message,
+  });
 
   final String? message;
 
@@ -428,7 +394,11 @@ class _MessageStateView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 52, color: const Color(0xFF83918D)),
+            Icon(
+              icon,
+              size: 52,
+              color: const Color(0xFF83918D),
+            ),
 
             const SizedBox(height: 16),
 
@@ -461,7 +431,9 @@ class _MessageStateView extends StatelessWidget {
                 icon: const Icon(Icons.refresh),
                 label: Text(
                   l10n.homeRetry,
-                  style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
