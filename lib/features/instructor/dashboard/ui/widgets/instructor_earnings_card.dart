@@ -44,7 +44,7 @@ class InstructorEarningsCard extends StatelessWidget {
                 Text(
                   'Total Earnings',
                   style: GoogleFonts.inter(
-                    fontSize: 9,
+                    fontSize: 11,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF788681),
                   ),

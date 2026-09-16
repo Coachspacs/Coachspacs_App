@@ -113,8 +113,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Logo
                     Center(
                       child: Container(
-                        width: 130,
-                        height: 130,
+                        width: 145,
+                        height: 145,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                        padding: const EdgeInsets.all(24),
+                        padding: const EdgeInsets.all(14),
                         child: Image.asset(
                           'assets/images/Logo_img.png',
                           fit: BoxFit.contain,

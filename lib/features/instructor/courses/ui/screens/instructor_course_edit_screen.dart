@@ -118,7 +118,7 @@ class _InstructorCourseEditScreenState
                     Text(
                       'Edit your course',
                       style: const TextStyle(
-                        fontSize: 22,
+                        fontSize: 24,
                         fontWeight: FontWeight.w800,
                         color: Color(0xFF073F38),
                       ),
@@ -129,7 +129,7 @@ class _InstructorCourseEditScreenState
                     const Text(
                       'Update your course information and content.',
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         color: Color(0xFF7C8C87),
                       ),
                     ),

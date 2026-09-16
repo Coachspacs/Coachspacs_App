@@ -190,7 +190,7 @@ class _SectionCard extends StatelessWidget {
                     Text(
                       title,
                       style: GoogleFonts.inter(
-                        fontSize: 14,
+                        fontSize: 16,
                         fontWeight: FontWeight.w800,
                         color: const Color(0xFF073F38),
                       ),
@@ -199,7 +199,7 @@ class _SectionCard extends StatelessWidget {
                     Text(
                       subtitle,
                       style: GoogleFonts.inter(
-                        fontSize: 9,
+                        fontSize: 11,
                         color: const Color(0xFF84928E),
                       ),
                     ),
@@ -222,7 +222,7 @@ class _SectionCard extends StatelessWidget {
                   child: Text(
                     'Save Changes',
                     style: GoogleFonts.inter(
-                      fontSize: 9.5,
+                      fontSize: 11.5,
                       fontWeight: FontWeight.w800,
                       color: const Color(0xFF075E4D),
                     ),
@@ -282,7 +282,7 @@ class _Field extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.inter(
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: FontWeight.w700,
             color: const Color(0xFF344540),
           ),
@@ -296,7 +296,7 @@ class _Field extends StatelessWidget {
           maxLines: maxLines,
           keyboardType: keyboardType,
           style: GoogleFonts.inter(
-            fontSize: 11,
+            fontSize: 13,
             color: const Color(0xFF073F38),
           ),
           decoration: InputDecoration(
@@ -360,7 +360,7 @@ class _Dropdown extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.inter(
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: FontWeight.w700,
             color: const Color(0xFF344540),
           ),
@@ -372,7 +372,7 @@ class _Dropdown extends StatelessWidget {
           initialValue: value,
           onChanged: enabled ? onChanged : null,
           style: GoogleFonts.inter(
-            fontSize: 11,
+            fontSize: 13,
             color: const Color(0xFF073F38),
           ),
           decoration: InputDecoration(

@@ -57,7 +57,7 @@ class InstructorWelcomeCard extends StatelessWidget {
               Text(
                 'WELCOME BACK, COACH',
                 style: GoogleFonts.inter(
-                  fontSize: 8,
+                  fontSize: 10,
                   fontWeight: FontWeight.w800,
                   letterSpacing: 0.7,
                   color: const Color(0xFFBCEDE0),
@@ -106,7 +106,7 @@ class InstructorWelcomeCard extends StatelessWidget {
                 'Manage your courses, students and '
                     'teaching journey from one place.',
                 style: GoogleFonts.inter(
-                  fontSize: 10,
+                  fontSize: 12,
                   height: 1.45,
                   color: const Color(0xFFD5E8E3),
                 ),

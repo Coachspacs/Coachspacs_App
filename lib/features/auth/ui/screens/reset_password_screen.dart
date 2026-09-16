@@ -306,9 +306,9 @@ class _ResetPasswordScreenState
 
               Center(
                 child: Container(
-                  width: 100,
-                  height: 100,
-                  padding: const EdgeInsets.all(20),
+                  width: 125,
+                  height: 125,
+                  padding: const EdgeInsets.all(14),
 
                   decoration: BoxDecoration(
                     color: Colors.white,

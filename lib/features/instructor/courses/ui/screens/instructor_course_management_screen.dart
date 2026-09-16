@@ -55,7 +55,7 @@ class _InstructorCourseManagementScreenState
                     Text(
                       'Manage Course',
                       style: GoogleFonts.inter(
-                        fontSize: 23,
+                        fontSize: 25,
                         fontWeight: FontWeight.w800,
                         color: const Color(0xFF073F38),
                         letterSpacing: -0.4,
@@ -67,7 +67,7 @@ class _InstructorCourseManagementScreenState
                     const Text(
                       'Manage your course content, students, and performance.',
                       style: TextStyle(
-                        fontSize: 9.5,
+                        fontSize: 11.5,
                         color: Color(0xFF71807C),
                       ),
                     ),

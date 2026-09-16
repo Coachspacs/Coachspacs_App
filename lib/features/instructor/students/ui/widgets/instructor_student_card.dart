@@ -57,7 +57,8 @@ class InstructorStudentCard extends StatelessWidget {
                 child: Text(
                   student.initials,
                   style: const TextStyle(
-                    fontSize: 11,
+
+                    fontSize: 13,
                     fontWeight: FontWeight.w800,
                     color: Color(0xFF075E4D),
                   ),
@@ -76,7 +77,7 @@ class InstructorStudentCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: 15,
                         fontWeight: FontWeight.w800,
                         color: Color(0xFF173D37),
                       ),
@@ -89,7 +90,7 @@ class InstructorStudentCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 9.5,
+                        fontSize: 11.5,
                         color: Color(0xFF788681),
                       ),
                     ),
@@ -112,7 +113,8 @@ class InstructorStudentCard extends StatelessWidget {
               const Text(
                 'Progress',
                 style: TextStyle(
-                  fontSize: 9,
+
+                  fontSize: 11,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF7A8985),
                 ),
@@ -123,7 +125,7 @@ class InstructorStudentCard extends StatelessWidget {
               Text(
                 '$progress%',
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: FontWeight.w800,
                   color: progressColor,
                 ),
@@ -166,7 +168,7 @@ class InstructorStudentCard extends StatelessWidget {
               Text(
                 'Last active ${student.lastActive}',
                 style: const TextStyle(
-                  fontSize: 8.5,
+                  fontSize: 10.5,
                   color: Color(0xFF899792),
                 ),
               ),
@@ -280,7 +282,7 @@ class InstructorStudentCard extends StatelessWidget {
       child: Text(
         status,
         style: TextStyle(
-          fontSize: 8,
+          fontSize: 10,
           fontWeight: FontWeight.w700,
           color: foreground,
         ),

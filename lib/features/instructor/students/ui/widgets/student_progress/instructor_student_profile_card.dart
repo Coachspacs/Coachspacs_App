@@ -41,7 +41,7 @@ class InstructorStudentProfileCard
             child: Text(
               student.initials,
               style: GoogleFonts.inter(
-                fontSize: 17,
+                fontSize: 19,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
               ),
@@ -58,7 +58,7 @@ class InstructorStudentProfileCard
             student.name,
             textAlign: TextAlign.center,
             style: GoogleFonts.inter(
-              fontSize: 15,
+              fontSize: 17,
               fontWeight: FontWeight.w800,
               color: const Color(0xFF073F38),
             ),
@@ -73,7 +73,8 @@ class InstructorStudentProfileCard
           Text(
             'Enrolled ${student.enrolledDate}',
             style: GoogleFonts.inter(
-              fontSize: 8.5,
+
+              fontSize: 10.5,
               color: const Color(0xFF7C8B87),
             ),
           ),
@@ -99,7 +100,7 @@ class InstructorStudentProfileCard
             child: Text(
               student.status,
               style: GoogleFonts.inter(
-                fontSize: 8,
+                fontSize: 10,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF168261),
               ),

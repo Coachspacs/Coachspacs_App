@@ -137,7 +137,7 @@ class _StudentStatCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.right,
                   style: GoogleFonts.inter(
-                    fontSize: 8.5,
+                    fontSize: 10.5,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF15966F),
                   ),
@@ -157,7 +157,7 @@ class _StudentStatCard extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 22,
+              fontSize: 24,
               height: 1,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF073F38),
@@ -175,7 +175,7 @@ class _StudentStatCard extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 9.5,
+              fontSize: 11.5,
               height: 1.1,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF52635F),
@@ -193,7 +193,7 @@ class _StudentStatCard extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 7.5,
+              fontSize: 9.5,
               height: 1.1,
               fontWeight: FontWeight.w400,
               color: const Color(0xFF8A9894),

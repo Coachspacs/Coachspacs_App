@@ -170,9 +170,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
                 Center(
                   child: Container(
-                    width: 125,
-                    height: 125,
-                    padding: const EdgeInsets.all(24),
+                    width: 130,
+                    height: 130,
+                    padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,

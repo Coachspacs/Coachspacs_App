@@ -61,7 +61,7 @@ class InstructorOverviewCard extends StatelessWidget {
                     Text(
                       'Track your teaching performance',
                       style: GoogleFonts.inter(
-                        fontSize: 8,
+                        fontSize: 10,
                         color:
                         const Color(0xFF7B8985),
                       ),
@@ -181,7 +181,7 @@ class _OverviewItem extends StatelessWidget {
                   overflow:
                   TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                    fontSize: 7,
+                    fontSize: 9,
                     color:
                     const Color(0xFF788681),
                   ),

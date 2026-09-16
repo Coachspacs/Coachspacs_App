@@ -59,7 +59,7 @@ class InstructorCourseManagementTabs extends StatelessWidget {
                   child: Text(
                     tabs[index],
                     style: GoogleFonts.inter(
-                      fontSize: 8.5,
+                      fontSize: 10.5,
                       fontWeight: isSelected
                           ? FontWeight.w700
                           : FontWeight.w500,

@@ -24,7 +24,7 @@ class InstructorCoursesHeader
               Text(
                 'My Courses',
                 style: GoogleFonts.inter(
-                  fontSize: 21,
+                  fontSize: 23,
                   fontWeight: FontWeight.w800,
                   color:
                   const Color(0xFF073F38),
@@ -39,7 +39,7 @@ class InstructorCoursesHeader
                 overflow:
                 TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
-                  fontSize: 9,
+                  fontSize: 11,
                   color:
                   const Color(0xFF788681),
                 ),
@@ -61,7 +61,7 @@ class InstructorCoursesHeader
             label: Text(
               'New Course',
               style: GoogleFonts.inter(
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: FontWeight.w700,
               ),
             ),

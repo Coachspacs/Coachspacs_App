@@ -20,7 +20,7 @@ class CreateCourseCurriculum extends StatelessWidget {
         Text(
           'Curriculum Builder',
           style: GoogleFonts.inter(
-            fontSize: 19,
+            fontSize: 21,
             fontWeight: FontWeight.w800,
             color: const Color(0xFF073F38),
           ),
@@ -31,7 +31,7 @@ class CreateCourseCurriculum extends StatelessWidget {
         Text(
           'Organize your course into sections, lessons and activities.',
           style: GoogleFonts.inter(
-            fontSize: 9.5,
+            fontSize: 11.5,
             height: 1.4,
             color: const Color(0xFF788681),
           ),
@@ -159,7 +159,7 @@ class _CurriculumSection extends StatelessWidget {
                 child: Text(
                   sectionNumber,
                   style: GoogleFonts.inter(
-                    fontSize: 7,
+                    fontSize: 9,
                     fontWeight: FontWeight.w800,
                     color: const Color(0xFF075E4D),
                   ),
@@ -174,7 +174,8 @@ class _CurriculumSection extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                    fontSize: 10,
+
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF263C38),
                   ),
@@ -243,7 +244,7 @@ class _CurriculumSection extends StatelessWidget {
               label: Text(
                 'Add Lesson',
                 style: GoogleFonts.inter(
-                  fontSize: 8,
+                  fontSize: 10,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -290,7 +291,7 @@ class _AddSectionButton extends StatelessWidget {
         label: Text(
           'Add New Section',
           style: GoogleFonts.inter(
-            fontSize: 9,
+            fontSize: 11,
             fontWeight: FontWeight.w700,
           ),
         ),

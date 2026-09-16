@@ -47,7 +47,7 @@ class InstructorStudentProgressHeader
           Text(
             'Student Progress',
             style: GoogleFonts.inter(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w800,
               color: const Color(0xFF073F38),
             ),

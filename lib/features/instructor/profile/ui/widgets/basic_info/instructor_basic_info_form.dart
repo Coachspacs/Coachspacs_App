@@ -218,7 +218,7 @@ class _InstructorBasicInfoFormState
               child: Text(
                 'Save changes  →',
                 style: GoogleFonts.inter(
-                  fontSize: 13,
+                  fontSize: 15,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -282,7 +282,7 @@ class _InstructorBasicInfoFormState
                 Text(
                   'Hassan Sayed',
                   style: GoogleFonts.inter(
-                    fontSize: 15,
+                    fontSize: 17,
                     fontWeight: FontWeight.w800,
                     color: const Color(0xFF073F38),
                   ),
@@ -294,7 +294,7 @@ class _InstructorBasicInfoFormState
                   'Update your personal and professional '
                       'information to be displayed.',
                   style: GoogleFonts.inter(
-                    fontSize: 10,
+                    fontSize: 12,
                     height: 1.4,
                     color: const Color(0xFF7A8985),
                   ),
@@ -323,7 +323,7 @@ class _InstructorBasicInfoFormState
                   label: Text(
                     'Change Photo',
                     style: GoogleFonts.inter(
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -369,7 +369,7 @@ class _InstructorBasicInfoFormState
               child: Text(
                 'Is teaching Skills & Domains',
                 style: GoogleFonts.inter(
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF073F38),
                 ),
@@ -391,7 +391,7 @@ class _InstructorBasicInfoFormState
         Text(
           'Choose the skills you teach',
           style: GoogleFonts.inter(
-            fontSize: 9.5,
+            fontSize: 11.5,
             color: const Color(0xFF899792),
           ),
         ),
@@ -415,7 +415,7 @@ class _InstructorBasicInfoFormState
               label: Text(
                 'Add a skill',
                 style: GoogleFonts.inter(
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -444,13 +444,14 @@ class _InstructorBasicInfoFormState
                   controller: widget.skillSearchController,
                   onSubmitted: widget.onAddSkill,
                   style: GoogleFonts.inter(
-                    fontSize: 10,
+                    fontSize: 12,
                     color: const Color(0xFF334842),
                   ),
                   decoration: InputDecoration(
                     hintText: 'Type or search to add more...',
                     hintStyle: GoogleFonts.inter(
-                      fontSize: 9.5,
+
+                      fontSize: 11.5,
                       color: const Color(0xFF9AA6A2),
                     ),
                     prefixIcon: const Icon(
@@ -499,7 +500,7 @@ class _InstructorBasicInfoFormState
             Text(
               'Taught categories',
               style: GoogleFonts.inter(
-                fontSize: 11,
+                fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF52635F),
               ),
@@ -510,7 +511,8 @@ class _InstructorBasicInfoFormState
             Text(
               'REORDER  ☷',
               style: GoogleFonts.inter(
-                fontSize: 8.5,
+
+                fontSize: 10.5,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF899792),
               ),
@@ -570,7 +572,9 @@ class _InstructorBasicInfoFormState
           Text(
             skill,
             style: GoogleFonts.inter(
-              fontSize: 9.5,
+
+
+              fontSize: 11.5,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF42544F),
             ),
@@ -604,7 +608,8 @@ class _InstructorBasicInfoFormState
         Text(
           'Bio / About Me',
           style: GoogleFonts.inter(
-            fontSize: 12,
+
+            fontSize: 14,
             fontWeight: FontWeight.w700,
             color: const Color(0xFF073F38),
           ),
@@ -617,7 +622,7 @@ class _InstructorBasicInfoFormState
           minLines: 5,
           maxLines: 7,
           style: GoogleFonts.inter(
-            fontSize: 10.5,
+            fontSize: 12.5,
             height: 1.5,
             color: const Color(0xFF40524E),
           ),
@@ -627,7 +632,7 @@ class _InstructorBasicInfoFormState
             hintText:
             'Write a short introduction about yourself...',
             hintStyle: GoogleFonts.inter(
-              fontSize: 10,
+              fontSize: 12,
               color: const Color(0xFF9AA6A2),
             ),
             contentPadding: const EdgeInsets.all(13),
@@ -658,7 +663,10 @@ class _InstructorBasicInfoFormState
           'Give a short and clear bio introduction to your skills, '
               'path, and experience.',
           style: GoogleFonts.inter(
-            fontSize: 8.5,
+
+
+
+            fontSize: 10.5,
             height: 1.4,
             color: const Color(0xFF899792),
           ),
@@ -697,13 +705,13 @@ class _InstructorBasicInfoFormState
             controller: controller,
             keyboardType: keyboardType,
             style: GoogleFonts.inter(
-              fontSize: 11,
+              fontSize: 13,
               color: const Color(0xFF334842),
             ),
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: GoogleFonts.inter(
-                fontSize: 10.5,
+                fontSize: 12.5,
                 color: const Color(0xFFA0AAA7),
               ),
               suffixIcon: suffixIcon == null
@@ -756,7 +764,7 @@ class _InstructorBasicInfoFormState
         controller: controller,
         readOnly: true,
         style: GoogleFonts.inter(
-          fontSize: 11,
+          fontSize: 13,
           color: const Color(0xFF53635E),
         ),
         decoration: InputDecoration(
@@ -825,7 +833,7 @@ class _InstructorBasicInfoFormState
                 color: Color(0xFF7C8C87),
               ),
               style: GoogleFonts.inter(
-                fontSize: 11,
+                fontSize: 13,
                 color: const Color(0xFF334842),
               ),
               items: items
@@ -865,7 +873,7 @@ class _InstructorBasicInfoFormState
             text: TextSpan(
               text: text,
               style: GoogleFonts.inter(
-                fontSize: 11,
+                fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF40524E),
               ),
@@ -886,7 +894,7 @@ class _InstructorBasicInfoFormState
           Text(
             'Optional',
             style: GoogleFonts.inter(
-              fontSize: 8,
+              fontSize: 10,
               color: const Color(0xFF9AA6A2),
             ),
           ),
@@ -895,7 +903,7 @@ class _InstructorBasicInfoFormState
           Text(
             suffix,
             style: GoogleFonts.inter(
-              fontSize: 9,
+              fontSize: 11,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF15966F),
             ),
@@ -921,7 +929,7 @@ class _InstructorBasicInfoFormState
           title: const Text(
             'Add a skill',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w800,
               color: Color(0xFF073F38),
             ),

@@ -84,7 +84,7 @@ class _InstructorProfileView extends StatelessWidget {
                     Text(
                       'Account Settings',
                       style: GoogleFonts.inter(
-                        fontSize: 22,
+                        fontSize: 24,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF073F38),
                       ),
@@ -95,7 +95,8 @@ class _InstructorProfileView extends StatelessWidget {
                     Text(
                       'Manage your instructor profile and account.',
                       style: GoogleFonts.inter(
-                        fontSize: 10.5,
+
+                        fontSize: 12.5,
                         fontWeight: FontWeight.w400,
                         color: const Color(0xFF788681),
                       ),
@@ -261,7 +262,7 @@ class _InstructorProfileView extends StatelessWidget {
                         label: Text(
                           'Sign Out',
                           style: GoogleFonts.inter(
-                            fontSize: 11,
+                            fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFFD9534F),
                           ),
@@ -375,7 +376,7 @@ class _InstructorProfileView extends StatelessWidget {
           title: Text(
             'Sign Out',
             style: GoogleFonts.inter(
-              fontSize: 17,
+              fontSize: 19,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF073F38),
             ),
@@ -383,7 +384,7 @@ class _InstructorProfileView extends StatelessWidget {
           content: Text(
             'Are you sure you want to sign out?',
             style: GoogleFonts.inter(
-              fontSize: 12,
+              fontSize: 14,
               color: const Color(0xFF788681),
             ),
           ),
@@ -399,7 +400,7 @@ class _InstructorProfileView extends StatelessWidget {
               child: Text(
                 'Cancel',
                 style: GoogleFonts.inter(
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF667570),
                 ),
@@ -431,7 +432,7 @@ class _InstructorProfileView extends StatelessWidget {
               child: Text(
                 'Sign Out',
                 style: GoogleFonts.inter(
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.w700,
                 ),
               ),

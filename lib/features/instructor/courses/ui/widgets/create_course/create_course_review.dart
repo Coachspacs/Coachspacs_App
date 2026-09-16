@@ -31,7 +31,7 @@ class CreateCourseReview extends StatelessWidget {
         Text(
           'Review & Publish',
           style: GoogleFonts.inter(
-            fontSize: 19,
+            fontSize: 21,
             fontWeight: FontWeight.w800,
             color: const Color(0xFF073F38),
           ),
@@ -42,7 +42,7 @@ class CreateCourseReview extends StatelessWidget {
         Text(
           'Check everything one last time before submitting your course.',
           style: GoogleFonts.inter(
-            fontSize: 9.5,
+            fontSize: 11.5,
             height: 1.4,
             color: const Color(0xFF788681),
           ),
@@ -156,7 +156,7 @@ class _ReviewCard extends StatelessWidget {
                 child: Text(
                   title,
                   style: GoogleFonts.inter(
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: FontWeight.w800,
                     color: const Color(0xFF263C38),
                   ),
@@ -177,7 +177,7 @@ class _ReviewCard extends StatelessWidget {
                       Text(
                         actionText!,
                         style: GoogleFonts.inter(
-                          fontSize: 7.5,
+                          fontSize: 9.5,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFF075E4D),
                         ),
@@ -262,7 +262,7 @@ class _CourseBasicPreview extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: FontWeight.w800,
                   color: const Color(0xFF263C38),
                 ),
@@ -276,7 +276,7 @@ class _CourseBasicPreview extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                    fontSize: 7.5,
+                    fontSize: 9.5,
                     height: 1.35,
                     color: const Color(0xFF788681),
                   ),
@@ -334,7 +334,7 @@ class _SmallTag extends StatelessWidget {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: GoogleFonts.inter(
-          fontSize: 6.5,
+          fontSize: 8.5,
           fontWeight: FontWeight.w700,
           color: const Color(0xFF075E4D),
         ),
@@ -374,7 +374,7 @@ class _PriceRow extends StatelessWidget {
           Text(
             'Course Price',
             style: GoogleFonts.inter(
-              fontSize: 9,
+              fontSize: 11,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF667570),
             ),
@@ -385,7 +385,7 @@ class _PriceRow extends StatelessWidget {
           Text(
             price,
             style: GoogleFonts.inter(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.w800,
               color: const Color(0xFF073F38),
             ),
@@ -461,7 +461,7 @@ class _ReviewLesson extends StatelessWidget {
           child: Text(
             number,
             style: GoogleFonts.inter(
-              fontSize: 7,
+              fontSize: 9,
               fontWeight: FontWeight.w800,
               color: const Color(0xFF075E4D),
             ),
@@ -480,7 +480,7 @@ class _ReviewLesson extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
-                  fontSize: 8.5,
+                  fontSize: 10.5,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF263C38),
                 ),
@@ -491,7 +491,7 @@ class _ReviewLesson extends StatelessWidget {
               Text(
                 subtitle,
                 style: GoogleFonts.inter(
-                  fontSize: 6.5,
+                  fontSize: 8.5,
                   color: const Color(0xFF788681),
                 ),
               ),
@@ -549,7 +549,7 @@ class _WhatHappensNext extends StatelessWidget {
                 Text(
                   'What happens next?',
                   style: GoogleFonts.inter(
-                    fontSize: 9,
+                    fontSize: 11,
                     fontWeight: FontWeight.w800,
                     color: const Color(0xFF075E4D),
                   ),
@@ -561,7 +561,7 @@ class _WhatHappensNext extends StatelessWidget {
                   'Your course will be sent to our team for review. '
                       'We usually review courses within 1–2 business days.',
                   style: GoogleFonts.inter(
-                    fontSize: 7.5,
+                    fontSize: 9.5,
                     height: 1.4,
                     color: const Color(0xFF55736C),
                   ),

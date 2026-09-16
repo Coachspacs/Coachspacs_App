@@ -39,7 +39,7 @@ class _InstructorPayoutScreenState
         content: Text(
           'Payout settings saved successfully.',
           style: GoogleFonts.inter(
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -92,7 +92,7 @@ class _InstructorPayoutScreenState
                     Text(
                       'Payment Method',
                       style: GoogleFonts.inter(
-                        fontSize: 11,
+                        fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF344540),
                       ),
@@ -162,7 +162,7 @@ class _InstructorPayoutScreenState
                     Text(
                       'Bank IBAN',
                       style: GoogleFonts.inter(
-                        fontSize: 11,
+                        fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF344540),
                       ),
@@ -173,7 +173,7 @@ class _InstructorPayoutScreenState
                     TextField(
                       controller: _ibanController,
                       style: GoogleFonts.inter(
-                        fontSize: 11,
+                        fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: const Color(0xFF173D37),
                       ),
@@ -209,7 +209,8 @@ class _InstructorPayoutScreenState
                           Text(
                             'PENDING PAYOUT',
                             style: GoogleFonts.inter(
-                              fontSize: 8,
+
+                              fontSize: 10,
                               fontWeight: FontWeight.w700,
                               letterSpacing: 0.6,
                               color:
@@ -222,7 +223,7 @@ class _InstructorPayoutScreenState
                           Text(
                             '\$1,840.00',
                             style: GoogleFonts.inter(
-                              fontSize: 23,
+                              fontSize: 25,
                               fontWeight: FontWeight.w800,
                               color:
                               const Color(0xFF073F38),
@@ -234,7 +235,7 @@ class _InstructorPayoutScreenState
                           Text(
                             'Next payout cycle: May 1st',
                             style: GoogleFonts.inter(
-                              fontSize: 9,
+                              fontSize: 11,
                               fontWeight: FontWeight.w400,
                               color:
                               const Color(0xFF64817B),
@@ -385,7 +386,7 @@ class _PaymentMethod extends StatelessWidget {
               Text(
                 title,
                 style: GoogleFonts.inter(
-                  fontSize: 9,
+                  fontSize: 11,
                   fontWeight: selected
                       ? FontWeight.w700
                       : FontWeight.w500,
@@ -433,7 +434,7 @@ class _SaveButton extends StatelessWidget {
         child: Text(
           'Save Changes  →',
           style: GoogleFonts.inter(
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: FontWeight.w700,
           ),
         ),

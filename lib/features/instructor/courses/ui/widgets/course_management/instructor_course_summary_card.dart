@@ -72,7 +72,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                   child: Text(
                     'PUBLISHED',
                     style: GoogleFonts.inter(
-                      fontSize: 6.5,
+                      fontSize: 8.5,
                       fontWeight: FontWeight.w800,
                       color: const Color(0xFF218066),
                     ),
@@ -86,7 +86,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                    fontSize: 13,
+                    fontSize: 15,
                     height: 1.25,
                     fontWeight: FontWeight.w800,
                     color: const Color(0xFF173D37),
@@ -106,7 +106,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                     Text(
                       '350 students',
                       style: GoogleFonts.inter(
-                        fontSize: 8,
+                        fontSize: 10,
                         color: const Color(0xFF71807C),
                       ),
                     ),
@@ -122,7 +122,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                     Text(
                       '42 lessons',
                       style: GoogleFonts.inter(
-                        fontSize: 8,
+                        fontSize: 10,
                         color: const Color(0xFF71807C),
                       ),
                     ),

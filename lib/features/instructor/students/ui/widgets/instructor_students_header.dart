@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/routing/routes.dart';
 
+
 class InstructorStudentsHeader extends StatelessWidget {
   const InstructorStudentsHeader({
     super.key,
@@ -14,124 +15,121 @@ class InstructorStudentsHeader extends StatelessWidget {
   final VoidCallback? onNotifications;
 
   @override
+  Size get preferredSize => const Size.fromHeight(64);
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: Colors.white,
-      child: Column(
+    return AppBar(
+      backgroundColor: const Color(0xFFF7FAF9),
+      elevation: 0,
+      surfaceTintColor: Colors.transparent,
+      automaticallyImplyLeading: false,
+      titleSpacing: 16,
+
+      title: Row(
         children: [
-          // =====================================================
-          // APP HEADER
-          // =====================================================
+// =================================================
+// COACH SPACE LOGO
+// =================================================
 
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              16,
-              10,
-              16,
-              10,
+          SizedBox(
+            width: 36,
+            height: 36,
+            child: Image.asset(
+              'assets/images/Logo_img.png',
+              fit: BoxFit.contain,
+              errorBuilder: (context,
+                  error,
+                  stackTrace,) {
+                return const Icon(
+                  Icons.auto_awesome,
+                  color: Color(0xFF075E4D),
+                  size: 20,
+                );
+              },
             ),
-            child: Row(
-              children: [
-                // =================================================
-                // LOGO
-                // =================================================
+          ),
+          const SizedBox(width: 4),
 
-                Image.asset(
-                  'assets/images/Logo_img.png',
-                  width: 34,
-                  height: 34,
-                  fit: BoxFit.contain,
-                ),
+// =================================================
+// APP NAME
+// =================================================
 
-                const SizedBox(width: 8),
-
-                // =================================================
-                // APP NAME
-                // =================================================
-
-                Text(
-                  'Coach Space',
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF073F38),
-                  ),
-                ),
-
-                const Spacer(),
-
-                // =================================================
-                // NOTIFICATIONS
-                // =================================================
-
-                IconButton(
-                  onPressed: onNotifications ??
-                          () {
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.instructorNotifications,
-                        );
-                      },
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(
-                    minWidth: 36,
-                    minHeight: 36,
-                  ),
-                  icon: const Icon(
-                    Icons.notifications_none_outlined,
-                    size: 21,
-                    color: Color(0xFF526762),
-                  ),
-                ),
-
-                // =================================================
-                // PROFILE
-                // =================================================
-
-                if (showProfile) ...[
-                  const SizedBox(width: 4),
-
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.instructorProfile,
-                      );
-                    },
-                    child: Container(
-                      width: 34,
-                      height: 34,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFDDF2EC),
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'H',
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF075E4D),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ],
+          Text(
+            'Coach Space',
+            style: GoogleFonts.inter(
+              fontSize: 19,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF073F38),
             ),
           ),
 
-          // =====================================================
-          // DIVIDER
-          // =====================================================
-
-          Container(
-            height: 1,
-            color: const Color(0xFFE8EFED),
-          ),
+          const Spacer(),
         ],
       ),
+
+      actions: [
+// =================================================
+// NOTIFICATIONS
+// =================================================
+
+        IconButton(
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.instructorNotifications,
+            );
+          },
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(
+            minWidth: 38,
+            minHeight: 38,
+          ),
+          icon: const Icon(
+            Icons.notifications_none_outlined,
+            color: Color(0xFF263C38),
+            size: 21,
+          ),
+        ),
+
+        const SizedBox(width: 4),
+
+// =================================================
+// PROFILE
+// =================================================
+
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.instructorProfile,
+            );
+          },
+          child: Container(
+            width: 34,
+            height: 34,
+            margin: const EdgeInsets.only(
+              right: 16,
+            ),
+            decoration: const BoxDecoration(
+              color: Color(0xFFE4F5F0),
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              'S',
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge
+                  ?.copyWith(
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+                color: const Color(0xFF075E4D),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

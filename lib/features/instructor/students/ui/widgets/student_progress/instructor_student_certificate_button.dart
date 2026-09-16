@@ -1,3 +1,6 @@
+
+
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -44,7 +47,7 @@ class InstructorStudentCertificateButton
               ? 'Issue Course Certificate'
               : 'Certificate Unavailable',
           style: GoogleFonts.inter(
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: FontWeight.w800,
           ),
         ),

@@ -91,7 +91,7 @@ class CurriculumLessonTile extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: GoogleFonts.inter(
-                fontSize: 9,
+                fontSize: 11,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF263C38),
               ),
@@ -108,7 +108,7 @@ class CurriculumLessonTile extends StatelessWidget {
             Text(
               lesson.duration,
               style: GoogleFonts.inter(
-                fontSize: 7,
+                fontSize: 9,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xFF7A8985),
               ),
@@ -117,7 +117,7 @@ class CurriculumLessonTile extends StatelessWidget {
             Text(
               lesson.type,
               style: GoogleFonts.inter(
-                fontSize: 7,
+                fontSize: 9,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF7A8985),
               ),

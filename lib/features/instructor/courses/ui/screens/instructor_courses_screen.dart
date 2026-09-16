@@ -317,7 +317,7 @@ class _EmptyCoursesState extends StatelessWidget {
           const Text(
             'No courses found',
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Color(0xFF263C38),
             ),
@@ -328,7 +328,7 @@ class _EmptyCoursesState extends StatelessWidget {
           const Text(
             'There are no courses in this category yet.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 9, color: Color(0xFF899792)),
+            style: TextStyle(fontSize: 11, color: Color(0xFF899792)),
           ),
         ],
       ),

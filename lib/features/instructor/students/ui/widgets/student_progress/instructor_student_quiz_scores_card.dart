@@ -54,7 +54,7 @@ class InstructorStudentQuizScoresCard
               Text(
                 'Quiz Scores',
                 style: GoogleFonts.inter(
-                  fontSize: 13,
+                  fontSize: 15,
                   fontWeight: FontWeight.w800,
                   color:
                   const Color(0xFF073F38),
@@ -122,7 +122,7 @@ class _QuizScoreItem
               overflow:
               TextOverflow.ellipsis,
               style: GoogleFonts.inter(
-                fontSize: 8.5,
+                fontSize: 10.5,
                 fontWeight: FontWeight.w600,
                 color:
                 const Color(0xFF445752),
@@ -135,7 +135,7 @@ class _QuizScoreItem
           Text(
             '${quiz.score}/100',
             style: GoogleFonts.inter(
-              fontSize: 11,
+              fontSize: 13,
               fontWeight: FontWeight.w800,
               color: const Color(0xFF0A8A6C),
             ),
