@@ -46,7 +46,7 @@ class _InstructorSecurityScreenState
           content: Text(
             'New passwords do not match.',
             style: GoogleFonts.inter(
-              fontSize: 11,
+              fontSize: 13,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -64,7 +64,7 @@ class _InstructorSecurityScreenState
         content: Text(
           'Password updated successfully.',
           style: GoogleFonts.inter(
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -106,7 +106,7 @@ class _InstructorSecurityScreenState
                     Text(
                       'Change Password',
                       style: GoogleFonts.inter(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color:
                         const Color(0xFF073F38),
@@ -118,7 +118,7 @@ class _InstructorSecurityScreenState
                     Text(
                       'Keep your account secure with a strong password.',
                       style: GoogleFonts.inter(
-                        fontSize: 10,
+                        fontSize: 12,
                         height: 1.45,
                         color:
                         const Color(0xFF788681),
@@ -203,7 +203,7 @@ class _InstructorSecurityScreenState
                           child: Text(
                             'Use at least 8 characters with a mix of letters, numbers and symbols.',
                             style: GoogleFonts.inter(
-                              fontSize: 9,
+                              fontSize: 11,
                               height: 1.4,
                               color:
                               const Color(0xFF7C8C87),
@@ -240,7 +240,7 @@ class _InstructorSecurityScreenState
                         child: Text(
                           'Save Changes  →',
                           style: GoogleFonts.inter(
-                            fontSize: 11,
+                            fontSize: 13,
                             fontWeight:
                             FontWeight.w700,
                           ),
@@ -284,7 +284,7 @@ class _PasswordField extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.inter(
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: FontWeight.w600,
             color: const Color(0xFF344540),
           ),
@@ -296,7 +296,8 @@ class _PasswordField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           style: GoogleFonts.inter(
-            fontSize: 11,
+
+            fontSize: 13,
             color: const Color(0xFF173D37),
           ),
           decoration: InputDecoration(

@@ -44,7 +44,7 @@ class InstructorEditCourseHeader extends StatelessWidget {
           Text(
             'Edit Course',
             style: GoogleFonts.inter(
-              fontSize: 17,
+              fontSize: 19,
               fontWeight: FontWeight.w800,
               color: const Color(0xFF073F38),
             ),

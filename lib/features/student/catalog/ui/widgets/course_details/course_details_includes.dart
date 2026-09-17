@@ -73,7 +73,7 @@ class _IncludeItem extends StatelessWidget {
             child: Text(
               text,
               style: GoogleFonts.inter(
-                fontSize: 11,
+                fontSize: 13,
                 fontWeight: FontWeight.w400,
                 color: const Color(0xFF52635F),
               ),

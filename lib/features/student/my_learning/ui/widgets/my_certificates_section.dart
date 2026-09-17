@@ -9,18 +9,21 @@ class MyCertificatesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Text(
               'My Certificates',
               style: GoogleFonts.inter(
-                fontSize: 18,
+                fontSize: 17,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF073F38),
               ),
             ),
+
             const Spacer(),
+
             TextButton(
               onPressed: () {},
               style: TextButton.styleFrom(
@@ -32,8 +35,8 @@ class MyCertificatesSection extends StatelessWidget {
               child: Text(
                 'View All',
                 style: GoogleFonts.inter(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
                   color: const Color(0xFF075E4D),
                 ),
               ),
@@ -45,30 +48,35 @@ class MyCertificatesSection extends StatelessWidget {
 
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 13,
+          ),
           decoration: BoxDecoration(
             color: const Color(0xFFEFF9F5),
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(15),
             border: Border.all(
-              color: const Color(0xFFD5EAE3),
+              color: const Color(0xFFD2EDE3),
             ),
           ),
           child: Row(
             children: [
               Container(
-                width: 42,
-                height: 42,
+                width: 44,
+                height: 44,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFD5F2E8),
+                  color: Color(0xFFD8F2E9),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.workspace_premium_outlined,
-                  color: Color(0xFF075E4D),
-                  size: 22,
+                  color: Color(0xFF08715E),
+                  size: 23,
                 ),
               ),
+
               const SizedBox(width: 12),
+
               Expanded(
                 child: Column(
                   crossAxisAlignment:
@@ -76,27 +84,32 @@ class MyCertificatesSection extends StatelessWidget {
                   children: [
                     Text(
                       'Full-Stack Development',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.inter(
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF073F38),
+                        color: const Color(0xFF173E37),
                       ),
                     ),
-                    const SizedBox(height: 3),
+
+                    const SizedBox(height: 4),
+
                     Text(
                       'Certificate earned',
                       style: GoogleFonts.inter(
                         fontSize: 9,
-                        color: const Color(0xFF71807C),
+                        color: const Color(0xFF8A9A96),
                       ),
                     ),
                   ],
                 ),
               ),
+
               const Icon(
-                Icons.chevron_right,
-                color: Color(0xFF71807C),
-                size: 20,
+                Icons.chevron_right_rounded,
+                size: 21,
+                color: Color(0xFF91A09C),
               ),
             ],
           ),

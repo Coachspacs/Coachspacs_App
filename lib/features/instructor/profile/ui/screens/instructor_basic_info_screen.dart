@@ -229,7 +229,7 @@ class _InstructorBasicInfoScreenState
           const Text(
             'Basic Info & Skills',
             style: TextStyle(
-              fontSize: 15,
+              fontSize: 17,
               fontWeight: FontWeight.w800,
               color: Color(0xFF073F38),
             ),

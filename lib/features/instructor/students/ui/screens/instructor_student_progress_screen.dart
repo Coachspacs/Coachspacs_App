@@ -48,7 +48,7 @@ class InstructorStudentProgressScreen
           title: const Text(
             'Issue Course Certificate',
             style: TextStyle(
-              fontSize: 17,
+              fontSize: 19,
               fontWeight: FontWeight.w800,
               color: Color(0xFF073F38),
             ),
@@ -57,7 +57,7 @@ class InstructorStudentProgressScreen
             'Are you sure you want to issue a certificate to '
                 '${student.name} for completing ${student.courseName}?',
             style: const TextStyle(
-              fontSize: 12,
+              fontSize: 14,
               height: 1.5,
               color: Color(0xFF687772),
             ),
@@ -100,7 +100,8 @@ class InstructorStudentProgressScreen
               child: const Text(
                 'Issue Certificate',
                 style: TextStyle(
-                  fontSize: 11,
+
+                  fontSize: 13,
                   fontWeight: FontWeight.w700,
                 ),
               ),

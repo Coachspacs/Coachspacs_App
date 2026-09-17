@@ -50,7 +50,7 @@ class CourseDetailsInstructorCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF263C38),
                   ),
@@ -61,7 +61,7 @@ class CourseDetailsInstructorCard extends StatelessWidget {
                 Text(
                   'Experienced instructor and professional educator.',
                   style: GoogleFonts.inter(
-                    fontSize: 10,
+                    fontSize: 12,
                     height: 1.4,
                     fontWeight: FontWeight.w400,
                     color: const Color(0xFF71827E),

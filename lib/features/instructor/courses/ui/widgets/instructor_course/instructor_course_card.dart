@@ -119,7 +119,7 @@ class InstructorCourseCard extends StatelessWidget {
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
       style: GoogleFonts.inter(
-        fontSize: 12,
+        fontSize: 14,
         height: 1.25,
         fontWeight: FontWeight.w700,
         color: const Color(0xFF073F38),
@@ -153,7 +153,7 @@ class InstructorCourseCard extends StatelessWidget {
             Text(
               '${course.students} students',
               style: GoogleFonts.inter(
-                fontSize: 8,
+                fontSize: 10,
                 color: const Color(0xFF788681),
               ),
             ),
@@ -177,7 +177,7 @@ class InstructorCourseCard extends StatelessWidget {
             Text(
               course.price,
               style: GoogleFonts.inter(
-                fontSize: 8,
+                fontSize: 10,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF52635F),
               ),
@@ -215,7 +215,7 @@ class InstructorCourseCard extends StatelessWidget {
             child: Text(
               course.rejectionReason!,
               style: GoogleFonts.inter(
-                fontSize: 8,
+                fontSize: 10,
                 height: 1.3,
                 color: const Color(0xFFB65B48),
               ),
@@ -259,7 +259,7 @@ class InstructorCourseCard extends StatelessWidget {
               child: Text(
                 'Edit Course',
                 style: GoogleFonts.inter(
-                  fontSize: 10.5,
+                  fontSize: 12.5,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF075E4D),
                 ),
@@ -295,7 +295,7 @@ class InstructorCourseCard extends StatelessWidget {
               child: Text(
                 isRejected ? 'Resubmit' : 'Manage',
                 style: GoogleFonts.inter(
-                  fontSize: 10.5,
+                  fontSize: 12.5,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -374,7 +374,7 @@ class _StatusBadge extends StatelessWidget {
       child: Text(
         text,
         style: GoogleFonts.inter(
-          fontSize: 6.5,
+          fontSize: 8.5,
           fontWeight: FontWeight.w700,
           color: foreground,
         ),

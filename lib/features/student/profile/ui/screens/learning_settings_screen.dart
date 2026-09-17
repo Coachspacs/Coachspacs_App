@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/theming/app_colors.dart';
 
-import '../widgets/settings/settings_tabs.dart';
-
 class LearningSettingsScreen extends StatefulWidget {
   const LearningSettingsScreen({super.key});
 
@@ -38,11 +36,15 @@ class _LearningSettingsScreenState
   }
 
   void _saveChanges() {
+    FocusScope.of(context).unfocus();
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Learning preferences saved successfully.',
-          style: GoogleFonts.inter(fontSize: 11),
+          'Changes saved successfully.',
+          style: GoogleFonts.inter(
+            fontSize: 11,
+          ),
         ),
         behavior: SnackBarBehavior.floating,
       ),
@@ -53,134 +55,226 @@ class _LearningSettingsScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
+
       body: SafeArea(
         child: Column(
           children: [
-            _SettingsHeader(
-              onBack: () {
-                Navigator.pop(context);
-              },
+            // =====================================================
+            // HEADER
+            // =====================================================
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                16,
+                18,
+                16,
+                12,
+              ),
+              child: Row(
+                children: [
+                  // Back Arrow
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: 32,
+                      minHeight: 32,
+                    ),
+                    icon: const Icon(
+                      Icons.arrow_back_rounded,
+                      size: 25,
+                      color: Color(0xFF073F38),
+                    ),
+                  ),
+
+                  const SizedBox(width: 8),
+
+                  // Title
+                  Text(
+                    'Learning & Certificates',
+                    style: GoogleFonts.inter(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF073F38),
+                    ),
+                  ),
+                ],
+              ),
             ),
+
+            // =====================================================
+            // CONTENT
+            // =====================================================
 
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(
                   16,
-                  4,
+                  12,
                   16,
                   30,
                 ),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 700,
-                    ),
-                    child: Column(
-                      crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                      children: [
-                        const SettingsTabs(),
+                child: Column(
+                  children: [
+                    // =================================================
+                    // SETTINGS CARD
+                    // =================================================
 
-                        const SizedBox(height: 18),
-
-                        _SettingsCard(
-                          children: [
-                            _FieldLabel(
-                              title: 'Primary Learning Goal',
-                            ),
-
-                            const SizedBox(height: 7),
-
-                            _SettingsTextField(
-                              controller: _goalController,
-                            ),
-
-                            const SizedBox(height: 18),
-
-                            _FieldLabel(
-                              title: 'Preferred Field',
-                            ),
-
-                            const SizedBox(height: 7),
-
-                            _SettingsDropdown(
-                              value: _preferredField,
-                              items: const [
-                                'Data Science & AI',
-                                'Software Development',
-                                'UI/UX Design',
-                                'Business',
-                              ],
-                              onChanged: (value) {
-                                setState(() {
-                                  _preferredField = value;
-                                });
-                              },
-                            ),
-
-                            const SizedBox(height: 18),
-
-                            _FieldLabel(
-                              title:
-                              'Name on Official Certificates',
-                            ),
-
-                            const SizedBox(height: 7),
-
-                            _SettingsTextField(
-                              controller:
-                              _certificateNameController,
-                            ),
-
-                            const SizedBox(height: 18),
-
-                            _FieldLabel(
-                              title:
-                              'Default Video Playback Speed',
-                            ),
-
-                            const SizedBox(height: 7),
-
-                            _SettingsDropdown(
-                              value: _playbackSpeed,
-                              items: const [
-                                '0.75x',
-                                '1.0x Normal',
-                                '1.25x',
-                                '1.5x',
-                                '2.0x',
-                              ],
-                              onChanged: (value) {
-                                setState(() {
-                                  _playbackSpeed = value;
-                                });
-                              },
-                            ),
-
-                            const SizedBox(height: 20),
-
-                            _ToggleTile(
-                              title: 'Public Student Profile',
-                              subtitle:
-                              'Allow fellow students and mentors to view your completed achievements.',
-                              value: _publicProfile,
-                              onChanged: (value) {
-                                setState(() {
-                                  _publicProfile = value;
-                                });
-                              },
-                            ),
-                          ],
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: const Color(0xFFDCE7E4),
                         ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        children: [
+                          // =================================================
+                          // PRIMARY LEARNING GOAL
+                          // =================================================
 
-                        const SizedBox(height: 18),
+                          _FieldLabel(
+                            title: 'Primary Learning Goal',
+                          ),
 
-                        _SaveButton(
-                          onPressed: _saveChanges,
-                        ),
-                      ],
+                          const SizedBox(height: 8),
+
+                          _SettingsTextField(
+                            controller: _goalController,
+                          ),
+
+                          const SizedBox(height: 18),
+
+                          // =================================================
+                          // PREFERRED FIELD
+                          // =================================================
+
+                          _FieldLabel(
+                            title: 'Preferred Field',
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          _SettingsDropdown(
+                            value: _preferredField,
+                            items: const [
+                              'Data Science & AI',
+                              'Software Development',
+                              'UI/UX Design',
+                              'Business',
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                _preferredField = value;
+                              });
+                            },
+                          ),
+
+                          const SizedBox(height: 18),
+
+                          // =================================================
+                          // CERTIFICATE NAME
+                          // =================================================
+
+                          _FieldLabel(
+                            title:
+                            'Name on Official Certificates',
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          _SettingsTextField(
+                            controller:
+                            _certificateNameController,
+                          ),
+
+                          const SizedBox(height: 18),
+
+                          // =================================================
+                          // PLAYBACK SPEED
+                          // =================================================
+
+                          _FieldLabel(
+                            title:
+                            'Default Video Playback Speed',
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          _SettingsDropdown(
+                            value: _playbackSpeed,
+                            items: const [
+                              '0.75x',
+                              '1.0x Normal',
+                              '1.25x',
+                              '1.5x',
+                              '2.0x',
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                _playbackSpeed = value;
+                              });
+                            },
+                          ),
+
+                          const SizedBox(height: 18),
+
+                          // =================================================
+                          // PUBLIC PROFILE
+                          // =================================================
+
+                          _ToggleTile(
+                            title: 'Public Student Profile',
+                            subtitle:
+                            'Allow fellow students and mentors to view your completed achievements.',
+                            value: _publicProfile,
+                            onChanged: (value) {
+                              setState(() {
+                                _publicProfile = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+
+                    const SizedBox(height: 42),
+
+                    // =====================================================
+                    // SAVE BUTTON
+                    // =====================================================
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: _saveChanges,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(26),
+                          ),
+                        ),
+                        child: Text(
+                          'Save Changes',
+                          style: GoogleFonts.inter(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -192,88 +286,7 @@ class _LearningSettingsScreenState
 }
 
 // =====================================================
-// HEADER
-// =====================================================
-
-class _SettingsHeader extends StatelessWidget {
-  const _SettingsHeader({
-    required this.onBack,
-  });
-
-  final VoidCallback onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        10,
-        8,
-        16,
-        4,
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: onBack,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(
-              minWidth: 34,
-              minHeight: 34,
-            ),
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              size: 23,
-              color: Color(0xFF073F38),
-            ),
-          ),
-          const SizedBox(width: 5),
-          Text(
-            'Student Settings',
-            style: GoogleFonts.inter(
-              color: const Color(0xFF073F38),
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// =====================================================
-// CARD
-// =====================================================
-
-class _SettingsCard extends StatelessWidget {
-  const _SettingsCard({
-    required this.children,
-  });
-
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: AppColors.border,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
-      ),
-    );
-  }
-}
-
-// =====================================================
-// LABEL
+// FIELD LABEL
 // =====================================================
 
 class _FieldLabel extends StatelessWidget {
@@ -288,9 +301,9 @@ class _FieldLabel extends StatelessWidget {
     return Text(
       title,
       style: GoogleFonts.inter(
-        color: AppColors.textBody,
-        fontSize: 11,
-        fontWeight: FontWeight.w600,
+        color: const Color(0xFF073F38),
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
       ),
     );
   }
@@ -309,35 +322,44 @@ class _SettingsTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      style: GoogleFonts.inter(
-        color: AppColors.textBody,
-        fontSize: 11,
-      ),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: const Color(0xFFFBFCFC),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 12,
+    return SizedBox(
+      height: 46,
+      child: TextField(
+        controller: controller,
+        style: GoogleFonts.inter(
+          color: const Color(0xFF344842),
+          fontSize: 13,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: AppColors.border,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+
+          contentPadding:
+          const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 12,
           ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: AppColors.border,
+
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(11),
+            borderSide: const BorderSide(
+              color: Color(0xFFD5E1DE),
+            ),
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: AppColors.primary,
+
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(11),
+            borderSide: const BorderSide(
+              color: Color(0xFFD5E1DE),
+            ),
+          ),
+
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(11),
+            borderSide: const BorderSide(
+              color: AppColors.primary,
+              width: 1.2,
+            ),
           ),
         ),
       ),
@@ -362,56 +384,77 @@ class _SettingsDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      value: value,
-      isExpanded: true,
-      style: GoogleFonts.inter(
-        color: AppColors.textBody,
-        fontSize: 11,
-      ),
-      icon: const Icon(
-        Icons.keyboard_arrow_down_rounded,
-        size: 19,
-        color: AppColors.textLight,
-      ),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: const Color(0xFFFBFCFC),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 10,
+    return SizedBox(
+      height: 46,
+      child: DropdownButtonFormField<String>(
+        initialValue: value,
+        isExpanded: true,
+
+        style: GoogleFonts.inter(
+          color: const Color(0xFF344842),
+          fontSize: 13,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: AppColors.border,
+
+        icon: const Icon(
+          Icons.keyboard_arrow_down_rounded,
+          size: 20,
+          color: Color(0xFF344842),
+        ),
+
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+
+          contentPadding:
+          const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 10,
           ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-            color: AppColors.border,
-          ),
-        ),
-      ),
-      items: items.map(
-            (item) {
-          return DropdownMenuItem<String>(
-            value: item,
-            child: Text(
-              item,
-              style: GoogleFonts.inter(
-                fontSize: 11,
-              ),
+
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(11),
+            borderSide: const BorderSide(
+              color: Color(0xFFD5E1DE),
             ),
-          );
+          ),
+
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(11),
+            borderSide: const BorderSide(
+              color: Color(0xFFD5E1DE),
+            ),
+          ),
+
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(11),
+            borderSide: const BorderSide(
+              color: AppColors.primary,
+              width: 1.2,
+            ),
+          ),
+        ),
+
+        items: items.map(
+              (item) {
+            return DropdownMenuItem<String>(
+              value: item,
+              child: Text(
+                item,
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  color: const Color(0xFF344842),
+                ),
+              ),
+            );
+          },
+        ).toList(),
+
+        onChanged: (value) {
+          if (value != null) {
+            onChanged(value);
+          }
         },
-      ).toList(),
-      onChanged: (value) {
-        if (value != null) {
-          onChanged(value);
-        }
-      },
+      ),
     );
   }
 }
@@ -436,12 +479,17 @@ class _ToggleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(
+        14,
+        13,
+        10,
+        13,
+      ),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFA),
-        borderRadius: BorderRadius.circular(11),
+        color: const Color(0xFFF9FBFA),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.border,
+          color: const Color(0xFFDCE7E4),
         ),
       ),
       child: Row(
@@ -454,67 +502,39 @@ class _ToggleTile extends StatelessWidget {
                 Text(
                   title,
                   style: GoogleFonts.inter(
-                    color: AppColors.textBody,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF073F38),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 3),
+
+                const SizedBox(height: 4),
+
                 Text(
                   subtitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                    color: AppColors.textLight,
-                    fontSize: 9,
-                    height: 1.3,
+                    color: const Color(0xFF71807C),
+                    fontSize: 9.5,
+                    height: 1.35,
                   ),
                 ),
               ],
             ),
           ),
+
+          const SizedBox(width: 8),
+
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: AppColors.primary,
+            activeTrackColor:
+            const Color(0xFF8BB8AD),
+            activeThumbColor:
+            const Color(0xFF075E4D),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// =====================================================
-// SAVE BUTTON
-// =====================================================
-
-class _SaveButton extends StatelessWidget {
-  const _SaveButton({
-    required this.onPressed,
-  });
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 43,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.white,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        child: Text(
-          'Save Changes',
-          style: GoogleFonts.inter(
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
       ),
     );
   }

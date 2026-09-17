@@ -1,176 +1,149 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/theming/app_colors.dart';
-
 class ProfileUserCard extends StatelessWidget {
   const ProfileUserCard({
     super.key,
     required this.name,
     required this.role,
-    required this.specialization,
-    this.imagePath = '',
+    required this.avatar,
   });
 
   final String name;
   final String role;
-  final String specialization;
-  final String imagePath;
+  final String avatar;
 
   @override
   Widget build(BuildContext context) {
-    final initial = name.trim().isNotEmpty
-        ? name.trim()[0].toUpperCase()
-        : 'U';
+    final firstLetter = name.trim().isNotEmpty
+        ? name.trim().substring(0, 1).toUpperCase()
+        : 'S';
 
-    return SizedBox(
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // =====================================================
-          // PROFILE IMAGE
-          // =====================================================
+    return Column(
+      children: [
+        // =====================================================
+        // AVATAR
+        // =====================================================
 
-          Container(
-            width: 112,
-            height: 112,
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: const Color(0xFFE2EFEB),
-                width: 3,
+        Container(
+          width: 80,
+          height: 80,
+          decoration: const BoxDecoration(
+            color: Color(0xFF075E4D),
+            shape: BoxShape.circle,
+          ),
+          child: ClipOval(
+            child: avatar.isNotEmpty
+                ? Image.network(
+              avatar,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) {
+                return _LetterAvatar(letter: firstLetter);
+              },
+            )
+                : _LetterAvatar(letter: firstLetter),
+          ),
+        ),
+
+        const SizedBox(height: 10),
+
+        // =====================================================
+        // NAME
+        // =====================================================
+
+        Text(
+          name,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF073F38),
+          ),
+        ),
+
+        const SizedBox(height: 6),
+
+        // =====================================================
+        // ROLE BADGE
+        // =====================================================
+
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+          decoration: BoxDecoration(
+            color: const Color(0xFFE2F3ED),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.school_outlined,
+                size: 11,
+                color: Color(0xFF075E4D),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(
-                    alpha: 0.05,
-                  ),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
+
+              const SizedBox(width: 4),
+
+              Text(
+                role,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF075E4D),
                 ),
-              ],
-            ),
-            child: ClipOval(
-              child: imagePath.isNotEmpty
-                  ? Image.asset(
-                imagePath,
-                fit: BoxFit.cover,
-                errorBuilder: (
-                    context,
-                    error,
-                    stackTrace,
-                    ) {
-                  return _initialAvatar(initial);
-                },
-              )
-                  : _initialAvatar(initial),
-            ),
+              ),
+
+              const SizedBox(width: 5),
+
+              Text(
+                '•',
+                style: GoogleFonts.inter(
+
+
+                  fontSize: 12,
+                  color: const Color(0xFF075E4D),
+                ),
+              ),
+
+              const SizedBox(width: 5),
+
+              Text(
+                'Information Technology',
+                style: GoogleFonts.inter(
+
+
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF48736A),
+                ),
+              ),
+            ],
           ),
-
-          const SizedBox(height: 12),
-
-          // =====================================================
-          // NAME
-          // =====================================================
-
-          Text(
-            name,
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF073F38),
-            ),
-          ),
-
-          const SizedBox(height: 7),
-
-          // =====================================================
-          // ROLE + SPECIALIZATION
-          // =====================================================
-
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: 8,
-            ),
-            decoration: BoxDecoration(
-              color: const Color(0xFFEAF6F2),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.school_outlined,
-                  size: 17,
-                  color: Color(0xFF075E4D),
-                ),
-
-                const SizedBox(width: 7),
-
-                Text(
-                  role,
-                  style: GoogleFonts.inter(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF075E4D),
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 7,
-                  ),
-                  child: Text(
-                    '•',
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF075E4D),
-                    ),
-                  ),
-                ),
-
-                Flexible(
-                  child: Text(
-                    specialization,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF52635F),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
+}
 
-  // =====================================================
-  // INITIAL AVATAR
-  // =====================================================
+class _LetterAvatar extends StatelessWidget {
+  const _LetterAvatar({
+    required this.letter,
+  });
 
-  Widget _initialAvatar(String initial) {
-    return Container(
-      color: AppColors.primary,
-      alignment: Alignment.center,
+  final String letter;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
       child: Text(
-        initial,
+        letter,
         style: GoogleFonts.inter(
-          color: Colors.white,
           fontSize: 32,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
         ),
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfileLogoutButton extends StatelessWidget {
   const ProfileLogoutButton({
@@ -14,28 +13,32 @@ class ProfileLogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
+      height: 42,
       child: OutlinedButton.icon(
         onPressed: onPressed,
         icon: const Icon(
-          Icons.logout_outlined,
-          size: 20,
+          Icons.logout_rounded,
+          size: 16,
+          color: Color(0xFFE53935),
         ),
-        label: const Text(
+        label: Text(
           'Sign Out',
-          style: TextStyle(
+          style: GoogleFonts.inter(
+
             fontSize: 14,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFFE53935),
           ),
         ),
         style: OutlinedButton.styleFrom(
-          foregroundColor: Colors.red,
+          backgroundColor: const Color(0xFFFFF9F9),
           side: const BorderSide(
-            color: AppColors.border,
+            color: Color(0xFFF5CACA),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
+          padding: EdgeInsets.zero,
         ),
       ),
     );

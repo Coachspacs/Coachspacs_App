@@ -22,7 +22,7 @@ class InstructorProfileMenuItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: 4,
+          horizontal: 12,
           vertical: 12,
         ),
         child: Row(
@@ -53,8 +53,7 @@ class InstructorProfileMenuItem extends StatelessWidget {
 
             Expanded(
               child: Column(
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,

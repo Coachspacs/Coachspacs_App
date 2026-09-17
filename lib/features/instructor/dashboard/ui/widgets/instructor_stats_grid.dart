@@ -220,7 +220,7 @@ class _StatCard extends StatelessWidget {
             overflow:
             TextOverflow.ellipsis,
             style: GoogleFonts.inter(
-              fontSize: 8.5,
+              fontSize: 10.5,
               fontWeight:
               FontWeight.w500,
               color:

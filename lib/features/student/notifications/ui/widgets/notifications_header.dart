@@ -18,43 +18,49 @@ class NotificationsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(40, 24, 40, 24),
+      padding: const EdgeInsets.fromLTRB(
+        18,
+        18,
+        18,
+        8,
+      ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE8EFFF),
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              onPressed: onBack,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minWidth: 64, minHeight: 64),
-              icon: const Icon(
-                Icons.arrow_back_rounded,
-                size: 38,
-                color: AppColors.textBody,
-              ),
-            ),
-          ),
+          // =================================================
+          // BACK ARROW
+          // =================================================
 
-          const SizedBox(width: 6),
-
-          Expanded(
-            child: Text(
-              'Notifications',
-              style: GoogleFonts.inter(
-                color: AppColors.textBody,
-                fontSize: 30,
-                fontWeight: FontWeight.w700,
-              ),
+          IconButton(
+            onPressed: onBack,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(
+              minWidth: 32,
+              minHeight: 32,
+            ),
+            splashRadius: 20,
+            icon: const Icon(
+              Icons.arrow_back_rounded,
+              size: 26,
+              color: AppColors.textBody,
             ),
           ),
 
-          const SizedBox(width: 64),
+          const SizedBox(width: 12),
+
+          // =================================================
+          // TITLE
+          // =================================================
+
+          Text(
+            'Notifications',
+            style: GoogleFonts.inter(
+              color: AppColors.textBody,
+              fontSize: 21,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+
+          const Spacer(),
         ],
       ),
     );

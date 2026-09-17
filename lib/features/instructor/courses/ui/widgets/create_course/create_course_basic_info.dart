@@ -42,7 +42,7 @@ class CreateCourseBasicInfo
         Text(
           'Course Information',
           style: GoogleFonts.inter(
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.w800,
             color: const Color(0xFF073F38),
           ),
@@ -132,7 +132,7 @@ class CreateCourseBasicInfo
           controller: descriptionController,
           maxLines: 5,
           style: GoogleFonts.inter(
-            fontSize: 10,
+            fontSize: 12,
             color: const Color(0xFF263C38),
           ),
           decoration: _inputDecoration(
@@ -182,7 +182,7 @@ class CreateCourseBasicInfo
                   Text(
                     'Pricing',
                     style: GoogleFonts.inter(
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight:
                       FontWeight.w700,
                       color:
@@ -195,7 +195,7 @@ class CreateCourseBasicInfo
                   Text(
                     'Make this course free',
                     style: GoogleFonts.inter(
-                      fontSize: 7.5,
+                      fontSize: 9.5,
                       color:
                       const Color(0xFF667570),
                     ),
@@ -217,7 +217,7 @@ class CreateCourseBasicInfo
               Text(
                 'Set the price students will pay.',
                 style: GoogleFonts.inter(
-                  fontSize: 7.5,
+                  fontSize: 9.5,
                   color:
                   const Color(0xFF788681),
                 ),
@@ -282,7 +282,7 @@ class _UploadThumbnail
           Text(
             'Upload Thumbnail',
             style: GoogleFonts.inter(
-              fontSize: 9,
+              fontSize: 11,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF263C38),
             ),
@@ -293,7 +293,7 @@ class _UploadThumbnail
           Text(
             'PNG, JPG up to 5MB',
             style: GoogleFonts.inter(
-              fontSize: 7,
+              fontSize: 9,
               color: const Color(0xFF899792),
             ),
           ),
@@ -317,7 +317,7 @@ class _FieldLabel extends StatelessWidget {
     return Text(
       text,
       style: GoogleFonts.inter(
-        fontSize: 8.5,
+        fontSize: 10.5,
         fontWeight: FontWeight.w700,
         color: const Color(0xFF263C38),
       ),
@@ -346,7 +346,7 @@ class _TextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       style: GoogleFonts.inter(
-        fontSize: 10,
+        fontSize: 12,
         color: const Color(0xFF263C38),
       ),
       decoration: _inputDecoration(hint),
@@ -396,7 +396,7 @@ class _DropdownField
             color: Color(0xFF657570),
           ),
           style: GoogleFonts.inter(
-            fontSize: 9,
+            fontSize: 11,
             color: const Color(0xFF52635F),
           ),
           items: items
@@ -428,7 +428,7 @@ InputDecoration _inputDecoration(
   return InputDecoration(
     hintText: hint,
     hintStyle: GoogleFonts.inter(
-      fontSize: 9,
+      fontSize: 11,
       color: const Color(0xFF9AA7A3),
     ),
     filled: true,

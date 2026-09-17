@@ -80,7 +80,7 @@ class _CurriculumSection extends StatelessWidget {
         title: Text(
           title,
           style: GoogleFonts.inter(
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: FontWeight.w700,
             color: const Color(0xFF263C38),
           ),
@@ -97,7 +97,7 @@ class _CurriculumSection extends StatelessWidget {
               title: Text(
                 lesson,
                 style: GoogleFonts.inter(
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF53645F),
                 ),
@@ -105,7 +105,7 @@ class _CurriculumSection extends StatelessWidget {
               trailing: Text(
                 'Preview',
                 style: GoogleFonts.inter(
-                  fontSize: 8.5,
+                  fontSize: 10.5,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF075E4D),
                 ),

@@ -28,12 +28,11 @@ import 'package:coach_space/features/student/profile/ui/screens/cart_screen.dart
 import 'package:coach_space/features/student/profile/ui/screens/order_history_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/certificates_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/settings_screen.dart';
-
 import 'package:coach_space/features/student/catalog/ui/screens/catalog_screen.dart';
 import 'package:coach_space/features/student/catalog/ui/screens/course_details_screen.dart';
 
 import 'package:coach_space/features/student/my_learning/ui/screens/my_learning_screen.dart';
-
+import 'package:coach_space/features/student/profile/ui/screens/profile_information_screen.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/create_course_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/learning_settings_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/security_settings_screen.dart';
@@ -48,6 +47,8 @@ import 'package:coach_space/features/instructor/courses/ui/screens/instructor_co
 import 'package:coach_space/features/instructor/students/ui/screens/instructor_student_progress_screen.dart';
 
 import '../../features/auth/data/models/user_role.dart';
+import '../../features/student/profile/ui/screens/checkout_screen.dart';
+import '../../features/student/profile/ui/screens/contact_us_screen.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -139,6 +140,19 @@ class AppRouter {
 
       case AppRoutes.profile:
         return _buildRoute(const ProfileScreen(), settings);
+      case AppRoutes.profileInformation:
+        return _buildRoute(
+          const ProfileInformationScreen(),
+          settings,
+        );
+
+      case AppRoutes.contactUs:
+        return _buildRoute(
+          const ContactUsScreen(),
+          settings,
+        );
+      case AppRoutes.checkout:
+        return _buildRoute(const CheckoutScreen(), settings);
       // =====================================================
       // INSTRUCTOR
       // =====================================================

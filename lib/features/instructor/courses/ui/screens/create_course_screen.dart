@@ -346,7 +346,7 @@ class _CreateCourseScreenState
                           _stepTitle(),
                           style:
                           GoogleFonts.inter(
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight:
                             FontWeight.w800,
                             color:
@@ -373,7 +373,7 @@ class _CreateCourseScreenState
                       _stepSubtitle(),
                       style:
                       GoogleFonts.inter(
-                        fontSize: 9.5,
+                        fontSize: 11.5,
                         height: 1.4,
                         color:
                         const Color(
@@ -465,7 +465,7 @@ class _CreateCourseScreenState
                     _bottomButtonText(),
                     style:
                     GoogleFonts.inter(
-                      fontSize: 13,
+                      fontSize: 15,
                       fontWeight:
                       FontWeight.w700,
                     ),

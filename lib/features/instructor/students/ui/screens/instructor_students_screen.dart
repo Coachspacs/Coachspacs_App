@@ -220,13 +220,16 @@ class _InstructorStudentsScreenState
         },
 
         style: GoogleFonts.inter(
-          fontSize: 13,
+
+
+
+          fontSize: 15,
           color: const Color(0xFF173D37),
         ),
         decoration: InputDecoration(
           hintText: 'Search students...',
           hintStyle: GoogleFonts.inter(
-            fontSize: 12,
+            fontSize: 14,
             color: const Color(0xFF8A9894),
           ),
           prefixIcon: const Icon(
@@ -287,7 +290,8 @@ class _InstructorStudentsScreenState
                   child: Text(
                     filters[index],
                     style: GoogleFonts.inter(
-                      fontSize: 11,
+
+                      fontSize: 13,
                       fontWeight: isSelected
                           ? FontWeight.w700
                           : FontWeight.w500,
@@ -332,7 +336,7 @@ class _StudentsPageTitle extends StatelessWidget {
                 Text(
                   'Enrolled Students',
                   style: GoogleFonts.inter(
-                    fontSize: 21,
+                    fontSize: 23,
                     height: 1.1,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF073F38),
@@ -345,7 +349,7 @@ class _StudentsPageTitle extends StatelessWidget {
                 Text(
                   'Manage and track your students',
                   style: GoogleFonts.inter(
-                    fontSize: 9,
+                    fontSize: 11,
                     height: 1.2,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF788681),

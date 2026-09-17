@@ -77,7 +77,7 @@ class InstructorRecentCourses extends StatelessWidget {
               child: Text(
                 'View All',
                 style: GoogleFonts.inter(
-                  fontSize: 8.5,
+                  fontSize: 10.5,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF075E4D),
                 ),
@@ -212,7 +212,7 @@ class _RecentCourseItem extends StatelessWidget {
                   child: Text(
                     course.status,
                     style: GoogleFonts.inter(
-                      fontSize: 6.5,
+                      fontSize: 8.5,
                       fontWeight: FontWeight.w800,
                       color: course.statusColor,
                     ),
@@ -227,7 +227,7 @@ class _RecentCourseItem extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF263C38),
                   ),
@@ -249,7 +249,7 @@ class _RecentCourseItem extends StatelessWidget {
                     Text(
                       course.time,
                       style: GoogleFonts.inter(
-                        fontSize: 7.5,
+                        fontSize: 9.5,
                         color: const Color(0xFF899590),
                       ),
                     ),

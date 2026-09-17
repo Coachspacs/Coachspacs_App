@@ -29,10 +29,6 @@ class _MyLearningScreenState extends State<MyLearningScreen> {
   void initState() {
     super.initState();
 
-    // =====================================================
-    // GUEST PROTECTION
-    // =====================================================
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
 
@@ -40,6 +36,7 @@ class _MyLearningScreenState extends State<MyLearningScreen> {
         Navigator.pop(context);
       }
     });
+
     _loadEnrollments();
   }
 
@@ -48,19 +45,19 @@ class _MyLearningScreenState extends State<MyLearningScreen> {
       final page = await getIt<EnrollmentRepository>().getEnrollments(
         pageSize: 50,
       );
-      if (mounted) setState(() => _enrollments = page.results);
+
+      if (mounted) {
+        setState(() {
+          _enrollments = page.results;
+        });
+      }
     } catch (_) {
-      // The dedicated browse screen presents retry feedback; this overview
-      // remains usable when its optional summary request fails.
+      // Keep the screen usable if the optional request fails.
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // =====================================================
-    // GUEST
-    // =====================================================
-
     if (GuestSession.isGuest) {
       return const Scaffold(
         backgroundColor: AppColors.bgDefault,
@@ -68,40 +65,51 @@ class _MyLearningScreenState extends State<MyLearningScreen> {
       );
     }
 
-    // =====================================================
-    // LOGGED-IN STUDENT
-    // =====================================================
-
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
-
       body: SafeArea(
         child: Column(
           children: [
-            // =================================================
-            // TOP BAR
-            // =================================================
+            // Existing project header — keep as is.
             const MyLearningTopBar(),
 
-            // =================================================
-            // CONTENT
-            // =================================================
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+                padding: const EdgeInsets.fromLTRB(
+                  16,
+                  14,
+                  16,
+                  28,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const MyLearningHeader(),
+
+                    const SizedBox(height: 16),
+
+                    MyLearningStats(
+                      enrollments: _enrollments,
+                    ),
+
                     const SizedBox(height: 18),
-                    const MyLearningStats(),
+
+                    ContinueLearningSection(
+                      enrollments: _enrollments,
+                    ),
+
                     const SizedBox(height: 22),
-                    ContinueLearningSection(enrollments: _enrollments),
-                    const SizedBox(height: 24),
-                    MyCoursesSection(enrollments: _enrollments),
-                    const SizedBox(height: 24),
+
+                    MyCoursesSection(
+                      enrollments: _enrollments,
+                    ),
+
+                    const SizedBox(height: 22),
+
                     const MyCertificatesSection(),
-                    const SizedBox(height: 24),
+
+                    const SizedBox(height: 22),
+
                     const RecentActivitySection(),
                   ],
                 ),
@@ -110,13 +118,8 @@ class _MyLearningScreenState extends State<MyLearningScreen> {
           ],
         ),
       ),
-
-      // =====================================================
-      // BOTTOM NAVIGATION
-      // =====================================================
       bottomNavigationBar: const BottomNavBarWidget(
         navType: NavType.student,
-
         currentIndex: 2,
       ),
     );

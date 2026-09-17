@@ -67,7 +67,7 @@ class InstructorStudentCourseProgressCard
                       overflow:
                       TextOverflow.ellipsis,
                       style: GoogleFonts.inter(
-                        fontSize: 12,
+                        fontSize: 14,
                         height: 1.25,
                         fontWeight:
                         FontWeight.w800,
@@ -81,7 +81,7 @@ class InstructorStudentCourseProgressCard
                     Text(
                       'Course Progress',
                       style: GoogleFonts.inter(
-                        fontSize: 8.5,
+                        fontSize: 10.5,
                         color:
                         const Color(0xFF7B8A86),
                       ),
@@ -95,7 +95,7 @@ class InstructorStudentCourseProgressCard
               Text(
                 '${student.progress}%',
                 style: GoogleFonts.inter(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w800,
                   color: const Color(0xFF0A8A6C),
                 ),
@@ -129,7 +129,7 @@ class InstructorStudentCourseProgressCard
           Text(
             '${student.completedLessons}/${student.totalLessons} lessons completed',
             style: GoogleFonts.inter(
-              fontSize: 8,
+              fontSize: 10,
               color: const Color(0xFF7C8B87),
             ),
           ),
@@ -220,7 +220,7 @@ class _ProgressInfoItem
                 Text(
                   title,
                   style: GoogleFonts.inter(
-                    fontSize: 7.5,
+                    fontSize: 9.5,
                     color:
                     const Color(0xFF7C8B87),
                   ),
@@ -234,7 +234,7 @@ class _ProgressInfoItem
                   overflow:
                   TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                    fontSize: 9.5,
+                    fontSize: 11.5,
                     fontWeight:
                     FontWeight.w700,
                     color:

@@ -39,12 +39,12 @@ class SignupCustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: GoogleFonts.inter(
-            color: AppColors.textLight,
+            color: const Color(0xFFB4C0BC),
             fontSize: 14,
           ),
           prefixIcon: Icon(
             prefixIcon,
-            color: AppColors.textLight,
+            color: const Color(0xFFB4C0BC),
             size: 21,
           ),
           suffixIcon: suffixIcon,
@@ -58,7 +58,7 @@ class SignupCustomTextField extends StatelessWidget {
           ),
 
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(26),
             borderSide: const BorderSide(
               color: AppColors.borderColor,
               width: 1,
@@ -66,7 +66,7 @@ class SignupCustomTextField extends StatelessWidget {
           ),
 
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(26),
             borderSide: const BorderSide(
               color: AppColors.borderColor,
               width: 1,
@@ -74,7 +74,7 @@ class SignupCustomTextField extends StatelessWidget {
           ),
 
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(26),
             borderSide: const BorderSide(
               color: AppColors.primary,
               width: 1.4,
@@ -85,3 +85,5 @@ class SignupCustomTextField extends StatelessWidget {
     );
   }
 }
+
+
