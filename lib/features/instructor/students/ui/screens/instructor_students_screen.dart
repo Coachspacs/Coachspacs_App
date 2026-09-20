@@ -1,11 +1,13 @@
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/core/helpers/failure_messages.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
-
-
+import 'package:coach_space/features/instructor/students/logic/cubit/instructor_students_cubit.dart';
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_header.dart';
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_stats.dart';
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_student_card.dart';
@@ -24,67 +26,7 @@ class _InstructorStudentsScreenState
     extends State<InstructorStudentsScreen> {
   int _selectedFilter = 0;
   String _searchQuery = '';
-
-  final List<_StudentData> _students = const [
-    _StudentData(
-      name: 'Ahmad Hassan',
-      course: 'Flutter Architecture',
-      progress: 85,
-      status: 'Active',
-      lastActive: '2 hours ago',
-      initials: 'AH',
-    ),
-    _StudentData(
-      name: 'Sara Riad',
-      course: 'UI/UX Masterclass',
-      progress: 40,
-      status: 'Active',
-      lastActive: '1 day ago',
-      initials: 'SR',
-    ),
-    _StudentData(
-      name: 'Omar Ali',
-      course: 'Applied AI with Python',
-      progress: 65,
-      status: 'Active',
-      lastActive: '3 hours ago',
-      initials: 'OA',
-    ),
-    _StudentData(
-      name: 'Nour Khaled',
-      course: 'React 19 & Next.js',
-      progress: 100,
-      status: 'Completed',
-      lastActive: '2 days ago',
-      initials: 'NK',
-    ),
-    _StudentData(
-      name: 'Yousef Mahmoud',
-      course: 'Data Science Basics',
-      progress: 25,
-      status: 'Inactive',
-      lastActive: '1 week ago',
-      initials: 'YM',
-    ),
-  ];
-
-  List<_StudentData> get _filteredStudents {
-    return _students.where((student) {
-      final matchesSearch =
-      student.name.toLowerCase().contains(
-        _searchQuery.toLowerCase(),
-      );
-
-      final matchesFilter = switch (_selectedFilter) {
-        1 => student.status == 'Active',
-        2 => student.status == 'Completed',
-        _ => true,
-      };
-
-      return matchesSearch && matchesFilter;
-    }).toList();
-  }
-
+  int? _selectedCourseId;
 
   void _handleNavigation(
       BuildContext context,
@@ -100,7 +42,6 @@ class _InstructorStudentsScreenState
         );
         break;
 
-
       case 1:
         Navigator.pushNamedAndRemoveUntil(
           context,
@@ -109,10 +50,8 @@ class _InstructorStudentsScreenState
         );
         break;
 
-
       case 2:
         break;
-
 
       case 3:
         Navigator.pushNamedAndRemoveUntil(
@@ -124,12 +63,10 @@ class _InstructorStudentsScreenState
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
-
 
       body: SafeArea(
         child: Column(
@@ -137,56 +74,57 @@ class _InstructorStudentsScreenState
 
             const InstructorStudentsHeader(),
 
-
             const _StudentsPageTitle(),
 
-
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(
-                  16,
-                  8,
-                  16,
-                  24,
-                ),
-                child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
-                  children: [
-
-                    const InstructorStudentsStats(),
-
-                    const SizedBox(height: 18),
-
-
-                    _buildSearchField(),
-
-                    const SizedBox(height: 12),
-
-
-                    _buildFilters(),
-
-                    const SizedBox(height: 14),
-
-
-                    ..._filteredStudents.map(
-                          (student) => Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 10,
-                        ),
-                        child: InstructorStudentCard(
-                          student: student,
+              child: BlocProvider(
+                create: (_) {
+                  final cubit = getIt<InstructorStudentsCubit>();
+                  cubit.load();
+                  return cubit;
+                },
+                child: BlocBuilder<InstructorStudentsCubit,
+                    InstructorStudentsState>(
+                  builder: (context, state) {
+                    return switch (state) {
+                      InstructorStudentsInitial() ||
+                      InstructorStudentsLoading() => const Center(
+                        child: CircularProgressIndicator(
+                          color: Color(0xFF075E4D),
                         ),
                       ),
-                    ),
-                  ],
+                      InstructorStudentsFailure() => _StudentsFailureView(
+                        message: localizedFailureMessage(
+                          context,
+                          state.kind,
+                          state.message,
+                        ),
+                        onRetry: () =>
+                            context.read<InstructorStudentsCubit>().load(),
+                      ),
+                      InstructorStudentsSuccess() => _StudentsContent(
+                        state: state,
+                        searchQuery: _searchQuery,
+                        selectedFilter: _selectedFilter,
+                        selectedCourseId: _selectedCourseId,
+                        onSearchChanged: (value) {
+                          setState(() => _searchQuery = value);
+                        },
+                        onFilterChanged: (index) {
+                          setState(() => _selectedFilter = index);
+                        },
+                        onCourseChanged: (courseId) {
+                          setState(() => _selectedCourseId = courseId);
+                        },
+                      ),
+                    };
+                  },
                 ),
               ),
             ),
           ],
         ),
       ),
-
 
       bottomNavigationBar: BottomNavBarWidget(
         currentIndex: 2,
@@ -200,7 +138,194 @@ class _InstructorStudentsScreenState
       ),
     );
   }
+}
 
+class _StudentsContent extends StatelessWidget {
+  const _StudentsContent({
+    required this.state,
+    required this.searchQuery,
+    required this.selectedFilter,
+    required this.selectedCourseId,
+    required this.onSearchChanged,
+    required this.onFilterChanged,
+    required this.onCourseChanged,
+  });
+
+  final InstructorStudentsSuccess state;
+  final String searchQuery;
+  final int selectedFilter;
+  final int? selectedCourseId;
+  final ValueChanged<String> onSearchChanged;
+  final ValueChanged<int> onFilterChanged;
+  final ValueChanged<int?> onCourseChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final filtered = _filtered(state.students);
+
+    final double avgCompletion = state.students.isEmpty
+        ? 0
+        : (state.students.fold<int>(
+                0, (sum, s) => sum + s.progressPercent)) /
+            state.students.length;
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(
+        16,
+        8,
+        16,
+        24,
+      ),
+      child: Column(
+        crossAxisAlignment:
+        CrossAxisAlignment.start,
+        children: [
+
+          InstructorStudentsStats(
+            total: state.totalStudents,
+            active: state.activeStudents,
+            completed: state.completedStudents,
+            avgCompletionPercent: avgCompletion,
+          ),
+
+          const SizedBox(height: 14),
+
+          if (state.courses.isNotEmpty) ...[
+            _buildCourseDropdown(),
+            const SizedBox(height: 12),
+          ],
+
+          _buildSearchField(),
+
+          const SizedBox(height: 12),
+
+          _buildFilters(),
+
+          const SizedBox(height: 14),
+
+          if (filtered.isEmpty)
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 28,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: const Color(0xFFDDE8E5),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.people_outline_rounded,
+                    size: 30,
+                    color: Colors.grey.shade400,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    state.students.isEmpty
+                        ? 'No students yet. Students who enroll in your courses will appear here.'
+                        : 'No students match the current filters.',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      height: 1.4,
+                      color: const Color(0xFF899792),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            ...filtered.map(
+              (student) => Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 10,
+                ),
+                child: InstructorStudentCard(
+                  student: student,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  List<EnrolledStudent> _filtered(List<EnrolledStudent> students) {
+    final query = searchQuery.trim().toLowerCase();
+
+    return students.where((entry) {
+      final matchesSearch = query.isEmpty ||
+          entry.name.toLowerCase().contains(query) ||
+          entry.email.toLowerCase().contains(query);
+
+      final matchesCourse =
+          selectedCourseId == null || entry.courseId == selectedCourseId;
+
+      final matchesFilter = switch (selectedFilter) {
+        1 => entry.progressPercent > 0 && entry.progressPercent < 100,
+        2 => entry.isCompleted,
+        _ => true,
+      };
+
+      return matchesSearch && matchesCourse && matchesFilter;
+    }).toList();
+  }
+
+  Widget _buildCourseDropdown() {
+    return Container(
+      height: 46,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: const Color(0xFFDDE8E5),
+        ),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<int?>(
+          isExpanded: true,
+          value: selectedCourseId,
+          hint: Text(
+            'Filter by course',
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              color: const Color(0xFF8A9894),
+            ),
+          ),
+          icon: const Icon(
+            Icons.expand_more_rounded,
+            color: Color(0xFF667570),
+          ),
+          items: [
+            const DropdownMenuItem<int?>(
+              value: null,
+              child: Text(
+                'All courses',
+                style: TextStyle(fontSize: 14),
+              ),
+            ),
+            ...state.courses.map(
+              (course) => DropdownMenuItem<int?>(
+                value: course.id,
+                child: Text(
+                  course.displayTitle,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
+            ),
+          ],
+          onChanged: onCourseChanged,
+        ),
+      ),
+    );
+  }
 
   Widget _buildSearchField() {
     return Container(
@@ -213,16 +338,8 @@ class _InstructorStudentsScreenState
         ),
       ),
       child: TextField(
-        onChanged: (value) {
-          setState(() {
-            _searchQuery = value;
-          });
-        },
-
+        onChanged: onSearchChanged,
         style: GoogleFonts.inter(
-
-
-
           fontSize: 15,
           color: const Color(0xFF173D37),
         ),
@@ -246,7 +363,6 @@ class _InstructorStudentsScreenState
     );
   }
 
-
   Widget _buildFilters() {
     const filters = [
       'All',
@@ -266,14 +382,12 @@ class _InstructorStudentsScreenState
           filters.length,
               (index) {
             final bool isSelected =
-                _selectedFilter == index;
+                selectedFilter == index;
 
             return Expanded(
               child: GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _selectedFilter = index;
-                  });
+                  onFilterChanged(index);
                 },
                 child: AnimatedContainer(
                   duration: const Duration(
@@ -290,7 +404,6 @@ class _InstructorStudentsScreenState
                   child: Text(
                     filters[index],
                     style: GoogleFonts.inter(
-
                       fontSize: 13,
                       fontWeight: isSelected
                           ? FontWeight.w700
@@ -310,6 +423,55 @@ class _InstructorStudentsScreenState
   }
 }
 
+class _StudentsFailureView extends StatelessWidget {
+  const _StudentsFailureView({required this.message, required this.onRetry});
+
+  final String message;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.people_outline_rounded,
+              size: 46,
+              color: Colors.grey.shade400,
+            ),
+            const SizedBox(height: 14),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12.5,
+                height: 1.45,
+                color: const Color(0xFF71827E),
+              ),
+            ),
+            const SizedBox(height: 18),
+            ElevatedButton.icon(
+              onPressed: onRetry,
+              icon: const Icon(Icons.refresh_rounded, size: 17),
+              label: const Text('Retry'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(11),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class _StudentsPageTitle extends StatelessWidget {
   const _StudentsPageTitle();
@@ -362,23 +524,4 @@ class _StudentsPageTitle extends StatelessWidget {
       ),
     );
   }
-}
-
-
-class _StudentData {
-  const _StudentData({
-    required this.name,
-    required this.course,
-    required this.progress,
-    required this.status,
-    required this.lastActive,
-    required this.initials,
-  });
-
-  final String name;
-  final String course;
-  final int progress;
-  final String status;
-  final String lastActive;
-  final String initials;
 }

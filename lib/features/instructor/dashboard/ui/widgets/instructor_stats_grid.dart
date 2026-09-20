@@ -4,10 +4,46 @@ import 'package:google_fonts/google_fonts.dart';
 class InstructorStatsGrid extends StatelessWidget {
   const InstructorStatsGrid({
     super.key,
+    required this.totalCourses,
+    required this.underReview,
+    required this.drafts,
+    required this.totalStudents,
   });
+
+  final int totalCourses;
+  final int underReview;
+  final int drafts;
+  final int totalStudents;
 
   @override
   Widget build(BuildContext context) {
+    final stats = <_StatData>[
+      _StatData(
+        icon: Icons.menu_book_outlined,
+        value: '$totalCourses',
+        label: 'Total Courses',
+        trend: 'All courses',
+      ),
+      _StatData(
+        icon: Icons.pending_actions_outlined,
+        value: '$underReview',
+        label: 'Under Review',
+        trend: 'Needs attention',
+      ),
+      _StatData(
+        icon: Icons.edit_note_outlined,
+        value: '$drafts',
+        label: 'Drafts',
+        trend: 'In progress',
+      ),
+      _StatData(
+        icon: Icons.people_outline,
+        value: '$totalStudents',
+        label: 'Total Students',
+        trend: 'Enrolled learners',
+      ),
+    ];
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
@@ -23,7 +59,7 @@ class InstructorStatsGrid extends StatelessWidget {
           shrinkWrap: true,
           physics:
           const NeverScrollableScrollPhysics(),
-          itemCount: _stats.length,
+          itemCount: stats.length,
 
           gridDelegate:
           SliverGridDelegateWithFixedCrossAxisCount(
@@ -34,7 +70,7 @@ class InstructorStatsGrid extends StatelessWidget {
           ),
 
           itemBuilder: (context, index) {
-            final stat = _stats[index];
+            final stat = stats[index];
 
             return _StatCard(
               icon: stat.icon,
@@ -48,40 +84,6 @@ class InstructorStatsGrid extends StatelessWidget {
     );
   }
 }
-
-// =============================================================
-// MOCK STATS
-// =============================================================
-
-const List<_StatData> _stats = [
-  _StatData(
-    icon: Icons.menu_book_outlined,
-    value: '12',
-    label: 'Total Courses',
-    trend: '+2 this month',
-  ),
-
-  _StatData(
-    icon: Icons.pending_actions_outlined,
-    value: '2',
-    label: 'Under Review',
-    trend: 'Needs attention',
-  ),
-
-  _StatData(
-    icon: Icons.edit_note_outlined,
-    value: '3',
-    label: 'Drafts',
-    trend: 'In progress',
-  ),
-
-  _StatData(
-    icon: Icons.people_outline,
-    value: '2,240',
-    label: 'Total Students',
-    trend: '+18.4%',
-  ),
-];
 
 // =============================================================
 // STAT DATA

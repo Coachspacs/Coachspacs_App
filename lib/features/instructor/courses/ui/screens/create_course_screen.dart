@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/core/helpers/failure_messages.dart';
+import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
+import 'package:coach_space/features/instructor/courses/data/models/instructor_course_dto.dart';
+import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository.dart';
+import 'package:coach_space/features/student/catalog/data/models/category_dto.dart';
+import 'package:coach_space/features/student/catalog/data/repo/catalog_repository.dart';
 import 'package:coach_space/features/instructor/courses/ui/widgets/create_course/course_creation_step_indicator.dart';
 import 'package:coach_space/features/instructor/courses/ui/widgets/create_course/create_course_basic_info.dart';
 import 'package:coach_space/features/instructor/courses/ui/widgets/create_course/create_course_curriculum.dart';
@@ -160,57 +167,158 @@ class _CreateCourseScreenState
   // SAVE / SUBMIT
   // =====================================================
 
-  void _saveCourse() {
-    if (widget.isEditing) {
-      // ===================================================
-      // EDIT MODE
-      // ===================================================
+  bool _isSaving = false;
 
+  Future<void> _saveCourse() async {
+    if (_isSaving) return;
+
+    final title = _titleController.text.trim();
+    final description = _descriptionController.text.trim();
+    if (title.isEmpty || description.isEmpty) {
+      _showSnack(
+        'Please fill in the course title and description.',
+        isError: true,
+      );
+      return;
+    }
+
+    setState(() {
+      _isSaving = true;
+    });
+
+    try {
+      if (widget.isEditing) {
+        // ===================================================
+        // EDIT MODE (not wired; no course id is available on
+        // the create screen route).
+        // ===================================================
+        throw const NetworkException(
+          kind: FailureKind.unknown,
+          message: 'Editing must be done from the course management screen.',
+        );
+      }
+        // ===================================================
+        // CREATE MODE
+        // ===================================================
+
+        await getIt<InstructorCoursesRepository>().createCourse(
+          CourseWriteRequest(
+            titleAr: title,
+            titleEn: title,
+            descriptionAr: description,
+            descriptionEn: description,
+            category: await _resolveCategoryId(_selectedCategory),
+            level: _toLevelCode(_selectedLevel),
+            language: _toLanguageCode(_selectedLanguage),
+            price: _priceController.text.trim().isEmpty
+                ? '0'
+                : _priceController.text.trim(),
+          ),
+        );
+
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Changes saved successfully.',
+            widget.isEditing
+                ? 'Changes saved successfully.'
+                : 'Course created successfully.',
             style: GoogleFonts.inter(
               fontSize: 12,
               fontWeight: FontWeight.w600,
             ),
           ),
-          backgroundColor:
-          const Color(0xFF075E4D),
-          behavior:
-          SnackBarBehavior.floating,
-          duration:
-          const Duration(seconds: 2),
+          backgroundColor: const Color(0xFF075E4D),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 2),
         ),
       );
 
-      // Go back to Instructor Courses.
       Navigator.pushNamedAndRemoveUntil(
         context,
         AppRoutes.instructorCourses,
-            (route) => false,
+        (route) => false,
       );
-
-      return;
+    } on NetworkException catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _isSaving = false;
+      });
+      _showSnack(
+        localizedFailureMessage(context, error.kind, error.message),
+        isError: true,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isSaving = false;
+      });
+      _showSnack(
+        'Something went wrong. Please try again.',
+        isError: true,
+      );
     }
+  }
 
-    // =====================================================
-    // CREATE MODE
-    // =====================================================
+  // =====================================================
+  // CATEGORY RESOLUTION
+  // =====================================================
 
+  Future<int> _resolveCategoryId(String name) async {
+    if (name.isEmpty || name == 'Select a category') return 1;
+    try {
+      final categories = await getIt<CatalogRepository>().getCategories();
+      for (final CategoryDto category in categories) {
+        if (category.name.toLowerCase() == name.toLowerCase()) {
+          return category.id;
+        }
+      }
+    } catch (_) {
+      // Fall through: the server validates category anyway.
+    }
+    return 1;
+  }
+
+  // =====================================================
+  // VALUE MAPPERS
+  // =====================================================
+
+  String _toLevelCode(String level) {
+    switch (level) {
+      case 'Beginner':
+        return 'beginner';
+      case 'Advanced':
+        return 'advanced';
+      default:
+        return 'intermediate';
+    }
+  }
+
+  String _toLanguageCode(String language) {
+    switch (language) {
+      case 'Arabic':
+        return 'ar';
+      default:
+        return 'en';
+    }
+  }
+
+  // =====================================================
+  // SNACKBAR
+  // =====================================================
+
+  void _showSnack(String message, {required bool isError}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Course submitted for review.',
+          message,
           style: GoogleFonts.inter(
             fontSize: 12,
             fontWeight: FontWeight.w600,
           ),
         ),
-        backgroundColor:
-        const Color(0xFF075E4D),
-        behavior:
-        SnackBarBehavior.floating,
+        backgroundColor: isError ? const Color(0xFFB3261E) : const Color(0xFF075E4D),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }

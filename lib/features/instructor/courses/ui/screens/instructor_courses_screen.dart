@@ -342,6 +342,7 @@ class _EmptyCoursesState extends StatelessWidget {
 
 class InstructorCourse {
   const InstructorCourse({
+    required this.id,
     required this.title,
     required this.image,
     required this.status,
@@ -350,6 +351,7 @@ class InstructorCourse {
     this.rejectionReason,
   });
 
+  final int id;
   final String title;
   final String image;
   final CourseStatus status;
@@ -365,6 +367,7 @@ class InstructorCourse {
       _ => CourseStatus.draft,
     };
     return InstructorCourse(
+      id: dto.id,
       title: dto.displayTitle,
       image: dto.coverImage,
       status: status,

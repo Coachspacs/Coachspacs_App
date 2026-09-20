@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/core/helpers/failure_messages.dart';
+import 'package:coach_space/core/networking/network_exceptions.dart';
+import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
 import 'package:coach_space/core/routing/routes.dart';
 
@@ -277,12 +281,15 @@ class InstructorCourseCard extends StatelessWidget {
           child: SizedBox(
             height: 38,
             child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.instructorCourseManagement,
-                );
-              },
+              onPressed: isRejected
+                  ? () => _resubmitCourse(context)
+                  : () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.instructorCourseManagement,
+                        arguments: course,
+                      );
+                    },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 elevation: 0,
@@ -305,6 +312,40 @@ class InstructorCourseCard extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _resubmitCourse(BuildContext context) async {
+    try {
+      await getIt<InstructorCoursesRepository>().submitCourse(course.id);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Course submitted for review.'),
+          backgroundColor: Color(0xFF075E4D),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } on NetworkException catch (error) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            localizedFailureMessage(context, error.kind, error.message),
+          ),
+          backgroundColor: const Color(0xFFB3261E),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } catch (_) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Something went wrong. Please try again.'),
+          backgroundColor: Color(0xFFB3261E),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 }
 
