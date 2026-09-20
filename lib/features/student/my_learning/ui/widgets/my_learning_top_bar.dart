@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
+import 'package:coach_space/core/widgets/user_avatar.dart';
+
 import 'package:coach_space/core/helpers/protected_navigation.dart';
 
 class MyLearningTopBar extends StatelessWidget {
   const MyLearningTopBar({
     super.key,
   });
-
-  @override
-  Size get preferredSize => const Size.fromHeight(64);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class MyLearningTopBar extends StatelessWidget {
           // =================================================
 
           Text(
-            'Coach Space',
+            context.l10n.appTitle,
             style: GoogleFonts.inter(
               fontSize: 17,
               fontWeight: FontWeight.w700,
@@ -99,28 +99,11 @@ class MyLearningTopBar extends StatelessWidget {
               context,
             );
           },
-          child: Container(
-            width: 34,
-            height: 34,
-            margin: const EdgeInsets.only(
+          child: const Padding(
+            padding: EdgeInsets.only(
               right: 16,
             ),
-            decoration: const BoxDecoration(
-              color: Color(0xFFE4F5F0),
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'S',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge
-                  ?.copyWith(
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
-                color: const Color(0xFF075E4D),
-              ),
-            ),
+            child: UserAvatar(size: 34),
           ),
         ),
       ],

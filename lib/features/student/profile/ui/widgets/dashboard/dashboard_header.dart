@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 class DashboardHeader extends StatelessWidget {
@@ -15,19 +16,17 @@ class DashboardHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Student dashboard overview',
-          style: TextStyle(
+        Text(
+          context.l10n.dashboardOverview,
+          style: const TextStyle(
             color: AppColors.textBody,
             fontSize: 24,
             fontWeight: FontWeight.w700,
           ),
         ),
-
         const SizedBox(height: 6),
-
         Text(
-          'Welcome back, $userName',
+          context.l10n.dashboardWelcome(userName),
           style: const TextStyle(
             color: AppColors.textLight,
             fontSize: 14,

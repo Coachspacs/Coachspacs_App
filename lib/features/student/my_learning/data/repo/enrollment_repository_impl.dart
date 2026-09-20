@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:coach_space/core/networking/api_service.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/networking/paginated_response.dart';
+import 'package:coach_space/features/student/my_learning/data/models/enroll_free_request.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
 
 import 'enrollment_repository.dart';
@@ -18,6 +19,10 @@ class EnrollmentRepositoryImpl implements EnrollmentRepository {
     int page = 1,
     int pageSize = 20,
   }) => _guard(() => _api.getEnrollments(page, pageSize));
+
+  @override
+  Future<void> enrollFree(int courseId) =>
+      _guard(() => _api.enrollFree(EnrollFreeRequest(courseId: courseId)));
 
   @override
   Future<LessonPlayerDto> getLesson(int enrollmentId, int lessonId) =>

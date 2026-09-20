@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
 
 class MyLearningStats extends StatelessWidget {
@@ -13,66 +14,60 @@ class MyLearningStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final enrolledCount = enrollments.length;
-
     final completedCount = enrollments
         .where((enrollment) => enrollment.isCompleted)
         .length;
-
     final activeCount = enrolledCount - completedCount;
+    final averageProgress = enrolledCount == 0
+        ? 0
+        : (enrollments
+                      .map((e) => e.progressPercent)
+                      .reduce((a, b) => a + b) /
+                  enrolledCount)
+              .round();
 
     return Column(
       children: [
-        // =====================================================
-        // TOP STAT CARDS
-        // =====================================================
         Row(
           children: [
             Expanded(
               child: _SmallStatCard(
-                title: 'ENROLLED',
+                title: l10n.myLearningEnrolledLabel,
                 value: '$enrolledCount',
-                suffix: enrolledCount == 1 ? 'course' : 'courses',
+                suffix: enrolledCount == 1
+                    ? l10n.myLearningCourseSuffix
+                    : l10n.myLearningCoursesSuffix,
                 icon: Icons.menu_book_rounded,
                 iconBackground: const Color(0xFFF5F9F7),
                 progress: enrolledCount == 0
                     ? 0
                     : (enrolledCount / 5).clamp(0.0, 1.0),
-                footerLeft: 'In progress',
-                footerRight: '$activeCount active',
+                footerLeft: l10n.myLearningInProgressFooter,
+                footerRight: l10n.myLearningActiveCount('$activeCount'),
               ),
             ),
-
             const SizedBox(width: 12),
-
             Expanded(
               child: _SmallStatCard(
-                title: 'CERTIFICATES',
+                title: l10n.myLearningCertificatesLabel,
                 value: '$completedCount',
-                suffix: 'earned',
+                suffix: l10n.myLearningEarned,
                 icon: Icons.verified_rounded,
                 iconBackground: const Color(0xFFE7F5F0),
                 showProgress: false,
-                footerLeft: '• Verified credential',
+                footerLeft: l10n.myLearningVerifiedCredential,
               ),
             ),
           ],
         ),
-
         const SizedBox(height: 12),
-
-        // =====================================================
-        // HOURS STUDIED
-        // =====================================================
-        const _HoursStudiedCard(),
+        _AverageProgressCard(averageProgress: averageProgress),
       ],
     );
   }
 }
-
-// =============================================================
-// SMALL STAT CARD
-// =============================================================
 
 class _SmallStatCard extends StatelessWidget {
   const _SmallStatCard({
@@ -101,18 +96,11 @@ class _SmallStatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 128,
-      padding: const EdgeInsets.fromLTRB(
-        15,
-        14,
-        15,
-        12,
-      ),
+      padding: const EdgeInsets.fromLTRB(15, 14, 15, 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: const Color(0xFFE1ECE8),
-        ),
+        border: Border.all(color: const Color(0xFFE1ECE8)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.025),
@@ -124,10 +112,6 @@ class _SmallStatCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // -----------------------------------------------------
-          // TITLE + ICON
-          // -----------------------------------------------------
-
           Row(
             children: [
               Expanded(
@@ -141,7 +125,6 @@ class _SmallStatCard extends StatelessWidget {
                   ),
                 ),
               ),
-
               Container(
                 width: 25,
                 height: 25,
@@ -149,21 +132,11 @@ class _SmallStatCard extends StatelessWidget {
                   color: iconBackground,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(
-                  icon,
-                  size: 14,
-                  color: const Color(0xFF075E4D),
-                ),
+                child: Icon(icon, size: 14, color: const Color(0xFF075E4D)),
               ),
             ],
           ),
-
           const SizedBox(height: 10),
-
-          // -----------------------------------------------------
-          // VALUE
-          // -----------------------------------------------------
-
           RichText(
             text: TextSpan(
               children: [
@@ -186,13 +159,7 @@ class _SmallStatCard extends StatelessWidget {
               ],
             ),
           ),
-
           const Spacer(),
-
-          // -----------------------------------------------------
-          // PROGRESS
-          // -----------------------------------------------------
-
           if (showProgress) ...[
             Row(
               children: [
@@ -202,18 +169,14 @@ class _SmallStatCard extends StatelessWidget {
                     child: LinearProgressIndicator(
                       value: progress,
                       minHeight: 5,
-                      backgroundColor:
-                      const Color(0xFFE8F0EE),
-                      valueColor:
-                      const AlwaysStoppedAnimation<Color>(
+                      backgroundColor: const Color(0xFFE8F0EE),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
                         Color(0xFF08715E),
                       ),
                     ),
                   ),
                 ),
-
                 const SizedBox(width: 8),
-
                 Text(
                   footerRight ?? '',
                   style: GoogleFonts.inter(
@@ -224,10 +187,8 @@ class _SmallStatCard extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 5),
           ],
-
           if (footerLeft != null)
             Text(
               footerLeft!,
@@ -244,34 +205,20 @@ class _SmallStatCard extends StatelessWidget {
   }
 }
 
-// =============================================================
-// HOURS STUDIED CARD
-// =============================================================
+class _AverageProgressCard extends StatelessWidget {
+  const _AverageProgressCard({required this.averageProgress});
 
-class _HoursStudiedCard extends StatelessWidget {
-  const _HoursStudiedCard();
+  final int averageProgress;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-
-      // زودنا الارتفاع بشكل آمن
-      height: 188,
-
-      padding: const EdgeInsets.fromLTRB(
-        16,
-        14,
-        16,
-        10,
-      ),
-
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: const Color(0xFFE1ECE8),
-        ),
+        border: Border.all(color: const Color(0xFFE1ECE8)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.025),
@@ -280,18 +227,13 @@ class _HoursStudiedCard extends StatelessWidget {
           ),
         ],
       ),
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // =====================================================
-          // HEADER
-          // =====================================================
-
           Row(
             children: [
               Text(
-                'HOURS STUDIED',
+                context.l10n.myLearningAverageProgress.toUpperCase(),
                 style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
@@ -299,256 +241,31 @@ class _HoursStudiedCard extends StatelessWidget {
                   color: const Color(0xFF82948F),
                 ),
               ),
-
               const Spacer(),
-
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 9,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF3FBF8),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: const Color(0xFFCBE9DE),
-                  ),
-                ),
-                child: Text(
-                  '↗ +4.2h this week',
-                  style: GoogleFonts.inter(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF176B5C),
-                  ),
+              Text(
+                '$averageProgress%',
+                style: GoogleFonts.inter(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF073F38),
                 ),
               ),
             ],
           ),
-
-          const SizedBox(height: 3),
-
-          // =====================================================
-          // HOURS VALUE
-          // =====================================================
-
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: '38.5',
-                  style: GoogleFonts.inter(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF073F38),
-                  ),
-                ),
-                TextSpan(
-                  text: ' hrs',
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    color: const Color(0xFF506862),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 5),
-
-          // =====================================================
-          // GRAPH + WEEKLY GOAL
-          // =====================================================
-
-          SizedBox(
-            height: 62,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                // -------------------------------------------------
-                // GRAPH
-                // -------------------------------------------------
-
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        height: 45,
-                        width: double.infinity,
-                        child: CustomPaint(
-                          painter: _StudyGraphPainter(),
-                        ),
-                      ),
-
-                      const SizedBox(height: 3),
-
-                      Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                        children: [
-                          _DayLabel('MON'),
-                          _DayLabel('WED'),
-                          _DayLabel('FRI'),
-                          _DayLabel('SUN'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(width: 8),
-
-                // -------------------------------------------------
-                // WEEKLY GOAL
-                // -------------------------------------------------
-
-                SizedBox(
-                  width: 88,
-                  height: 42,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF5F9F7),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: const Color(0xFFE1ECE8),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment:
-                      MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'WEEKLY GOAL',
-                          maxLines: 1,
-                          style: GoogleFonts.inter(
-                            fontSize: 7.5,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF8A9A96),
-                          ),
-                        ),
-
-                        const SizedBox(height: 2),
-
-                        Text(
-                          '77% (50h)',
-                          maxLines: 1,
-                          style: GoogleFonts.inter(
-                            fontSize: 9.5,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF315B52),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: LinearProgressIndicator(
+              value: averageProgress / 100,
+              minHeight: 8,
+              backgroundColor: const Color(0xFFE8F0EE),
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                Color(0xFF08715E),
+              ),
             ),
           ),
         ],
       ),
     );
-  }
-}
-
-// =============================================================
-// DAY LABEL
-// =============================================================
-
-class _DayLabel extends StatelessWidget {
-  const _DayLabel(this.text);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: GoogleFonts.inter(
-        fontSize: 8,
-        fontWeight: FontWeight.w500,
-        color: const Color(0xFF91A09C),
-      ),
-    );
-  }
-}
-
-// =============================================================
-// GRAPH
-// =============================================================
-
-class _StudyGraphPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final linePaint = Paint()
-      ..color = const Color(0xFF08715E)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2
-      ..strokeCap = StrokeCap.round;
-
-    final fillPaint = Paint()
-      ..color = const Color(0xFFE9F5F1)
-      ..style = PaintingStyle.fill;
-
-    final path = Path();
-
-    path.moveTo(
-      0,
-      size.height * .72,
-    );
-
-    path.cubicTo(
-      size.width * .15,
-      size.height * .65,
-      size.width * .20,
-      size.height * .50,
-      size.width * .35,
-      size.height * .48,
-    );
-
-    path.cubicTo(
-      size.width * .50,
-      size.height * .45,
-      size.width * .53,
-      size.height * .75,
-      size.width * .68,
-      size.height * .32,
-    );
-
-    path.cubicTo(
-      size.width * .80,
-      size.height * .02,
-      size.width * .90,
-      size.height * .10,
-      size.width,
-      size.height * .18,
-    );
-
-    final fillPath = Path.from(path)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
-
-    canvas.drawPath(
-      fillPath,
-      fillPaint,
-    );
-
-    canvas.drawPath(
-      path,
-      linePaint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(
-      covariant CustomPainter oldDelegate,
-      ) {
-    return false;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:coach_space/features/student/profile/ui/widgets/browse_courses/browse_courses_header.dart';
+import 'package:coach_space/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -10,6 +11,9 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
+        locale: const Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: BrowseCoursesHeader(
             selectedStatus: CourseFilter.all,

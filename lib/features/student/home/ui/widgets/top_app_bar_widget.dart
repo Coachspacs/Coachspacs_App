@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
+
 import 'package:coach_space/core/helpers/protected_navigation.dart';
 
 class TopAppBarWidget extends StatelessWidget
@@ -53,7 +55,7 @@ class TopAppBarWidget extends StatelessWidget
           // =================================================
 
           Text(
-            'Coach Space',
+            context.l10n.appTitle,
             style: GoogleFonts.inter(
               fontSize: 17,
               fontWeight: FontWeight.w700,

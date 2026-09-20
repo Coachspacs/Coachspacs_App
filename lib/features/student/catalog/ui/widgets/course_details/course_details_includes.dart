@@ -1,34 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
+
 class CourseDetailsIncludes extends StatelessWidget {
   const CourseDetailsIncludes({
     super.key,
+    required this.totalDurationMinutes,
+    required this.totalLessons,
   });
+
+  final int totalDurationMinutes;
+  final int totalLessons;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final hours = (totalDurationMinutes / 60).round();
+
     return Column(
-      children: const [
+      children: [
         _IncludeItem(
           icon: Icons.ondemand_video_outlined,
-          text: '12 hours of video lessons',
+          text: l10n.courseDetailsTotalDuration('$hours'),
+        ),
+        _IncludeItem(
+          icon: Icons.menu_book_outlined,
+          text: l10n.courseDetailsLessonsCount('$totalLessons'),
         ),
         _IncludeItem(
           icon: Icons.description_outlined,
-          text: 'Downloadable resources',
+          text: l10n.courseDetailsDownloadableResources,
         ),
         _IncludeItem(
           icon: Icons.code_outlined,
-          text: 'Practical projects and exercises',
+          text: l10n.courseDetailsProjects,
         ),
         _IncludeItem(
           icon: Icons.access_time,
-          text: 'Lifetime access',
+          text: l10n.courseDetailsLifetimeAccess,
         ),
         _IncludeItem(
           icon: Icons.workspace_premium_outlined,
-          text: 'Certificate of completion',
+          text: l10n.courseDetailsCertificate,
         ),
       ],
     );
@@ -50,7 +64,6 @@ class _IncludeItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
-          // Feature Icon
           Container(
             width: 27,
             height: 27,
@@ -65,10 +78,7 @@ class _IncludeItem extends StatelessWidget {
               color: const Color(0xFF075E4D),
             ),
           ),
-
           const SizedBox(width: 9),
-
-          // Feature Text
           Expanded(
             child: Text(
               text,
