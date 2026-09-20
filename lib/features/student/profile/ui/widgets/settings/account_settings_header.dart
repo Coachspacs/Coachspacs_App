@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 class AccountSettingsHeader extends StatelessWidget {
@@ -52,7 +53,7 @@ class AccountSettingsHeader extends StatelessWidget {
 
           Expanded(
             child: Text(
-              'Student Settings',
+              context.l10n.settingsTitle,
               style: GoogleFonts.inter(
                 color: AppColors.textBody,
                 fontSize: 20,

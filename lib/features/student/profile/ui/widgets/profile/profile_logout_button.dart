@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
+
 class ProfileLogoutButton extends StatelessWidget {
   const ProfileLogoutButton({
     super.key,
@@ -22,7 +24,7 @@ class ProfileLogoutButton extends StatelessWidget {
           color: Color(0xFFE53935),
         ),
         label: Text(
-          'Sign Out',
+          context.l10n.profileSignOut,
           style: GoogleFonts.inter(
 
             fontSize: 14,
