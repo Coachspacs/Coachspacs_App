@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 class NotificationsHeader extends StatelessWidget {
@@ -17,26 +18,19 @@ class NotificationsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        18,
-        18,
-        18,
-        8,
-      ),
+      padding: const EdgeInsets.fromLTRB(18, 18, 18, 8),
       child: Row(
         children: [
           // =================================================
           // BACK ARROW
           // =================================================
-
           IconButton(
             onPressed: onBack,
             padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(
-              minWidth: 32,
-              minHeight: 32,
-            ),
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
             splashRadius: 20,
             icon: const Icon(
               Icons.arrow_back_rounded,
@@ -50,17 +44,37 @@ class NotificationsHeader extends StatelessWidget {
           // =================================================
           // TITLE
           // =================================================
-
-          Text(
-            'Notifications',
-            style: GoogleFonts.inter(
-              color: AppColors.textBody,
-              fontSize: 21,
-              fontWeight: FontWeight.w800,
+          Expanded(
+            child: Text(
+              l10n.notificationsTitle,
+              style: GoogleFonts.inter(
+                color: AppColors.textBody,
+                fontSize: 21,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
 
-          const Spacer(),
+          // =================================================
+          // MARK ALL AS READ
+          // =================================================
+          if (hasUnread)
+            TextButton(
+              onPressed: onMarkAllRead,
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(
+                l10n.notificationsMarkAllRead,
+                style: GoogleFonts.inter(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
         ],
       ),
     );
