@@ -335,4 +335,1071 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsChange => 'Change';
+
+  @override
+  String get courseDetailsLoading => 'Loading course details...';
+
+  @override
+  String get courseDetailsError => 'Unable to load course details.';
+
+  @override
+  String get courseDetailsRetry => 'Retry';
+
+  @override
+  String get courseDetailsCurriculumEmpty => 'No curriculum available yet.';
+
+  @override
+  String get courseDetailsAlreadyEnrolled => 'Already Enrolled';
+
+  @override
+  String get courseDetailsContinueLearning =>
+      'Continue learning from where you left off.';
+
+  @override
+  String get courseDetailsContinue => 'Continue';
+
+  @override
+  String get courseDetailsEnrollFree => 'Enroll for Free';
+
+  @override
+  String get courseDetailsAddToCart => 'Add to Cart';
+
+  @override
+  String get courseDetailsBuyNow => 'Buy Now';
+
+  @override
+  String get courseDetailsAddedToCart => 'added to cart.';
+
+  @override
+  String get courseDetailsAddToCartConfirm => 'Add to Cart?';
+
+  @override
+  String get courseDetailsAddToCartMessage =>
+      'Would you like to add this course to your cart?';
+
+  @override
+  String get courseDetailsCancel => 'Cancel';
+
+  @override
+  String get courseDetailsYesAdd => 'Yes, Add it';
+
+  @override
+  String get courseDetailsMoneyBack => '30-Day Money-Back Guarantee';
+
+  @override
+  String get courseDetailsIncludes => 'This course includes';
+
+  @override
+  String get courseDetailsCurriculum => 'Course Curriculum';
+
+  @override
+  String get courseDetailsAboutInstructor => 'About the Instructor';
+
+  @override
+  String get catalogExplore => 'Explore Courses';
+
+  @override
+  String get catalogSubtitle => 'Find the right course to grow your skills.';
+
+  @override
+  String get catalogAllCourses => 'All Courses';
+
+  @override
+  String catalogCoursesCount(Object count) {
+    return '$count courses';
+  }
+
+  @override
+  String get catalogNoCourses => 'No courses found';
+
+  @override
+  String get catalogTryAdjusting => 'Try adjusting your filters or search.';
+
+  @override
+  String get catalogSort => 'Sort';
+
+  @override
+  String get catalogSortCourses => 'Sort Courses';
+
+  @override
+  String get catalogNewest => 'Newest';
+
+  @override
+  String get catalogPriceLowHigh => 'Price: Low to High';
+
+  @override
+  String get catalogPriceHighLow => 'Price: High to Low';
+
+  @override
+  String get myLearningTitle => 'My Learning';
+
+  @override
+  String get myLearningNoCourses => 'No courses yet';
+
+  @override
+  String get myLearningBrowseHint =>
+      'Browse the catalog and enroll in your first course.';
+
+  @override
+  String get myLearningBrowseCourses => 'Browse Courses';
+
+  @override
+  String get myLearningEnrolled => 'Enrolled';
+
+  @override
+  String get myLearningInProgress => 'In Progress';
+
+  @override
+  String get myLearningCompleted => 'Completed';
+
+  @override
+  String get myLearningContinueSection => 'Continue Learning';
+
+  @override
+  String get myLearningCompletedSection => 'Completed';
+
+  @override
+  String get securityTitle => 'Security';
+
+  @override
+  String get securityCurrentPassword => 'Current Password';
+
+  @override
+  String get securityNewPassword => 'New Password';
+
+  @override
+  String get securityConfirmPassword => 'Confirm New Password';
+
+  @override
+  String get securitySaveChanges => 'Save Changes';
+
+  @override
+  String get securityPasswordChanged => 'Password changed successfully.';
+
+  @override
+  String get securityFillAllFields => 'Please fill in all fields.';
+
+  @override
+  String get securityPasswordsNoMatch => 'New passwords do not match.';
+
+  @override
+  String get profileInfoTitle => 'Profile Information';
+
+  @override
+  String get profileInfoAvatar => 'Avatar';
+
+  @override
+  String get profileInfoAvatarHint =>
+      'Upload a clear photo to help students recognize you.';
+
+  @override
+  String get profileInfoAvatarFormat => 'JPG, PNG, WEBP UP TO 5MB.';
+
+  @override
+  String get profileInfoFullName => 'Full Name';
+
+  @override
+  String get profileInfoEmail => 'Email Address';
+
+  @override
+  String get profileInfoSaveChanges => 'Save Changes';
+
+  @override
+  String get profileInfoSaved => 'Profile updated successfully.';
+
+  @override
+  String get profileInfoAvatarUpdated => 'Avatar updated.';
+
+  @override
+  String get cartTitle => 'My Cart';
+
+  @override
+  String get cartEmpty => 'Your cart is empty';
+
+  @override
+  String get cartEmptyHint => 'Browse courses and add them to your cart.';
+
+  @override
+  String get checkoutTitle => 'Checkout';
+
+  @override
+  String get checkoutNoItems => 'No items to checkout';
+
+  @override
+  String get checkoutNoItemsHint => 'Add courses to your cart first.';
+
+  @override
+  String get checkoutGoBack => 'Go Back';
+
+  @override
+  String get orderHistoryTitle => 'Order History';
+
+  @override
+  String get orderHistoryEmpty => 'No orders yet';
+
+  @override
+  String get orderHistoryEmptyHint => 'Your purchase history will appear here.';
+
+  @override
+  String get certificatesTitle => 'Certificates';
+
+  @override
+  String get certificatesEmpty => 'No certificates yet';
+
+  @override
+  String get certificatesEmptyHint => 'Complete courses to earn certificates.';
+
+  @override
+  String get contactUsTitle => 'Contact Us';
+
+  @override
+  String get contactUsIntro =>
+      'Have a question or need assistance? Our team is here to help.';
+
+  @override
+  String get contactUsSendMessage => 'Send a Message';
+
+  @override
+  String get contactUsMessageLabel => 'Message';
+
+  @override
+  String get contactUsMessageHint => 'Describe your issue in detail...';
+
+  @override
+  String get contactUsSendButton => 'Send Message';
+
+  @override
+  String get contactUsSent => 'Message sent. We\'ll get back to you soon.';
+
+  @override
+  String get contactUsEmpty => 'Please enter a message.';
+
+  @override
+  String get contactUsTooShort => 'Message is too short.';
+
+  @override
+  String get learningSettingsTitle => 'Learning Settings';
+
+  @override
+  String get learningSettingsGoal => 'Learning Goal';
+
+  @override
+  String get learningSettingsGoalHint => 'e.g., Build practical skills';
+
+  @override
+  String get learningSettingsField => 'Field of Interest';
+
+  @override
+  String get learningSettingsFieldHint => 'e.g., Data Science & AI';
+
+  @override
+  String get learningSettingsCertName => 'Certificate Name';
+
+  @override
+  String get learningSettingsCertHint => 'Name on certificates';
+
+  @override
+  String get learningSettingsPlaybackSpeed => 'Playback Speed';
+
+  @override
+  String get learningSettingsPublicProfile => 'Public Profile';
+
+  @override
+  String get learningSettingsPublicHint =>
+      'Allow others to see your enrolled courses.';
+
+  @override
+  String get learningSettingsSaved => 'Learning settings saved.';
+
+  @override
+  String get preferencesTitle => 'Preferences';
+
+  @override
+  String get preferencesEmailNotif => 'Email Notifications';
+
+  @override
+  String get preferencesEmailNotifHint => 'Receive course updates via email.';
+
+  @override
+  String get preferencesPushNotif => 'Push Notifications';
+
+  @override
+  String get preferencesPushNotifHint =>
+      'Get notified about new courses and milestones.';
+
+  @override
+  String get preferencesLanguage => 'Language';
+
+  @override
+  String get preferencesTheme => 'Theme';
+
+  @override
+  String get preferencesSaved => 'Preferences saved.';
+
+  @override
+  String get commonRetry => 'Retry';
+
+  @override
+  String get commonCancel => 'Cancel';
+
+  @override
+  String get commonDone => 'Done';
+
+  @override
+  String get commonSave => 'Save';
+
+  @override
+  String get commonError => 'Something went wrong. Please try again.';
+
+  @override
+  String get errorOffline =>
+      'No internet connection. Check your network and try again.';
+
+  @override
+  String get errorNotFound => 'The requested item was not found.';
+
+  @override
+  String get errorServer => 'Server error. Please try again later.';
+
+  @override
+  String get errorForbidden => 'You are not allowed to perform this action.';
+
+  @override
+  String get errorConflict => 'This action conflicts with the current state.';
+
+  @override
+  String get errorRateLimited => 'Too many attempts. Please wait a moment.';
+
+  @override
+  String get errorSessionExpired =>
+      'Your session has expired. Please sign in again.';
+
+  @override
+  String get errorUnknown => 'Something went wrong. Please try again.';
+
+  @override
+  String get catalogSearchHint => 'Search courses...';
+
+  @override
+  String get catalogViewCourse => 'View Course';
+
+  @override
+  String get catalogFilters => 'Filters';
+
+  @override
+  String get catalogFilterLanguage => 'Language';
+
+  @override
+  String get catalogFilterLevel => 'Level';
+
+  @override
+  String get catalogFilterPrice => 'Price';
+
+  @override
+  String get catalogAllLevels => 'All Levels';
+
+  @override
+  String get catalogAllPrices => 'All Prices';
+
+  @override
+  String get catalogFilterFree => 'Free';
+
+  @override
+  String get catalogUnder50 => 'Under \$50';
+
+  @override
+  String get catalog50to100 => '\$50 - \$100';
+
+  @override
+  String get catalog100plus => '\$100+';
+
+  @override
+  String get catalogApplyFilters => 'Apply Filters';
+
+  @override
+  String get catalogResetFilters => 'Reset All';
+
+  @override
+  String get catalogResetAll => 'Reset all';
+
+  @override
+  String get catalogFilterEnglish => 'English';
+
+  @override
+  String get catalogFilterArabic => 'Arabic';
+
+  @override
+  String get catalogLevelBeginner => 'Beginner';
+
+  @override
+  String get catalogLevelIntermediate => 'Intermediate';
+
+  @override
+  String get catalogLevelAdvanced => 'Advanced';
+
+  @override
+  String get catalogLoadFailed => 'Unable to load courses.';
+
+  @override
+  String get catalogFree => 'Free';
+
+  @override
+  String get courseDetailsTitle => 'Course Details';
+
+  @override
+  String get courseDetailsWatchPreview => 'Watch Preview';
+
+  @override
+  String get courseDetailsPreviewTitle => 'Course Preview';
+
+  @override
+  String get courseDetailsPreviewBody =>
+      'This is the introductory preview of the course. You can watch the preview without signing in.';
+
+  @override
+  String get courseDetailsClosePreview => 'Close Preview';
+
+  @override
+  String get courseDetailsInstructorBio =>
+      'Experienced instructor and professional educator.';
+
+  @override
+  String courseDetailsLessonsCount(Object count) {
+    return '$count lessons';
+  }
+
+  @override
+  String courseDetailsTotalDuration(Object hours) {
+    return '$hours hours of video lessons';
+  }
+
+  @override
+  String get courseDetailsDownloadableResources => 'Downloadable resources';
+
+  @override
+  String get courseDetailsProjects => 'Practical projects and exercises';
+
+  @override
+  String get courseDetailsLifetimeAccess => 'Lifetime access';
+
+  @override
+  String get courseDetailsCertificate => 'Certificate of completion';
+
+  @override
+  String get courseDetailsAddToCartFailed =>
+      'Could not add the course to your cart.';
+
+  @override
+  String get courseDetailsLevel => 'Level';
+
+  @override
+  String get courseDetailsLanguage => 'Language';
+
+  @override
+  String get courseDetailsEnrollSuccess => 'Enrolled successfully.';
+
+  @override
+  String get courseDetailsEnrollFailed => 'Could not enroll in this course.';
+
+  @override
+  String get myLearningNoProgress => 'No courses in progress yet.';
+
+  @override
+  String get myLearningCourseCompleted => 'Course completed';
+
+  @override
+  String get myLearningContinueWhereLeft => 'Continue where you left off';
+
+  @override
+  String get myLearningMyCourses => 'My Courses';
+
+  @override
+  String get myLearningViewAll => 'View All';
+
+  @override
+  String get myLearningCertificates => 'My Certificates';
+
+  @override
+  String get myLearningCertificateEarned => 'Certificate earned';
+
+  @override
+  String get myLearningRecentActivity => 'Recent Activity';
+
+  @override
+  String get myLearningEnrolledLabel => 'ENROLLED';
+
+  @override
+  String get myLearningCertificatesLabel => 'CERTIFICATES';
+
+  @override
+  String get myLearningCourseSuffix => 'course';
+
+  @override
+  String get myLearningCoursesSuffix => 'courses';
+
+  @override
+  String get myLearningEarned => 'earned';
+
+  @override
+  String get myLearningInProgressFooter => 'In progress';
+
+  @override
+  String myLearningActiveCount(Object count) {
+    return '$count active';
+  }
+
+  @override
+  String get myLearningVerifiedCredential => '• Verified credential';
+
+  @override
+  String get myLearningAverageProgress => 'Average progress';
+
+  @override
+  String get myLearningLoadFailed => 'Unable to load your courses.';
+
+  @override
+  String get myLearningNoCertificates => 'No certificates yet.';
+
+  @override
+  String get myLearningContinue => 'Continue';
+
+  @override
+  String get lessonPlayerTitle => 'Lesson';
+
+  @override
+  String get lessonPlayerOpenVideo => 'Open Video';
+
+  @override
+  String get lessonPlayerMarkComplete => 'Mark Complete';
+
+  @override
+  String get lessonPlayerPrevious => 'Previous';
+
+  @override
+  String get lessonPlayerNext => 'Next';
+
+  @override
+  String get dashboardEnrolledLabel => 'ENROLLED';
+
+  @override
+  String get dashboardCertificatesLabel => 'CERTIFICATES';
+
+  @override
+  String get dashboardAverageProgressLabel => 'AVERAGE PROGRESS';
+
+  @override
+  String get dashboardContinueLearning => 'Continue Learning';
+
+  @override
+  String get dashboardNoEnrollments =>
+      'You are not enrolled in any course yet.';
+
+  @override
+  String get dashboardLoadFailed => 'Unable to load your dashboard.';
+
+  @override
+  String dashboardCoursesCount(Object count) {
+    return '$count courses';
+  }
+
+  @override
+  String dashboardEarnedCount(Object count) {
+    return '$count earned';
+  }
+
+  @override
+  String get securityCurrentRequired => 'Enter your current password.';
+
+  @override
+  String get securityNewRequired => 'Enter your new password.';
+
+  @override
+  String get securityConfirmRequired => 'Confirm your new password.';
+
+  @override
+  String get securityTooShort => 'Password must be at least 8 characters.';
+
+  @override
+  String get securitySaveFailed => 'Could not change your password.';
+
+  @override
+  String get profileStudent => 'Student';
+
+  @override
+  String get profileInstructor => 'Instructor';
+
+  @override
+  String get profileSignOut => 'Sign Out';
+
+  @override
+  String get profileSignOutConfirm => 'Are you sure you want to sign out?';
+
+  @override
+  String get profileAccountSettings => 'Account Settings';
+
+  @override
+  String get profileOrderHistory => 'Order History';
+
+  @override
+  String get profileMyCart => 'My Cart';
+
+  @override
+  String get profileCertificates => 'Certificates';
+
+  @override
+  String get profileContactUs => 'Contact us';
+
+  @override
+  String get profileLoadFailed => 'Unable to load your profile.';
+
+  @override
+  String get profileInfoChange => 'Change';
+
+  @override
+  String get profileInfoEmailNote =>
+      'A confirmation link will be sent to the new address.';
+
+  @override
+  String get profileInfoChangeEmail => 'Change Email';
+
+  @override
+  String get profileInfoNewEmail => 'New Email';
+
+  @override
+  String get profileInfoEmailChangeSent =>
+      'Confirmation link sent to your new email.';
+
+  @override
+  String get profileInfoPhone => 'Phone';
+
+  @override
+  String get profileInfoHeadline => 'Headline';
+
+  @override
+  String get profileInfoNameRequired => 'Please enter your full name.';
+
+  @override
+  String get profileInfoLoadFailed => 'Unable to load your profile.';
+
+  @override
+  String get profileInfoSaveFailed => 'Could not save your profile.';
+
+  @override
+  String get profileInfoAvatarFailed => 'Could not upload the image.';
+
+  @override
+  String get cartRemove => 'Remove';
+
+  @override
+  String get cartRemoveConfirm => 'Remove from cart?';
+
+  @override
+  String get cartRemoveConfirmMessage =>
+      'Do you want to remove this course from your cart?';
+
+  @override
+  String get cartRemoved => 'Item removed from cart.';
+
+  @override
+  String cartItemsCount(Object count) {
+    return '$count items';
+  }
+
+  @override
+  String get cartSubtotal => 'Subtotal';
+
+  @override
+  String get cartDiscount => 'Discount';
+
+  @override
+  String get cartTotal => 'Total';
+
+  @override
+  String get cartCheckout => 'Checkout';
+
+  @override
+  String get cartBrowseCourses => 'Browse Courses';
+
+  @override
+  String get cartLoadFailed => 'Unable to load your cart.';
+
+  @override
+  String get cartRemoveFailed => 'Could not remove the item.';
+
+  @override
+  String get cartAddFailed => 'Could not add the course to your cart.';
+
+  @override
+  String get checkoutOrderSummary => 'Order Summary';
+
+  @override
+  String get checkoutBillingInfo => 'Billing Information';
+
+  @override
+  String get checkoutPaymentMethod => 'Payment Method';
+
+  @override
+  String get checkoutPayWithCard => 'Credit / Debit Card';
+
+  @override
+  String get checkoutPayManual => 'Manual Payment (testing)';
+
+  @override
+  String get checkoutManualHint =>
+      'Your order will be marked as paid for testing.';
+
+  @override
+  String get checkoutFullName => 'Full Name';
+
+  @override
+  String get checkoutEmail => 'Email';
+
+  @override
+  String get checkoutCardNumber => 'Card Number';
+
+  @override
+  String get checkoutCardNumberHint => '0000 0000 0000 0000';
+
+  @override
+  String get checkoutExpiryDate => 'Expiry Date';
+
+  @override
+  String get checkoutExpiryHint => 'MM/YY';
+
+  @override
+  String get checkoutCvv => 'CVV';
+
+  @override
+  String get checkoutCvvHint => '123';
+
+  @override
+  String get checkoutCardholder => 'Cardholder Name';
+
+  @override
+  String get checkoutCardholderHint => 'Name on card';
+
+  @override
+  String get checkoutCouponCode => 'Coupon Code';
+
+  @override
+  String get checkoutApply => 'Apply';
+
+  @override
+  String get checkoutCouponApplied => 'Coupon applied.';
+
+  @override
+  String get checkoutCouponInvalid => 'Invalid coupon code.';
+
+  @override
+  String get checkoutSubtotal => 'Subtotal';
+
+  @override
+  String get checkoutDiscount => 'Discount';
+
+  @override
+  String get checkoutTax => 'Tax';
+
+  @override
+  String get checkoutTotal => 'Total';
+
+  @override
+  String get checkoutPlaceOrder => 'Place Order';
+
+  @override
+  String get checkoutProcessing => 'Processing...';
+
+  @override
+  String get checkoutPaymentSuccess => 'Payment Successful!';
+
+  @override
+  String get checkoutPaymentSuccessMessage =>
+      'Your courses are now available in My Learning.';
+
+  @override
+  String get checkoutViewOrders => 'View Orders';
+
+  @override
+  String get checkoutContinueShopping => 'Continue Shopping';
+
+  @override
+  String get checkoutOrderFailed => 'Could not create your order.';
+
+  @override
+  String get checkoutPaymentFailed => 'Payment failed. Please try again.';
+
+  @override
+  String get checkoutRequired => 'This field is required.';
+
+  @override
+  String get checkoutInvalidEmail => 'Enter a valid email address.';
+
+  @override
+  String get checkoutInvalidCard => 'Enter a valid card number.';
+
+  @override
+  String get checkoutInvalidExpiry => 'Enter a valid expiry date.';
+
+  @override
+  String get checkoutInvalidCvv => 'Enter a valid CVV.';
+
+  @override
+  String get checkoutReadyForPayment => 'Your order is ready!';
+
+  @override
+  String get checkoutReadyForPaymentHint =>
+      'Pay securely with Stripe to unlock your courses.';
+
+  @override
+  String get checkoutOrderNumber => 'Order #';
+
+  @override
+  String get checkoutContinuePayment => 'Continue to Payment';
+
+  @override
+  String get checkoutPaymentOpenFailed => 'Could not open the payment page.';
+
+  @override
+  String get orderHistoryOrderNumber => 'Order';
+
+  @override
+  String get orderHistoryDate => 'Date';
+
+  @override
+  String get orderHistoryItems => 'Items';
+
+  @override
+  String get orderHistoryTotal => 'Total';
+
+  @override
+  String get orderHistoryStatus => 'Status';
+
+  @override
+  String get orderHistoryStatusPending => 'Pending';
+
+  @override
+  String get orderHistoryStatusPaid => 'Paid';
+
+  @override
+  String get orderHistoryStatusFailed => 'Failed';
+
+  @override
+  String get orderHistoryStatusRefunded => 'Refunded';
+
+  @override
+  String get orderHistoryStatusCancelled => 'Cancelled';
+
+  @override
+  String get orderHistorySearchHint => 'Search orders...';
+
+  @override
+  String get orderHistoryLoadFailed => 'Unable to load your orders.';
+
+  @override
+  String orderHistoryItemsCount(Object count) {
+    return '$count items';
+  }
+
+  @override
+  String get certificatesIssuedOn => 'Issued on';
+
+  @override
+  String get certificatesNumber => 'Certificate No.';
+
+  @override
+  String get certificatesDownload => 'Download';
+
+  @override
+  String get certificatesDownloading => 'Downloading...';
+
+  @override
+  String get certificatesDownloaded => 'Certificate downloaded.';
+
+  @override
+  String get certificatesDownloadFailed =>
+      'Could not download the certificate.';
+
+  @override
+  String get certificatesShare => 'Share';
+
+  @override
+  String get certificatesLoadFailed => 'Unable to load your certificates.';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsToday => 'Today';
+
+  @override
+  String get notificationsEarlier => 'Earlier';
+
+  @override
+  String get notificationsEmpty => 'No notifications yet';
+
+  @override
+  String get notificationsEmptyHint =>
+      'Updates about your courses will appear here.';
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all as read';
+
+  @override
+  String get notificationsLoadFailed => 'Unable to load notifications.';
+
+  @override
+  String get notificationsMarkReadFailed =>
+      'Could not update the notification.';
+
+  @override
+  String get learningSettingsLoadFailed => 'Unable to load your settings.';
+
+  @override
+  String get learningSettingsSaveFailed => 'Could not save your settings.';
+
+  @override
+  String get preferencesLoadFailed => 'Unable to load your preferences.';
+
+  @override
+  String get preferencesSaveFailed => 'Could not save your preferences.';
+
+  @override
+  String get preferencesEnglish => 'English';
+
+  @override
+  String get preferencesArabic => 'Arabic';
+
+  @override
+  String get preferencesThemeLight => 'Light';
+
+  @override
+  String get preferencesThemeDark => 'Dark';
+
+  @override
+  String get preferencesThemeSystem => 'System';
+
+  @override
+  String get contactUsSubject => 'Subject';
+
+  @override
+  String get contactUsSubjectHint => 'How can we help?';
+
+  @override
+  String get contactUsCategory => 'Category';
+
+  @override
+  String get contactUsCategoryGeneral => 'General';
+
+  @override
+  String get contactUsCategoryTechnical => 'Technical';
+
+  @override
+  String get contactUsCategoryBilling => 'Billing';
+
+  @override
+  String get contactUsCategoryOther => 'Other';
+
+  @override
+  String get contactUsSendFailed => 'Could not send your message.';
+
+  @override
+  String get homeContinueLearning => 'Continue Learning';
+
+  @override
+  String get homeCurrentModule => 'Current Module';
+
+  @override
+  String get homeTopCategories => 'Top Categories';
+
+  @override
+  String get homeSeeAll => 'See all';
+
+  @override
+  String get homeRecommended => 'Recommended Courses';
+
+  @override
+  String get homeRecommendedSubtitle =>
+      'Courses picked for your learning journey';
+
+  @override
+  String get homeWelcome => 'WELCOME BACK';
+
+  @override
+  String get homeHeroTitle => 'Master New Skills with\nExpert Coaches';
+
+  @override
+  String get homeResume => 'Resume';
+
+  @override
+  String homeCompletedPercent(Object percent) {
+    return '$percent% completed';
+  }
+
+  @override
+  String get homeNoContinue => 'You have no course in progress.';
+
+  @override
+  String get homeViewCourse => 'View Course';
+
+  @override
+  String get settingsManageDescription =>
+      'Manage your account preferences, credentials, and app customization below.';
+
+  @override
+  String get settingsProfileInfoTitle => 'Profile Information';
+
+  @override
+  String get settingsProfileInfoDescription =>
+      'Edit your name, avatar photo, and email address.';
+
+  @override
+  String get settingsLearningTitle => 'Learning & Certificates';
+
+  @override
+  String get settingsLearningDescription =>
+      'Certificate recipient name, learning goal, and career field.';
+
+  @override
+  String get settingsSecurityTitle => 'Security';
+
+  @override
+  String get settingsSecurityDescription => 'Update your account password.';
+
+  @override
+  String get settingsPreferencesTitle => 'Preferences';
+
+  @override
+  String get settingsPreferencesDescription =>
+      'Notifications, app language, and appearance.';
+
+  @override
+  String get dashboardOverview => 'Student dashboard overview';
+
+  @override
+  String dashboardWelcome(Object name) {
+    return 'Welcome back, $name';
+  }
+
+  @override
+  String get browseCoursesSubtitle => 'Continue your learning journey';
+
+  @override
+  String get browseCourseProgress => 'Progress';
+
+  @override
+  String get browseViewCertificate => 'View Certificate';
+
+  @override
+  String get browseBack => 'Back';
+
+  @override
+  String get settingsTitle => 'Student Settings';
+
+  @override
+  String get profileActive => 'Active';
+
+  @override
+  String get homeCategoryCourses => 'Courses';
+
+  @override
+  String get certificatesStudentName => 'Student';
 }
