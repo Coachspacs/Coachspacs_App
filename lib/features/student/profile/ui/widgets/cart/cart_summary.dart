@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/features/student/profile/data/models/cart_dto.dart';
 
 class CartSummary extends StatelessWidget {
   const CartSummary({
     super.key,
-    required this.subtotal,
+    required this.cart,
     required this.onCheckout,
   });
 
-  final double subtotal;
+  final CartDto cart;
   final VoidCallback onCheckout;
 
   @override
   Widget build(BuildContext context) {
-    const double taxes = 0;
-
-    final total = subtotal + taxes;
+    final l10n = context.l10n;
 
     return Container(
       width: double.infinity,
@@ -61,12 +61,23 @@ class CartSummary extends StatelessWidget {
 
               const SizedBox(width: 10),
 
+              Expanded(
+                child: Text(
+                  l10n.checkoutOrderSummary,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF073F38),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+
               Text(
-                'Order Summary',
+                l10n.cartItemsCount(cart.itemCount),
                 style: GoogleFonts.inter(
-                  color: const Color(0xFF073F38),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                  color: AppColors.textLight,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ],
@@ -79,19 +90,19 @@ class CartSummary extends StatelessWidget {
           // =====================================================
 
           _SummaryRow(
-            title: 'Subtotal',
-            value: '\$${subtotal.toStringAsFixed(2)}',
+            title: l10n.cartSubtotal,
+            value: _money(cart.subtotal),
           ),
 
           const SizedBox(height: 10),
 
           // =====================================================
-          // TAXES
+          // DISCOUNT
           // =====================================================
 
-          const _SummaryRow(
-            title: 'Taxes',
-            value: 'Calculated at checkout',
+          _SummaryRow(
+            title: l10n.cartDiscount,
+            value: '-${_money(cart.discount)}',
           ),
 
           const SizedBox(height: 16),
@@ -111,7 +122,7 @@ class CartSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Total',
+                l10n.cartTotal,
                 style: GoogleFonts.inter(
                   color: const Color(0xFF40514D),
                   fontSize: 13,
@@ -120,7 +131,7 @@ class CartSummary extends StatelessWidget {
               ),
 
               Text(
-                '\$${total.toStringAsFixed(2)}',
+                _money(cart.total),
                 style: GoogleFonts.inter(
                   color: const Color(0xFF075E4D),
                   fontSize: 21,
@@ -153,7 +164,7 @@ class CartSummary extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Checkout',
+                    l10n.cartCheckout,
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -170,23 +181,16 @@ class CartSummary extends StatelessWidget {
               ),
             ),
           ),
-
-          const SizedBox(height: 10),
-
-          Center(
-            child: Text(
-              '30-Day Money-Back Guarantee',
-              style: GoogleFonts.inter(
-                color: AppColors.textLight,
-                fontSize: 8.5,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          ),
         ],
       ),
     );
   }
+}
+
+String _money(String value) {
+  final amount = double.tryParse(value);
+  if (amount == null) return value;
+  return '\$${amount.toStringAsFixed(2)}';
 }
 
 // ===============================================================
