@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:coach_space/core/helpers/protected_navigation.dart';
+import 'package:coach_space/core/helpers/context_extensions.dart';
 
-import '../../../../home/data/models/mock_home_data.dart';
+import 'package:coach_space/core/helpers/protected_navigation.dart';
 
 class CatalogTopBar extends StatelessWidget {
   const CatalogTopBar({
     super.key,
   });
-
-  @override
-  Size get preferredSize => const Size.fromHeight(64);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +51,7 @@ class CatalogTopBar extends StatelessWidget {
           // =================================================
 
           Text(
-            'Coach Space',
+            context.l10n.appTitle,
             style: GoogleFonts.inter(
               fontSize: 17,
               fontWeight: FontWeight.w700,

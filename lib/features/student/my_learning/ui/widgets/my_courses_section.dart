@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
 
@@ -14,37 +15,33 @@ class MyCoursesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Text(
-              'My Courses',
+              l10n.myLearningMyCourses,
               style: GoogleFonts.inter(
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF073F38),
               ),
             ),
-
             const Spacer(),
-
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.browseCourses,
-                );
+                Navigator.pushNamed(context, AppRoutes.browseCourses);
               },
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
                 minimumSize: Size.zero,
-                tapTargetSize:
-                MaterialTapTargetSize.shrinkWrap,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
               child: Text(
-                'View All',
+                l10n.myLearningViewAll,
                 style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
@@ -54,37 +51,26 @@ class MyCoursesSection extends StatelessWidget {
             ),
           ],
         ),
-
         const SizedBox(height: 10),
-
         if (enrollments.isEmpty)
           _EmptyCoursesCard()
         else
-          ...enrollments.take(2).map(
-                (enrollment) => Padding(
+          ...enrollments.take(3).map(
+            (enrollment) => Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: _LearningCourseCard(
                 title: enrollment.course.title,
-                progress:
-                enrollment.progressPercent / 100,
-                progressPercent:
-                enrollment.progressPercent,
-                completedLessons:
-                enrollment.isCompleted
-                    ? 'Course completed'
-                    : '${enrollment.progressPercent}% complete',
+                progress: enrollment.progressPercent / 100,
+                progressPercent: enrollment.progressPercent,
+                statusLabel: enrollment.isCompleted
+                    ? l10n.myLearningCourseCompleted
+                    : '${enrollment.progressPercent}% '
+                          '${l10n.myLearningInProgressFooter.toLowerCase()}',
                 onContinue: () {
                   Navigator.pushNamed(
                     context,
                     AppRoutes.courseDetails,
-                    arguments: {
-                      'id': enrollment.course.id,
-                      'title': enrollment.course.title,
-                      'instructor':
-                      enrollment.course.instructor.fullName,
-                      'image':
-                      enrollment.course.coverImage,
-                    },
+                    arguments: enrollment.course.id,
                   );
                 },
               ),
@@ -100,32 +86,25 @@ class _LearningCourseCard extends StatelessWidget {
     required this.title,
     required this.progress,
     required this.progressPercent,
-    required this.completedLessons,
+    required this.statusLabel,
     required this.onContinue,
   });
 
   final String title;
   final double progress;
   final int progressPercent;
-  final String completedLessons;
+  final String statusLabel;
   final VoidCallback onContinue;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(
-        16,
-        15,
-        16,
-        12,
-      ),
+      padding: const EdgeInsets.fromLTRB(16, 15, 16, 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: const Color(0xFFDDEBE6),
-        ),
+        border: Border.all(color: const Color(0xFFDDEBE6)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,9 +120,7 @@ class _LearningCourseCard extends StatelessWidget {
               color: const Color(0xFF073F38),
             ),
           ),
-
           const SizedBox(height: 13),
-
           Row(
             children: [
               Expanded(
@@ -152,18 +129,14 @@ class _LearningCourseCard extends StatelessWidget {
                   child: LinearProgressIndicator(
                     value: progress.clamp(0, 1),
                     minHeight: 7,
-                    backgroundColor:
-                    const Color(0xFFE9F0EE),
-                    valueColor:
-                    const AlwaysStoppedAnimation<Color>(
+                    backgroundColor: const Color(0xFFE9F0EE),
+                    valueColor: const AlwaysStoppedAnimation<Color>(
                       Color(0xFF075E4D),
                     ),
                   ),
                 ),
               ),
-
               const SizedBox(width: 10),
-
               Text(
                 '$progressPercent%',
                 style: GoogleFonts.inter(
@@ -174,31 +147,29 @@ class _LearningCourseCard extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 9),
-
           Row(
             children: [
-              Text(
-                completedLessons,
-                style: GoogleFonts.inter(
-                  fontSize: 9,
-                  color: const Color(0xFF8A9A96),
+              Expanded(
+                child: Text(
+                  statusLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    fontSize: 9,
+                    color: const Color(0xFF8A9A96),
+                  ),
                 ),
               ),
-
-              const Spacer(),
-
               TextButton(
                 onPressed: onContinue,
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   minimumSize: Size.zero,
-                  tapTargetSize:
-                  MaterialTapTargetSize.shrinkWrap,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: Text(
-                  'Continue →',
+                  '${context.l10n.myLearningContinue} →',
                   style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
@@ -215,8 +186,6 @@ class _LearningCourseCard extends StatelessWidget {
 }
 
 class _EmptyCoursesCard extends StatelessWidget {
-  const _EmptyCoursesCard();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -225,16 +194,52 @@ class _EmptyCoursesCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: const Color(0xFFDDEBE6),
-        ),
+        border: Border.all(color: const Color(0xFFDDEBE6)),
       ),
-      child: Text(
-        'No courses yet.',
-        style: GoogleFonts.inter(
-          fontSize: 11,
-          color: const Color(0xFF7D8D89),
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.l10n.myLearningNoCourses,
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: const Color(0xFF3E5A54),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            context.l10n.myLearningBrowseHint,
+            style: GoogleFonts.inter(
+              fontSize: 10,
+              color: const Color(0xFF7D8D89),
+            ),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 36,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.catalog);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF075E4D),
+                foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
+              ),
+              child: Text(
+                context.l10n.myLearningBrowseCourses,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

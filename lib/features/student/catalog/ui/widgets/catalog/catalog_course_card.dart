@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CatalogCourseCard extends StatelessWidget {
-  final String title;
-  final String instructor;
-  final String price;
-  final String rating;
-  final String students;
-  final String image;
-  final VoidCallback? onTap;
+import 'package:coach_space/core/helpers/context_extensions.dart';
+import 'package:coach_space/features/student/catalog/data/models/catalog_course_dto.dart';
 
+class CatalogCourseCard extends StatelessWidget {
   const CatalogCourseCard({
     super.key,
-    required this.title,
-    required this.instructor,
-    required this.price,
-    required this.rating,
-    required this.students,
-    this.image = '',
+    required this.course,
     this.onTap,
   });
 
+  final CatalogCourseDto course;
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -41,15 +36,12 @@ class CatalogCourseCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Course Image
           _buildCourseImage(),
-
           Padding(
             padding: const EdgeInsets.all(14),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Category / Badge
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
@@ -60,7 +52,7 @@ class CatalogCourseCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    'BEST SELLER',
+                    course.category.name.toUpperCase(),
                     style: GoogleFonts.inter(
                       fontSize: 8,
                       fontWeight: FontWeight.w800,
@@ -68,12 +60,9 @@ class CatalogCourseCard extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 9),
-
-                // Course title
                 Text(
-                  title,
+                  course.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
@@ -83,12 +72,9 @@ class CatalogCourseCard extends StatelessWidget {
                     color: const Color(0xFF073F38),
                   ),
                 ),
-
                 const SizedBox(height: 7),
-
-                // Instructor
                 Text(
-                  instructor,
+                  course.instructor.fullName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
@@ -97,50 +83,17 @@ class CatalogCourseCard extends StatelessWidget {
                     color: Colors.grey.shade600,
                   ),
                 ),
-
-                const SizedBox(height: 9),
-
-                // Rating + Students
-                Row(
-                  children: [
-                    const Icon(Icons.star, size: 15, color: Color(0xFFF2B52E)),
-
-                    const SizedBox(width: 4),
-
-                    Text(
-                      rating,
-                      style: GoogleFonts.inter(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-
-                    const SizedBox(width: 5),
-
-                    Text(
-                      '($students students)',
-                      style: GoogleFonts.inter(
-                        fontSize: 9,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade500,
-                      ),
-                    ),
-                  ],
-                ),
-
                 const SizedBox(height: 12),
-
                 const Divider(height: 1, color: Color(0xFFE8EFED)),
-
                 const SizedBox(height: 12),
-
-                // Price + View Course
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Text(
-                        price,
+                        course.isFree
+                            ? l10n.catalogFree
+                            : '\$${course.price}',
                         style: GoogleFonts.inter(
                           fontSize: 19,
                           fontWeight: FontWeight.w800,
@@ -148,7 +101,6 @@ class CatalogCourseCard extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     SizedBox(
                       height: 40,
                       child: ElevatedButton(
@@ -157,16 +109,13 @@ class CatalogCourseCard extends StatelessWidget {
                           backgroundColor: const Color(0xFF075E4D),
                           foregroundColor: Colors.white,
                           elevation: 0,
-
                           padding: const EdgeInsets.symmetric(horizontal: 18),
-
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-
                         child: Text(
-                          'View Course',
+                          l10n.catalogViewCourse,
                           style: GoogleFonts.inter(
                             fontSize: 10.5,
                             fontWeight: FontWeight.w700,
@@ -185,15 +134,15 @@ class CatalogCourseCard extends StatelessWidget {
   }
 
   Widget _buildCourseImage() {
-    if (image.isNotEmpty) {
+    final url = course.coverImage.trim();
+
+    if (url.isNotEmpty) {
       return Image.network(
-        image,
+        url,
         width: double.infinity,
         height: 175,
         fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return _placeholder();
-        },
+        errorBuilder: (_, _, _) => _placeholder(),
       );
     }
 

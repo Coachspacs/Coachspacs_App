@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/core/widgets/user_avatar.dart';
 
 class DashboardTopBar extends StatelessWidget {
   const DashboardTopBar({
@@ -20,9 +22,7 @@ class DashboardTopBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14),
       decoration: BoxDecoration(
         color: AppColors.white,
-        border: Border.all(
-          color: AppColors.border,
-        ),
+        border: Border.all(color: AppColors.border),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -32,49 +32,30 @@ class DashboardTopBar extends StatelessWidget {
             width: 32,
             height: 32,
             fit: BoxFit.contain,
+            errorBuilder: (_, _, _) => const Icon(
+              Icons.auto_awesome,
+              color: AppColors.primary,
+              size: 20,
+            ),
           ),
-
           const SizedBox(width: 8),
-
-          const Text(
-            'Coach Space',
-            style: TextStyle(
+          Text(
+            context.l10n.appTitle,
+            style: const TextStyle(
               color: AppColors.textBody,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
           ),
-
           const Spacer(),
-
           IconButton(
             onPressed: onNotificationPressed,
-            icon: const Icon(
-              Icons.notifications_none_outlined,
-              size: 22,
-            ),
+            icon: const Icon(Icons.notifications_none_outlined, size: 22),
             color: AppColors.textLight,
           ),
-
           GestureDetector(
             onTap: onProfilePressed,
-            child: Container(
-              width: 34,
-              height: 34,
-              decoration: const BoxDecoration(
-                color: AppColors.successLight,
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: const Text(
-                'h',
-                style: TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
+            child: const UserAvatar(size: 34),
           ),
         ],
       ),

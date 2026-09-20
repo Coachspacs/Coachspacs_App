@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
-
-enum CourseStatus { inProgress, completed }
 
 class CourseCard extends StatelessWidget {
   const CourseCard({
     super.key,
     required this.title,
     required this.instructor,
-    required this.progress,
-    required this.status,
+    required this.progressPercent,
+    required this.isCompleted,
     required this.onPressed,
+    this.coverImage = '',
     this.onCertificatePressed,
   });
 
   final String title;
   final String instructor;
-  final double progress;
-  final CourseStatus status;
+  final String coverImage;
+  final int progressPercent;
+  final bool isCompleted;
   final VoidCallback onPressed;
   final VoidCallback? onCertificatePressed;
 
-  bool get isCompleted => status == CourseStatus.completed;
-
   @override
   Widget build(BuildContext context) {
-    assert(progress >= 0 && progress <= 1, 'Progress must be between 0 and 1.');
-    final normalizedProgress = progress.clamp(0.0, 1.0);
-    final percentage = (normalizedProgress * 100).round();
+    final l10n = context.l10n;
+    final normalizedProgress = (progressPercent / 100).clamp(0.0, 1.0);
 
     return Container(
       width: double.infinity,
@@ -49,24 +47,15 @@ class CourseCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ===================================================
-          // COURSE IMAGE
-          // ===================================================
           ClipRRect(
             borderRadius: BorderRadius.circular(11),
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: 150,
-              color: const Color(0xFFF0F6F4),
               child: Stack(
-                alignment: Alignment.center,
+                fit: StackFit.expand,
                 children: [
-                  const Icon(
-                    Icons.code_rounded,
-                    size: 40,
-                    color: Color(0xFF53615E),
-                  ),
-
+                  _cover(),
                   if (!isCompleted)
                     Positioned(
                       bottom: 10,
@@ -81,7 +70,7 @@ class CourseCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
-                          '$percentage% complete',
+                          '$progressPercent%',
                           style: GoogleFonts.inter(
                             fontSize: 8,
                             fontWeight: FontWeight.w700,
@@ -94,12 +83,7 @@ class CourseCard extends StatelessWidget {
               ),
             ),
           ),
-
           const SizedBox(height: 12),
-
-          // ===================================================
-          // TITLE
-          // ===================================================
           Text(
             title,
             maxLines: 2,
@@ -111,12 +95,7 @@ class CourseCard extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-
           const SizedBox(height: 5),
-
-          // ===================================================
-          // INSTRUCTOR
-          // ===================================================
           Text(
             instructor,
             maxLines: 1,
@@ -127,17 +106,14 @@ class CourseCard extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-
           const SizedBox(height: 13),
-
-          // ===================================================
-          // PROGRESS
-          // ===================================================
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                isCompleted ? 'Completed' : 'Progress',
+                isCompleted
+                    ? l10n.myLearningCompleted
+                    : l10n.browseCourseProgress,
                 style: GoogleFonts.inter(
                   color: const Color(0xFF71827E),
                   fontSize: 9,
@@ -145,7 +121,7 @@ class CourseCard extends StatelessWidget {
                 ),
               ),
               Text(
-                '$percentage%',
+                '$progressPercent%',
                 style: GoogleFonts.inter(
                   color: const Color(0xFF075E4D),
                   fontSize: 9,
@@ -154,9 +130,7 @@ class CourseCard extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 6),
-
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: LinearProgressIndicator(
@@ -168,12 +142,7 @@ class CourseCard extends StatelessWidget {
               ),
             ),
           ),
-
           const SizedBox(height: 12),
-
-          // ===================================================
-          // ACTION BUTTON
-          // ===================================================
           SizedBox(
             width: double.infinity,
             height: 38,
@@ -186,7 +155,9 @@ class CourseCard extends StatelessWidget {
                 size: 16,
               ),
               label: Text(
-                isCompleted ? 'Completed' : 'Continue Learning',
+                isCompleted
+                    ? l10n.myLearningCompleted
+                    : l10n.myLearningContinue,
                 style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
@@ -203,13 +174,8 @@ class CourseCard extends StatelessWidget {
               ),
             ),
           ),
-
-          // ===================================================
-          // CERTIFICATE
-          // ===================================================
           if (isCompleted && onCertificatePressed != null) ...[
             const SizedBox(height: 7),
-
             SizedBox(
               width: double.infinity,
               height: 34,
@@ -217,7 +183,7 @@ class CourseCard extends StatelessWidget {
                 onPressed: onCertificatePressed,
                 icon: const Icon(Icons.workspace_premium_outlined, size: 14),
                 label: Text(
-                  'View Certificate',
+                  l10n.browseViewCertificate,
                   style: GoogleFonts.inter(
                     fontSize: 9,
                     fontWeight: FontWeight.w700,
@@ -235,6 +201,35 @@ class CourseCard extends StatelessWidget {
             ),
           ],
         ],
+      ),
+    );
+  }
+
+  Widget _cover() {
+    final url = coverImage.trim();
+    if (url.isEmpty) {
+      return Container(
+        color: const Color(0xFFF0F6F4),
+        alignment: Alignment.center,
+        child: const Icon(
+          Icons.play_circle_outline,
+          size: 40,
+          color: Color(0xFF53615E),
+        ),
+      );
+    }
+
+    return Image.network(
+      url,
+      fit: BoxFit.cover,
+      errorBuilder: (_, _, _) => Container(
+        color: const Color(0xFFF0F6F4),
+        alignment: Alignment.center,
+        child: const Icon(
+          Icons.play_circle_outline,
+          size: 40,
+          color: Color(0xFF53615E),
+        ),
       ),
     );
   }

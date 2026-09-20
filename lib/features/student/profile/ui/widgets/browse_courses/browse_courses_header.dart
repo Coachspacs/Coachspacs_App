@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 class BrowseCoursesHeader extends StatelessWidget {
@@ -21,10 +22,19 @@ class BrowseCoursesHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final filterOptions = [
-      (filter: CourseFilter.all, count: allCount),
-      (filter: CourseFilter.inProgress, count: inProgressCount),
-      (filter: CourseFilter.completed, count: completedCount),
+      (filter: CourseFilter.all, label: l10n.homeAll, count: allCount),
+      (
+        filter: CourseFilter.inProgress,
+        label: l10n.myLearningInProgress,
+        count: inProgressCount,
+      ),
+      (
+        filter: CourseFilter.completed,
+        label: l10n.myLearningCompleted,
+        count: completedCount,
+      ),
     ];
 
     return Column(
@@ -34,7 +44,7 @@ class BrowseCoursesHeader extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () => Navigator.maybePop(context),
-              tooltip: 'Back',
+              tooltip: l10n.browseBack,
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
               icon: const Icon(
@@ -46,7 +56,7 @@ class BrowseCoursesHeader extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'My Courses',
+                l10n.myLearningMyCourses,
                 style: GoogleFonts.inter(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
@@ -58,7 +68,7 @@ class BrowseCoursesHeader extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          'Continue your learning journey',
+          l10n.browseCoursesSubtitle,
           style: GoogleFonts.inter(
             fontSize: 11,
             color: const Color(0xFF71827E),
@@ -82,7 +92,7 @@ class BrowseCoursesHeader extends StatelessWidget {
                         right: option.filter == CourseFilter.completed ? 0 : 4,
                       ),
                       child: _FilterButton(
-                        filter: option.filter,
+                        label: option.label,
                         count: option.count,
                         isSelected: selectedStatus == option.filter,
                         onTap: () => onStatusChanged(option.filter),
@@ -100,23 +110,15 @@ class BrowseCoursesHeader extends StatelessWidget {
 
 enum CourseFilter { all, inProgress, completed }
 
-extension CourseFilterLabel on CourseFilter {
-  String get label => switch (this) {
-    CourseFilter.all => 'All',
-    CourseFilter.inProgress => 'In Progress',
-    CourseFilter.completed => 'Completed',
-  };
-}
-
 class _FilterButton extends StatelessWidget {
   const _FilterButton({
-    required this.filter,
+    required this.label,
     required this.count,
     required this.isSelected,
     required this.onTap,
   });
 
-  final CourseFilter filter;
+  final String label;
   final int count;
   final bool isSelected;
   final VoidCallback onTap;
@@ -126,7 +128,7 @@ class _FilterButton extends StatelessWidget {
     return Semantics(
       button: true,
       selected: isSelected,
-      label: '${filter.label}, $count courses',
+      label: '$label ($count)',
       child: Material(
         color: isSelected ? const Color(0xFFCFF5E3) : Colors.transparent,
         borderRadius: BorderRadius.circular(10),
@@ -137,7 +139,7 @@ class _FilterButton extends StatelessWidget {
             height: 39,
             child: Center(
               child: Text(
-                '${filter.label} ($count)',
+                '$label ($count)',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,

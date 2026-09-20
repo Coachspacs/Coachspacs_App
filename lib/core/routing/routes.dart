@@ -53,6 +53,7 @@ abstract final class AppRoutes {
 
   // My Learning
   static const String myLearning = '/my-learning';
+  static const String lessonPlayer = '/lesson-player';
 
   static const String pendingApproval = '/pending-approval';
   static const String accountNotApproved = '/account-not-approved';

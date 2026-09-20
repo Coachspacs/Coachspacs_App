@@ -51,13 +51,13 @@ void main() {
           find.text('Home'),
         );
 
-        final coursesColor = _navItemSurfaceColor(
+        final catalogColor = _navItemSurfaceColor(
           tester,
-          find.text('Courses'),
+          find.text('Catalog'),
         );
 
         expect(homeColor, isNot(Colors.transparent));
-        expect(coursesColor, Colors.transparent);
+        expect(catalogColor, Colors.transparent);
       },
     );
   });

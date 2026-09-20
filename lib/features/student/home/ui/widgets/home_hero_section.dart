@@ -73,7 +73,7 @@ class _HomeHeroSectionState
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              'WELCOME BACK',
+              context.l10n.homeWelcome,
               style: GoogleFonts.inter(
                 fontSize: 9,
                 fontWeight: FontWeight.w800,
@@ -90,7 +90,7 @@ class _HomeHeroSectionState
           // =================================================
 
           Text(
-            'Master New Skills with\nExpert Coaches',
+            context.l10n.homeHeroTitle,
             style: GoogleFonts.inter(
               fontSize: 20,
               height: 1.3,

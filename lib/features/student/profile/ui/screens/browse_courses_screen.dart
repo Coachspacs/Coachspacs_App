@@ -1,274 +1,280 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/core/helpers/context_extensions.dart';
+import 'package:coach_space/core/helpers/failure_messages.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
-import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository.dart';
+import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
+import 'package:coach_space/features/student/profile/logic/cubit/browse_courses_cubit.dart';
 
 import '../widgets/browse_courses/browse_courses_header.dart';
 import '../widgets/browse_courses/course_card.dart';
 
-class BrowseCoursesScreen extends StatefulWidget {
+class BrowseCoursesScreen extends StatelessWidget {
   const BrowseCoursesScreen({super.key});
 
   @override
-  State<BrowseCoursesScreen> createState() => _BrowseCoursesScreenState();
-}
-
-class _BrowseCoursesScreenState extends State<BrowseCoursesScreen> {
-  CourseFilter _selectedFilter = CourseFilter.all;
-
-  // =====================================================
-  // COURSES
-  // =====================================================
-
-  final List<_CourseData> _courses = [];
-  bool _isLoading = true;
-  String? _errorMessage;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCourses();
-  }
-
-  Future<void> _loadCourses() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-    try {
-      final enrollments = await getIt<EnrollmentRepository>().getEnrollments(
-        pageSize: 50,
-      );
-      if (!mounted) return;
-      setState(() {
-        _courses
-          ..clear()
-          ..addAll(
-            enrollments.results.map(
-              (enrollment) => _CourseData(
-                title: enrollment.course.title,
-                instructor: enrollment.course.instructor.fullName,
-                progress: enrollment.progressPercent / 100,
-                status: enrollment.isCompleted
-                    ? CourseStatus.completed
-                    : CourseStatus.inProgress,
-              ),
-            ),
-          );
-        _isLoading = false;
-      });
-    } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Unable to load your courses.';
-      });
-    }
-  }
-
-  // =====================================================
-  // FILTERED COURSES
-  // =====================================================
-
-  List<_CourseData> get _filteredCourses {
-    return switch (_selectedFilter) {
-      CourseFilter.all => _courses,
-      CourseFilter.inProgress =>
-        _courses
-            .where((course) => course.status == CourseStatus.inProgress)
-            .toList(growable: false),
-      CourseFilter.completed =>
-        _courses
-            .where((course) => course.status == CourseStatus.completed)
-            .toList(growable: false),
-    };
-  }
-
-  int get _inProgressCount {
-    return _courses
-        .where((course) => course.status == CourseStatus.inProgress)
-        .length;
-  }
-
-  int get _completedCount {
-    return _courses
-        .where((course) => course.status == CourseStatus.completed)
-        .length;
-  }
-
-  // =====================================================
-  // OPEN COURSE
-  // =====================================================
-
-  void _openCourseDetails(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.courseDetails);
-  }
-
-  // =====================================================
-  // BUILD
-  // =====================================================
-
-  @override
   Widget build(BuildContext context) {
-    final filteredCourses = _filteredCourses;
-    return Scaffold(
-      backgroundColor: AppColors.bgDefault,
-
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 900),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // =================================================
-                  // HEADER
-                  // =================================================
-                  BrowseCoursesHeader(
-                    selectedStatus: _selectedFilter,
-                    allCount: _courses.length,
-                    inProgressCount: _inProgressCount,
-                    completedCount: _completedCount,
-                    onStatusChanged: (filter) {
-                      setState(() {
-                        _selectedFilter = filter;
-                      });
-                    },
-                  ),
-
-                  const SizedBox(height: 18),
-
-                  // =================================================
-                  // SMALL SUMMARY
-                  // =================================================
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        _selectedFilter == CourseFilter.all
-                            ? 'All Courses'
-                            : _selectedFilter == CourseFilter.inProgress
-                            ? 'In Progress'
-                            : 'Completed Courses',
-                        style: GoogleFonts.inter(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF073F38),
-                        ),
-                      ),
-                      Text(
-                        '${filteredCourses.length} courses',
-                        style: GoogleFonts.inter(
-                          fontSize: 9,
-                          color: const Color(0xFF899792),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  // =================================================
-                  // COURSES
-                  // =================================================
-                  if (_isLoading)
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(32),
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  else if (_errorMessage != null)
-                    Center(
-                      child: TextButton.icon(
-                        onPressed: _loadCourses,
-                        icon: const Icon(Icons.refresh_rounded),
-                        label: Text('$_errorMessage Tap to retry.'),
-                      ),
-                    )
-                  else
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        final isMobile = constraints.maxWidth < 650;
-
-                        if (isMobile) {
-                          return Column(
-                            children: filteredCourses
-                                .map(
-                                  (course) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 14),
-                                    child: CourseCard(
-                                      title: course.title,
-                                      instructor: course.instructor,
-                                      progress: course.progress,
-                                      status: course.status,
-                                      onPressed: () {
-                                        _openCourseDetails(context);
-                                      },
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                          );
-                        }
-
-                        return GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 14,
-                                mainAxisSpacing: 14,
-                                childAspectRatio: 0.78,
-                              ),
-                          itemCount: filteredCourses.length,
-                          itemBuilder: (context, index) {
-                            final course = filteredCourses[index];
-
-                            return CourseCard(
-                              title: course.title,
-                              instructor: course.instructor,
-                              progress: course.progress,
-                              status: course.status,
-                              onPressed: () {
-                                _openCourseDetails(context);
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+    return BlocProvider<BrowseCoursesCubit>(
+      create: (_) => getIt<BrowseCoursesCubit>()..load(),
+      child: const _BrowseCoursesView(),
     );
   }
 }
 
-// =====================================================
-// COURSE DATA
-// =====================================================
+class _BrowseCoursesView extends StatefulWidget {
+  const _BrowseCoursesView();
 
-class _CourseData {
-  const _CourseData({
-    required this.title,
-    required this.instructor,
-    required this.progress,
-    required this.status,
-  });
+  @override
+  State<_BrowseCoursesView> createState() => _BrowseCoursesViewState();
+}
 
-  final String title;
-  final String instructor;
-  final double progress;
-  final CourseStatus status;
+class _BrowseCoursesViewState extends State<_BrowseCoursesView> {
+  CourseFilter _selectedFilter = CourseFilter.all;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Scaffold(
+      backgroundColor: AppColors.bgDefault,
+      body: SafeArea(
+        child: BlocBuilder<BrowseCoursesCubit, BrowseCoursesState>(
+          builder: (context, state) {
+            final enrollments = switch (state) {
+              BrowseCoursesSuccess(:final enrollments) => enrollments,
+              _ => const <EnrollmentDto>[],
+            };
+
+            final filtered = _filter(enrollments);
+            final inProgressCount = enrollments
+                .where((e) => !e.isCompleted)
+                .length;
+            final completedCount = enrollments.where((e) => e.isCompleted).length;
+
+            return RefreshIndicator(
+              onRefresh: () => context.read<BrowseCoursesCubit>().refresh(),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 900),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BrowseCoursesHeader(
+                          selectedStatus: _selectedFilter,
+                          allCount: enrollments.length,
+                          inProgressCount: inProgressCount,
+                          completedCount: completedCount,
+                          onStatusChanged: (filter) {
+                            setState(() => _selectedFilter = filter);
+                          },
+                        ),
+                        const SizedBox(height: 18),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _filterLabel(_selectedFilter),
+                              style: GoogleFonts.inter(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: const Color(0xFF073F38),
+                              ),
+                            ),
+                            Text(
+                              l10n.catalogCoursesCount('${filtered.length}'),
+                              style: GoogleFonts.inter(
+                                fontSize: 9,
+                                color: const Color(0xFF899792),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        if (state is BrowseCoursesLoading ||
+                            state is BrowseCoursesInitial)
+                          const Padding(
+                            padding: EdgeInsets.all(32),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          )
+                        else if (state is BrowseCoursesFailure)
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(24),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    localizedFailureMessage(
+                                      context,
+                                      state.kind,
+                                      state.message,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  ElevatedButton.icon(
+                                    onPressed: () => context
+                                        .read<BrowseCoursesCubit>()
+                                        .load(),
+                                    icon: const Icon(Icons.refresh_rounded),
+                                    label: Text(l10n.commonRetry),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        else if (state is BrowseCoursesEmpty || filtered.isEmpty)
+                          _EmptyState(
+                            message: l10n.myLearningNoCourses,
+                            hint: l10n.myLearningBrowseHint,
+                          )
+                        else
+                          _buildGrid(filtered),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  List<EnrollmentDto> _filter(List<EnrollmentDto> enrollments) {
+    return switch (_selectedFilter) {
+      CourseFilter.all => enrollments,
+      CourseFilter.inProgress =>
+        enrollments.where((e) => !e.isCompleted).toList(growable: false),
+      CourseFilter.completed =>
+        enrollments.where((e) => e.isCompleted).toList(growable: false),
+    };
+  }
+
+  String _filterLabel(CourseFilter filter) {
+    final l10n = context.l10n;
+    return switch (filter) {
+      CourseFilter.all => l10n.catalogAllCourses,
+      CourseFilter.inProgress => l10n.myLearningInProgress,
+      CourseFilter.completed => l10n.myLearningCompleted,
+    };
+  }
+
+  Widget _buildGrid(List<EnrollmentDto> enrollments) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 650;
+
+        Widget card(EnrollmentDto enrollment) => CourseCard(
+          title: enrollment.course.title,
+          instructor: enrollment.course.instructor.fullName,
+          coverImage: enrollment.course.coverImage,
+          progressPercent: enrollment.progressPercent,
+          isCompleted: enrollment.isCompleted,
+          onPressed: () => _openCourse(enrollment.course.id),
+          onCertificatePressed: enrollment.isCompleted
+              ? () => Navigator.pushNamed(context, AppRoutes.certificates)
+              : null,
+        );
+
+        if (isMobile) {
+          return Column(
+            children: enrollments
+                .map(
+                  (enrollment) => Padding(
+                    padding: const EdgeInsets.only(bottom: 14),
+                    child: card(enrollment),
+                  ),
+                )
+                .toList(),
+          );
+        }
+
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 14,
+            mainAxisSpacing: 14,
+            childAspectRatio: 0.78,
+          ),
+          itemCount: enrollments.length,
+          itemBuilder: (context, index) => card(enrollments[index]),
+        );
+      },
+    );
+  }
+
+  void _openCourse(int courseId) {
+    Navigator.pushNamed(
+      context,
+      AppRoutes.courseDetails,
+      arguments: courseId,
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState({required this.message, required this.hint});
+
+  final String message;
+  final String hint;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 45, horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE0EAE7)),
+      ),
+      child: Column(
+        children: [
+          Icon(Icons.menu_book_outlined, size: 45, color: Colors.grey.shade400),
+          const SizedBox(height: 12),
+          Text(
+            message,
+            style: GoogleFonts.inter(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF073F38),
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            hint,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              color: Colors.grey.shade500,
+            ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.catalog),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+            ),
+            child: Text(context.l10n.myLearningBrowseCourses),
+          ),
+        ],
+      ),
+    );
+  }
 }

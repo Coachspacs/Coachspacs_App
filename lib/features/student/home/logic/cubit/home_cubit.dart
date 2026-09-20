@@ -9,9 +9,9 @@ import 'home_state.dart';
 
 /// Orchestrates the home screen.
 ///
-/// Categories are fetched from `GET /api/catalog/categories` via
-/// [HomeRepository]; featured/trending courses remain local mock data until
-/// the backend exposes course endpoints (none exist on the current backend).
+/// [HomeRepository] aggregates `GET /api/catalog/categories`,
+/// `GET /api/catalog/courses` (recommended) and `GET /api/enrollments`
+/// (continue learning).
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit({required HomeRepository repository})
       : _repository = repository,
