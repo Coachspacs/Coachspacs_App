@@ -9,12 +9,14 @@ class CartItem extends StatelessWidget {
     required this.title,
     required this.instructor,
     required this.price,
+    required this.image,
     required this.onDelete,
   });
 
   final String title;
   final String instructor;
-  final double price;
+  final String price;
+  final String image;
   final VoidCallback onDelete;
 
   @override
@@ -43,19 +45,12 @@ class CartItem extends StatelessWidget {
           // COURSE IMAGE
           // =====================================================
 
-          Container(
-            width: 82,
-            height: 82,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE5F1EE),
-              borderRadius: BorderRadius.circular(11),
-            ),
-            child: const Center(
-              child: Icon(
-                Icons.code_rounded,
-                size: 34,
-                color: Color(0xFF075E4D),
-              ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(11),
+            child: SizedBox(
+              width: 82,
+              height: 82,
+              child: _buildImage(),
             ),
           ),
 
@@ -84,7 +79,7 @@ class CartItem extends StatelessWidget {
                 const SizedBox(height: 6),
 
                 Text(
-                  'Instructor: $instructor',
+                  instructor,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
@@ -97,7 +92,7 @@ class CartItem extends StatelessWidget {
                 const SizedBox(height: 7),
 
                 Text(
-                  '\$${price.toStringAsFixed(2)}',
+                  price,
                   style: GoogleFonts.inter(
                     color: const Color(0xFF075E4D),
                     fontSize: 14,
@@ -126,6 +121,29 @@ class CartItem extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildImage() {
+    if (image.isEmpty) return _buildPlaceholder();
+
+    return Image.network(
+      image,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
+    );
+  }
+
+  Widget _buildPlaceholder() {
+    return Container(
+      color: const Color(0xFFE5F1EE),
+      child: const Center(
+        child: Icon(
+          Icons.play_circle_outline_rounded,
+          size: 30,
+          color: Color(0xFF075E4D),
+        ),
       ),
     );
   }
