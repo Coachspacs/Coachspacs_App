@@ -19,11 +19,23 @@ import 'package:coach_space/features/auth/data/models/reset_password_request.dar
 import 'package:coach_space/features/student/catalog/data/models/category_dto.dart';
 import 'package:coach_space/features/student/catalog/data/models/catalog_course_dto.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
+import 'package:coach_space/features/student/notifications/data/models/notification_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/cart_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/certificate_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/change_email_request.dart';
 import 'package:coach_space/features/student/profile/data/models/confirm_email_change_request.dart';
+import 'package:coach_space/features/student/profile/data/models/order_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/payment_intent_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/preferences_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/support_contact_request.dart';
 import 'package:coach_space/features/student/profile/data/models/update_profile_request.dart';
 import 'package:coach_space/features/student/profile/data/models/user_profile_model.dart';
 import 'package:coach_space/features/instructor/courses/data/models/instructor_course_dto.dart';
+import 'package:coach_space/features/instructor/dashboard/data/models/instructor_dashboard_dto.dart';
+import 'package:coach_space/features/instructor/students/data/models/instructor_student_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/models/enroll_free_request.dart';
+import 'package:coach_space/features/student/profile/data/models/certificate_verify_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/checkout_session_dto.dart';
 
 part 'api_service.g.dart';
 
@@ -67,9 +79,6 @@ abstract class ApiService {
   @POST('api/auth/verify-email/resend')
   Future<void> resendVerification(@Body() ResendVerificationRequest body);
 
-  @GET('api/auth/instructor/dashboard')
-  Future<void> instructorDashboard();
-
   @GET('api/users/me')
   Future<UserProfileModel> getMe();
 
@@ -97,6 +106,7 @@ abstract class ApiService {
     @Query('price_min') num? priceMin,
     @Query('price_max') num? priceMax,
     @Query('search') String? search,
+    @Query('ordering') String? ordering,
     @Query('page') int? page,
     @Query('page_size') int? pageSize,
   });
@@ -109,6 +119,11 @@ abstract class ApiService {
     @Query('page') int page,
     @Query('page_size') int pageSize,
   );
+
+  /// The only path into a free course (see US-15): free courses are never
+  /// added to the cart, so checkout is bypassed entirely.
+  @POST('api/enrollments/free')
+  Future<void> enrollFree(@Body() EnrollFreeRequest body);
 
   @GET('api/enrollments/{enrollmentId}/lessons/{lessonId}')
   Future<LessonPlayerDto> getEnrollmentLesson(
@@ -239,7 +254,117 @@ abstract class ApiService {
   @POST('api/instructor/courses/{id}/submit')
   Future<void> submitInstructorCourse(@Path('id') int id);
 
+  /// Every student enrolled in one of this instructor's own courses (US-17).
+  @GET('api/instructor/courses/{id}/students')
+  Future<PaginatedResponse<InstructorStudentDto>> getInstructorCourseStudents(
+    @Path('id') int id, {
+    @Query('page') int? page,
+    @Query('page_size') int? pageSize,
+  });
+
+  /// Totals across every course this instructor owns (US-17 scenarios 1, 5).
+  @GET('api/instructor/dashboard')
+  Future<InstructorDashboardDto> getInstructorDashboard();
+
   /// Redirects to the signed media URL; the OpenAPI document has no body.
   @GET('api/media/stream')
   Future<void> streamMedia(@Query('token') String token);
+
+  // ===========================================================
+  // CART
+  // ===========================================================
+
+  @GET('api/cart')
+  Future<CartDto> getCart();
+
+  @POST('api/cart/items')
+  Future<CartItemDto> addCartItem(@Body() AddCartItemRequest body);
+
+  @DELETE('api/cart/items/{id}')
+  Future<void> removeCartItem(@Path('id') int id);
+
+  // ===========================================================
+  // ORDERS
+  // ===========================================================
+
+  @POST('api/orders')
+  Future<OrderDto> createOrder(@Body() CreateOrderRequest body);
+
+  @GET('api/orders')
+  Future<PaginatedResponse<OrderDto>> getOrders({
+    @Query('page') int? page,
+    @Query('page_size') int? pageSize,
+  });
+
+  @GET('api/orders/{id}')
+  Future<OrderDto> getOrder(@Path('id') int id);
+
+  /// Starts a Stripe Checkout Session for the signed-in student's cart
+  /// (US-15). Returns the hosted `checkout_url` for the frontend to redirect
+  /// to; the order stays pending until Stripe's webhook confirms it.
+  @POST('api/orders/checkout')
+  Future<CheckoutSessionDto> checkout(@Body() CheckoutRequest body);
+
+  // ===========================================================
+  // PAYMENTS
+  // ===========================================================
+
+  @POST('api/payments/intent')
+  Future<PaymentIntentDto> createPaymentIntent(
+    @Body() CreatePaymentIntentRequest body,
+  );
+
+  // ===========================================================
+  // CERTIFICATES
+  // ===========================================================
+
+  @GET('api/certificates')
+  Future<PaginatedResponse<CertificateDto>> getCertificates({
+    @Query('page') int? page,
+    @Query('page_size') int? pageSize,
+  });
+
+  @GET('api/certificates/{id}/download')
+  @DioResponseType(ResponseType.bytes)
+  Future<List<int>> downloadCertificate(@Path('id') int id);
+
+  /// Public, unauthenticated certificate lookup (US-18). The server rejects a
+  /// malformed code with 400 and returns 404 for a well-formed unknown one.
+  @GET('api/certificates/verify/{code}')
+  Future<CertificateVerifyDto> verifyCertificate(@Path('code') String code);
+
+  // ===========================================================
+  // NOTIFICATIONS
+  // ===========================================================
+
+  @GET('api/notifications')
+  Future<PaginatedResponse<NotificationDto>> getNotifications({
+    @Query('page') int? page,
+    @Query('page_size') int? pageSize,
+  });
+
+  @POST('api/notifications/{id}/read')
+  Future<void> markNotificationRead(@Path('id') int id);
+
+  @POST('api/notifications/read-all')
+  Future<void> markAllNotificationsRead();
+
+  // ===========================================================
+  // PREFERENCES (learning settings + app preferences)
+  // ===========================================================
+
+  @GET('api/users/me/preferences')
+  Future<PreferencesDto> getPreferences();
+
+  @PATCH('api/users/me/preferences')
+  Future<PreferencesDto> updatePreferences(
+    @Body() UpdatePreferencesRequest body,
+  );
+
+  // ===========================================================
+  // SUPPORT
+  // ===========================================================
+
+  @POST('api/support/contact')
+  Future<void> sendSupportMessage(@Body() SupportContactRequest body);
 }
