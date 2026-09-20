@@ -4,7 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 class InstructorEarningsCard extends StatelessWidget {
   const InstructorEarningsCard({
     super.key,
+    this.amount,
   });
+
+  final String? amount;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,7 @@ class InstructorEarningsCard extends StatelessWidget {
                 const SizedBox(height: 3),
 
                 Text(
-                  '\$3,850',
+                  _formatAmount(amount),
                   style: GoogleFonts.inter(
                     fontSize: 21,
                     fontWeight: FontWeight.w800,
@@ -76,7 +79,7 @@ class InstructorEarningsCard extends StatelessWidget {
               BorderRadius.circular(20),
             ),
             child: Text(
-              '+22.5%',
+              'Lifetime',
               style: GoogleFonts.inter(
                 fontSize: 8,
                 fontWeight: FontWeight.w700,
@@ -87,5 +90,11 @@ class InstructorEarningsCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static String _formatAmount(String? amount) {
+    if (amount == null || amount.isEmpty) return '\$0';
+    if (amount.startsWith('\$')) return amount;
+    return '\$$amount';
   }
 }

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/core/helpers/failure_messages.dart';
+import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
+import 'package:coach_space/features/instructor/courses/data/models/instructor_course_dto.dart';
+import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
 
 import '../widgets/edit_course/instructor_edit_course_basic_info.dart';
@@ -33,6 +38,7 @@ class _InstructorCourseEditScreenState
   late String _language;
 
   bool _editingBasicInfo = false;
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -69,20 +75,69 @@ class _InstructorCourseEditScreenState
   // SAVE
   // =========================================================
 
-  void _saveBasicInfo() {
+  Future<void> _saveBasicInfo() async {
+    if (_isSaving) return;
+
     setState(() {
       _editingBasicInfo = false;
+      _isSaving = true;
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Changes saved successfully.',
+    try {
+      await getIt<InstructorCoursesRepository>().updateCourse(
+        widget.course.id,
+        CoursePatchRequest(
+          titleEn: _titleController.text.trim(),
+          descriptionEn: _descriptionController.text.trim(),
+          price: _priceController.text.trim().isEmpty
+              ? null
+              : _priceController.text.trim(),
         ),
-        backgroundColor: Color(0xFF075E4D),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+      );
+
+      if (!mounted) return;
+      setState(() {
+        _isSaving = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Changes saved successfully.',
+          ),
+          backgroundColor: Color(0xFF075E4D),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } on NetworkException catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _isSaving = false;
+        _editingBasicInfo = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            localizedFailureMessage(context, error.kind, error.message),
+          ),
+          backgroundColor: const Color(0xFFB3261E),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isSaving = false;
+        _editingBasicInfo = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Something went wrong. Please try again.'),
+          backgroundColor: Color(0xFFB3261E),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   // =========================================================

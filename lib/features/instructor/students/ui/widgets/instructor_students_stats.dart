@@ -4,7 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 class InstructorStudentsStats extends StatelessWidget {
   const InstructorStudentsStats({
     super.key,
+    required this.total,
+    required this.active,
+    required this.completed,
+    required this.avgCompletionPercent,
   });
+
+  final int total;
+  final int active;
+  final int completed;
+  final double avgCompletionPercent;
 
   @override
   Widget build(BuildContext context) {
@@ -19,37 +28,37 @@ class InstructorStudentsStats extends StatelessWidget {
       // Keeps the cards responsive while giving them enough height.
       childAspectRatio: 1.38,
 
-      children: const [
+      children: [
         _StudentStatCard(
           icon: Icons.people_alt_outlined,
-          value: '1,240',
+          value: '$total',
           title: 'Total Students',
-          change: '+12%',
-          subtitle: 'vs last month',
+          change: 'All',
+          subtitle: 'Enrolled learners',
         ),
 
         _StudentStatCard(
           icon: Icons.bolt_outlined,
-          value: '956',
+          value: '$active',
           title: 'Active Students',
-          change: '+8%',
-          subtitle: 'vs last month',
+          change: 'Active',
+          subtitle: 'In progress',
         ),
 
         _StudentStatCard(
           icon: Icons.verified_outlined,
-          value: '642',
+          value: '$completed',
           title: 'Completed',
-          change: '+15%',
-          subtitle: 'vs last month',
+          change: 'Done',
+          subtitle: 'Finished courses',
         ),
 
         _StudentStatCard(
           icon: Icons.pie_chart_outline_rounded,
-          value: '78%',
+          value: '${avgCompletionPercent.round()}%',
           title: 'Avg Completion',
-          change: '+8%',
-          subtitle: 'vs last month',
+          change: 'Avg',
+          subtitle: 'Across courses',
         ),
       ],
     );

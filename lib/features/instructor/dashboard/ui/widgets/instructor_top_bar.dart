@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/routing/routes.dart';
+import 'package:coach_space/core/widgets/user_avatar.dart';
 
 class InstructorTopBar extends StatelessWidget {
   const InstructorTopBar({
     super.key,
   });
-
-  @override
-  Size get preferredSize => const Size.fromHeight(64);
 
   @override
   Widget build(BuildContext context) {
@@ -102,28 +100,11 @@ class InstructorTopBar extends StatelessWidget {
               AppRoutes.instructorProfile,
             );
           },
-          child: Container(
-            width: 34,
-            height: 34,
-            margin: const EdgeInsets.only(
+          child: Padding(
+            padding: const EdgeInsets.only(
               right: 16,
             ),
-            decoration: const BoxDecoration(
-              color: Color(0xFFE4F5F0),
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'S',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge
-                  ?.copyWith(
-                fontSize: 12,
-                fontWeight: FontWeight.w800,
-                color: const Color(0xFF075E4D),
-              ),
-            ),
+            child: const UserAvatar(size: 34),
           ),
         ),
       ],

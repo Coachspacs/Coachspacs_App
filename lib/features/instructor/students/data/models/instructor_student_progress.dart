@@ -1,6 +1,7 @@
 class InstructorStudentProgress {
   const InstructorStudentProgress({
     required this.name,
+    required this.email,
     required this.initials,
     required this.courseName,
     required this.progress,
@@ -14,6 +15,7 @@ class InstructorStudentProgress {
   });
 
   final String name;
+  final String email;
   final String initials;
   final String courseName;
 
