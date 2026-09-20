@@ -1,55 +1,159 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import 'package:coach_space/core/auth/guest_session.dart';
+import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/core/helpers/context_extensions.dart';
+import 'package:coach_space/core/networking/network_exceptions.dart';
+import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/core/widgets/login_required_dialog.dart';
+import 'package:coach_space/features/student/profile/data/models/cart_dto.dart';
+import 'package:coach_space/features/student/profile/logic/cubit/checkout_cubit.dart';
 
-class CheckoutScreen extends StatefulWidget {
+class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({
     super.key,
   });
 
   @override
-  State<CheckoutScreen> createState() => _CheckoutScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) {
+        final cubit = getIt<CheckoutCubit>();
+        if (!GuestSession.isGuest) {
+          cubit.load();
+        }
+        return cubit;
+      },
+      child: const _CheckoutView(),
+    );
+  }
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
-  String selectedPayment = 'card';
-  bool saveCard = true;
-
-  final TextEditingController cardholderController =
-  TextEditingController();
-
-  final TextEditingController cardNumberController =
-  TextEditingController();
-
-  final TextEditingController expiryController =
-  TextEditingController();
-
-  final TextEditingController cvvController =
-  TextEditingController();
-
-  final TextEditingController emailController =
-  TextEditingController(text: 'sondos@example.com');
-
-  final TextEditingController couponController =
-  TextEditingController();
+class _CheckoutView extends StatefulWidget {
+  const _CheckoutView();
 
   @override
-  void dispose() {
-    cardholderController.dispose();
-    cardNumberController.dispose();
-    expiryController.dispose();
-    cvvController.dispose();
-    emailController.dispose();
-    couponController.dispose();
+  State<_CheckoutView> createState() => _CheckoutViewState();
+}
 
-    super.dispose();
+class _CheckoutViewState extends State<_CheckoutView> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _couponController = TextEditingController();
+
+  String? _appliedCoupon;
+  CartDto? _cart;
+
+  @override
+  void initState() {
+    super.initState();
+    if (GuestSession.isGuest) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) LoginRequiredDialog.show(context);
+      });
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
-    const double coursePrice = 89.00;
+  void dispose() {
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _couponController.dispose();
+    super.dispose();
+  }
 
+  // ===============================================================
+  // STATE CHANGES
+  // ===============================================================
+
+  void _onStateChanged(BuildContext context, CheckoutState state) {
+    if (state is CheckoutReady) {
+      _cart = state.cart;
+      return;
+    }
+
+    if (state is CheckoutSuccess) {
+      _handleSuccess(context, state);
+      return;
+    }
+
+    if (state is CheckoutFailure) {
+      _showSnack(
+        context,
+        _failureMessage(context, state),
+        background: const Color(0xFFD9363E),
+      );
+    }
+  }
+
+  void _handleSuccess(BuildContext context, CheckoutSuccess state) {
+    if (state.session.hasCheckoutUrl) {
+      _openCheckoutUrl(context, state.session.checkoutUrl);
+      return;
+    }
+
+    // The checkout was created but the backend did not return a hosted URL.
+    // Show the pending message; the order can be paid later via order history.
+    _showSnack(
+      context,
+      context.l10n.checkoutProcessing,
+      background: const Color(0xFF075E4D),
+    );
+  }
+
+  Future<void> _openCheckoutUrl(BuildContext context, String url) async {
+    final uri = Uri.tryParse(url);
+    final launched = uri != null &&
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!launched && context.mounted) {
+      _showSnack(
+        context,
+        context.l10n.checkoutPaymentOpenFailed,
+        background: const Color(0xFFD9363E),
+      );
+    }
+  }
+
+  // ===============================================================
+  // ACTIONS
+  // ===============================================================
+
+  void _placeOrder() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+
+    FocusScope.of(context).unfocus();
+
+    context.read<CheckoutCubit>().placeOrder(couponCode: _appliedCoupon);
+  }
+
+  void _applyCoupon() {
+    final code = _couponController.text.trim();
+    setState(() {
+      _appliedCoupon = code.isEmpty ? null : code;
+    });
+
+    if (code.isEmpty) return;
+
+    _showSnack(
+      context,
+      context.l10n.checkoutCouponApplied,
+      background: const Color(0xFF075E4D),
+    );
+  }
+
+  // ===============================================================
+  // BUILD
+  // ===============================================================
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgDefault,
       body: SafeArea(
@@ -75,209 +179,292 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             // =====================================================
 
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(
-                  16,
-                  18,
-                  16,
-                  32,
+              child: BlocConsumer<CheckoutCubit, CheckoutState>(
+                listener: _onStateChanged,
+                builder: (context, state) {
+                  if (state is CheckoutReady) {
+                    return _buildForm(context, state.cart, placing: false);
+                  }
+
+                  if (state is CheckoutPlacing) {
+                    final cart = _cart;
+                    if (cart != null) {
+                      return _buildForm(context, cart, placing: true);
+                    }
+                  }
+
+                  if (state is CheckoutSuccess) {
+                    return _buildSuccess(context, state);
+                  }
+
+                  if (state is CheckoutFailure) {
+                    return _buildFailure(context, state);
+                  }
+
+                  if (state is CheckoutEmpty) {
+                    return _buildEmpty(context);
+                  }
+
+                  if (state is CheckoutInitial && GuestSession.isGuest) {
+                    return _buildGuest(context);
+                  }
+
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xFF075E4D),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===============================================================
+  // FORM
+  // ===============================================================
+
+  Widget _buildForm(BuildContext context, CartDto cart, {
+    required bool placing,
+  }) {
+    final l10n = context.l10n;
+
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 18, 16, 32),
+        children: [
+          // =====================================================
+          // ORDER ITEMS
+          // =====================================================
+
+          _SectionTitle(title: l10n.checkoutOrderSummary),
+
+          const SizedBox(height: 10),
+
+          _ItemsCard(cart: cart),
+
+          const SizedBox(height: 22),
+
+          // =====================================================
+          // BILLING INFORMATION
+          // =====================================================
+
+          _SectionTitle(title: l10n.checkoutBillingInfo),
+
+          const SizedBox(height: 10),
+
+          _BillingCard(
+            fullNameController: _fullNameController,
+            emailController: _emailController,
+            fullNameValidator: _validateRequired,
+            emailValidator: _validateEmail,
+          ),
+
+          const SizedBox(height: 22),
+
+          // =====================================================
+          // COUPON
+          // =====================================================
+
+          _SectionTitle(title: l10n.checkoutCouponCode),
+
+          const SizedBox(height: 10),
+
+          _CouponCard(
+            controller: _couponController,
+            appliedCode: _appliedCoupon,
+            onApply: _applyCoupon,
+          ),
+
+          const SizedBox(height: 22),
+
+          // =====================================================
+          // TOTALS
+          // =====================================================
+
+          _OrderSummaryCard(cart: cart),
+
+          const SizedBox(height: 18),
+
+          // =====================================================
+          // PLACE ORDER
+          // =====================================================
+
+          SizedBox(
+            width: double.infinity,
+            height: 52,
+            child: ElevatedButton(
+              onPressed: placing ? null : _placeOrder,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                disabledBackgroundColor: const Color(0xFF8AAFA6),
+                disabledForegroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // =================================================
-                    // COURSE SUMMARY
-                    // =================================================
-
-                    _SectionTitle(
-                      title: 'Course Summary',
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    _CourseSummaryCard(
-                      title:
-                      'Next.js 15 & React 19 Fullstack Masterclass',
-                      instructor: 'Dr. Tareq Al-Mansoor',
-                      price: coursePrice,
-                    ),
-
-                    const SizedBox(height: 22),
-
-                    // =================================================
-                    // PAYMENT METHOD
-                    // =================================================
-
-                    _SectionTitle(
-                      title: 'Payment Method',
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    _PaymentMethodCard(
-                      selectedPayment: selectedPayment,
-                      onPaymentChanged: (value) {
-                        setState(() {
-                          selectedPayment = value;
-                        });
-                      },
-                    ),
-
-                    if (selectedPayment == 'card') ...[
-                      const SizedBox(height: 14),
-
-                      _CardDetailsCard(
-                        cardholderController: cardholderController,
-                        cardNumberController: cardNumberController,
-                        expiryController: expiryController,
-                        cvvController: cvvController,
-                        saveCard: saveCard,
-                        onSaveCardChanged: (value) {
-                          setState(() {
-                            saveCard = value;
-                          });
-                        },
-                      ),
-                    ],
-
-                    const SizedBox(height: 22),
-
-                    // =================================================
-                    // LEARNER & RECEIPT INFORMATION
-                    // =================================================
-
-                    _SectionTitle(
-                      title: 'Learner & Receipt Information',
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    _ReceiptInformationCard(
-                      emailController: emailController,
-                    ),
-
-                    const SizedBox(height: 22),
-
-                    // =================================================
-                    // COUPON
-                    // =================================================
-
-                    _SectionTitle(
-                      title: 'Coupon / Gift Code',
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    _CouponCard(
-                      controller: couponController,
-                      onApply: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Coupon will be applied during checkout.',
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
-                              ),
-                            ),
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: AppColors.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-
-                    const SizedBox(height: 22),
-
-                    // =================================================
-                    // ORDER SUMMARY
-                    // =================================================
-
-                    _SectionTitle(
-                      title: 'Order Summary',
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    _OrderSummaryCard(
-                      subtotal: coursePrice,
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    // =================================================
-                    // PAY BUTTON
-                    // =================================================
-
-                    SizedBox(
-                      width: double.infinity,
-                      height: 52,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
+              ),
+              child: placing
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
                           ),
                         ),
-                        child: Text(
-                          'Pay \$89.00 Now',
+                        const SizedBox(width: 10),
+                        Text(
+                          l10n.checkoutProcessing,
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
+                      ],
+                    )
+                  : Text(
+                      l10n.checkoutPlaceOrder,
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-                    const SizedBox(height: 10),
+  // ===============================================================
+  // SUCCESS
+  // ===============================================================
 
-                    // =================================================
-                    // GUARANTEE
-                    // =================================================
+  Widget _buildSuccess(BuildContext context, CheckoutSuccess state) {
+    final l10n = context.l10n;
+    final session = state.session;
+    final hasUrl = session.hasCheckoutUrl;
 
-                    Center(
-                      child: Text(
-                        '30-Day Money-Back Guarantee • Immediate Course Access',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.inter(
-                          fontSize: 10,
-                          color: const Color(0xFF71827E),
-                        ),
-                      ),
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(26, 40, 26, 40),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 66,
+              height: 66,
+              decoration: const BoxDecoration(
+                color: Color(0xFFFFF3D6),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.payments_outlined,
+                color: const Color(0xFFB7791F),
+                size: 34,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            Text(
+              l10n.checkoutReadyForPayment,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                color: const Color(0xFF073F38),
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              hasUrl
+                  ? l10n.checkoutReadyForPaymentHint
+                  : l10n.checkoutProcessing,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: 12,
+                height: 1.5,
+                color: const Color(0xFF71807C),
+              ),
+            ),
+
+            if (session.orderId > 0) ...[
+              const SizedBox(height: 8),
+              Text(
+                '${l10n.checkoutOrderNumber} ${session.orderId}',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF073F38),
+                ),
+              ),
+            ],
+
+            const SizedBox(height: 22),
+
+            if (hasUrl)
+              SizedBox(
+                width: double.infinity,
+                height: 46,
+                child: ElevatedButton(
+                  onPressed: () => _openCheckoutUrl(context, session.checkoutUrl),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-
-                    const SizedBox(height: 18),
-
-                    // =================================================
-                    // BENEFITS
-                    // =================================================
-
-                    const _CheckoutBenefits(),
-
-                    const SizedBox(height: 16),
-
-                    // =================================================
-                    // TERMS
-                    // =================================================
-
-                    Center(
-                      child: Text(
-                        'By completing your purchase, you agree to our '
-                            'Terms of Service and Privacy Policy.',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.inter(
-                          fontSize: 9.5,
-                          height: 1.5,
-                          color: const Color(0xFF7A8884),
-                        ),
-                      ),
+                  ),
+                  child: Text(
+                    l10n.checkoutContinuePayment,
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
                     ),
-                  ],
+                  ),
+                ),
+              ),
+
+            if (hasUrl) const SizedBox(height: 9),
+
+            SizedBox(
+              width: double.infinity,
+              height: 46,
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    AppRoutes.orderHistory,
+                    (route) => false,
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFF075E4D),
+                  side: const BorderSide(color: Color(0xFFBFE9D8)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  l10n.checkoutViewOrders,
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -285,6 +472,262 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
       ),
     );
+  }
+
+  // ===============================================================
+  // EMPTY
+  // ===============================================================
+
+  Widget _buildEmpty(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 58,
+              height: 58,
+              decoration: const BoxDecoration(
+                color: Color(0xFFE4F6F0),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.remove_shopping_cart_outlined,
+                size: 26,
+                color: Color(0xFF075E4D),
+              ),
+            ),
+            const SizedBox(height: 14),
+            Text(
+              l10n.checkoutNoItems,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF073F38),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              l10n.checkoutNoItemsHint,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: 11.5,
+                color: const Color(0xFF71827E),
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 42,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(11),
+                  ),
+                ),
+                child: Text(
+                  l10n.checkoutGoBack,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===============================================================
+  // FAILURE
+  // ===============================================================
+
+  Widget _buildFailure(BuildContext context, CheckoutFailure state) {
+    final l10n = context.l10n;
+
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(26, 40, 26, 40),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.error_outline_rounded,
+              size: 46,
+              color: Colors.grey.shade400,
+            ),
+            const SizedBox(height: 14),
+            Text(
+              l10n.checkoutOrderFailed,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF073F38),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              _failureMessage(context, state),
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: 11.5,
+                height: 1.45,
+                color: const Color(0xFF71827E),
+              ),
+            ),
+            const SizedBox(height: 18),
+            SizedBox(
+              height: 42,
+              child: ElevatedButton.icon(
+                onPressed: () => context.read<CheckoutCubit>().load(),
+                icon: const Icon(Icons.refresh_rounded, size: 17),
+                label: Text(
+                  l10n.commonRetry,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(11),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===============================================================
+  // GUEST
+  // ===============================================================
+
+  Widget _buildGuest(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 58,
+              height: 58,
+              decoration: const BoxDecoration(
+                color: Color(0xFFE4F6F0),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.lock_outline_rounded,
+                size: 26,
+                color: Color(0xFF075E4D),
+              ),
+            ),
+            const SizedBox(height: 14),
+            Text(
+              l10n.errorSessionExpired,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                height: 1.4,
+                color: const Color(0xFF40514D),
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 42,
+              child: ElevatedButton(
+                onPressed: () => LoginRequiredDialog.show(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(11),
+                  ),
+                ),
+                child: Text(
+                  l10n.loginButton,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===============================================================
+  // HELPERS
+  // ===============================================================
+
+  void _showSnack(
+    BuildContext context,
+    String message, {
+    required Color background,
+  }) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            message,
+            style: GoogleFonts.inter(fontSize: 12),
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: background,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
+  }
+
+  // ===============================================================
+  // VALIDATORS
+  // ===============================================================
+
+  String? _validateRequired(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return context.l10n.checkoutRequired;
+    }
+    return null;
+  }
+
+  String? _validateEmail(String? value) {
+    final text = value?.trim() ?? '';
+    if (text.isEmpty) return context.l10n.checkoutRequired;
+
+    final emailRegex = RegExp(r'^[\w.\-+]+@[\w\-]+(\.[\w\-]+)+$');
+    return emailRegex.hasMatch(text)
+        ? null
+        : context.l10n.checkoutInvalidEmail;
   }
 }
 
@@ -327,7 +770,7 @@ class _CheckoutHeader extends StatelessWidget {
           const SizedBox(width: 4),
 
           Text(
-            'Checkout',
+            context.l10n.checkoutTitle,
             style: GoogleFonts.inter(
               fontSize: 22,
               fontWeight: FontWeight.w700,
@@ -365,19 +808,15 @@ class _SectionTitle extends StatelessWidget {
 }
 
 // ===================================================================
-// COURSE SUMMARY
+// ITEMS CARD
 // ===================================================================
 
-class _CourseSummaryCard extends StatelessWidget {
-  const _CourseSummaryCard({
-    required this.title,
-    required this.instructor,
-    required this.price,
+class _ItemsCard extends StatelessWidget {
+  const _ItemsCard({
+    required this.cart,
   });
 
-  final String title;
-  final String instructor;
-  final double price;
+  final CartDto cart;
 
   @override
   Widget build(BuildContext context) {
@@ -391,397 +830,108 @@ class _CourseSummaryCard extends StatelessWidget {
           color: const Color(0xFFDCE8E4),
         ),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         children: [
-          Container(
-            width: 68,
-            height: 68,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE4F6F0),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.play_circle_outline_rounded,
-              size: 30,
-              color: Color(0xFF075E4D),
-            ),
-          ),
-
-          const SizedBox(width: 12),
-
-          Expanded(
-            child: Column(
+          for (var index = 0; index < cart.items.length; index++) ...[
+            if (index > 0) ...[
+              const SizedBox(height: 10),
+              const Divider(
+                height: 1,
+                color: Color(0xFFE4ECE9),
+              ),
+              const SizedBox(height: 10),
+            ],
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE4F6F0),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(
+                    Icons.play_circle_outline_rounded,
+                    size: 20,
+                    color: Color(0xFF075E4D),
+                  ),
+                ),
+
+                const SizedBox(width: 11),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        cart.items[index].course.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          height: 1.35,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF073F38),
+                        ),
+                      ),
+
+                      const SizedBox(height: 4),
+
+                      Text(
+                        cart.items[index].course.instructor.fullName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          fontSize: 10,
+                          color: const Color(0xFF71827E),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(width: 8),
+
                 Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                  _money(cart.items[index].price),
                   style: GoogleFonts.inter(
-                    fontSize: 12,
-                    height: 1.35,
+                    fontSize: 13,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF073F38),
                   ),
                 ),
-
-                const SizedBox(height: 5),
-
-                Text(
-                  instructor,
-                  style: GoogleFonts.inter(
-                    fontSize: 10,
-                    color: const Color(0xFF71827E),
-                  ),
-                ),
-
-                const SizedBox(height: 6),
-
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.all_inclusive_rounded,
-                      size: 13,
-                      color: Color(0xFF075E4D),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      'Lifetime Access',
-                      style: GoogleFonts.inter(
-                        fontSize: 9.5,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF075E4D),
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
-          ),
-
-          const SizedBox(width: 8),
-
-          Text(
-            '\$${price.toStringAsFixed(2)}',
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF073F38),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ===================================================================
-// PAYMENT METHOD
-// ===================================================================
-
-class _PaymentMethodCard extends StatelessWidget {
-  const _PaymentMethodCard({
-    required this.selectedPayment,
-    required this.onPaymentChanged,
-  });
-
-  final String selectedPayment;
-  final ValueChanged<String> onPaymentChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFDCE8E4),
-        ),
-      ),
-      child: Column(
-        children: [
-          _PaymentOption(
-            value: 'card',
-            selected: selectedPayment == 'card',
-            title: 'Credit / Debit Card',
-            icon: Icons.credit_card_rounded,
-            onTap: () => onPaymentChanged('card'),
-          ),
-
-          const SizedBox(height: 10),
-
-          _PaymentOption(
-            value: 'apple',
-            selected: selectedPayment == 'apple',
-            title: 'Apple Pay',
-            icon: Icons.apple_rounded,
-            onTap: () => onPaymentChanged('apple'),
-          ),
-
-          const SizedBox(height: 10),
-
-          _PaymentOption(
-            value: 'paypal',
-            selected: selectedPayment == 'paypal',
-            title: 'PayPal',
-            icon: Icons.account_balance_wallet_outlined,
-            onTap: () => onPaymentChanged('paypal'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PaymentOption extends StatelessWidget {
-  const _PaymentOption({
-    required this.value,
-    required this.selected,
-    required this.title,
-    required this.icon,
-    required this.onTap,
-  });
-
-  final String value;
-  final bool selected;
-  final String title;
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 11,
-        ),
-        decoration: BoxDecoration(
-          color: selected
-              ? const Color(0xFFE8F6F1)
-              : const Color(0xFFF9FBFA),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: selected
-                ? AppColors.primary
-                : const Color(0xFFE1E9E6),
-          ),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 20,
-              color: selected
-                  ? AppColors.primary
-                  : const Color(0xFF71827E),
-            ),
-
-            const SizedBox(width: 10),
-
-            Expanded(
-              child: Text(
-                title,
-                style: GoogleFonts.inter(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF073F38),
-                ),
-              ),
-            ),
-
-            Container(
-              width: 18,
-              height: 18,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: selected
-                      ? AppColors.primary
-                      : const Color(0xFFB7C5C0),
-                  width: 1.5,
-                ),
-              ),
-              child: selected
-                  ? Center(
-                child: Container(
-                  width: 9,
-                  height: 9,
-                  decoration: const BoxDecoration(
-                    color: AppColors.primary,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              )
-                  : null,
-            ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-// ===================================================================
-// CARD DETAILS
-// ===================================================================
-
-class _CardDetailsCard extends StatelessWidget {
-  const _CardDetailsCard({
-    required this.cardholderController,
-    required this.cardNumberController,
-    required this.expiryController,
-    required this.cvvController,
-    required this.saveCard,
-    required this.onSaveCardChanged,
-  });
-
-  final TextEditingController cardholderController;
-  final TextEditingController cardNumberController;
-  final TextEditingController expiryController;
-  final TextEditingController cvvController;
-  final bool saveCard;
-  final ValueChanged<bool> onSaveCardChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFDCE8E4),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _FieldLabel(
-            label: 'Cardholder Name',
-          ),
-
-          const SizedBox(height: 6),
-
-          _CheckoutTextField(
-            controller: cardholderController,
-            hintText: 'Enter cardholder name',
-            icon: Icons.person_outline_rounded,
-          ),
-
-          const SizedBox(height: 12),
-
-          _FieldLabel(
-            label: 'Card Number',
-          ),
-
-          const SizedBox(height: 6),
-
-          _CheckoutTextField(
-            controller: cardNumberController,
-            hintText: '0000 0000 0000 0000',
-            icon: Icons.credit_card_outlined,
-            keyboardType: TextInputType.number,
-          ),
-
-          const SizedBox(height: 12),
-
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const _FieldLabel(
-                      label: 'Expiry Date',
-                    ),
-                    const SizedBox(height: 6),
-                    _CheckoutTextField(
-                      controller: expiryController,
-                      hintText: 'MM / YY',
-                      keyboardType: TextInputType.number,
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(width: 12),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const _FieldLabel(
-                      label: 'CVV / CVC',
-                    ),
-                    const SizedBox(height: 6),
-                    _CheckoutTextField(
-                      controller: cvvController,
-                      hintText: '123',
-                      keyboardType: TextInputType.number,
-                      obscureText: true,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 8),
-
-          Row(
-            children: [
-              SizedBox(
-                width: 20,
-                height: 20,
-                child: Checkbox(
-                  value: saveCard,
-                  onChanged: (value) {
-                    onSaveCardChanged(value ?? false);
-                  },
-                  activeColor: AppColors.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-              ),
-
-              const SizedBox(width: 7),
-
-              Text(
-                'Save this card for future purchases',
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  color: const Color(0xFF687772),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
   }
 }
 
+
 // ===================================================================
-// RECEIPT INFORMATION
+// BILLING INFORMATION
 // ===================================================================
 
-class _ReceiptInformationCard extends StatelessWidget {
-  const _ReceiptInformationCard({
+class _BillingCard extends StatelessWidget {
+  const _BillingCard({
+    required this.fullNameController,
     required this.emailController,
+    required this.fullNameValidator,
+    required this.emailValidator,
   });
 
+  final TextEditingController fullNameController;
   final TextEditingController emailController;
+  final String? Function(String?) fullNameValidator;
+  final String? Function(String?) emailValidator;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
@@ -795,66 +945,33 @@ class _ReceiptInformationCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const _FieldLabel(
-            label: 'Receipt Email',
+          _FieldLabel(
+            label: l10n.checkoutFullName,
+          ),
+
+          const SizedBox(height: 6),
+
+          _CheckoutTextField(
+            controller: fullNameController,
+            hintText: l10n.checkoutFullName,
+            icon: Icons.person_outline_rounded,
+            validator: fullNameValidator,
+          ),
+
+          const SizedBox(height: 12),
+
+          _FieldLabel(
+            label: l10n.checkoutEmail,
           ),
 
           const SizedBox(height: 6),
 
           _CheckoutTextField(
             controller: emailController,
-            hintText: 'Email address',
+            hintText: l10n.checkoutEmail,
             icon: Icons.email_outlined,
             keyboardType: TextInputType.emailAddress,
-          ),
-
-          const SizedBox(height: 12),
-
-          const _FieldLabel(
-            label: 'Billing Country',
-          ),
-
-          const SizedBox(height: 6),
-
-          Container(
-            height: 46,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-            ),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF9FBFA),
-              borderRadius: BorderRadius.circular(11),
-              border: Border.all(
-                color: const Color(0xFFE1E9E6),
-              ),
-            ),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.public_outlined,
-                  size: 18,
-                  color: Color(0xFF71827E),
-                ),
-
-                const SizedBox(width: 9),
-
-                Expanded(
-                  child: Text(
-                    'Palestine',
-                    style: GoogleFonts.inter(
-                      fontSize: 11,
-                      color: const Color(0xFF073F38),
-                    ),
-                  ),
-                ),
-
-                const Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  size: 19,
-                  color: Color(0xFF71827E),
-                ),
-              ],
-            ),
+            validator: emailValidator,
           ),
         ],
       ),
@@ -869,14 +986,18 @@ class _ReceiptInformationCard extends StatelessWidget {
 class _CouponCard extends StatelessWidget {
   const _CouponCard({
     required this.controller,
+    required this.appliedCode,
     required this.onApply,
   });
 
   final TextEditingController controller;
+  final String? appliedCode;
   final VoidCallback onApply;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
@@ -887,76 +1008,105 @@ class _CouponCard extends StatelessWidget {
           color: const Color(0xFFDCE8E4),
         ),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: TextField(
-              controller: controller,
-              style: GoogleFonts.inter(
-                fontSize: 11,
-                color: const Color(0xFF073F38),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    color: const Color(0xFF073F38),
+                  ),
+                  decoration: InputDecoration(
+                    hintText: l10n.checkoutCouponCode,
+                    hintStyle: GoogleFonts.inter(
+                      fontSize: 11,
+                      color: const Color(0xFF9AA8A3),
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.local_offer_outlined,
+                      size: 18,
+                      color: Color(0xFF71827E),
+                    ),
+                    filled: true,
+                    fillColor: const Color(0xFFF9FBFA),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE1E9E6),
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE1E9E6),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(11),
+                      borderSide: const BorderSide(
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              decoration: InputDecoration(
-                hintText: 'Enter coupon or gift code',
-                hintStyle: GoogleFonts.inter(
-                  fontSize: 11,
-                  color: const Color(0xFF9AA8A3),
-                ),
-                prefixIcon: const Icon(
-                  Icons.local_offer_outlined,
-                  size: 18,
-                  color: Color(0xFF71827E),
-                ),
-                filled: true,
-                fillColor: const Color(0xFFF9FBFA),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11),
-                  borderSide: const BorderSide(
-                    color: Color(0xFFE1E9E6),
+
+              const SizedBox(width: 8),
+
+              SizedBox(
+                height: 46,
+                child: ElevatedButton(
+                  onPressed: onApply,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(11),
+                    ),
                   ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11),
-                  borderSide: const BorderSide(
-                    color: Color(0xFFE1E9E6),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(11),
-                  borderSide: const BorderSide(
-                    color: AppColors.primary,
+                  child: Text(
+                    l10n.checkoutApply,
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
 
-          const SizedBox(width: 8),
-
-          SizedBox(
-            height: 46,
-            child: ElevatedButton(
-              onPressed: onApply,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
+          if (appliedCode != null) ...[
+            const SizedBox(height: 9),
+            Row(
+              children: [
+                const Icon(
+                  Icons.check_circle_rounded,
+                  size: 14,
+                  color: Color(0xFF0F8A6F),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(11),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    appliedCode!,
+                    style: GoogleFonts.inter(
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF08785F),
+                    ),
+                  ),
                 ),
-              ),
-              child: Text(
-                'Apply',
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              ],
             ),
-          ),
+          ],
         ],
       ),
     );
@@ -969,16 +1119,20 @@ class _CouponCard extends StatelessWidget {
 
 class _OrderSummaryCard extends StatelessWidget {
   const _OrderSummaryCard({
-    required this.subtotal,
+    required this.cart,
   });
 
-  final double subtotal;
+  final CartDto cart;
 
   @override
   Widget build(BuildContext context) {
-    const double discount = 0.00;
-    const double taxes = 0.00;
-    final double total = subtotal - discount + taxes;
+    final l10n = context.l10n;
+
+    final subtotal = _amount(cart.subtotal);
+    final discount = _amount(cart.discount);
+    final total = _amount(cart.total);
+    final rawTax = total - subtotal + discount;
+    final tax = rawTax < 0 ? 0.0 : rawTax;
 
     return Container(
       width: double.infinity,
@@ -993,22 +1147,22 @@ class _OrderSummaryCard extends StatelessWidget {
       child: Column(
         children: [
           _SummaryRow(
-            title: 'Subtotal',
-            value: '\$${subtotal.toStringAsFixed(2)}',
+            title: l10n.checkoutSubtotal,
+            value: _moneyValue(subtotal),
           ),
 
           const SizedBox(height: 10),
 
           _SummaryRow(
-            title: 'Coupon Discount',
-            value: '-\$${discount.toStringAsFixed(2)}',
+            title: l10n.checkoutDiscount,
+            value: '-${_moneyValue(discount)}',
           ),
 
           const SizedBox(height: 10),
 
           _SummaryRow(
-            title: 'Taxes & VAT',
-            value: '\$${taxes.toStringAsFixed(2)}',
+            title: l10n.checkoutTax,
+            value: _moneyValue(tax),
           ),
 
           const Padding(
@@ -1020,8 +1174,8 @@ class _OrderSummaryCard extends StatelessWidget {
           ),
 
           _SummaryRow(
-            title: 'Total',
-            value: '\$${total.toStringAsFixed(2)}',
+            title: l10n.checkoutTotal,
+            value: _moneyValue(total),
             isTotal: true,
           ),
         ],
@@ -1075,124 +1229,6 @@ class _SummaryRow extends StatelessWidget {
 }
 
 // ===================================================================
-// BENEFITS
-// ===================================================================
-
-class _CheckoutBenefits extends StatelessWidget {
-  const _CheckoutBenefits();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        vertical: 14,
-        horizontal: 7,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFDCE8E4),
-        ),
-      ),
-      child: const Row(
-        children: [
-          Expanded(
-            child: _Benefit(
-              icon: Icons.verified_user_outlined,
-              title: 'Secure',
-              subtitle: 'Payment',
-            ),
-          ),
-          _BenefitDivider(),
-          Expanded(
-            child: _Benefit(
-              icon: Icons.replay_rounded,
-              title: '30-Day',
-              subtitle: 'Guarantee',
-            ),
-          ),
-          _BenefitDivider(),
-          Expanded(
-            child: _Benefit(
-              icon: Icons.support_agent_outlined,
-              title: '24/7',
-              subtitle: 'Support',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Benefit extends StatelessWidget {
-  const _Benefit({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-  });
-
-  final IconData icon;
-  final String title;
-  final String subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 36,
-          height: 36,
-          decoration: const BoxDecoration(
-            color: Color(0xFFE4F6F0),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            size: 18,
-            color: AppColors.primary,
-          ),
-        ),
-
-        const SizedBox(height: 6),
-
-        Text(
-          title,
-          style: GoogleFonts.inter(
-            fontSize: 9.5,
-            fontWeight: FontWeight.w700,
-            color: AppColors.primary,
-          ),
-        ),
-
-        Text(
-          subtitle,
-          style: GoogleFonts.inter(
-            fontSize: 8.5,
-            color: const Color(0xFF687772),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _BenefitDivider extends StatelessWidget {
-  const _BenefitDivider();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 1,
-      height: 45,
-      color: const Color(0xFFE1E9E6),
-    );
-  }
-}
-
-// ===================================================================
 // FIELD LABEL
 // ===================================================================
 
@@ -1226,65 +1262,97 @@ class _CheckoutTextField extends StatelessWidget {
     required this.hintText,
     this.icon,
     this.keyboardType,
-    this.obscureText = false,
+    this.validator,
   });
 
   final TextEditingController controller;
   final String hintText;
   final IconData? icon;
   final TextInputType? keyboardType;
-  final bool obscureText;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 46,
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        keyboardType: keyboardType,
-        style: GoogleFonts.inter(
-          fontSize: 11,
-          color: const Color(0xFF073F38),
+    return TextFormField(
+      controller: controller,
+      obscureText: false,
+      keyboardType: keyboardType,
+      validator: validator,
+      style: GoogleFonts.inter(
+        fontSize: 11,
+        color: const Color(0xFF073F38),
+      ),
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: GoogleFonts.inter(
+          fontSize: 10.5,
+          color: const Color(0xFF9AA8A3),
         ),
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: GoogleFonts.inter(
-            fontSize: 10.5,
-            color: const Color(0xFF9AA8A3),
+        prefixIcon: icon == null
+            ? null
+            : Icon(
+          icon,
+          size: 18,
+          color: const Color(0xFF71827E),
+        ),
+        filled: true,
+        fillColor: const Color(0xFFF9FBFA),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 14,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(11),
+          borderSide: const BorderSide(
+            color: Color(0xFFE1E9E6),
           ),
-          prefixIcon: icon == null
-              ? null
-              : Icon(
-            icon,
-            size: 18,
-            color: const Color(0xFF71827E),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(11),
+          borderSide: const BorderSide(
+            color: Color(0xFFE1E9E6),
           ),
-          filled: true,
-          fillColor: const Color(0xFFF9FBFA),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 12,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(11),
-            borderSide: const BorderSide(
-              color: Color(0xFFE1E9E6),
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(11),
-            borderSide: const BorderSide(
-              color: Color(0xFFE1E9E6),
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(11),
-            borderSide: const BorderSide(
-              color: AppColors.primary,
-            ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(11),
+          borderSide: const BorderSide(
+            color: AppColors.primary,
           ),
         ),
       ),
     );
   }
+}
+
+// ===================================================================
+// HELPERS
+// ===================================================================
+
+double _amount(String value) => double.tryParse(value) ?? 0;
+
+String _moneyValue(double value) => '\$${value.toStringAsFixed(2)}';
+
+String _money(String value) {
+  final amount = double.tryParse(value);
+  if (amount == null) return value;
+  return _moneyValue(amount);
+}
+
+String _failureMessage(BuildContext context, CheckoutFailure state) {
+  final l10n = context.l10n;
+  return switch (state.kind) {
+    FailureKind.offline => l10n.errorOffline,
+    FailureKind.unauthorized => l10n.errorSessionExpired,
+    FailureKind.forbidden => l10n.errorForbidden,
+    FailureKind.notFound => l10n.errorNotFound,
+    FailureKind.conflict => l10n.errorConflict,
+    FailureKind.rateLimited => l10n.errorRateLimited,
+    FailureKind.serverError => l10n.checkoutPaymentFailed,
+    FailureKind.validation ||
+    FailureKind.businessRejection =>
+        state.message.trim().isEmpty
+            ? l10n.checkoutOrderFailed
+            : state.message,
+    FailureKind.unknown => l10n.checkoutOrderFailed,
+  };
 }

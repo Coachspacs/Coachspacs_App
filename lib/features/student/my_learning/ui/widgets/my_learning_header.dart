@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
+
 class MyLearningHeader extends StatelessWidget {
   const MyLearningHeader({
     super.key,
@@ -12,7 +14,7 @@ class MyLearningHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'My Learning',
+          context.l10n.myLearningTitle,
           style: GoogleFonts.inter(
             fontSize: 21,
             height: 1.2,

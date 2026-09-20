@@ -6,6 +6,11 @@ abstract class EnrollmentRepository {
     int page = 1,
     int pageSize = 20,
   });
+
+  /// Enrolls the signed-in student in a free course, bypassing cart/checkout
+  /// entirely (`POST /api/enrollments/free`).
+  Future<void> enrollFree(int courseId);
+
   Future<LessonPlayerDto> getLesson(int enrollmentId, int lessonId);
   Future<void> markLessonComplete(int enrollmentId, int lessonId);
   Future<void> markLessonIncomplete(int enrollmentId, int lessonId);

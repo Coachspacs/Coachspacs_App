@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 
 class OrderSearchBar extends StatelessWidget {
@@ -8,18 +9,14 @@ class OrderSearchBar extends StatelessWidget {
     super.key,
     required this.controller,
     required this.onChanged,
-    required this.onExport,
-    required this.isMobile,
   });
 
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
-  final VoidCallback onExport;
-  final bool isMobile;
 
   @override
   Widget build(BuildContext context) {
-    final searchField = TextField(
+    return TextField(
       controller: controller,
       onChanged: onChanged,
       style: GoogleFonts.inter(
@@ -27,7 +24,7 @@ class OrderSearchBar extends StatelessWidget {
         color: AppColors.textBody,
       ),
       decoration: InputDecoration(
-        hintText: 'Search orders...',
+        hintText: context.l10n.orderHistorySearchHint,
         hintStyle: GoogleFonts.inter(
           color: AppColors.textLight,
           fontSize: 11,
@@ -62,48 +59,6 @@ class OrderSearchBar extends StatelessWidget {
           ),
         ),
       ),
-    );
-
-    if (isMobile) {
-      return searchField;
-    }
-
-    return Row(
-      children: [
-        Expanded(
-          child: searchField,
-        ),
-
-        const SizedBox(width: 10),
-
-        SizedBox(
-          height: 46,
-          child: OutlinedButton.icon(
-            onPressed: onExport,
-            icon: const Icon(
-              Icons.download_outlined,
-              size: 16,
-            ),
-            label: Text(
-              'Export',
-              style: GoogleFonts.inter(
-                fontSize: 10.5,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.primary,
-              backgroundColor: AppColors.white,
-              side: const BorderSide(
-                color: Color(0xFFDCE8E4),
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

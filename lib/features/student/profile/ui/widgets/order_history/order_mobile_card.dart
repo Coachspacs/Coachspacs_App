@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/features/student/profile/data/models/order_dto.dart';
 
 import 'order_status_badge.dart';
 
 class OrderMobileCard extends StatelessWidget {
   const OrderMobileCard({
     super.key,
-    required this.orderNumber,
-    required this.date,
-    required this.items,
-    required this.total,
-    required this.status,
+    required this.order,
+    required this.isExpanded,
     required this.onTap,
   });
 
-  final String orderNumber;
-  final String date;
-  final String items;
-  final double total;
-  final String status;
+  final OrderDto order;
+  final bool isExpanded;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final date = DateFormat.yMMMd().format(order.createdAt);
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -68,7 +68,7 @@ class OrderMobileCard extends StatelessWidget {
                       CrossAxisAlignment.start,
                       children: [
                         Text(
-                          orderNumber,
+                          order.orderNumber,
                           style: GoogleFonts.inter(
                             color: const Color(0xFF075E4D),
                             fontSize: 12,
@@ -77,7 +77,7 @@ class OrderMobileCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '$date · $items',
+                          '$date · ${l10n.orderHistoryItemsCount(order.items.length)}',
                           style: GoogleFonts.inter(
                             color: const Color(0xFF71827E),
                             fontSize: 9.5,
@@ -88,7 +88,17 @@ class OrderMobileCard extends StatelessWidget {
                   ),
 
                   OrderStatusBadge(
-                    status: status,
+                    status: order.status,
+                  ),
+
+                  const SizedBox(width: 2),
+
+                  Icon(
+                    isExpanded
+                        ? Icons.expand_less_rounded
+                        : Icons.expand_more_rounded,
+                    size: 19,
+                    color: const Color(0xFF9AA7A3),
                   ),
                 ],
               ),
@@ -107,14 +117,14 @@ class OrderMobileCard extends StatelessWidget {
                 MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Order Total',
+                    l10n.orderHistoryTotal,
                     style: GoogleFonts.inter(
                       color: const Color(0xFF71827E),
                       fontSize: 10,
                     ),
                   ),
                   Text(
-                    '\$${total.toStringAsFixed(2)}',
+                    _money(order.total),
                     style: GoogleFonts.inter(
                       color: const Color(0xFF073F38),
                       fontSize: 14,
@@ -123,10 +133,69 @@ class OrderMobileCard extends StatelessWidget {
                   ),
                 ],
               ),
+
+              if (isExpanded) ...[
+                const SizedBox(height: 11),
+
+                const Divider(
+                  height: 1,
+                  color: Color(0xFFE4ECE9),
+                ),
+
+                const SizedBox(height: 10),
+
+                ...order.items.map(
+                  (item) => Padding(
+                    padding: const EdgeInsets.only(bottom: 9),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.play_circle_outline_rounded,
+                          size: 15,
+                          color: Color(0xFF075E4D),
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        Expanded(
+                          child: Text(
+                            item.courseTitle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.inter(
+                              color: const Color(0xFF073F38),
+                              fontSize: 10.5,
+                              height: 1.3,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        Text(
+                          _money(item.price),
+                          style: GoogleFonts.inter(
+                            color: const Color(0xFF71827E),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
         ),
       ),
     );
   }
+}
+
+String _money(String value) {
+  final amount = double.tryParse(value);
+  if (amount == null) return value;
+  return '\$${amount.toStringAsFixed(2)}';
 }

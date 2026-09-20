@@ -15,7 +15,6 @@ import '../widgets/category_chips_widget.dart';
 import '../widgets/continue_learning_card.dart';
 import '../widgets/featured_course_card.dart';
 import '../widgets/home_hero_section.dart';
-import '../widgets/streak_card.dart';
 import '../widgets/top_app_bar_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -54,15 +53,11 @@ class _HomeView extends StatelessWidget {
 
             HomeEmpty() => const _EmptyView(),
 
-            HomeError() => _ErrorView(
-              message: state.message,
-            ),
+            HomeError() => _ErrorView(message: state.message),
 
             HomeOffline() => const _OfflineView(),
 
-            HomeSuccess() => _SuccessView(
-              data: state.data,
-            ),
+            HomeSuccess() => _SuccessView(data: state.data),
           };
         },
       ),
@@ -70,120 +65,99 @@ class _HomeView extends StatelessWidget {
   }
 }
 
-// =====================================================
-// SUCCESS VIEW
-// =====================================================
-
 class _SuccessView extends StatelessWidget {
-  const _SuccessView({
-    required this.data,
-  });
+  const _SuccessView({required this.data});
 
   final HomeData data;
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.only(
-        bottom: 24,
-      ),
-      children: [
-        // =================================================
-        // WELCOME + SEARCH
-        // =================================================
+    final l10n = context.l10n;
 
-        const HomeHeroSection(),
+    return RefreshIndicator(
+      onRefresh: () => context.read<HomeCubit>().loadHome(),
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 24),
+        children: [
+          const HomeHeroSection(),
 
-        const SizedBox(height: 26),
+          const SizedBox(height: 26),
 
-        // =================================================
-        // STREAK
-        // =================================================
-
-        const StreakCard(),
-
-        const SizedBox(height: 28),
-
-        // =================================================
-        // CONTINUE LEARNING
-        // =================================================
-
-        const _SectionHeader(
-          title: 'Continue Learning',
-          actionLabel: 'Current Module',
-        ),
-
-        const SizedBox(height: 12),
-
-        const ContinueLearningCard(),
-
-        const SizedBox(height: 28),
-
-        // =================================================
-        // TOP CATEGORIES
-        // =================================================
-
-        _SectionHeader(
-          title: 'Top Categories',
-          actionLabel: 'See all',
-          onAction: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.catalog,
-            );
-          },
-        ),
-
-        const SizedBox(height: 12),
-
-        CategoryChipsWidget(
-          categories: data.categories,
-        ),
-
-        const SizedBox(height: 32),
-
-        // =================================================
-        // RECOMMENDED COURSES
-        // =================================================
-
-        _SectionHeader(
-          title: 'Recommended Courses',
-          subtitle: 'Courses picked for your learning journey',
-          actionLabel: 'See All',
-          onAction: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.catalog,
-            );
-          },
-        ),
-
-        const SizedBox(height: 14),
-
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
+          _SectionHeader(
+            title: l10n.homeContinueLearning,
+            actionLabel: l10n.homeCurrentModule,
+            highlight: true,
           ),
-          child: Column(
-            children: [
-              for (final course in data.featuredCourses) ...[
-                FeaturedCourseCard(
-                  course: course,
+
+          const SizedBox(height: 12),
+
+          ContinueLearningCard(
+            enrollment: data.continueEnrollment,
+            onContinue: () {
+              final enrollment = data.continueEnrollment;
+              if (enrollment == null) return;
+              Navigator.pushNamed(
+                context,
+                AppRoutes.courseDetails,
+                arguments: enrollment.course.id,
+              );
+            },
+          ),
+
+          const SizedBox(height: 28),
+
+          _SectionHeader(
+            title: l10n.homeTopCategories,
+            actionLabel: l10n.homeSeeAll,
+            onAction: () => Navigator.pushNamed(context, AppRoutes.catalog),
+          ),
+
+          const SizedBox(height: 12),
+
+          CategoryChipsWidget(categories: data.categories),
+
+          const SizedBox(height: 32),
+
+          _SectionHeader(
+            title: l10n.homeRecommended,
+            subtitle: l10n.homeRecommendedSubtitle,
+            actionLabel: l10n.homeSeeAll,
+            onAction: () => Navigator.pushNamed(context, AppRoutes.catalog),
+          ),
+
+          const SizedBox(height: 14),
+
+          if (data.recommendedCourses.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                l10n.homeEmptySubtitle,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  color: const Color(0xFF71827E),
                 ),
-                const SizedBox(height: 16),
-              ],
+              ),
+            )
+          else
+            for (final course in data.recommendedCourses) ...[
+              FeaturedCourseCard(
+                course: course,
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.courseDetails,
+                    arguments: course.id,
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
             ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
-
-// =====================================================
-// SECTION HEADER
-// =====================================================
 
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader({
@@ -191,26 +165,25 @@ class _SectionHeader extends StatelessWidget {
     this.subtitle,
     this.actionLabel,
     this.onAction,
+    this.highlight = false,
   });
 
   final String title;
   final String? subtitle;
   final String? actionLabel;
   final VoidCallback? onAction;
+  final bool highlight;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Expanded(
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -222,12 +195,9 @@ class _SectionHeader extends StatelessWidget {
                         color: const Color(0xFF073F38),
                       ),
                     ),
-
-                    if (title == 'Continue Learning')
+                    if (highlight)
                       Container(
-                        margin: const EdgeInsets.only(
-                          left: 7,
-                        ),
+                        margin: const EdgeInsets.only(left: 7),
                         width: 7,
                         height: 7,
                         decoration: const BoxDecoration(
@@ -237,7 +207,6 @@ class _SectionHeader extends StatelessWidget {
                       ),
                   ],
                 ),
-
                 if (subtitle != null) ...[
                   const SizedBox(height: 4),
                   Text(
@@ -251,7 +220,6 @@ class _SectionHeader extends StatelessWidget {
               ],
             ),
           ),
-
           if (actionLabel != null)
             GestureDetector(
               onTap: onAction,
@@ -260,12 +228,11 @@ class _SectionHeader extends StatelessWidget {
                   horizontal: 11,
                   vertical: 5,
                 ),
-                decoration: title == 'Continue Learning'
+                decoration: highlight
                     ? BoxDecoration(
-                  color: const Color(0xFFCDEFE5),
-                  borderRadius:
-                  BorderRadius.circular(20),
-                )
+                        color: const Color(0xFFCDEFE5),
+                        borderRadius: BorderRadius.circular(20),
+                      )
                     : null,
                 child: Text(
                   actionLabel!,
@@ -283,26 +250,16 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
-// =====================================================
-// LOADING
-// =====================================================
-
 class _LoadingView extends StatelessWidget {
   const _LoadingView();
 
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: CircularProgressIndicator(
-        color: Color(0xFF075E4D),
-      ),
+      child: CircularProgressIndicator(color: Color(0xFF075E4D)),
     );
   }
 }
-
-// =====================================================
-// EMPTY
-// =====================================================
 
 class _EmptyView extends StatelessWidget {
   const _EmptyView();
@@ -319,14 +276,8 @@ class _EmptyView extends StatelessWidget {
   }
 }
 
-// =====================================================
-// ERROR
-// =====================================================
-
 class _ErrorView extends StatelessWidget {
-  const _ErrorView({
-    this.message,
-  });
+  const _ErrorView({this.message});
 
   final String? message;
 
@@ -338,16 +289,10 @@ class _ErrorView extends StatelessWidget {
       icon: Icons.error_outline,
       title: l10n.homeErrorTitle,
       message: message ?? l10n.homeErrorSubtitle,
-      onRetry: () {
-        context.read<HomeCubit>().loadHome();
-      },
+      onRetry: () => context.read<HomeCubit>().loadHome(),
     );
   }
 }
-
-// =====================================================
-// OFFLINE
-// =====================================================
 
 class _OfflineView extends StatelessWidget {
   const _OfflineView();
@@ -360,16 +305,10 @@ class _OfflineView extends StatelessWidget {
       icon: Icons.wifi_off_outlined,
       title: l10n.homeOfflineTitle,
       message: l10n.homeOfflineSubtitle,
-      onRetry: () {
-        context.read<HomeCubit>().loadHome();
-      },
+      onRetry: () => context.read<HomeCubit>().loadHome(),
     );
   }
 }
-
-// =====================================================
-// MESSAGE STATE
-// =====================================================
 
 class _MessageStateView extends StatelessWidget {
   const _MessageStateView({
@@ -394,14 +333,8 @@ class _MessageStateView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              size: 52,
-              color: const Color(0xFF83918D),
-            ),
-
+            Icon(icon, size: 52, color: const Color(0xFF83918D)),
             const SizedBox(height: 16),
-
             Text(
               title,
               textAlign: TextAlign.center,
@@ -411,9 +344,7 @@ class _MessageStateView extends StatelessWidget {
                 color: const Color(0xFF073F38),
               ),
             ),
-
             const SizedBox(height: 8),
-
             Text(
               message,
               textAlign: TextAlign.center,
@@ -422,18 +353,14 @@ class _MessageStateView extends StatelessWidget {
                 color: const Color(0xFF71827E),
               ),
             ),
-
             if (onRetry != null) ...[
               const SizedBox(height: 20),
-
               ElevatedButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
                 label: Text(
                   l10n.homeRetry,
-                  style: GoogleFonts.inter(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: GoogleFonts.inter(fontWeight: FontWeight.w600),
                 ),
               ),
             ],

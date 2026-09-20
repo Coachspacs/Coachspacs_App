@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
 
@@ -14,6 +15,8 @@ class ContinueLearningSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     if (enrollments.isEmpty) {
       return Container(
         width: double.infinity,
@@ -23,7 +26,7 @@ class ContinueLearningSection extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          'No courses in progress yet.',
+          l10n.myLearningNoProgress,
           style: GoogleFonts.inter(
             fontSize: 12,
             color: const Color(0xFF42645C),
@@ -32,7 +35,10 @@ class ContinueLearningSection extends StatelessWidget {
       );
     }
 
-    final enrollment = enrollments.first;
+    final enrollment = enrollments.firstWhere(
+      (e) => !e.isCompleted,
+      orElse: () => enrollments.first,
+    );
 
     return Container(
       width: double.infinity,
@@ -55,14 +61,11 @@ class ContinueLearningSection extends StatelessWidget {
             children: [
               const Text(
                 '✦',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Color(0xFF65D5B3),
-                ),
+                style: TextStyle(fontSize: 13, color: Color(0xFF65D5B3)),
               ),
               const SizedBox(width: 7),
               Text(
-                'CONTINUE LEARNING',
+                l10n.myLearningContinueSection.toUpperCase(),
                 style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
@@ -72,9 +75,7 @@ class ContinueLearningSection extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 18),
-
           Text(
             enrollment.course.title,
             maxLines: 2,
@@ -86,13 +87,11 @@ class ContinueLearningSection extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-
           const SizedBox(height: 9),
-
           Text(
             enrollment.isCompleted
-                ? 'Course completed'
-                : 'Continue where you left off',
+                ? l10n.myLearningCourseCompleted
+                : l10n.myLearningContinueWhereLeft,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.inter(
@@ -100,9 +99,7 @@ class ContinueLearningSection extends StatelessWidget {
               color: const Color(0xFFA9D5C8),
             ),
           ),
-
           const SizedBox(height: 18),
-
           SizedBox(
             height: 40,
             child: ElevatedButton.icon(
@@ -110,13 +107,7 @@ class ContinueLearningSection extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   AppRoutes.courseDetails,
-                  arguments: {
-                    'id': enrollment.course.id,
-                    'title': enrollment.course.title,
-                    'instructor':
-                    enrollment.course.instructor.fullName,
-                    'image': enrollment.course.coverImage,
-                  },
+                  arguments: enrollment.course.id,
                 );
               },
               icon: const Icon(
@@ -125,7 +116,7 @@ class ContinueLearningSection extends StatelessWidget {
                 color: Color(0xFF073F38),
               ),
               label: Text(
-                'My Courses',
+                l10n.myLearningContinue,
                 style: GoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
@@ -136,9 +127,7 @@ class ContinueLearningSection extends StatelessWidget {
                 backgroundColor: Colors.white,
                 foregroundColor: const Color(0xFF073F38),
                 elevation: 0,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 17,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 17),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(22),
                 ),

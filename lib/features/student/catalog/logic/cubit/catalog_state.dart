@@ -13,11 +13,48 @@ final class CatalogLoading extends CatalogState {
 }
 
 final class CatalogSuccess extends CatalogState {
-  const CatalogSuccess(this.page);
-  final PaginatedResponse<CatalogCourseDto> page;
+  const CatalogSuccess({
+    required this.courses,
+    required this.categories,
+    required this.totalCount,
+    required this.hasMore,
+    required this.filters,
+    this.isLoadingMore = false,
+    this.loadMoreError,
+  });
+
+  final List<CatalogCourseDto> courses;
+  final List<CategoryDto> categories;
+  final int totalCount;
+  final bool hasMore;
+  final CatalogFilters filters;
+  final bool isLoadingMore;
+  final String? loadMoreError;
+
+  bool get isEmpty => courses.isEmpty;
+
+  CatalogSuccess copyWith({
+    List<CatalogCourseDto>? courses,
+    List<CategoryDto>? categories,
+    int? totalCount,
+    bool? hasMore,
+    CatalogFilters? filters,
+    bool? isLoadingMore,
+    String? loadMoreError,
+  }) => CatalogSuccess(
+    courses: courses ?? this.courses,
+    categories: categories ?? this.categories,
+    totalCount: totalCount ?? this.totalCount,
+    hasMore: hasMore ?? this.hasMore,
+    filters: filters ?? this.filters,
+    isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+    loadMoreError: loadMoreError,
+  );
 }
 
 final class CatalogFailure extends CatalogState {
-  const CatalogFailure(this.message);
+  const CatalogFailure({required this.kind, required this.message});
+
+  final FailureKind kind;
   final String message;
 }

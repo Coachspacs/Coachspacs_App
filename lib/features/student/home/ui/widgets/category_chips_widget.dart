@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
+
 import '../../data/models/category.dart';
 
 class CategoryChipsWidget extends StatelessWidget {
@@ -109,7 +111,7 @@ class CategoryChipsWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      'Courses',
+                      context.l10n.homeCategoryCourses,
                       style: GoogleFonts.inter(
                         fontSize: 9,
                         color: const Color(0xFF52615D),

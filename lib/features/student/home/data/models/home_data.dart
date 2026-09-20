@@ -1,23 +1,24 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:coach_space/features/student/catalog/data/models/catalog_course_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
+
 import 'category.dart';
-import 'course.dart';
 
 /// Aggregate payload that fully describes the home screen content.
 class HomeData extends Equatable {
   const HomeData({
     required this.categories,
-    required this.featuredCourses,
-    required this.trendingCourses,
+    required this.recommendedCourses,
+    this.continueEnrollment,
   });
 
   final List<Category> categories;
-  final List<Course> featuredCourses;
-  final List<Course> trendingCourses;
+  final List<CatalogCourseDto> recommendedCourses;
+  final EnrollmentDto? continueEnrollment;
 
-  bool get isEmpty =>
-      categories.isEmpty && featuredCourses.isEmpty && trendingCourses.isEmpty;
+  bool get isEmpty => categories.isEmpty && recommendedCourses.isEmpty;
 
   @override
-  List<Object?> get props => [categories, featuredCourses, trendingCourses];
+  List<Object?> get props => [categories, recommendedCourses, continueEnrollment];
 }

@@ -32,6 +32,7 @@ import 'package:coach_space/features/student/catalog/ui/screens/catalog_screen.d
 import 'package:coach_space/features/student/catalog/ui/screens/course_details_screen.dart';
 
 import 'package:coach_space/features/student/my_learning/ui/screens/my_learning_screen.dart';
+import 'package:coach_space/features/student/my_learning/ui/screens/lesson_player_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/profile_information_screen.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/create_course_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/learning_settings_screen.dart';
@@ -134,6 +135,9 @@ class AppRouter {
       case AppRoutes.myLearning:
         return _buildRoute(const MyLearningScreen(), settings);
 
+      case AppRoutes.lessonPlayer:
+        return _buildRoute(const LessonPlayerScreen(), settings);
+
       // =====================================================
       // PROFILE
       // =====================================================
@@ -212,7 +216,12 @@ class AppRouter {
         );
 
       case AppRoutes.instructorCourseManagement:
-        return _buildRoute(const InstructorCourseManagementScreen(), settings);
+        return _buildRoute(
+          InstructorCourseManagementScreen(
+            course: settings.arguments as InstructorCourse,
+          ),
+          settings,
+        );
 
       case AppRoutes.instructorStudentProgress:
         return _buildRoute(
