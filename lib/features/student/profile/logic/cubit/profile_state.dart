@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:coach_space/core/networking/network_exceptions.dart';
 
 import '../../data/models/user_profile_model.dart';
 
@@ -28,12 +29,13 @@ class ProfileLoadSuccess extends ProfileState {
 }
 
 class ProfileLoadFailure extends ProfileState {
-  const ProfileLoadFailure(this.message);
+  const ProfileLoadFailure(this.message, {this.kind = FailureKind.unknown});
 
   final String message;
+  final FailureKind kind;
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, kind];
 }
 
 class ProfileSaving extends ProfileState {

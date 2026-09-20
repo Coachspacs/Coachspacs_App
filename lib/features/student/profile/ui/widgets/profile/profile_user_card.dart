@@ -37,7 +37,7 @@ class ProfileUserCard extends StatelessWidget {
                 ? Image.network(
               avatar,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) {
+              errorBuilder: (_, _, _) {
                 return _LetterAvatar(letter: firstLetter);
               },
             )
@@ -93,31 +93,6 @@ class ProfileUserCard extends StatelessWidget {
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF075E4D),
-                ),
-              ),
-
-              const SizedBox(width: 5),
-
-              Text(
-                '•',
-                style: GoogleFonts.inter(
-
-
-                  fontSize: 12,
-                  color: const Color(0xFF075E4D),
-                ),
-              ),
-
-              const SizedBox(width: 5),
-
-              Text(
-                'Information Technology',
-                style: GoogleFonts.inter(
-
-
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF48736A),
                 ),
               ),
             ],

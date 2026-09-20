@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/context_extensions.dart';
+
 class AccountSettingsProfileCard extends StatelessWidget {
   const AccountSettingsProfileCard({
     super.key,
@@ -47,7 +49,7 @@ class AccountSettingsProfileCard extends StatelessWidget {
                   ? Image.network(
                 avatar,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) {
+                errorBuilder: (_, _, _) {
                   return _LetterAvatar(
                     letter: firstLetter,
                   );
@@ -114,15 +116,6 @@ class AccountSettingsProfileCard extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(width: 8),
-
-                    Text(
-                      '•  Info Technology',
-                      style: GoogleFonts.inter(
-                        fontSize: 9,
-                        color: const Color(0xFF70827D),
-                      ),
-                    ),
                   ],
                 ),
               ],
@@ -146,7 +139,7 @@ class AccountSettingsProfileCard extends StatelessWidget {
               ),
             ),
             child: Text(
-              'Active',
+              context.l10n.profileActive,
               style: GoogleFonts.inter(
                 fontSize: 8.5,
                 fontWeight: FontWeight.w600,

@@ -20,6 +20,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final profile = await _repo.getProfile();
       emit(ProfileLoadSuccess(profile));
+    } on NetworkException catch (error) {
+      emit(ProfileLoadFailure(error.message, kind: error.kind));
     } catch (error) {
       emit(ProfileLoadFailure(_messageOf(error)));
     }

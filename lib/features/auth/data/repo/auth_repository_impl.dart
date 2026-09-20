@@ -87,10 +87,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> clearSession() => _storage.clear();
 
-  @override
-  Future<void> fetchInstructorDashboard() =>
-      _guard(() => _api.instructorDashboard());
-
   Future<T> _guard<T>(Future<T> Function() action) async {
     try {
       return await action();

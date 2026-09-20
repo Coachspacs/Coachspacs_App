@@ -41,8 +41,4 @@ abstract interface class AuthRepository {
 
   /// Wipes the persisted session without any network call.
   Future<void> clearSession();
-
-  /// Probes the instructor dashboard (`GET /api/auth/instructor/dashboard`).
-  /// Returns 403 when the instructor is not yet approved.
-  Future<void> fetchInstructorDashboard();
 }
