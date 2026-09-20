@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:coach_space/core/routing/routes.dart';
+import 'package:coach_space/features/instructor/students/logic/cubit/instructor_students_cubit.dart';
 import 'package:coach_space/features/instructor/students/data/models/instructor_student_progress.dart';
 
 class InstructorStudentCard extends StatelessWidget {
@@ -9,11 +10,11 @@ class InstructorStudentCard extends StatelessWidget {
     required this.student,
   });
 
-  final dynamic student;
+  final EnrolledStudent student;
 
   @override
   Widget build(BuildContext context) {
-    final int progress = student.progress;
+    final int progress = student.progressPercent;
 
     final Color progressColor =
     progress >= 70
@@ -21,6 +22,12 @@ class InstructorStudentCard extends StatelessWidget {
         : progress >= 40
         ? const Color(0xFFE5A51D)
         : const Color(0xFFE05252);
+
+    final String status = student.isCompleted
+        ? 'Completed'
+        : student.isInactive
+        ? 'Inactive'
+        : 'Active';
 
     return Container(
       padding: const EdgeInsets.all(13),
@@ -86,7 +93,7 @@ class InstructorStudentCard extends StatelessWidget {
                     const SizedBox(height: 3),
 
                     Text(
-                      student.course,
+                      student.courseTitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -98,7 +105,7 @@ class InstructorStudentCard extends StatelessWidget {
                 ),
               ),
 
-              _buildStatus(student.status),
+              _buildStatus(status),
             ],
           ),
 
@@ -166,7 +173,7 @@ class InstructorStudentCard extends StatelessWidget {
               const SizedBox(width: 4),
 
               Text(
-                'Last active ${student.lastActive}',
+                'Enrolled ${_formatDate(student.student.enrolledAt)}',
                 style: const TextStyle(
                   fontSize: 10.5,
                   color: Color(0xFF899792),
@@ -187,32 +194,16 @@ class InstructorStudentCard extends StatelessWidget {
                     InstructorStudentProgress(
                       name: student.name,
                       initials: student.initials,
-                      courseName: student.course,
-                      progress: student.progress,
-
-                      // Temporary values until the
-                      // students API provides them.
-                      completedLessons:
-                      student.progress == 100 ? 20 : 17,
-                      totalLessons: 20,
-
-                      status: student.status,
-                      enrolledDate: 'Oct 12, 2024',
-                      lastActive: student.lastActive,
-                      timeSpent: '18h 45m',
-
-                      quizScores: const [
-                        InstructorStudentQuizScore(
-                          title:
-                          'Module 1: Clean Architecture',
-                          score: 95,
-                        ),
-                        InstructorStudentQuizScore(
-                          title:
-                          'Module 2: State Management',
-                          score: 88,
-                        ),
-                      ],
+                      courseName: student.courseTitle,
+                      progress: progress,
+                      completedLessons: 0,
+                      totalLessons: 0,
+                      status: status,
+                      enrolledDate: _formatDate(student.student.enrolledAt),
+                      lastActive: '',
+                      timeSpent: '',
+                      quizScores: const [],
+                      email: student.email,
                     );
 
                     Navigator.pushNamed(
@@ -288,5 +279,16 @@ class InstructorStudentCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  static String _formatDate(String? dateTime) {
+    if (dateTime == null || dateTime.isEmpty) return '—';
+    final parsed = DateTime.tryParse(dateTime);
+    if (parsed == null) return dateTime;
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ];
+    return '${months[parsed.month - 1]} ${parsed.day}, ${parsed.year}';
   }
 }

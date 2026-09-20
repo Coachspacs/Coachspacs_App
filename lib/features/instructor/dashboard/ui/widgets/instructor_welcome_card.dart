@@ -6,7 +6,10 @@ import '../../../../../core/routing/routes.dart';
 class InstructorWelcomeCard extends StatelessWidget {
   const InstructorWelcomeCard({
     super.key,
+    this.coachName,
   });
+
+  final String? coachName;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +85,7 @@ class InstructorWelcomeCard extends StatelessWidget {
 
                   const Icon(
                     Icons.waving_hand_rounded,
-                    color: const Color(0xFFFFCA28),
+                    color: Color(0xFFFFCA28),
                     size: 22,
                   ),
                 ],
@@ -91,7 +94,9 @@ class InstructorWelcomeCard extends StatelessWidget {
               const SizedBox(height: 2),
 
               Text(
-                'Coach Hadeel',
+                coachName?.isNotEmpty == true
+                    ? coachName!
+                    : 'Coach',
                 style: GoogleFonts.inter(
                   fontSize: 21,
                   height: 1.15,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
 import 'package:coach_space/features/instructor/courses/ui/widgets/course_management/instructor_course_management_header.dart';
 import 'package:coach_space/features/instructor/courses/ui/widgets/course_management/instructor_course_summary_card.dart';
 import 'package:coach_space/features/instructor/courses/ui/widgets/course_management/instructor_course_management_tabs.dart';
@@ -13,7 +14,10 @@ import 'package:coach_space/features/instructor/courses/ui/widgets/course_manage
 class InstructorCourseManagementScreen extends StatefulWidget {
   const InstructorCourseManagementScreen({
     super.key,
+    required this.course,
   });
+
+  final InstructorCourse course;
 
   @override
   State<InstructorCourseManagementScreen> createState() =>
@@ -74,7 +78,7 @@ class _InstructorCourseManagementScreenState
 
                     const SizedBox(height: 16),
 
-                    const InstructorCourseSummaryCard(),
+                    InstructorCourseSummaryCard(course: widget.course),
 
                     const SizedBox(height: 18),
 

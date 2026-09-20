@@ -2,40 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/routing/routes.dart';
+import 'package:coach_space/features/instructor/courses/data/models/instructor_course_dto.dart';
 
 class InstructorRecentCourses extends StatelessWidget {
   const InstructorRecentCourses({
     super.key,
+    required this.courses,
   });
+
+  final List<InstructorCourseDto> courses;
 
   @override
   Widget build(BuildContext context) {
-    const courses = [
-      _CourseData(
-        title: 'Advanced Flutter Architecture',
-        status: 'PUBLISHED',
-        statusColor: Color(0xFF2C8A70),
-        statusBackground: Color(0xFFE5F5F0),
-        time: '2 hrs ago',
-        icon: Icons.flutter_dash,
-      ),
-      _CourseData(
-        title: 'UX/UI Masterclass 2024',
-        status: 'DRAFT',
-        statusColor: Color(0xFF687772),
-        statusBackground: Color(0xFFF0F3F2),
-        time: '1 day ago',
-        icon: Icons.design_services_outlined,
-      ),
-      _CourseData(
-        title: 'Intro to Machine Learning',
-        status: 'PENDING',
-        statusColor: Color(0xFFB27A16),
-        statusBackground: Color(0xFFFFF4D9),
-        time: '3 days ago',
-        icon: Icons.memory_outlined,
-      ),
-    ];
+    final items = courses.take(3).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +26,7 @@ class InstructorRecentCourses extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Last Edited',
+              'Recently Edited',
               style: GoogleFonts.inter(
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
@@ -92,52 +71,103 @@ class InstructorRecentCourses extends StatelessWidget {
         // COURSES CONTAINER
         // =====================================================
 
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: const Color(0xFFE1EAE7),
+        if (items.isEmpty)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 24,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: const Color(0xFFE1EAE7),
+              ),
+            ),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.menu_book_outlined,
+                  size: 26,
+                  color: Colors.grey.shade400,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'No courses yet. Create your first course to get started.',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    fontSize: 11.5,
+                    color: const Color(0xFF899590),
+                  ),
+                ),
+              ],
+            ),
+          )
+        else
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: const Color(0xFFE1EAE7),
+              ),
+            ),
+            child: Column(
+              children: [
+                for (int index = 0;
+                index < items.length;
+                index++)
+                  _RecentCourseItem(
+                    course: items[index],
+                    showDivider:
+                    index != items.length - 1,
+                  ),
+              ],
             ),
           ),
-          child: Column(
-            children: [
-              for (int index = 0;
-              index < courses.length;
-              index++)
-                _RecentCourseItem(
-                  course: courses[index],
-                  showDivider:
-                  index != courses.length - 1,
-                ),
-            ],
-          ),
-        ),
       ],
     );
   }
 }
 
 // =============================================================
-// COURSE DATA
+// COURSE STATUS COLORS
 // =============================================================
 
-class _CourseData {
-  const _CourseData({
-    required this.title,
-    required this.status,
-    required this.statusColor,
-    required this.statusBackground,
-    required this.time,
-    required this.icon,
-  });
+class _CourseStatusStyle {
+  const _CourseStatusStyle(this.color, this.background);
 
-  final String title;
-  final String status;
-  final Color statusColor;
-  final Color statusBackground;
-  final String time;
-  final IconData icon;
+  final Color color;
+  final Color background;
+}
+
+_CourseStatusStyle _statusStyle(String status) {
+  switch (status.toUpperCase()) {
+    case 'PUBLISHED':
+      return const _CourseStatusStyle(
+        Color(0xFF2C8A70),
+        Color(0xFFE5F5F0),
+      );
+    case 'PENDING':
+    case 'PENDING_REVIEW':
+    case 'UNDER_REVIEW':
+      return const _CourseStatusStyle(
+        Color(0xFFB27A16),
+        Color(0xFFFFF4D9),
+      );
+    case 'REJECTED':
+      return const _CourseStatusStyle(
+        Color(0xFFC0392B),
+        Color(0xFFFDECEC),
+      );
+    case 'DRAFT':
+    default:
+      return const _CourseStatusStyle(
+        Color(0xFF687772),
+        Color(0xFFF0F3F2),
+      );
+  }
 }
 
 // =============================================================
@@ -150,11 +180,13 @@ class _RecentCourseItem extends StatelessWidget {
     required this.showDivider,
   });
 
-  final _CourseData course;
+  final InstructorCourseDto course;
   final bool showDivider;
 
   @override
   Widget build(BuildContext context) {
+    final style = _statusStyle(course.status);
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -180,10 +212,10 @@ class _RecentCourseItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(9),
             ),
             alignment: Alignment.center,
-            child: Icon(
-              course.icon,
+            child: const Icon(
+              Icons.play_lesson_outlined,
               size: 22,
-              color: const Color(0xFF075E4D),
+              color: Color(0xFF075E4D),
             ),
           ),
 
@@ -205,7 +237,7 @@ class _RecentCourseItem extends StatelessWidget {
                     vertical: 3,
                   ),
                   decoration: BoxDecoration(
-                    color: course.statusBackground,
+                    color: style.background,
                     borderRadius:
                     BorderRadius.circular(5),
                   ),
@@ -214,7 +246,7 @@ class _RecentCourseItem extends StatelessWidget {
                     style: GoogleFonts.inter(
                       fontSize: 8.5,
                       fontWeight: FontWeight.w800,
-                      color: course.statusColor,
+                      color: style.color,
                     ),
                   ),
                 ),
@@ -223,7 +255,7 @@ class _RecentCourseItem extends StatelessWidget {
 
                 // TITLE
                 Text(
-                  course.title,
+                  course.displayTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
@@ -247,7 +279,7 @@ class _RecentCourseItem extends StatelessWidget {
                     const SizedBox(width: 3),
 
                     Text(
-                      course.time,
+                      _relativeTime(course.updatedAt),
                       style: GoogleFonts.inter(
                         fontSize: 9.5,
                         color: const Color(0xFF899590),
@@ -279,5 +311,19 @@ class _RecentCourseItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static String _relativeTime(String? dateTime) {
+    if (dateTime == null || dateTime.isEmpty) return 'Recently';
+    final parsed = DateTime.tryParse(dateTime);
+    if (parsed == null) return 'Recently';
+    final difference = DateTime.now().difference(parsed);
+    if (difference.inMinutes < 1) return 'Just now';
+    if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} min ago';
+    }
+    if (difference.inHours < 24) return '${difference.inHours} hr ago';
+    if (difference.inDays < 30) return '${difference.inDays} days ago';
+    return '${parsed.year}-${parsed.month}-${parsed.day}';
   }
 }

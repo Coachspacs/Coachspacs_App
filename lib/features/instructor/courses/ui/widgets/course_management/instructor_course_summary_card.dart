@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/routing/routes.dart';
+import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
 
 class InstructorCourseSummaryCard extends StatelessWidget {
   const InstructorCourseSummaryCard({
     super.key,
+    required this.course,
   });
+
+  final InstructorCourse course;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +41,8 @@ class InstructorCourseSummaryCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             clipBehavior: Clip.antiAlias,
-            child: Image.asset(
-              'assets/images/course1.png',
+            child: Image.network(
+              course.image,
               fit: BoxFit.cover,
               errorBuilder: (
                   context,
@@ -70,7 +74,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    'PUBLISHED',
+                    course.status.name.toUpperCase(),
                     style: GoogleFonts.inter(
                       fontSize: 8.5,
                       fontWeight: FontWeight.w800,
@@ -82,7 +86,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                 const SizedBox(height: 6),
 
                 Text(
-                  'React 19 & Next.js App Router Masterclass',
+                  course.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
@@ -104,7 +108,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 3),
                     Text(
-                      '350 students',
+                      course.students,
                       style: GoogleFonts.inter(
                         fontSize: 10,
                         color: const Color(0xFF71807C),
@@ -114,13 +118,13 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                     const SizedBox(width: 12),
 
                     const Icon(
-                      Icons.menu_book_outlined,
+                      Icons.attach_money_rounded,
                       size: 13,
                       color: Color(0xFF82918D),
                     ),
                     const SizedBox(width: 3),
                     Text(
-                      '42 lessons',
+                      '\$${course.price.replaceAll('\$', '')}',
                       style: GoogleFonts.inter(
                         fontSize: 10,
                         color: const Color(0xFF71807C),
@@ -134,34 +138,25 @@ class InstructorCourseSummaryCard extends StatelessWidget {
 
           const SizedBox(width: 8),
 
-      IconButton(
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            AppRoutes.instructorCourseEdit,
-            arguments: {
-              'title':
-              'React 19 & Next.js App Router Masterclass',
-              'description':
-              'Master React 19 and Next.js App Router.',
-              'category': 'Development',
-              'level': 'Intermediate',
-              'language': 'English',
-              'price': '\$49.00',
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.instructorCourseEdit,
+                arguments: course,
+              );
             },
-          );
-        },
-        padding: EdgeInsets.zero,
-        constraints: const BoxConstraints(
-          minWidth: 32,
-          minHeight: 32,
-        ),
-        icon: const Icon(
-          Icons.edit_outlined,
-          size: 17,
-          color: Color(0xFF667570),
-        ),
-        ),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(
+              minWidth: 32,
+              minHeight: 32,
+            ),
+            icon: const Icon(
+              Icons.edit_outlined,
+              size: 17,
+              color: Color(0xFF667570),
+            ),
+          ),
         ],
       ),
     );

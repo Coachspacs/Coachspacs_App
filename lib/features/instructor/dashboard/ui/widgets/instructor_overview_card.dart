@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/features/instructor/dashboard/data/models/instructor_dashboard_dto.dart';
+
 class InstructorOverviewCard extends StatelessWidget {
   const InstructorOverviewCard({
     super.key,
+    this.totalLessons,
+    this.totalDurationMinutes,
   });
+
+  final int? totalLessons;
+  final int? totalDurationMinutes;
 
   @override
   Widget build(BuildContext context) {
@@ -75,46 +82,22 @@ class InstructorOverviewCard extends StatelessWidget {
           const SizedBox(height: 18),
 
           Row(
-            children: const [
+            children: [
               Expanded(
                 child: _OverviewItem(
-                  value: '4.9',
-                  label: 'Average Rating',
-                  icon: Icons.star_rounded,
+                  value: '${totalLessons ?? 0}',
+                  label: 'Total Lessons',
+                  icon: Icons.playlist_play_rounded,
                 ),
               ),
 
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
 
               Expanded(
                 child: _OverviewItem(
-                  value: '87%',
-                  label: 'Completion Rate',
-                  icon: Icons.check_circle_outline,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 8),
-
-          Row(
-            children: const [
-              Expanded(
-                child: _OverviewItem(
-                  value: '92%',
-                  label: 'Student Satisfaction',
-                  icon: Icons.sentiment_satisfied_alt,
-                ),
-              ),
-
-              SizedBox(width: 8),
-
-              Expanded(
-                child: _OverviewItem(
-                  value: '18.4%',
-                  label: 'Student Growth',
-                  icon: Icons.trending_up,
+                  value: formatDashboardDuration(totalDurationMinutes),
+                  label: 'Teaching Content',
+                  icon: Icons.schedule_rounded,
                 ),
               ),
             ],
