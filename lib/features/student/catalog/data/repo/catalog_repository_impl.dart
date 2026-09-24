@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 import 'package:coach_space/core/networking/api_service.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/networking/paginated_response.dart';
@@ -46,11 +44,6 @@ class CatalogRepositoryImpl implements CatalogRepository {
   Future<CourseDetailDto> getCourse(int id) =>
       _guard(() => _api.getCatalogCourse(id));
 
-  Future<T> _guard<T>(Future<T> Function() request) async {
-    try {
-      return await request();
-    } on DioException catch (error) {
-      throw NetworkException.fromDioException(error);
-    }
-  }
+  Future<T> _guard<T>(Future<T> Function() request) =>
+      NetworkException.guard(request);
 }

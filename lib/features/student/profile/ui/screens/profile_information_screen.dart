@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/helpers/failure_messages.dart';
+import 'package:coach_space/core/helpers/media_url.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/features/student/profile/data/models/user_profile_model.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/profile_cubit.dart';
@@ -407,7 +408,7 @@ class _AvatarCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final url = avatar.trim();
+    final url = resolveMediaUrl(avatar);
     final initial = name.trim().isNotEmpty ? name.trim()[0].toUpperCase() : '?';
 
     return Container(

@@ -9,13 +9,8 @@ import 'package:coach_space/features/student/profile/logic/cubit/certificates_cu
 
 CertificateDto _certificate(int id) => CertificateDto(
   id: id,
-  certificateNumber: 'CERT-$id',
-  course: CertificateCourseDto(
-    id: id,
-    title: 'Course $id',
-    coverImage: '',
-  ),
-  studentName: 'Jane Doe',
+  certificateCode: 'CERT-$id',
+  pdfUrl: '/api/certificates/$id/pdf',
   issuedAt: DateTime(2026, 2, 1),
 );
 

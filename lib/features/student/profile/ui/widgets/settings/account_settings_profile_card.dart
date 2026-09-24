@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/helpers/context_extensions.dart';
+import 'package:coach_space/core/helpers/media_url.dart';
 
 class AccountSettingsProfileCard extends StatelessWidget {
   const AccountSettingsProfileCard({
@@ -20,6 +21,7 @@ class AccountSettingsProfileCard extends StatelessWidget {
     final firstLetter = name.trim().isNotEmpty
         ? name.trim().substring(0, 1).toUpperCase()
         : 'S';
+    final avatarUrl = resolveMediaUrl(avatar);
 
     return Container(
       width: double.infinity,
@@ -45,9 +47,9 @@ class AccountSettingsProfileCard extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: ClipOval(
-              child: avatar.isNotEmpty
+              child: avatarUrl.isNotEmpty
                   ? Image.network(
-                avatar,
+                avatarUrl,
                 fit: BoxFit.cover,
                 errorBuilder: (_, _, _) {
                   return _LetterAvatar(

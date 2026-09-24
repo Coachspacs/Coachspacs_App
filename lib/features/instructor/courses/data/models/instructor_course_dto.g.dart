@@ -150,7 +150,7 @@ SectionWriteRequest _$SectionWriteRequestFromJson(Map<String, dynamic> json) =>
     SectionWriteRequest(
       titleAr: json['title_ar'] as String,
       titleEn: json['title_en'] as String,
-      order: (json['order'] as num).toInt(),
+      order: (json['order'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SectionWriteRequestToJson(
@@ -158,7 +158,7 @@ Map<String, dynamic> _$SectionWriteRequestToJson(
 ) => <String, dynamic>{
   'title_ar': instance.titleAr,
   'title_en': instance.titleEn,
-  'order': instance.order,
+  'order': ?instance.order,
 };
 
 SectionPatchRequest _$SectionPatchRequestFromJson(Map<String, dynamic> json) =>
@@ -180,19 +180,19 @@ LessonWriteRequest _$LessonWriteRequestFromJson(Map<String, dynamic> json) =>
     LessonWriteRequest(
       titleAr: json['title_ar'] as String,
       titleEn: json['title_en'] as String,
-      videoUrl: json['video_url'] as String,
-      videoPublicId: json['video_public_id'] as String,
-      durationMinutes: (json['duration_minutes'] as num).toInt(),
-      order: (json['order'] as num).toInt(),
-      isPreview: json['is_preview'] as bool,
+      videoUrl: json['video_url'] as String?,
+      videoPublicId: json['video_public_id'] as String?,
+      durationMinutes: (json['duration_minutes'] as num?)?.toInt() ?? 0,
+      order: (json['order'] as num?)?.toInt() ?? 0,
+      isPreview: json['is_preview'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$LessonWriteRequestToJson(LessonWriteRequest instance) =>
     <String, dynamic>{
       'title_ar': instance.titleAr,
       'title_en': instance.titleEn,
-      'video_url': instance.videoUrl,
-      'video_public_id': instance.videoPublicId,
+      'video_url': ?instance.videoUrl,
+      'video_public_id': ?instance.videoPublicId,
       'duration_minutes': instance.durationMinutes,
       'order': instance.order,
       'is_preview': instance.isPreview,

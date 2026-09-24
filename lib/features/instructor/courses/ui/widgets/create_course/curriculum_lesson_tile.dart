@@ -17,9 +17,11 @@ class CurriculumLessonTile extends StatelessWidget {
   const CurriculumLessonTile({
     super.key,
     required this.lesson,
+    this.trailing,
   });
 
   final CurriculumLesson lesson;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -129,11 +131,12 @@ class CurriculumLessonTile extends StatelessWidget {
           // MORE
           // =================================================
 
-          const Icon(
-            Icons.more_vert,
-            size: 14,
-            color: Color(0xFF9AA8A4),
-          ),
+          trailing ??
+              const Icon(
+                Icons.more_vert,
+                size: 14,
+                color: Color(0xFF9AA8A4),
+              ),
         ],
       ),
     );

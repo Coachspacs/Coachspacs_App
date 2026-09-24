@@ -104,7 +104,7 @@ class _CertificateTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    certificate.course.title,
+                    certificate.certificateCode,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.inter(
@@ -115,7 +115,7 @@ class _CertificateTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    certificate.certificateNumber,
+                    certificate.certificateCode,
                     style: GoogleFonts.inter(
                       fontSize: 9,
                       color: const Color(0xFF8A9A96),

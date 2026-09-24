@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,6 +16,10 @@ class CreateCourseBasicInfo
     required this.onCategoryChanged,
     required this.onLevelChanged,
     required this.onLanguageChanged,
+    required this.isFree,
+    required this.onFreeChanged,
+    required this.onPickThumbnail,
+    this.coverImage,
   });
 
   final TextEditingController titleController;
@@ -32,6 +38,11 @@ class CreateCourseBasicInfo
 
   final ValueChanged<String>
   onLanguageChanged;
+
+  final bool isFree;
+  final ValueChanged<bool> onFreeChanged;
+  final VoidCallback onPickThumbnail;
+  final File? coverImage;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +69,10 @@ class CreateCourseBasicInfo
         // THUMBNAIL
         // =================================================
 
-        _UploadThumbnail(),
+        _UploadThumbnail(
+          image: coverImage,
+          onTap: onPickThumbnail,
+        ),
 
         const SizedBox(height: 16),
 
@@ -204,8 +218,8 @@ class CreateCourseBasicInfo
                   const SizedBox(width: 5),
 
                   Switch(
-                    value: false,
-                    onChanged: (_) {},
+                    value: isFree,
+                    onChanged: onFreeChanged,
                     activeThumbColor:
                     const Color(0xFF075E4D),
                   ),
@@ -215,7 +229,9 @@ class CreateCourseBasicInfo
               const SizedBox(height: 5),
 
               Text(
-                'Set the price students will pay.',
+                isFree
+                    ? 'This course will be listed as Free.'
+                    : 'Set the price students will pay.',
                 style: GoogleFonts.inter(
                   fontSize: 9.5,
                   color:
@@ -227,9 +243,10 @@ class CreateCourseBasicInfo
 
               _TextField(
                 controller: priceController,
-                hint: '\$ 0.00',
+                hint: isFree ? 'Free' : '\$ 0.00',
                 keyboardType:
                 TextInputType.number,
+                enabled: !isFree,
               ),
             ],
           ),
@@ -245,59 +262,115 @@ class CreateCourseBasicInfo
 
 class _UploadThumbnail
     extends StatelessWidget {
-  const _UploadThumbnail();
+  const _UploadThumbnail({
+    required this.onTap,
+    this.image,
+  });
+
+  final File? image;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 125,
-      decoration: BoxDecoration(
-        color: const Color(0xFFF4F9F7),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: const Color(0xFFD3E3DE),
+    final File? picked = image;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: double.infinity,
+        height: 125,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF4F9F7),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: const Color(0xFFD3E3DE),
+          ),
         ),
-      ),
-      child: Column(
-        mainAxisAlignment:
-        MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 34,
-            height: 34,
-            decoration: const BoxDecoration(
-              color: Color(0xFFE0F2EC),
-              shape: BoxShape.circle,
+        child: picked != null
+            ? Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.file(
+              picked,
+              fit: BoxFit.cover,
             ),
-            child: const Icon(
-              Icons.add_photo_alternate_outlined,
-              size: 17,
-              color: Color(0xFF075E4D),
+            Positioned(
+              right: 8,
+              top: 8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.55),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.edit_outlined,
+                      size: 12,
+                      color: Colors.white,
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      'Change',
+                      style: TextStyle(
+                        fontSize: 9,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-
-          const SizedBox(height: 7),
-
-          Text(
-            'Upload Thumbnail',
-            style: GoogleFonts.inter(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF263C38),
+          ],
+        )
+            : Column(
+          mainAxisAlignment:
+          MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 34,
+              height: 34,
+              decoration: const BoxDecoration(
+                color: Color(0xFFE0F2EC),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.add_photo_alternate_outlined,
+                size: 17,
+                color: Color(0xFF075E4D),
+              ),
             ),
-          ),
 
-          const SizedBox(height: 2),
+            const SizedBox(height: 7),
 
-          Text(
-            'PNG, JPG up to 5MB',
-            style: GoogleFonts.inter(
-              fontSize: 9,
-              color: const Color(0xFF899792),
+            Text(
+              'Upload Thumbnail',
+              style: GoogleFonts.inter(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF263C38),
+              ),
             ),
-          ),
-        ],
+
+            const SizedBox(height: 2),
+
+            Text(
+              'PNG, JPG up to 5MB',
+              style: GoogleFonts.inter(
+                fontSize: 9,
+                color: const Color(0xFF899792),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -334,22 +407,35 @@ class _TextField extends StatelessWidget {
     required this.controller,
     required this.hint,
     this.keyboardType,
+    this.enabled = true,
   });
 
   final TextEditingController controller;
   final String hint;
   final TextInputType? keyboardType;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
+      enabled: enabled,
       style: GoogleFonts.inter(
         fontSize: 12,
         color: const Color(0xFF263C38),
       ),
-      decoration: _inputDecoration(hint),
+      decoration: _inputDecoration(hint).copyWith(
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(9),
+          borderSide: const BorderSide(
+            color: Color(0xFFE4ECE9),
+          ),
+        ),
+        fillColor: enabled
+            ? Colors.white
+            : const Color(0xFFF5F8F7),
+      ),
     );
   }
 }

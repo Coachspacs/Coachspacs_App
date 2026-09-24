@@ -120,7 +120,9 @@ class _InstructorCourseManagementScreenState
         return const InstructorCourseManagementAnalytics();
 
       case 4:
-        return const InstructorCourseManagementSettings();
+        return InstructorCourseManagementSettings(
+          course: widget.course,
+        );
 
       default:
         return const InstructorCourseManagementOverview();

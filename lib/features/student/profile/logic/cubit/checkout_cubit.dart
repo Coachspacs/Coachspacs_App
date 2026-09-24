@@ -38,11 +38,11 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   /// Starts a Stripe Checkout session for the current cart
   /// (`POST /api/orders/checkout`). The server creates a pending order and
   /// returns the hosted `checkout_url` the student is redirected to (US-15).
-  Future<void> placeOrder({String? couponCode}) async {
+  Future<void> placeOrder() async {
     if (state is! CheckoutReady) return;
     emit(const CheckoutPlacing());
     try {
-      final session = await _orderRepository.checkout(couponCode: couponCode);
+      final session = await _orderRepository.checkout();
       emit(CheckoutSuccess(session));
     } on NetworkException catch (error) {
       emit(CheckoutFailure(error.kind, error.message));

@@ -35,13 +35,13 @@ import 'package:coach_space/features/student/my_learning/ui/screens/my_learning_
 import 'package:coach_space/features/student/my_learning/ui/screens/lesson_player_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/profile_information_screen.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/create_course_screen.dart';
-import 'package:coach_space/features/student/profile/ui/screens/learning_settings_screen.dart';
+// import 'package:coach_space/features/student/profile/ui/screens/learning_settings_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/security_settings_screen.dart';
-import 'package:coach_space/features/student/profile/ui/screens/preferences_settings_screen.dart';
+// import 'package:coach_space/features/student/profile/ui/screens/preferences_settings_screen.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
 import 'package:coach_space/features/instructor/profile/ui/screens/instructor_profile_screen.dart';
 import 'package:coach_space/features/instructor/dashboard/ui/screens/instructor_dashboard_screen.dart';
-import 'package:coach_space/features/student/notifications/ui/screens/notification_screen.dart';
+// import 'package:coach_space/features/student/notifications/ui/screens/notification_screen.dart';
 import 'package:coach_space/features/instructor/notifications/ui/screens/instructor_notifications_screen.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/instructor_course_edit_screen.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/instructor_course_management_screen.dart';
@@ -49,7 +49,7 @@ import 'package:coach_space/features/instructor/students/ui/screens/instructor_s
 
 import '../../features/auth/data/models/user_role.dart';
 import '../../features/student/profile/ui/screens/checkout_screen.dart';
-import '../../features/student/profile/ui/screens/contact_us_screen.dart';
+// import '../../features/student/profile/ui/screens/contact_us_screen.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -150,11 +150,11 @@ class AppRouter {
           settings,
         );
 
-      case AppRoutes.contactUs:
-        return _buildRoute(
-          const ContactUsScreen(),
-          settings,
-        );
+      // case AppRoutes.contactUs:
+      //   return _buildRoute(
+      //     const ContactUsScreen(),
+      //     settings,
+      //   );
       case AppRoutes.checkout:
         return _buildRoute(const CheckoutScreen(), settings);
       // =====================================================
@@ -194,17 +194,17 @@ class AppRouter {
       case AppRoutes.accountSettings:
         return _buildRoute(const SettingsScreen(), settings);
 
-      case AppRoutes.learningSettings:
-        return _buildRoute(const LearningSettingsScreen(), settings);
+      // case AppRoutes.learningSettings:
+      //   return _buildRoute(const LearningSettingsScreen(), settings);
 
       case AppRoutes.securitySettings:
         return _buildRoute(const SecuritySettingsScreen(), settings);
 
-      case AppRoutes.preferencesSettings:
-        return _buildRoute(const PreferencesSettingsScreen(), settings);
+      // case AppRoutes.preferencesSettings:
+      //   return _buildRoute(const PreferencesSettingsScreen(), settings);
 
-      case AppRoutes.notifications:
-        return _buildRoute(const NotificationScreen(), settings);
+      // case AppRoutes.notifications:
+      //   return _buildRoute(const NotificationScreen(), settings);
 
       case AppRoutes.instructorNotifications:
         return _buildRoute(const InstructorNotificationsScreen(), settings);

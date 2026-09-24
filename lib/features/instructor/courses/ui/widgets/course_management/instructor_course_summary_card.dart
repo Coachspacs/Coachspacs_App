@@ -12,8 +12,42 @@ class InstructorCourseSummaryCard extends StatelessWidget {
 
   final InstructorCourse course;
 
+  static ({Color foreground, Color background}) _statusStyle(
+    CourseStatus status,
+  ) {
+    switch (status) {
+      case CourseStatus.published:
+        return (
+          foreground: const Color(0xFF218066),
+          background: const Color(0xFFE2F5EF),
+        );
+      case CourseStatus.pendingReview:
+        return (
+          foreground: const Color(0xFF9A6A00),
+          background: const Color(0xFFFFF0CF),
+        );
+      case CourseStatus.draft:
+        return (
+          foreground: const Color(0xFF687772),
+          background: const Color(0xFFEDEFF0),
+        );
+      case CourseStatus.rejected:
+        return (
+          foreground: const Color(0xFFC95548),
+          background: const Color(0xFFFFE5E2),
+        );
+      case CourseStatus.archived:
+        return (
+          foreground: const Color(0xFF4F6170),
+          background: const Color(0xFFE4EAF0),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final statusStyle = _statusStyle(course.status);
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -44,11 +78,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
             child: Image.network(
               course.image,
               fit: BoxFit.cover,
-              errorBuilder: (
-                  context,
-                  error,
-                  stackTrace,
-                  ) {
+              errorBuilder: (context, error, stackTrace) {
                 return const Icon(
                   Icons.menu_book_rounded,
                   color: Color(0xFF075E4D),
@@ -57,9 +87,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
               },
             ),
           ),
-
           const SizedBox(width: 12),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,21 +98,19 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE2F5EF),
+                    color: statusStyle.background,
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    course.status.name.toUpperCase(),
+                    course.status.label.toUpperCase(),
                     style: GoogleFonts.inter(
                       fontSize: 8.5,
                       fontWeight: FontWeight.w800,
-                      color: const Color(0xFF218066),
+                      color: statusStyle.foreground,
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 6),
-
                 Text(
                   course.title,
                   maxLines: 2,
@@ -96,9 +122,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                     color: const Color(0xFF173D37),
                   ),
                 ),
-
                 const SizedBox(height: 7),
-
                 Row(
                   children: [
                     const Icon(
@@ -114,9 +138,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                         color: const Color(0xFF71807C),
                       ),
                     ),
-
                     const SizedBox(width: 12),
-
                     const Icon(
                       Icons.attach_money_rounded,
                       size: 13,
@@ -124,10 +146,15 @@ class InstructorCourseSummaryCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 3),
                     Text(
-                      '\$${course.price.replaceAll('\$', '')}',
+                      course.displayPrice,
                       style: GoogleFonts.inter(
                         fontSize: 10,
-                        color: const Color(0xFF71807C),
+                        fontWeight: course.isFree
+                            ? FontWeight.w700
+                            : FontWeight.w400,
+                        color: course.isFree
+                            ? const Color(0xFF075E4D)
+                            : const Color(0xFF71807C),
                       ),
                     ),
                   ],
@@ -135,9 +162,7 @@ class InstructorCourseSummaryCard extends StatelessWidget {
               ],
             ),
           ),
-
           const SizedBox(width: 8),
-
           IconButton(
             onPressed: () {
               Navigator.pushNamed(

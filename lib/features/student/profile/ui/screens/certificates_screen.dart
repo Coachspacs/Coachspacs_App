@@ -59,7 +59,7 @@ class _CertificatesViewState extends State<_CertificatesView> {
 
       await shareCertificatePdf(
         bytes: bytes,
-        certificateNumber: certificate.certificateNumber,
+        certificateNumber: certificate.certificateCode,
       );
       if (!mounted) return;
 

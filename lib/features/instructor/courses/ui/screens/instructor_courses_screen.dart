@@ -257,7 +257,10 @@ class _InstructorCoursesScreenState extends State<InstructorCoursesScreen> {
                 .map(
                   (course) => Padding(
                     padding: const EdgeInsets.only(bottom: 14),
-                    child: InstructorCourseCard(course: course),
+                    child: InstructorCourseCard(
+                      course: course,
+                      onRefresh: _loadCourses,
+                    ),
                   ),
                 )
                 .toList(),
@@ -279,7 +282,10 @@ class _InstructorCoursesScreenState extends State<InstructorCoursesScreen> {
             childAspectRatio: 0.92,
           ),
           itemBuilder: (context, index) {
-            return InstructorCourseCard(course: _filteredCourses[index]);
+            return InstructorCourseCard(
+              course: _filteredCourses[index],
+              onRefresh: _loadCourses,
+            );
           },
         );
       },
@@ -359,11 +365,22 @@ class InstructorCourse {
   final String price;
   final String? rejectionReason;
 
+  bool get isFree {
+    final normalized = price.replaceAll('\$', '').trim();
+    return normalized.isEmpty ||
+        normalized == '0' ||
+        normalized == '0.00' ||
+        normalized == '0.0';
+  }
+
+  String get displayPrice => isFree ? 'Free' : price;
+
   factory InstructorCourse.fromDto(InstructorCourseDto dto) {
     final status = switch (dto.status) {
       'published' => CourseStatus.published,
       'pending' || 'pending_review' => CourseStatus.pendingReview,
       'rejected' => CourseStatus.rejected,
+      'archived' => CourseStatus.archived,
       _ => CourseStatus.draft,
     };
     return InstructorCourse(
@@ -382,4 +399,14 @@ class InstructorCourse {
 // COURSE STATUS
 // =============================================================
 
-enum CourseStatus { published, pendingReview, draft, rejected }
+enum CourseStatus { published, pendingReview, draft, rejected, archived }
+
+extension CourseStatusDisplay on CourseStatus {
+  String get label => switch (this) {
+    CourseStatus.published => 'Published',
+    CourseStatus.pendingReview => 'Pending Review',
+    CourseStatus.draft => 'Draft',
+    CourseStatus.rejected => 'Rejected',
+    CourseStatus.archived => 'Archived',
+  };
+}

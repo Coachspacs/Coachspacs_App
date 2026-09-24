@@ -119,8 +119,7 @@ class _CartViewState extends State<_CartView> {
               padding: const EdgeInsets.only(bottom: 14),
               child: CartItem(
                 title: item.course.title,
-                instructor: item.course.instructor.fullName,
-                price: _money(item.price),
+                price: _money(item.course.price),
                 image: item.course.coverImage,
                 onDelete: () => _confirmRemove(context, item),
               ),

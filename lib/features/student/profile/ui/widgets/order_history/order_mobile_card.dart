@@ -68,7 +68,7 @@ class OrderMobileCard extends StatelessWidget {
                       CrossAxisAlignment.start,
                       children: [
                         Text(
-                          order.orderNumber,
+                          '#${order.id}',
                           style: GoogleFonts.inter(
                             color: const Color(0xFF075E4D),
                             fontSize: 12,
@@ -124,7 +124,7 @@ class OrderMobileCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    _money(order.total),
+                    _money(order.totalAmount),
                     style: GoogleFonts.inter(
                       color: const Color(0xFF073F38),
                       fontSize: 14,
@@ -159,7 +159,7 @@ class OrderMobileCard extends StatelessWidget {
 
                         Expanded(
                           child: Text(
-                            item.courseTitle,
+                            item.course.title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.inter(
@@ -174,7 +174,7 @@ class OrderMobileCard extends StatelessWidget {
                         const SizedBox(width: 8),
 
                         Text(
-                          _money(item.price),
+                          _money(item.priceAtPurchase),
                           style: GoogleFonts.inter(
                             color: const Color(0xFF71827E),
                             fontSize: 10,

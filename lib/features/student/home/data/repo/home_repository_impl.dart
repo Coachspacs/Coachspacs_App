@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 import 'package:coach_space/core/auth/guest_session.dart';
 import 'package:coach_space/core/networking/api_service.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
@@ -42,41 +40,34 @@ class HomeRepositoryImpl implements HomeRepository {
     );
   }
 
-  Future<List<CatalogCourseDto>> _loadRecommendedCourses() async {
-    try {
-      final page = await _api.getCatalogCourses(
-        ordering: '-created_at',
-        page: 1,
-        pageSize: 6,
+  Future<List<CatalogCourseDto>> _loadRecommendedCourses() =>
+      NetworkException.guard(
+        () => _api.getCatalogCourses(
+          ordering: '-created_at',
+          page: 1,
+          pageSize: 6,
+        ).then((page) => page.results),
       );
-      return page.results;
-    } on DioException catch (error) {
-      throw NetworkException.fromDioException(error);
-    }
-  }
 
   Future<EnrollmentDto?> _loadContinueEnrollment() async {
     if (GuestSession.isGuest) return null;
 
     try {
-      final page = await _api.getEnrollments(1, 20);
+      final page = await NetworkException.guard(
+        () => _api.getEnrollments(1, 20),
+      );
       final results = [...page.results]
         ..sort((a, b) => b.enrolledAt.compareTo(a.enrolledAt));
       for (final enrollment in results) {
         if (!enrollment.isCompleted) return enrollment;
       }
       return results.isEmpty ? null : results.first;
-    } on DioException {
+    } on NetworkException {
       // Continue-learning is optional; never fail the whole home screen.
       return null;
     }
   }
 
-  Future<T> _guard<T>(Future<T> Function() action) async {
-    try {
-      return await action();
-    } on DioException catch (error) {
-      throw NetworkException.fromDioException(error);
-    }
-  }
+  Future<T> _guard<T>(Future<T> Function() action) =>
+      NetworkException.guard(action);
 }

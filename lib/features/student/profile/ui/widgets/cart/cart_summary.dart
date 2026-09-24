@@ -86,35 +86,6 @@ class CartSummary extends StatelessWidget {
           const SizedBox(height: 18),
 
           // =====================================================
-          // SUBTOTAL
-          // =====================================================
-
-          _SummaryRow(
-            title: l10n.cartSubtotal,
-            value: _money(cart.subtotal),
-          ),
-
-          const SizedBox(height: 10),
-
-          // =====================================================
-          // DISCOUNT
-          // =====================================================
-
-          _SummaryRow(
-            title: l10n.cartDiscount,
-            value: '-${_money(cart.discount)}',
-          ),
-
-          const SizedBox(height: 16),
-
-          const Divider(
-            height: 1,
-            color: Color(0xFFE4ECE9),
-          ),
-
-          const SizedBox(height: 16),
-
-          // =====================================================
           // TOTAL
           // =====================================================
 
@@ -191,50 +162,4 @@ String _money(String value) {
   final amount = double.tryParse(value);
   if (amount == null) return value;
   return '\$${amount.toStringAsFixed(2)}';
-}
-
-// ===============================================================
-// SUMMARY ROW
-// ===============================================================
-
-class _SummaryRow extends StatelessWidget {
-  const _SummaryRow({
-    required this.title,
-    required this.value,
-  });
-
-  final String title;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: GoogleFonts.inter(
-            color: AppColors.textLight,
-            fontSize: 10,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-
-        const SizedBox(width: 12),
-
-        Flexible(
-          child: Text(
-            value,
-            textAlign: TextAlign.end,
-            style: GoogleFonts.inter(
-              color: AppColors.textLight,
-              fontSize: 10,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }

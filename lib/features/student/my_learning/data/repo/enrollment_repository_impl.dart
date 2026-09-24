@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 import 'package:coach_space/core/networking/api_service.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/networking/paginated_response.dart';
@@ -36,11 +34,6 @@ class EnrollmentRepositoryImpl implements EnrollmentRepository {
   Future<void> markLessonIncomplete(int enrollmentId, int lessonId) =>
       _guard(() => _api.markLessonIncomplete(enrollmentId, lessonId));
 
-  Future<T> _guard<T>(Future<T> Function() request) async {
-    try {
-      return await request();
-    } on DioException catch (error) {
-      throw NetworkException.fromDioException(error);
-    }
-  }
+  Future<T> _guard<T>(Future<T> Function() request) =>
+      NetworkException.guard(request);
 }

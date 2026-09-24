@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/helpers/context_extensions.dart';
+import 'package:coach_space/core/helpers/media_url.dart';
 
 class CourseDetailsInstructorCard extends StatelessWidget {
   final String instructor;
@@ -15,7 +16,7 @@ class CourseDetailsInstructorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final url = avatar.trim();
+    final url = resolveMediaUrl(avatar);
 
     return Container(
       padding: const EdgeInsets.all(15),

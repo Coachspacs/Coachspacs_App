@@ -37,11 +37,11 @@ EnrollmentCourseDto _$EnrollmentCourseDtoFromJson(Map<String, dynamic> json) =>
     EnrollmentCourseDto(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
-      coverImage: json['cover_image'] as String,
+      coverImage: json['cover_image'] as String? ?? '',
       instructor: InstructorSummaryDto.fromJson(
         json['instructor'] as Map<String, dynamic>,
       ),
-      status: json['status'] as String,
+      status: json['status'] as String? ?? '',
     );
 
 Map<String, dynamic> _$EnrollmentCourseDtoToJson(
@@ -58,12 +58,14 @@ LessonPlayerDto _$LessonPlayerDtoFromJson(Map<String, dynamic> json) =>
     LessonPlayerDto(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
-      videoUrl: json['video_url'] as String,
-      durationMinutes: (json['duration_minutes'] as num).toInt(),
-      isPreview: json['is_preview'] as bool,
+      videoUrl: json['video_url'] as String? ?? '',
+      durationMinutes: intFromJson(json['duration_minutes']),
+      isPreview: json['is_preview'] == null
+          ? false
+          : boolFromJson(json['is_preview']),
       order: (json['order'] as num).toInt(),
-      section: json['section'] as String,
-      courseOutline: json['course_outline'] as String,
+      section: json['section'] as String? ?? '',
+      courseOutline: json['course_outline'] as String? ?? '',
       previousLessonId: (json['previous_lesson_id'] as num?)?.toInt(),
       nextLessonId: (json['next_lesson_id'] as num?)?.toInt(),
     );

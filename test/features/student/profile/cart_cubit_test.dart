@@ -5,26 +5,25 @@ import 'package:coach_space/features/student/profile/data/models/cart_dto.dart';
 import 'package:coach_space/features/student/profile/data/repo/cart_repository.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/cart_cubit.dart';
 
-const _cartItem = CartItemDto(
+final _cartItem = CartItemDto(
   id: 3,
   course: CartItemCourseDto(
     id: 5,
     title: 'Flutter Basics',
-    coverImage: '',
-    instructor: CartInstructorDto(id: 9, fullName: 'Coach'),
     price: '29.99',
-    isFree: false,
+    coverImage: '',
+    status: 'published',
   ),
-  price: '29.99',
+  isAvailable: true,
+  addedAt: DateTime(2026, 1, 1),
 );
 
 CartDto _cart({bool empty = false}) => CartDto(
   id: 1,
-  items: empty ? const [] : const [_cartItem],
+  items: empty ? [] : [_cartItem],
   itemCount: empty ? 0 : 1,
-  subtotal: empty ? '0.00' : '29.99',
-  discount: '0.00',
   total: empty ? '0.00' : '29.99',
+  createdAt: DateTime(2026, 1, 1),
 );
 
 class _FakeCartRepository implements CartRepository {
@@ -42,7 +41,7 @@ class _FakeCartRepository implements CartRepository {
   }
 
   @override
-  Future<CartItemDto> addItem(int courseId) async => _cartItem;
+  Future<void> addItem(int courseId) async {}
 
   @override
   Future<void> removeItem(int itemId) async {

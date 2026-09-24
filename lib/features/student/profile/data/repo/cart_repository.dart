@@ -4,7 +4,8 @@ import 'package:coach_space/features/student/profile/data/models/cart_dto.dart';
 abstract class CartRepository {
   Future<CartDto> getCart();
 
-  Future<CartItemDto> addItem(int courseId);
+  /// Adds [courseId] to the cart. The API responds 200 with an empty body.
+  Future<void> addItem(int courseId);
 
   Future<void> removeItem(int itemId);
 }

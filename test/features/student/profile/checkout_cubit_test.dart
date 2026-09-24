@@ -9,26 +9,25 @@ import 'package:coach_space/features/student/profile/data/repo/cart_repository.d
 import 'package:coach_space/features/student/profile/data/repo/order_repository.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/checkout_cubit.dart';
 
-const _cartItem = CartItemDto(
+final _cartItem = CartItemDto(
   id: 3,
   course: CartItemCourseDto(
     id: 5,
     title: 'Flutter Basics',
-    coverImage: '',
-    instructor: CartInstructorDto(id: 9, fullName: 'Coach'),
     price: '29.99',
-    isFree: false,
+    coverImage: '',
+    status: 'published',
   ),
-  price: '29.99',
+  isAvailable: true,
+  addedAt: DateTime(2026, 1, 1),
 );
 
 CartDto _cart({bool empty = false}) => CartDto(
   id: 1,
-  items: empty ? const [] : const [_cartItem],
+  items: empty ? [] : [_cartItem],
   itemCount: empty ? 0 : 1,
-  subtotal: empty ? '0.00' : '29.99',
-  discount: '0.00',
   total: empty ? '0.00' : '29.99',
+  createdAt: DateTime(2026, 1, 1),
 );
 
 CheckoutSessionDto _session({String url = 'https://checkout.stripe.com/xyz'}) =>
@@ -45,7 +44,7 @@ class _FakeCartRepository implements CartRepository {
   }
 
   @override
-  Future<CartItemDto> addItem(int courseId) async => _cartItem;
+  Future<void> addItem(int courseId) async {}
 
   @override
   Future<void> removeItem(int itemId) async {}
@@ -54,15 +53,9 @@ class _FakeCartRepository implements CartRepository {
 class _FakeOrderRepository implements OrderRepository {
   CheckoutSessionDto? session;
   Object? error;
-  String? lastCouponCode;
 
   @override
-  Future<OrderDto> createOrder({String? couponCode}) async =>
-      throw UnimplementedError();
-
-  @override
-  Future<CheckoutSessionDto> checkout({String? couponCode}) async {
-    lastCouponCode = couponCode;
+  Future<CheckoutSessionDto> checkout() async {
     if (error != null) throw error!;
     return session!;
   }
@@ -72,9 +65,6 @@ class _FakeOrderRepository implements OrderRepository {
     int page = 1,
     int pageSize = 10,
   }) async => throw UnimplementedError();
-
-  @override
-  Future<OrderDto> getOrder(int id) async => throw UnimplementedError();
 }
 
 void main() {
@@ -139,14 +129,13 @@ void main() {
       final emissions = <CheckoutState>[];
       final subscription = cubit.stream.listen(emissions.add);
 
-      await cubit.placeOrder(couponCode: 'SAVE10');
+      await cubit.placeOrder();
       await Future<void>.delayed(Duration.zero);
 
       expect(emissions, [isA<CheckoutPlacing>(), isA<CheckoutSuccess>()]);
       final success = cubit.state as CheckoutSuccess;
       expect(success.session.orderId, 42);
       expect(success.session.hasCheckoutUrl, isTrue);
-      expect(orderRepository.lastCouponCode, 'SAVE10');
 
       await subscription.cancel();
     });
@@ -155,23 +144,22 @@ void main() {
       cartRepository.cart = _cart();
       orderRepository.error = const NetworkException(
         kind: FailureKind.validation,
-        message: 'Coupon is invalid',
+        message: 'Checkout failed',
       );
       await cubit.load();
 
-      await cubit.placeOrder(couponCode: 'NOPE');
+      await cubit.placeOrder();
 
       expect(cubit.state, isA<CheckoutFailure>());
       final failure = cubit.state as CheckoutFailure;
       expect(failure.kind, FailureKind.validation);
-      expect(failure.message, 'Coupon is invalid');
+      expect(failure.message, 'Checkout failed');
     });
 
     test('does nothing when the checkout is not ready', () async {
       await cubit.placeOrder();
 
       expect(cubit.state, isA<CheckoutInitial>());
-      expect(orderRepository.lastCouponCode, isNull);
     });
   });
 }

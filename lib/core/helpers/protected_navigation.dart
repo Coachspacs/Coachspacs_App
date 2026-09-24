@@ -19,10 +19,11 @@ class ProtectedNavigation {
       return;
     }
 
-    Navigator.pushNamed(
-      context,
-      AppRoutes.notifications,
-    );
+    // TODO: NotificationScreen removed - re-implement when available
+    // Navigator.pushNamed(
+    //   context,
+    //   AppRoutes.notifications,
+    // );
   }
 
   // =====================================================

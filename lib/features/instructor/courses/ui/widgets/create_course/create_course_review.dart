@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/features/instructor/courses/data/models/instructor_course_dto.dart';
+
 class CreateCourseReview extends StatelessWidget {
   const CreateCourseReview({
     super.key,
@@ -10,6 +12,9 @@ class CreateCourseReview extends StatelessWidget {
     required this.level,
     required this.language,
     required this.price,
+    this.sections = const [],
+    this.onEditBasic,
+    this.onEditCurriculum,
   });
 
   final String title;
@@ -18,6 +23,9 @@ class CreateCourseReview extends StatelessWidget {
   final String level;
   final String language;
   final String price;
+  final List<InstructorSectionDto> sections;
+  final VoidCallback? onEditBasic;
+  final VoidCallback? onEditCurriculum;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +66,7 @@ class CreateCourseReview extends StatelessWidget {
           title: 'Course Basics',
           icon: Icons.menu_book_outlined,
           actionText: 'Edit',
-          onAction: () {},
+          onAction: onEditBasic,
           child: _CourseBasicPreview(
             title: title,
             description: description,
@@ -88,8 +96,11 @@ class CreateCourseReview extends StatelessWidget {
           title: 'Curriculum Overview',
           icon: Icons.layers_outlined,
           actionText: 'Edit',
-          onAction: () {},
-          child: const _CurriculumOverview(),
+          onAction: onEditCurriculum,
+          child: _CurriculumOverview(
+            sections: sections,
+            language: language,
+          ),
         ),
 
         const SizedBox(height: 14),
@@ -400,31 +411,46 @@ class _PriceRow extends StatelessWidget {
 // CURRICULUM OVERVIEW
 // =====================================================
 
-class _CurriculumOverview
-    extends StatelessWidget {
-  const _CurriculumOverview();
+class _CurriculumOverview extends StatelessWidget {
+  const _CurriculumOverview({
+    required this.sections,
+    required this.language,
+  });
+
+  final List<InstructorSectionDto> sections;
+  final String language;
+
+  String _titleFor(String titleAr, String titleEn) =>
+      language == 'ar' ? titleAr : titleEn;
 
   @override
   Widget build(BuildContext context) {
+    if (sections.isEmpty) {
+      return Text(
+        'No sections added yet.',
+        style: GoogleFonts.inter(
+          fontSize: 10.5,
+          color: const Color(0xFF788681),
+        ),
+      );
+    }
+
     return Column(
-      children: const [
-        _ReviewLesson(
-          number: '01',
-          title: 'The Foundations of Influence',
-          subtitle: '3 lessons • 45 min',
-        ),
-        SizedBox(height: 7),
-        _ReviewLesson(
-          number: '02',
-          title: 'Navigating Difficult Conversations',
-          subtitle: '4 lessons • 1 hr 15 min',
-        ),
-        SizedBox(height: 7),
-        _ReviewLesson(
-          number: '03',
-          title: 'Public Speaking for Leaders',
-          subtitle: '5 lessons • 2 hr 30 min',
-        ),
+      children: [
+        for (var i = 0; i < sections.length; i++) ...[
+          if (i > 0) const SizedBox(height: 7),
+          _ReviewLesson(
+            number: (i + 1).toString().padLeft(2, '0'),
+            title: _titleFor(
+              sections[i].titleAr,
+              sections[i].titleEn,
+            ),
+            subtitle: sections[i].lessons.isEmpty
+                ? 'No lessons'
+                : '${sections[i].lessons.length} lesson'
+                    '${sections[i].lessons.length == 1 ? '' : 's'}',
+          ),
+        ],
       ],
     );
   }

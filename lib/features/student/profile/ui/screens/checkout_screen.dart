@@ -130,7 +130,7 @@ class _CheckoutViewState extends State<_CheckoutView> {
 
     FocusScope.of(context).unfocus();
 
-    context.read<CheckoutCubit>().placeOrder(couponCode: _appliedCoupon);
+    context.read<CheckoutCubit>().placeOrder();
   }
 
   void _applyCoupon() {
@@ -877,16 +877,6 @@ class _ItemsCard extends StatelessWidget {
                       ),
 
                       const SizedBox(height: 4),
-
-                      Text(
-                        cart.items[index].course.instructor.fullName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.inter(
-                          fontSize: 10,
-                          color: const Color(0xFF71827E),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -894,7 +884,7 @@ class _ItemsCard extends StatelessWidget {
                 const SizedBox(width: 8),
 
                 Text(
-                  _money(cart.items[index].price),
+                  _money(cart.items[index].course.price),
                   style: GoogleFonts.inter(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -1128,11 +1118,7 @@ class _OrderSummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    final subtotal = _amount(cart.subtotal);
-    final discount = _amount(cart.discount);
     final total = _amount(cart.total);
-    final rawTax = total - subtotal + discount;
-    final tax = rawTax < 0 ? 0.0 : rawTax;
 
     return Container(
       width: double.infinity,
@@ -1146,33 +1132,6 @@ class _OrderSummaryCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _SummaryRow(
-            title: l10n.checkoutSubtotal,
-            value: _moneyValue(subtotal),
-          ),
-
-          const SizedBox(height: 10),
-
-          _SummaryRow(
-            title: l10n.checkoutDiscount,
-            value: '-${_moneyValue(discount)}',
-          ),
-
-          const SizedBox(height: 10),
-
-          _SummaryRow(
-            title: l10n.checkoutTax,
-            value: _moneyValue(tax),
-          ),
-
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 13),
-            child: Divider(
-              height: 1,
-              color: Color(0xFFE5ECE9),
-            ),
-          ),
-
           _SummaryRow(
             title: l10n.checkoutTotal,
             value: _moneyValue(total),

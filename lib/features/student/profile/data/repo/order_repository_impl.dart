@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 import 'package:coach_space/core/networking/api_service.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/networking/paginated_response.dart';
@@ -14,14 +12,7 @@ class OrderRepositoryImpl implements OrderRepository {
   final ApiService _api;
 
   @override
-  Future<OrderDto> createOrder({String? couponCode}) => _guard(
-        () => _api.createOrder(CreateOrderRequest(couponCode: couponCode)),
-      );
-
-  @override
-  Future<CheckoutSessionDto> checkout({String? couponCode}) => _guard(
-        () => _api.checkout(CheckoutRequest(couponCode: couponCode)),
-      );
+  Future<CheckoutSessionDto> checkout() => _guard(() => _api.checkout());
 
   @override
   Future<PaginatedResponse<OrderDto>> getOrders({
@@ -32,14 +23,6 @@ class OrderRepositoryImpl implements OrderRepository {
         () => _api.getOrders(page: page, pageSize: pageSize),
       );
 
-  @override
-  Future<OrderDto> getOrder(int id) => _guard(() => _api.getOrder(id));
-
-  Future<T> _guard<T>(Future<T> Function() request) async {
-    try {
-      return await request();
-    } on DioException catch (error) {
-      throw NetworkException.fromDioException(error);
-    }
-  }
+  Future<T> _guard<T>(Future<T> Function() request) =>
+      NetworkException.guard(request);
 }

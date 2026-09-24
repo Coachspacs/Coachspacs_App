@@ -26,32 +26,20 @@ import 'package:coach_space/features/student/my_learning/data/repo/enrollment_re
 import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository_impl.dart';
 import 'package:coach_space/features/student/my_learning/logic/cubit/my_learning_cubit.dart';
 import 'package:coach_space/features/student/my_learning/logic/cubit/lesson_player_cubit.dart';
-import 'package:coach_space/features/student/notifications/data/repo/notifications_repository.dart';
-import 'package:coach_space/features/student/notifications/data/repo/notifications_repository_impl.dart';
-import 'package:coach_space/features/student/notifications/logic/cubit/notifications_cubit.dart';
 import 'package:coach_space/features/student/profile/data/repo/cart_repository.dart';
 import 'package:coach_space/features/student/profile/data/repo/cart_repository_impl.dart';
 import 'package:coach_space/features/student/profile/data/repo/certificate_repository.dart';
 import 'package:coach_space/features/student/profile/data/repo/certificate_repository_impl.dart';
 import 'package:coach_space/features/student/profile/data/repo/order_repository.dart';
 import 'package:coach_space/features/student/profile/data/repo/order_repository_impl.dart';
-import 'package:coach_space/features/student/profile/data/repo/payment_repository.dart';
-import 'package:coach_space/features/student/profile/data/repo/payment_repository_impl.dart';
-import 'package:coach_space/features/student/profile/data/repo/preferences_repository.dart';
-import 'package:coach_space/features/student/profile/data/repo/preferences_repository_impl.dart';
 import 'package:coach_space/features/student/profile/data/repo/profile_repository.dart';
 import 'package:coach_space/features/student/profile/data/repo/profile_repository_impl.dart';
-import 'package:coach_space/features/student/profile/data/repo/support_repository.dart';
-import 'package:coach_space/features/student/profile/data/repo/support_repository_impl.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/browse_courses_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/cart_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/certificates_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/checkout_cubit.dart';
-import 'package:coach_space/features/student/profile/logic/cubit/contact_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/dashboard_cubit.dart';
-import 'package:coach_space/features/student/profile/logic/cubit/learning_settings_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/order_history_cubit.dart';
-import 'package:coach_space/features/student/profile/logic/cubit/preferences_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/profile_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/security_cubit.dart';
 
@@ -110,20 +98,8 @@ void setupLocator() {
   getIt.registerLazySingleton<OrderRepository>(
     () => OrderRepositoryImpl(apiService: getIt<ApiService>()),
   );
-  getIt.registerLazySingleton<PaymentRepository>(
-    () => PaymentRepositoryImpl(apiService: getIt<ApiService>()),
-  );
   getIt.registerLazySingleton<CertificateRepository>(
     () => CertificateRepositoryImpl(apiService: getIt<ApiService>()),
-  );
-  getIt.registerLazySingleton<NotificationsRepository>(
-    () => NotificationsRepositoryImpl(apiService: getIt<ApiService>()),
-  );
-  getIt.registerLazySingleton<PreferencesRepository>(
-    () => PreferencesRepositoryImpl(apiService: getIt<ApiService>()),
-  );
-  getIt.registerLazySingleton<SupportRepository>(
-    () => SupportRepositoryImpl(apiService: getIt<ApiService>()),
   );
 
   // =========================================================
@@ -196,17 +172,5 @@ void setupLocator() {
   );
   getIt.registerFactory<CertificatesCubit>(
     () => CertificatesCubit(getIt<CertificateRepository>()),
-  );
-  getIt.registerFactory<NotificationsCubit>(
-    () => NotificationsCubit(getIt<NotificationsRepository>()),
-  );
-  getIt.registerFactory<LearningSettingsCubit>(
-    () => LearningSettingsCubit(getIt<PreferencesRepository>()),
-  );
-  getIt.registerFactory<PreferencesCubit>(
-    () => PreferencesCubit(getIt<PreferencesRepository>()),
-  );
-  getIt.registerFactory<ContactCubit>(
-    () => ContactCubit(getIt<SupportRepository>()),
   );
 }

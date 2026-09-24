@@ -11,21 +11,17 @@ class CartDto {
     required this.id,
     required this.items,
     required this.itemCount,
-    required this.subtotal,
-    required this.discount,
     required this.total,
-    this.couponCode,
+    required this.createdAt,
   });
 
   final int id;
   final List<CartItemDto> items;
   @JsonKey(name: 'item_count', fromJson: intFromJson)
   final int itemCount;
-  final String subtotal;
-  final String discount;
   final String total;
-  @JsonKey(name: 'coupon_code')
-  final String? couponCode;
+  @JsonKey(name: 'created_at')
+  final DateTime createdAt;
 
   bool get isEmpty => items.isEmpty;
 
@@ -39,12 +35,16 @@ class CartItemDto {
   const CartItemDto({
     required this.id,
     required this.course,
-    required this.price,
+    required this.isAvailable,
+    required this.addedAt,
   });
 
   final int id;
   final CartItemCourseDto course;
-  final String price;
+  @JsonKey(name: 'is_available', fromJson: boolFromJson)
+  final bool isAvailable;
+  @JsonKey(name: 'added_at')
+  final DateTime addedAt;
 
   factory CartItemDto.fromJson(Map<String, dynamic> json) =>
       _$CartItemDtoFromJson(json);
@@ -56,40 +56,22 @@ class CartItemCourseDto {
   const CartItemCourseDto({
     required this.id,
     required this.title,
-    required this.coverImage,
-    required this.instructor,
     required this.price,
-    required this.isFree,
+    this.coverImage = '',
+    this.status = '',
   });
 
   final int id;
   final String title;
-  @JsonKey(name: 'cover_image')
-  final String coverImage;
-  final CartInstructorDto instructor;
   final String price;
-  @JsonKey(name: 'is_free', fromJson: boolFromJson)
-  final bool isFree;
+  @JsonKey(name: 'cover_image', defaultValue: '')
+  final String coverImage;
+  @JsonKey(defaultValue: '')
+  final String status;
 
   factory CartItemCourseDto.fromJson(Map<String, dynamic> json) =>
       _$CartItemCourseDtoFromJson(json);
   Map<String, dynamic> toJson() => _$CartItemCourseDtoToJson(this);
-}
-
-@JsonSerializable()
-class CartInstructorDto {
-  const CartInstructorDto({
-    required this.id,
-    required this.fullName,
-  });
-
-  final int id;
-  @JsonKey(name: 'full_name')
-  final String fullName;
-
-  factory CartInstructorDto.fromJson(Map<String, dynamic> json) =>
-      _$CartInstructorDtoFromJson(json);
-  Map<String, dynamic> toJson() => _$CartInstructorDtoToJson(this);
 }
 
 /// `POST /api/cart/items` request body.

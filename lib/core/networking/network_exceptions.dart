@@ -41,6 +41,9 @@ class NetworkException implements Exception {
     this.fieldErrors = const {},
   });
 
+  /// Fallback message used when no more specific text is available.
+  static const String fallbackMessage = 'حدث خطأ، حاول مرة أخرى';
+
   final FailureKind kind;
   final String message;
   final Map<String, List<String>> fieldErrors;
@@ -50,7 +53,7 @@ class NetworkException implements Exception {
   /// Supports DRF's `{"detail": "..."}` / `{"field_errors": {...}}` formats,
   /// Django's `{"field": ["..."]}` format, and plain messages.
   factory NetworkException.fromDioException(DioException error) {
-    const fallback = 'حدث خطأ، حاول مرة أخرى';
+    const fallback = NetworkException.fallbackMessage;
 
     switch (error.type) {
       case DioExceptionType.connectionError:
@@ -97,6 +100,31 @@ class NetworkException implements Exception {
       message: message,
       fieldErrors: fieldErrors,
     );
+  }
+
+  /// Wraps [request] so transport *and* response-deserialization failures
+  /// surface as [NetworkException].
+  ///
+  /// Retrofit parses the body after Dio resolves; a null/missing field the
+  /// DTO expects throws a raw [TypeError]/[FormatException] that would
+  /// otherwise bypass per-repository `on DioException` handling and fall
+  /// into cubits' generic `catch (_)` (blank "something went wrong" state).
+  static Future<T> guard<T>(Future<T> Function() request) async {
+    try {
+      return await request();
+    } on DioException catch (error) {
+      throw NetworkException.fromDioException(error);
+    } on TypeError {
+      throw const NetworkException(
+        kind: FailureKind.unknown,
+        message: fallbackMessage,
+      );
+    } on FormatException {
+      throw const NetworkException(
+        kind: FailureKind.unknown,
+        message: fallbackMessage,
+      );
+    }
   }
 
   static (String, Map<String, List<String>>) _parseBody(

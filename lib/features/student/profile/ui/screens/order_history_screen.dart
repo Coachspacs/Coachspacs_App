@@ -53,7 +53,6 @@ class _OrderHistoryViewState extends State<_OrderHistoryView> {
   List<OrderDto> _applyFilters(List<OrderDto> orders) {
     return orders.where((order) {
       final matchesQuery = _query.isEmpty ||
-          order.orderNumber.toLowerCase().contains(_query) ||
           order.id.toString().contains(_query);
 
       final matchesStatus =

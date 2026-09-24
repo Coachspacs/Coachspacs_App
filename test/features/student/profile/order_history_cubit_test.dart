@@ -11,22 +11,21 @@ typedef _OrdersCall = ({int page, int pageSize});
 
 OrderDto _order(int id) => OrderDto(
   id: id,
-  orderNumber: 'ORD-$id',
   status: OrderStatus.paid,
+  totalAmount: '29.99',
   items: const [
     OrderItemDto(
       id: 1,
-      courseId: 5,
-      courseTitle: 'Flutter Basics',
-      coverImage: '',
-      price: '29.99',
+      course: OrderItemCourseDto(
+        id: 5,
+        title: 'Flutter Basics',
+        price: '29.99',
+        coverImage: '',
+        status: 'published',
+      ),
+      priceAtPurchase: '29.99',
     ),
   ],
-  subtotal: '29.99',
-  discount: '0.00',
-  tax: '0.00',
-  total: '29.99',
-  currency: 'USD',
   createdAt: DateTime(2026, 1, 3),
 );
 
@@ -46,14 +45,7 @@ class _FakeOrderRepository implements OrderRepository {
   }
 
   @override
-  Future<OrderDto> createOrder({String? couponCode}) async =>
-      throw UnimplementedError();
-
-  @override
-  Future<OrderDto> getOrder(int id) async => throw UnimplementedError();
-
-  @override
-  Future<CheckoutSessionDto> checkout({String? couponCode}) async =>
+  Future<CheckoutSessionDto> checkout() async =>
       throw UnimplementedError();
 }
 

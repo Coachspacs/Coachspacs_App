@@ -19,15 +19,11 @@ import 'package:coach_space/features/auth/data/models/reset_password_request.dar
 import 'package:coach_space/features/student/catalog/data/models/category_dto.dart';
 import 'package:coach_space/features/student/catalog/data/models/catalog_course_dto.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
-import 'package:coach_space/features/student/notifications/data/models/notification_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/cart_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/certificate_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/change_email_request.dart';
 import 'package:coach_space/features/student/profile/data/models/confirm_email_change_request.dart';
 import 'package:coach_space/features/student/profile/data/models/order_dto.dart';
-import 'package:coach_space/features/student/profile/data/models/payment_intent_dto.dart';
-import 'package:coach_space/features/student/profile/data/models/preferences_dto.dart';
-import 'package:coach_space/features/student/profile/data/models/support_contact_request.dart';
 import 'package:coach_space/features/student/profile/data/models/update_profile_request.dart';
 import 'package:coach_space/features/student/profile/data/models/user_profile_model.dart';
 import 'package:coach_space/features/instructor/courses/data/models/instructor_course_dto.dart';
@@ -87,7 +83,7 @@ abstract class ApiService {
 
   @POST('api/users/me/avatar')
   @MultiPart()
-  Future<UserProfileModel> uploadAvatar(@Part(name: 'avatar') File avatar);
+  Future<void> uploadAvatar(@Part(name: 'avatar') File avatar);
 
   @POST('api/users/me/email/change')
   Future<void> requestEmailChange(@Body() ChangeEmailRequest body);
@@ -277,8 +273,9 @@ abstract class ApiService {
   @GET('api/cart')
   Future<CartDto> getCart();
 
+  /// The API returns 200 with an empty body (see OpenAPI `No response body`).
   @POST('api/cart/items')
-  Future<CartItemDto> addCartItem(@Body() AddCartItemRequest body);
+  Future<void> addCartItem(@Body() AddCartItemRequest body);
 
   @DELETE('api/cart/items/{id}')
   Future<void> removeCartItem(@Path('id') int id);
@@ -287,32 +284,18 @@ abstract class ApiService {
   // ORDERS
   // ===========================================================
 
-  @POST('api/orders')
-  Future<OrderDto> createOrder(@Body() CreateOrderRequest body);
-
   @GET('api/orders')
   Future<PaginatedResponse<OrderDto>> getOrders({
     @Query('page') int? page,
     @Query('page_size') int? pageSize,
   });
 
-  @GET('api/orders/{id}')
-  Future<OrderDto> getOrder(@Path('id') int id);
-
   /// Starts a Stripe Checkout Session for the signed-in student's cart
   /// (US-15). Returns the hosted `checkout_url` for the frontend to redirect
   /// to; the order stays pending until Stripe's webhook confirms it.
+  /// The API spec takes no request body.
   @POST('api/orders/checkout')
-  Future<CheckoutSessionDto> checkout(@Body() CheckoutRequest body);
-
-  // ===========================================================
-  // PAYMENTS
-  // ===========================================================
-
-  @POST('api/payments/intent')
-  Future<PaymentIntentDto> createPaymentIntent(
-    @Body() CreatePaymentIntentRequest body,
-  );
+  Future<CheckoutSessionDto> checkout();
 
   // ===========================================================
   // CERTIFICATES
@@ -333,38 +316,4 @@ abstract class ApiService {
   @GET('api/certificates/verify/{code}')
   Future<CertificateVerifyDto> verifyCertificate(@Path('code') String code);
 
-  // ===========================================================
-  // NOTIFICATIONS
-  // ===========================================================
-
-  @GET('api/notifications')
-  Future<PaginatedResponse<NotificationDto>> getNotifications({
-    @Query('page') int? page,
-    @Query('page_size') int? pageSize,
-  });
-
-  @POST('api/notifications/{id}/read')
-  Future<void> markNotificationRead(@Path('id') int id);
-
-  @POST('api/notifications/read-all')
-  Future<void> markAllNotificationsRead();
-
-  // ===========================================================
-  // PREFERENCES (learning settings + app preferences)
-  // ===========================================================
-
-  @GET('api/users/me/preferences')
-  Future<PreferencesDto> getPreferences();
-
-  @PATCH('api/users/me/preferences')
-  Future<PreferencesDto> updatePreferences(
-    @Body() UpdatePreferencesRequest body,
-  );
-
-  // ===========================================================
-  // SUPPORT
-  // ===========================================================
-
-  @POST('api/support/contact')
-  Future<void> sendSupportMessage(@Body() SupportContactRequest body);
 }

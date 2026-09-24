@@ -55,22 +55,20 @@ const _cartItemJson = {
   'course': {
     'id': 5,
     'title': 'Flutter Basics',
-    'cover_image': '',
-    'instructor': {'id': 9, 'full_name': 'Coach'},
+    'cover_image': null,
     'price': '29.99',
-    'is_free': false,
+    'status': 'published',
   },
-  'price': '29.99',
+  'is_available': true,
+  'added_at': '2026-01-03T00:00:00.000Z',
 };
 
 const _cartJson = {
   'id': 1,
   'items': [_cartItemJson],
   'item_count': 1,
-  'subtotal': '29.99',
-  'discount': '0.00',
   'total': '29.99',
-  'coupon_code': null,
+  'created_at': '2026-01-03T00:00:00.000Z',
 };
 
 void main() {
@@ -115,13 +113,21 @@ void main() {
         expect(options.method, 'POST');
         expect(options.path, 'api/cart/items');
         expect(_bodyOf(options), {'course_id': 5});
-        return _json(_cartItemJson, 201);
+        return _json(<String, dynamic>{}, 200);
       });
 
-      final item = await _repositoryWith(adapter).addItem(5);
+      await _repositoryWith(adapter).addItem(5);
 
-      expect(item.id, 3);
-      expect(item.course.id, 5);
+      expect(adapter.requests, hasLength(1));
+    });
+
+    test('succeeds when the API returns an empty body', () async {
+      final adapter = _MockAdapter(
+        (options, all) async => ResponseBody.fromString('', 200),
+      );
+
+      await _repositoryWith(adapter).addItem(5);
+
       expect(adapter.requests, hasLength(1));
     });
 

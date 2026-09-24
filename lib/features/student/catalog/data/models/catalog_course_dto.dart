@@ -19,7 +19,7 @@ class CatalogCourseDto {
     required this.language,
     required this.price,
     required this.isFree,
-    required this.coverImage,
+    this.coverImage = '',
     required this.createdAt,
     this.publishedAt,
   });
@@ -34,7 +34,7 @@ class CatalogCourseDto {
   final String price;
   @JsonKey(name: 'is_free', fromJson: boolFromJson)
   final bool isFree;
-  @JsonKey(name: 'cover_image')
+  @JsonKey(name: 'cover_image', defaultValue: '')
   final String coverImage;
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
@@ -51,12 +51,13 @@ class InstructorSummaryDto {
   const InstructorSummaryDto({
     required this.id,
     required this.fullName,
-    required this.avatar,
+    this.avatar = '',
   });
 
   final int id;
-  @JsonKey(name: 'full_name')
+  @JsonKey(name: 'full_name', defaultValue: '')
   final String fullName;
+  @JsonKey(defaultValue: '')
   final String avatar;
 
   factory InstructorSummaryDto.fromJson(Map<String, dynamic> json) =>
@@ -77,7 +78,7 @@ class CourseDetailDto {
     required this.language,
     required this.price,
     required this.isFree,
-    required this.coverImage,
+    this.coverImage = '',
     required this.status,
     required this.createdAt,
     required this.sections,
@@ -97,8 +98,9 @@ class CourseDetailDto {
   final String price;
   @JsonKey(name: 'is_free', fromJson: boolFromJson)
   final bool isFree;
-  @JsonKey(name: 'cover_image')
+  @JsonKey(name: 'cover_image', defaultValue: '')
   final String coverImage;
+  @JsonKey(defaultValue: '')
   final String status;
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
@@ -143,18 +145,18 @@ class CourseLessonDto {
     required this.title,
     required this.durationMinutes,
     required this.order,
-    required this.isPreview,
-    required this.videoUrl,
+    this.isPreview = false,
+    this.videoUrl = '',
   });
 
   final int id;
   final String title;
-  @JsonKey(name: 'duration_minutes')
+  @JsonKey(name: 'duration_minutes', fromJson: intFromJson)
   final int durationMinutes;
   final int order;
-  @JsonKey(name: 'is_preview')
+  @JsonKey(name: 'is_preview', fromJson: boolFromJson)
   final bool isPreview;
-  @JsonKey(name: 'video_url')
+  @JsonKey(name: 'video_url', defaultValue: '')
   final String videoUrl;
 
   factory CourseLessonDto.fromJson(Map<String, dynamic> json) =>

@@ -7,14 +7,12 @@ class CartItem extends StatelessWidget {
   const CartItem({
     super.key,
     required this.title,
-    required this.instructor,
     required this.price,
     required this.image,
     required this.onDelete,
   });
 
   final String title;
-  final String instructor;
   final String price;
   final String image;
   final VoidCallback onDelete;
@@ -73,19 +71,6 @@ class CartItem extends StatelessWidget {
                     fontSize: 13,
                     height: 1.25,
                     fontWeight: FontWeight.w700,
-                  ),
-                ),
-
-                const SizedBox(height: 6),
-
-                Text(
-                  instructor,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFF788681),
-                    fontSize: 9.5,
-                    fontWeight: FontWeight.w400,
                   ),
                 ),
 

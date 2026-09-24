@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:coach_space/features/student/profile/data/repo/profile_repository.dart';
-import 'package:dio/dio.dart';
 
 import 'package:coach_space/core/networking/api_service.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
@@ -25,8 +24,13 @@ class ProfileRepositoryImpl implements ProfileRepository {
       _guard(() => _api.updateMe(UpdateProfileRequest(fullName: fullName)));
 
   @override
-  Future<UserProfileModel> uploadAvatar(File file) =>
-      _guard(() => _api.uploadAvatar(file));
+  Future<UserProfileModel> uploadAvatar(File file) async {
+    // The OpenAPI document documents no response body for this endpoint, so
+    // always re-fetch `GET /api/users/me` after a successful upload to get
+    // the newly stored avatar URL for the UI.
+    await _guard(() => _api.uploadAvatar(file));
+    return getProfile();
+  }
 
   @override
   Future<void> requestEmailChange({required String newEmail}) =>
@@ -36,11 +40,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<void> confirmEmailChange(ConfirmEmailChangeRequest request) =>
       _guard(() => _api.confirmEmailChange(request));
 
-  Future<T> _guard<T>(Future<T> Function() action) async {
-    try {
-      return await action();
-    } on DioException catch (error) {
-      throw NetworkException.fromDioException(error);
-    }
-  }
+  Future<T> _guard<T>(Future<T> Function() action) =>
+      NetworkException.guard(action);
 }

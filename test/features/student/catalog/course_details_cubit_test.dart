@@ -119,21 +119,9 @@ class _FakeCartRepository implements CartRepository {
   Future<CartDto> getCart() async => throw UnimplementedError();
 
   @override
-  Future<CartItemDto> addItem(int courseId) async {
+  Future<void> addItem(int courseId) async {
     addedCourseIds.add(courseId);
     if (addError != null) throw addError!;
-    return CartItemDto(
-      id: 1,
-      course: const CartItemCourseDto(
-        id: 1,
-        title: 'Course 1',
-        coverImage: '',
-        instructor: CartInstructorDto(id: 9, fullName: 'Coach'),
-        price: '29.99',
-        isFree: false,
-      ),
-      price: '29.99',
-    );
   }
 
   @override

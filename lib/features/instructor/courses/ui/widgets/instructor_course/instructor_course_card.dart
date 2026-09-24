@@ -9,9 +9,10 @@ import 'package:coach_space/features/instructor/courses/ui/screens/instructor_co
 import 'package:coach_space/core/routing/routes.dart';
 
 class InstructorCourseCard extends StatelessWidget {
-  const InstructorCourseCard({super.key, required this.course});
+  const InstructorCourseCard({super.key, required this.course, this.onRefresh});
 
   final InstructorCourse course;
+  final Future<void> Function()? onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +51,6 @@ class InstructorCourseCard extends StatelessWidget {
                 // COURSE INFO
                 // =================================================
                 _buildCourseInfo(),
-
-                // =================================================
-                // REJECTION MESSAGE
-                // =================================================
-                if (course.rejectionReason != null) ...[
-                  const SizedBox(height: 9),
-                  _buildRejectionMessage(),
-                ],
 
                 const SizedBox(height: 12),
 
@@ -179,54 +172,18 @@ class InstructorCourseCard extends StatelessWidget {
             const SizedBox(width: 4),
 
             Text(
-              course.price,
+              course.displayPrice,
               style: GoogleFonts.inter(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF52635F),
+                color: course.isFree
+                    ? const Color(0xFF075E4D)
+                    : const Color(0xFF52635F),
               ),
             ),
           ],
         ),
       ],
-    );
-  }
-
-  // =====================================================
-  // REJECTION MESSAGE
-  // =====================================================
-
-  Widget _buildRejectionMessage() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFF4F1),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(
-            Icons.warning_amber_rounded,
-            size: 14,
-            color: Color(0xFFE56A4F),
-          ),
-
-          const SizedBox(width: 5),
-
-          Expanded(
-            child: Text(
-              course.rejectionReason!,
-              style: GoogleFonts.inter(
-                fontSize: 10,
-                height: 1.3,
-                color: const Color(0xFFB65B48),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -246,12 +203,15 @@ class InstructorCourseCard extends StatelessWidget {
           child: SizedBox(
             height: 38,
             child: OutlinedButton(
-              onPressed: () {
-                Navigator.pushNamed(
+              onPressed: () async {
+                await Navigator.pushNamed(
                   context,
                   AppRoutes.instructorCourseEdit,
                   arguments: course,
                 );
+                if (context.mounted) {
+                  onRefresh?.call();
+                }
               },
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -310,13 +270,133 @@ class InstructorCourseCard extends StatelessWidget {
             ),
           ),
         ),
+
+        const SizedBox(width: 9),
+
+        // =================================================
+        // DELETE COURSE (ANY STATUS)
+        // =================================================
+        SizedBox(
+          height: 38,
+          width: 38,
+          child: OutlinedButton(
+            onPressed: () => _confirmDeleteCourse(context),
+            style: OutlinedButton.styleFrom(
+              padding: EdgeInsets.zero,
+              side: const BorderSide(color: Color(0xFFF0D0CB)),
+              foregroundColor: const Color(0xFFC95548),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Icon(Icons.delete_outline_rounded, size: 18),
+          ),
+        ),
       ],
     );
+  }
+
+  // =====================================================
+  // DELETE COURSE
+  // =====================================================
+
+  Future<void> _confirmDeleteCourse(BuildContext context) async {
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            'Delete Course',
+            style: GoogleFonts.inter(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF073F38),
+            ),
+          ),
+          content: Text(
+            'Are you sure you want to delete "${course.title}"? '
+            'This action cannot be undone.',
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              height: 1.4,
+              color: const Color(0xFF52635F),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF788681),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: Text(
+                'Delete',
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFFB3261E),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    await _deleteCourse(context);
+  }
+
+  Future<void> _deleteCourse(BuildContext context) async {
+    try {
+      await getIt<InstructorCoursesRepository>().deleteCourse(course.id);
+      await onRefresh?.call();
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Course deleted.'),
+          backgroundColor: Color(0xFF075E4D),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } on NetworkException catch (error) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            localizedFailureMessage(context, error.kind, error.message),
+          ),
+          backgroundColor: const Color(0xFFB3261E),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } catch (_) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Something went wrong. Please try again.'),
+          backgroundColor: Color(0xFFB3261E),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   Future<void> _resubmitCourse(BuildContext context) async {
     try {
       await getIt<InstructorCoursesRepository>().submitCourse(course.id);
+      await onRefresh?.call();
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -403,6 +483,16 @@ class _StatusBadge extends StatelessWidget {
         text = 'Rejected';
         background = const Color(0xFFFFE5E2);
         foreground = const Color(0xFFC95548);
+        break;
+
+      // =================================================
+      // ARCHIVED
+      // =================================================
+
+      case CourseStatus.archived:
+        text = 'Archived';
+        background = const Color(0xFFE4EAF0);
+        foreground = const Color(0xFF4F6170);
         break;
     }
 

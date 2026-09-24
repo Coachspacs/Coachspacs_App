@@ -23,41 +23,25 @@ enum OrderStatus {
   }
 }
 
-/// `GET /api/orders` / `POST /api/orders` response body.
+/// `GET /api/orders` response body.
 @JsonSerializable(explicitToJson: true)
 class OrderDto {
   const OrderDto({
     required this.id,
-    required this.orderNumber,
     required this.status,
+    required this.totalAmount,
     required this.items,
-    required this.subtotal,
-    required this.discount,
-    required this.tax,
-    required this.total,
-    required this.currency,
     required this.createdAt,
-    this.paymentMethod,
-    this.paidAt,
   });
 
   final int id;
-  @JsonKey(name: 'order_number')
-  final String orderNumber;
   @JsonKey(fromJson: _statusFromJson)
   final OrderStatus status;
+  @JsonKey(name: 'total_amount')
+  final String totalAmount;
   final List<OrderItemDto> items;
-  final String subtotal;
-  final String discount;
-  final String tax;
-  final String total;
-  final String currency;
-  @JsonKey(name: 'payment_method')
-  final String? paymentMethod;
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
-  @JsonKey(name: 'paid_at')
-  final DateTime? paidAt;
 
   static OrderStatus _statusFromJson(Object? value) =>
       OrderStatus.fromJson(value?.toString());
@@ -67,42 +51,43 @@ class OrderDto {
   Map<String, dynamic> toJson() => _$OrderDtoToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class OrderItemDto {
   const OrderItemDto({
     required this.id,
-    required this.courseId,
-    required this.courseTitle,
-    required this.coverImage,
-    required this.price,
+    required this.course,
+    required this.priceAtPurchase,
   });
 
   final int id;
-  @JsonKey(name: 'course_id')
-  final int courseId;
-  @JsonKey(name: 'course_title')
-  final String courseTitle;
-  @JsonKey(name: 'cover_image')
-  final String coverImage;
-  final String price;
+  final OrderItemCourseDto course;
+  @JsonKey(name: 'price_at_purchase')
+  final String priceAtPurchase;
 
   factory OrderItemDto.fromJson(Map<String, dynamic> json) =>
       _$OrderItemDtoFromJson(json);
   Map<String, dynamic> toJson() => _$OrderItemDtoToJson(this);
 }
 
-/// `POST /api/orders` request body.
-///
-/// `includeIfNull: false` omits `coupon_code` entirely when no coupon is
-/// applied instead of sending an explicit `null`.
-@JsonSerializable(includeIfNull: false)
-class CreateOrderRequest {
-  const CreateOrderRequest({this.couponCode});
+@JsonSerializable()
+class OrderItemCourseDto {
+  const OrderItemCourseDto({
+    required this.id,
+    required this.title,
+    required this.price,
+    this.coverImage = '',
+    this.status = '',
+  });
 
-  @JsonKey(name: 'coupon_code')
-  final String? couponCode;
+  final int id;
+  final String title;
+  final String price;
+  @JsonKey(name: 'cover_image', defaultValue: '')
+  final String coverImage;
+  @JsonKey(defaultValue: '')
+  final String status;
 
-  factory CreateOrderRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateOrderRequestFromJson(json);
-  Map<String, dynamic> toJson() => _$CreateOrderRequestToJson(this);
+  factory OrderItemCourseDto.fromJson(Map<String, dynamic> json) =>
+      _$OrderItemCourseDtoFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderItemCourseDtoToJson(this);
 }

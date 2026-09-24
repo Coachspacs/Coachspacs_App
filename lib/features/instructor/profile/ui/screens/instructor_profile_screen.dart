@@ -113,6 +113,7 @@ class _InstructorProfileView extends StatelessWidget {
                         String name = 'Instructor';
                         String role = 'Instructor';
                         String status = 'Approved';
+                        String avatar = '';
 
                         if (state is ProfileLoadSuccess) {
                           final profile = state.profile;
@@ -121,12 +122,14 @@ class _InstructorProfileView extends StatelessWidget {
                               ? 'Instructor'
                               : 'Student';
                           status = _formatApprovalStatus(profile.approvalStatus);
+                          avatar = profile.avatar ?? '';
                         }
 
                         return InstructorProfileUserCard(
                           name: name,
                           role: role,
                           status: status,
+                          avatar: avatar,
                           onEdit: () {
                             Navigator.push(
                               context,

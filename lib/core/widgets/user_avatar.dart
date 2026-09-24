@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:coach_space/core/auth/guest_session.dart';
 import 'package:coach_space/core/di/injection_container.dart';
+import 'package:coach_space/core/helpers/media_url.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/features/student/profile/data/models/user_profile_model.dart';
 import 'package:coach_space/features/student/profile/data/repo/profile_repository.dart';
@@ -63,11 +64,11 @@ class _UserAvatarState extends State<UserAvatar> {
 
   @override
   Widget build(BuildContext context) {
-    final String? avatarUrl = _profile?.avatar?.trim();
+    final String avatarUrl = resolveMediaUrl(_profile?.avatar);
     final String fullName = (_profile?.fullName ?? '').trim();
     final String initials = _initials(fullName);
 
-    if (!_loading && avatarUrl != null && avatarUrl.isNotEmpty) {
+    if (!_loading && avatarUrl.isNotEmpty) {
       return SizedBox(
         width: widget.size,
         height: widget.size,

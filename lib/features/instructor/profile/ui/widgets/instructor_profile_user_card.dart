@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/media_url.dart';
+
 class InstructorProfileUserCard extends StatelessWidget {
   final VoidCallback onEdit;
   final String name;
   final String role;
   final String status;
+  final String avatar;
 
   const InstructorProfileUserCard({
     super.key,
@@ -13,6 +16,7 @@ class InstructorProfileUserCard extends StatelessWidget {
     this.name = 'Instructor',
     this.role = 'Instructor',
     this.status = 'Approved',
+    this.avatar = '',
   });
 
   @override
@@ -20,6 +24,7 @@ class InstructorProfileUserCard extends StatelessWidget {
     final initial = name.trim().isNotEmpty
         ? name.trim()[0].toUpperCase()
         : 'I';
+    final avatarUrl = resolveMediaUrl(avatar);
 
     return Container(
       width: double.infinity,
@@ -51,15 +56,31 @@ class InstructorProfileUserCard extends StatelessWidget {
               color: Color(0xFFE5F4F0),
               shape: BoxShape.circle,
             ),
+            clipBehavior: Clip.antiAlias,
             alignment: Alignment.center,
-            child: Text(
-              initial,
-              style: GoogleFonts.inter(
-                fontSize: 21,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFF075E4D),
-              ),
-            ),
+            child: avatarUrl.isEmpty
+                ? Text(
+                    initial,
+                    style: GoogleFonts.inter(
+                      fontSize: 21,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF075E4D),
+                    ),
+                  )
+                : Image.network(
+                    avatarUrl,
+                    fit: BoxFit.cover,
+                    width: 58,
+                    height: 58,
+                    errorBuilder: (_, _, _) => Text(
+                      initial,
+                      style: GoogleFonts.inter(
+                        fontSize: 21,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF075E4D),
+                      ),
+                    ),
+                  ),
           ),
 
           const SizedBox(width: 13),

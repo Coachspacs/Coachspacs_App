@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/media_url.dart';
+
 class CourseDetailsInstructor extends StatelessWidget {
   final String instructor;
   final String avatar;
@@ -49,7 +51,7 @@ class _InstructorAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final url = avatar.trim();
+    final url = resolveMediaUrl(avatar);
 
     return ClipOval(
       child: SizedBox(

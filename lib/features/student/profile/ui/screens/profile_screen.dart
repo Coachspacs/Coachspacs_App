@@ -175,10 +175,13 @@ class _ProfileView extends StatelessWidget {
                         icon: Icons.support_agent_outlined,
                         title: l10n.profileContactUs,
                         showDivider: false,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.contactUs,
-                        ),
+                        onTap: () {
+                          // TODO: ContactUs screen removed - re-implement when available
+                          // Navigator.pushNamed(
+                          //   context,
+                          //   AppRoutes.contactUs,
+                          // );
+                        },
                       ),
                     ],
                   ),

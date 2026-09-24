@@ -92,10 +92,13 @@ class _AccountSettingsView extends StatelessWidget {
                           icon: Icons.school_outlined,
                           title: l10n.settingsLearningTitle,
                           description: l10n.settingsLearningDescription,
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            AppRoutes.learningSettings,
-                          ),
+                          onTap: () {
+                            // TODO: LearningSettings screen removed - re-implement when available
+                            // Navigator.pushNamed(
+                            //   context,
+                            //   AppRoutes.learningSettings,
+                            // );
+                          },
                         ),
                         const SizedBox(height: 12),
                         AccountSettingsOptionCard(
@@ -112,10 +115,13 @@ class _AccountSettingsView extends StatelessWidget {
                           icon: Icons.settings_outlined,
                           title: l10n.settingsPreferencesTitle,
                           description: l10n.settingsPreferencesDescription,
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            AppRoutes.preferencesSettings,
-                          ),
+                          onTap: () {
+                            // TODO: PreferencesSettings screen removed - re-implement when available
+                            // Navigator.pushNamed(
+                            //   context,
+                            //   AppRoutes.preferencesSettings,
+                            // );
+                          },
                         ),
                       ],
                     ),

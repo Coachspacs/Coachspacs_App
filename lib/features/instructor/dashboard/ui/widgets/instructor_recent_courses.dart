@@ -161,6 +161,11 @@ _CourseStatusStyle _statusStyle(String status) {
         Color(0xFFC0392B),
         Color(0xFFFDECEC),
       );
+    case 'ARCHIVED':
+      return const _CourseStatusStyle(
+        Color(0xFF4F6170),
+        Color(0xFFE4EAF0),
+      );
     case 'DRAFT':
     default:
       return const _CourseStatusStyle(

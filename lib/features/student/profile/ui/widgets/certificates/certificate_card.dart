@@ -53,22 +53,7 @@ class CertificateCard extends StatelessWidget {
 
           const SizedBox(height: 18),
 
-          // Course title
-          Text(
-            certificate.course.title,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.inter(
-              color: AppColors.textBody,
-              fontSize: 16,
-              height: 1.3,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // Certificate number label
+          // Certificate code label
           Text(
             l10n.certificatesNumber,
             style: GoogleFonts.inter(
@@ -80,9 +65,9 @@ class CertificateCard extends StatelessWidget {
 
           const SizedBox(height: 4),
 
-          // Certificate number
+          // Certificate code
           Text(
-            certificate.certificateNumber,
+            certificate.certificateCode,
             style: GoogleFonts.inter(
               color: AppColors.primary,
               fontSize: 11,
@@ -98,28 +83,10 @@ class CertificateCard extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Certificate information
-          Row(
-            children: [
-              Expanded(
-                child: _CertificateInfo(
-                  icon: Icons.calendar_today_outlined,
-                  label: l10n.certificatesIssuedOn,
-                  value: issuedOn,
-                ),
-              ),
-
-              Container(width: 1, height: 38, color: AppColors.border),
-
-              const SizedBox(width: 16),
-
-              Expanded(
-                child: _CertificateInfo(
-                  icon: Icons.person_outline_rounded,
-                  label: l10n.certificatesStudentName,
-                  value: certificate.studentName,
-                ),
-              ),
-            ],
+          _CertificateInfo(
+            icon: Icons.calendar_today_outlined,
+            label: l10n.certificatesIssuedOn,
+            value: issuedOn,
           ),
 
           const SizedBox(height: 18),

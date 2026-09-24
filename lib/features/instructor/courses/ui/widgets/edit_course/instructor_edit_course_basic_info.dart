@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,6 +18,12 @@ class InstructorEditCourseBasicInfo extends StatelessWidget {
     required this.onCategoryChanged,
     required this.onLevelChanged,
     required this.onLanguageChanged,
+    required this.isFree,
+    required this.onFreeChanged,
+    required this.onPickCoverImage,
+    this.coverImageUrl = '',
+    this.coverImageFile,
+    this.isUploadingCoverImage = false,
   });
 
   final TextEditingController titleController;
@@ -34,6 +42,13 @@ class InstructorEditCourseBasicInfo extends StatelessWidget {
   final ValueChanged<String?> onCategoryChanged;
   final ValueChanged<String?> onLevelChanged;
   final ValueChanged<String?> onLanguageChanged;
+
+  final bool isFree;
+  final ValueChanged<bool> onFreeChanged;
+  final VoidCallback onPickCoverImage;
+  final String coverImageUrl;
+  final File? coverImageFile;
+  final bool isUploadingCoverImage;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +75,26 @@ class InstructorEditCourseBasicInfo extends StatelessWidget {
             controller: descriptionController,
             enabled: isEditing,
             maxLines: 4,
+          ),
+
+          const SizedBox(height: 14),
+
+          Text(
+            'Cover Image',
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF344540),
+            ),
+          ),
+
+          const SizedBox(height: 6),
+
+          _CoverImagePicker(
+            imageUrl: coverImageUrl,
+            imageFile: coverImageFile,
+            isUploading: isUploadingCoverImage,
+            onTap: onPickCoverImage,
           ),
 
           const SizedBox(height: 14),
@@ -115,14 +150,171 @@ class InstructorEditCourseBasicInfo extends StatelessWidget {
 
           const SizedBox(height: 14),
 
+          Row(
+            children: [
+              Text(
+                'Make this course free',
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF344540),
+                ),
+              ),
+              const Spacer(),
+              Switch(
+                value: isFree,
+                onChanged: isEditing ? onFreeChanged : null,
+                activeThumbColor: const Color(0xFF075E4D),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 8),
+
           _Field(
             label: 'Price',
             controller: priceController,
-            enabled: isEditing,
+            enabled: isEditing && !isFree,
             keyboardType: TextInputType.number,
           ),
         ],
       ),
+    );
+  }
+}
+
+// =============================================================
+// COVER IMAGE PICKER
+// =============================================================
+
+class _CoverImagePicker extends StatelessWidget {
+  const _CoverImagePicker({
+    required this.imageUrl,
+    required this.imageFile,
+    required this.isUploading,
+    required this.onTap,
+  });
+
+  final String imageUrl;
+  final File? imageFile;
+  final bool isUploading;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final File? local = imageFile;
+    final bool hasRemote = imageUrl.trim().isNotEmpty;
+
+    return InkWell(
+      onTap: isUploading ? null : onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: double.infinity,
+        height: 120,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF4F9F7),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFD3E3DE)),
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (local != null)
+              Image.file(local, fit: BoxFit.cover)
+            else if (hasRemote)
+              Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, _) => const _Placeholder(),
+              )
+            else
+              const _Placeholder(),
+            if (isUploading)
+              Container(
+                color: Colors.black.withValues(alpha: 0.35),
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+            else
+              Positioned(
+                right: 8,
+                top: 8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.55),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.edit_outlined, size: 12, color: Colors.white),
+                      SizedBox(width: 4),
+                      Text(
+                        'Change',
+                        style: TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Placeholder extends StatelessWidget {
+  const _Placeholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 34,
+          height: 34,
+          decoration: const BoxDecoration(
+            color: Color(0xFFE0F2EC),
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(
+            Icons.add_photo_alternate_outlined,
+            size: 17,
+            color: Color(0xFF075E4D),
+          ),
+        ),
+        const SizedBox(height: 7),
+        Text(
+          'Upload Thumbnail',
+          style: GoogleFonts.inter(
+            fontSize: 11,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF263C38),
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          'PNG, JPG up to 5MB',
+          style: GoogleFonts.inter(
+            fontSize: 9,
+            color: const Color(0xFF899792),
+          ),
+        ),
+      ],
     );
   }
 }

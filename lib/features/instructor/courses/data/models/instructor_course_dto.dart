@@ -72,6 +72,7 @@ class InstructorSectionDto {
   final int order;
   @JsonKey(defaultValue: <InstructorLessonDto>[])
   final List<InstructorLessonDto> lessons;
+  String get displayTitle => titleEn;
   factory InstructorSectionDto.fromJson(Map<String, dynamic> json) =>
       _$InstructorSectionDtoFromJson(json);
   Map<String, dynamic> toJson() => _$InstructorSectionDtoToJson(this);
@@ -100,6 +101,7 @@ class InstructorLessonDto {
   final int order;
   @JsonKey(name: 'is_preview')
   final bool isPreview;
+  String get displayTitle => titleEn;
   factory InstructorLessonDto.fromJson(Map<String, dynamic> json) =>
       _$InstructorLessonDtoFromJson(json);
   Map<String, dynamic> toJson() => _$InstructorLessonDtoToJson(this);
@@ -169,19 +171,19 @@ class CoursePatchRequest {
   Map<String, dynamic> toJson() => _$CoursePatchRequestToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class SectionWriteRequest {
   const SectionWriteRequest({
     required this.titleAr,
     required this.titleEn,
-    required this.order,
+    this.order,
   });
 
   @JsonKey(name: 'title_ar')
   final String titleAr;
   @JsonKey(name: 'title_en')
   final String titleEn;
-  final int order;
+  final int? order;
 
   factory SectionWriteRequest.fromJson(Map<String, dynamic> json) =>
       _$SectionWriteRequestFromJson(json);
@@ -203,16 +205,16 @@ class SectionPatchRequest {
   Map<String, dynamic> toJson() => _$SectionPatchRequestToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class LessonWriteRequest {
   const LessonWriteRequest({
     required this.titleAr,
     required this.titleEn,
-    required this.videoUrl,
-    required this.videoPublicId,
-    required this.durationMinutes,
-    required this.order,
-    required this.isPreview,
+    this.videoUrl,
+    this.videoPublicId,
+    this.durationMinutes = 0,
+    this.order = 0,
+    this.isPreview = false,
   });
 
   @JsonKey(name: 'title_ar')
@@ -220,9 +222,9 @@ class LessonWriteRequest {
   @JsonKey(name: 'title_en')
   final String titleEn;
   @JsonKey(name: 'video_url')
-  final String videoUrl;
+  final String? videoUrl;
   @JsonKey(name: 'video_public_id')
-  final String videoPublicId;
+  final String? videoPublicId;
   @JsonKey(name: 'duration_minutes')
   final int durationMinutes;
   final int order;

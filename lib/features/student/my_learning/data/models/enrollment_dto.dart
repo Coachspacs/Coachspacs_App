@@ -42,16 +42,17 @@ class EnrollmentCourseDto {
   const EnrollmentCourseDto({
     required this.id,
     required this.title,
-    required this.coverImage,
+    this.coverImage = '',
     required this.instructor,
-    required this.status,
+    this.status = '',
   });
 
   final int id;
   final String title;
-  @JsonKey(name: 'cover_image')
+  @JsonKey(name: 'cover_image', defaultValue: '')
   final String coverImage;
   final InstructorSummaryDto instructor;
+  @JsonKey(defaultValue: '')
   final String status;
 
   factory EnrollmentCourseDto.fromJson(Map<String, dynamic> json) =>
@@ -64,31 +65,32 @@ class LessonPlayerDto {
   const LessonPlayerDto({
     required this.id,
     required this.title,
-    required this.videoUrl,
+    this.videoUrl = '',
     required this.durationMinutes,
-    required this.isPreview,
+    this.isPreview = false,
     required this.order,
-    required this.section,
-    required this.courseOutline,
+    this.section = '',
+    this.courseOutline = '',
     this.previousLessonId,
     this.nextLessonId,
   });
 
   final int id;
   final String title;
-  @JsonKey(name: 'video_url')
+  @JsonKey(name: 'video_url', defaultValue: '')
   final String videoUrl;
-  @JsonKey(name: 'duration_minutes')
+  @JsonKey(name: 'duration_minutes', fromJson: intFromJson)
   final int durationMinutes;
-  @JsonKey(name: 'is_preview')
+  @JsonKey(name: 'is_preview', fromJson: boolFromJson)
   final bool isPreview;
   final int order;
+  @JsonKey(defaultValue: '')
   final String section;
   @JsonKey(name: 'previous_lesson_id')
   final int? previousLessonId;
   @JsonKey(name: 'next_lesson_id')
   final int? nextLessonId;
-  @JsonKey(name: 'course_outline')
+  @JsonKey(name: 'course_outline', defaultValue: '')
   final String courseOutline;
 
   factory LessonPlayerDto.fromJson(Map<String, dynamic> json) =>

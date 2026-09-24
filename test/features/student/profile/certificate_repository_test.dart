@@ -49,12 +49,9 @@ CertificateRepository _repositoryWith(_MockAdapter adapter) {
 
 const _certificateJson = {
   'id': 3,
-  'certificate_number': 'CERT-3',
-  'course': {'id': 5, 'title': 'Flutter Basics', 'cover_image': ''},
-  'student_name': 'Jane Doe',
-  'instructor_name': 'Coach',
+  'certificate_code': 'CERT-3',
+  'pdf_url': '/api/certificates/3/pdf',
   'issued_at': '2026-02-01T00:00:00.000Z',
-  'download_url': '/api/certificates/3/download',
 };
 
 void main() {
@@ -76,9 +73,7 @@ void main() {
 
       expect(page.count, 1);
       expect(page.results.single.id, 3);
-      expect(page.results.single.certificateNumber, 'CERT-3');
-      expect(page.results.single.studentName, 'Jane Doe');
-      expect(page.results.single.course.title, 'Flutter Basics');
+      expect(page.results.single.certificateCode, 'CERT-3');
     });
   });
 

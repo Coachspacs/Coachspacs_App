@@ -19,7 +19,7 @@ CatalogCourseDto _$CatalogCourseDtoFromJson(Map<String, dynamic> json) =>
       language: json['language'] as String,
       price: json['price'] as String,
       isFree: boolFromJson(json['is_free']),
-      coverImage: json['cover_image'] as String,
+      coverImage: json['cover_image'] as String? ?? '',
       createdAt: DateTime.parse(json['created_at'] as String),
       publishedAt: json['published_at'] == null
           ? null
@@ -46,8 +46,8 @@ InstructorSummaryDto _$InstructorSummaryDtoFromJson(
   Map<String, dynamic> json,
 ) => InstructorSummaryDto(
   id: (json['id'] as num).toInt(),
-  fullName: json['full_name'] as String,
-  avatar: json['avatar'] as String,
+  fullName: json['full_name'] as String? ?? '',
+  avatar: json['avatar'] as String? ?? '',
 );
 
 Map<String, dynamic> _$InstructorSummaryDtoToJson(
@@ -71,8 +71,8 @@ CourseDetailDto _$CourseDetailDtoFromJson(Map<String, dynamic> json) =>
       language: json['language'] as String,
       price: json['price'] as String,
       isFree: boolFromJson(json['is_free']),
-      coverImage: json['cover_image'] as String,
-      status: json['status'] as String,
+      coverImage: json['cover_image'] as String? ?? '',
+      status: json['status'] as String? ?? '',
       createdAt: DateTime.parse(json['created_at'] as String),
       sections: (json['sections'] as List<dynamic>)
           .map((e) => CourseSectionDto.fromJson(e as Map<String, dynamic>))
@@ -128,10 +128,12 @@ CourseLessonDto _$CourseLessonDtoFromJson(Map<String, dynamic> json) =>
     CourseLessonDto(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
-      durationMinutes: (json['duration_minutes'] as num).toInt(),
+      durationMinutes: intFromJson(json['duration_minutes']),
       order: (json['order'] as num).toInt(),
-      isPreview: json['is_preview'] as bool,
-      videoUrl: json['video_url'] as String,
+      isPreview: json['is_preview'] == null
+          ? false
+          : boolFromJson(json['is_preview']),
+      videoUrl: json['video_url'] as String? ?? '',
     );
 
 Map<String, dynamic> _$CourseLessonDtoToJson(CourseLessonDto instance) =>
