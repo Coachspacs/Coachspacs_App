@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 import '../widgets/onboarding_bottom_actions.dart';
 import '../widgets/onboarding_indicator.dart';
 import '../widgets/onboarding_page.dart';
@@ -26,27 +25,42 @@ class _OnboardingScreenState
   int _currentPage = 0;
 
   final List<Widget> _pages = const [
+    // ===========================================================
+    // PAGE 1 - LEARN
+    // ===========================================================
+
     OnboardingPage(
       title: 'Learn. Grow. Succeed.',
       description:
       'Discover courses designed to help you build real skills and reach your goals.',
-      image: 'assets/images/onboarding/onboarding_1.png',
+      animation:
+      'assets/animations/onboarding_learn.json',
       accentLabel: 'LEARN',
     ),
+
+    // ===========================================================
+    // PAGE 2 - PROGRESS
+    // ===========================================================
 
     OnboardingPage(
       title: 'Learn at Your Own Pace',
       description:
       'Follow your courses, track your progress, and keep learning whenever you want.',
-      image: 'assets/images/onboarding/onboarding_2.png',
+      animation:
+      'assets/animations/onboarding_progress.json',
       accentLabel: 'PROGRESS',
     ),
+
+    // ===========================================================
+    // PAGE 3 - ACHIEVE
+    // ===========================================================
 
     OnboardingPage(
       title: 'Turn Learning Into Progress',
       description:
       'Complete courses, earn certificates, and keep moving forward with Coach Space.',
-      image: 'assets/images/onboarding/onboarding_3.png',
+      animation:
+      'assets/animations/onboarding_achieve.json',
       accentLabel: 'ACHIEVE',
     ),
   ];

@@ -18,6 +18,59 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeAll => 'All';
 
   @override
+  String get myPathSkillQuestion => 'What skill do you want to learn?';
+
+  @override
+  String get myPathSkillDescription =>
+      'Select your primary focus skill or domain so our AI companion can curate tailored modules, practical capstones, and personalized learning milestones.';
+
+  @override
+  String get myPathSkillAiRoadmap => 'AI Guided Roadmap';
+
+  @override
+  String get myPathSkillActivePlan => 'Active Plan';
+
+  @override
+  String get myPathSkillSearchHint => 'Search skill (React, UI/UX, Python)...';
+
+  @override
+  String get myPathSkillQuickFilter => 'QUICK FILTER';
+
+  @override
+  String get myPathSkillFrontend => 'Frontend Web Development';
+
+  @override
+  String get myPathSkillFrontendDescription =>
+      'Build interactive, high-performance user interfaces and responsive web apps.';
+
+  @override
+  String get myPathSkillUiUx => 'UI/UX & Product Design';
+
+  @override
+  String get myPathSkillUiUxDescription =>
+      'Design user-centric digital products, design systems, and rapid interactive prototypes.';
+
+  @override
+  String get myPathSkillBackend => 'Backend & Cloud Architecture';
+
+  @override
+  String get myPathSkillBackendDescription =>
+      'Scalable APIs, distributed microservices, and modern database management.';
+
+  @override
+  String get myPathSkillAiData => 'AI & Data Science';
+
+  @override
+  String get myPathSkillAiDataDescription =>
+      'Harness LLMs, machine learning pipelines, and predictive data insights.';
+
+  @override
+  String get myPathSkillPopular => 'POPULAR';
+
+  @override
+  String get myPathSkillContinue => 'Continue';
+
+  @override
   String get homeFeatured => 'Featured Courses';
 
   @override
@@ -37,6 +90,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navProfile => 'Profile';
+
+  @override
+  String get myPathTitle => 'مساري';
+
+  @override
+  String get myPathHoursQuestion => 'كم ساعة يمكنك الدراسة أسبوعيًا؟';
+
+  @override
+  String get myPathHoursSubtitle =>
+      'اختر التزامًا واقعيًا لتحديد وتيرة تعلم قابلة للتحقيق.';
+
+  @override
+  String get myPathHoursOneTwoTitle => '1–2 ساعة / أسبوع';
+
+  @override
+  String get myPathHoursOneTwoDescription =>
+      'وتيرة هادئة، مناسبة للجداول المزدحمة';
+
+  @override
+  String get myPathHoursThreeFiveTitle => '3–5 ساعات / أسبوع';
+
+  @override
+  String get myPathHoursThreeFiveDescription =>
+      'وتيرة متوازنة لبناء المهارات بثبات';
+
+  @override
+  String get myPathHoursSixTenTitle => '6–10 ساعات / أسبوع';
+
+  @override
+  String get myPathHoursSixTenDescription => 'وتيرة سريعة مع دروس عملية مكثفة';
+
+  @override
+  String get myPathHoursMoreThanTenTitle => 'أكثر من 10 ساعات / أسبوع';
+
+  @override
+  String get myPathHoursMoreThanTenDescription =>
+      'وتيرة مكثفة للانغماس الكامل وتسريع إتقان المهارات';
+
+  @override
+  String get commonRecommended => 'موصى به';
+
+  @override
+  String get commonContinue => 'متابعة';
 
   @override
   String get homeEmptyTitle => 'No content available';
