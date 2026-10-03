@@ -11,9 +11,9 @@ import 'package:coach_space/features/auth/ui/screens/login_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/pending_approval_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/reset_password_screen.dart';
 import 'package:coach_space/features/auth/ui/screens/support_screen.dart';
-
+import 'package:coach_space/features/student/profile/ui/screens/my_path_screen.dart';
 import 'package:coach_space/features/onboarding/screens/onboarding_screen.dart';
-
+import 'package:coach_space/features/student/profile/ui/screens/my_path_goal_screen.dart';
 import 'package:coach_space/features/student/home/ui/screens/home_screen.dart';
 
 import 'package:coach_space/features/signup/presentation/screens/signup_screen.dart';
@@ -49,7 +49,6 @@ import 'package:coach_space/features/instructor/students/ui/screens/instructor_s
 
 import '../../features/auth/data/models/user_role.dart';
 import '../../features/student/profile/ui/screens/checkout_screen.dart';
-// import '../../features/student/profile/ui/screens/contact_us_screen.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -101,7 +100,11 @@ class AppRouter {
           ),
           settings,
         );
-
+      case AppRoutes.studentMyPathGoal:
+        return _buildRoute(
+          const MyPathGoalScreen(),
+          settings,
+        );
       case AppRoutes.support:
         return _buildRoute(const SupportScreen(), settings);
 
@@ -157,7 +160,25 @@ class AppRouter {
       //   );
       case AppRoutes.checkout:
         return _buildRoute(const CheckoutScreen(), settings);
-      // =====================================================
+
+      case AppRoutes.studentMyPath:
+        return _buildRoute(
+          const MyPathScreen(),
+          settings,
+        );
+      case AppRoutes.studentMyPathLevel:
+        return _buildRoute(
+          const MyPathLevelScreen(),
+          settings,
+        );
+
+      case AppRoutes.studentMyPathSkill:
+        return _buildRoute(
+          const MyPathSkillScreen(),
+          settings,
+        );
+
+        // =====================================================
       // INSTRUCTOR
       // =====================================================
 

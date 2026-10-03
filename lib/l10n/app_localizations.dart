@@ -116,6 +116,102 @@ abstract class AppLocalizations {
   /// **'الكل'**
   String get homeAll;
 
+  /// Question asking the student which skill they want to learn
+  ///
+  /// In ar, this message translates to:
+  /// **'ما المهارة التي تريد تعلمها؟'**
+  String get myPathSkillQuestion;
+
+  /// Description explaining how the AI companion uses the selected skill
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر مهارتك أو مجالك الأساسي ليتمكن رفيقك بالذكاء الاصطناعي من إعداد وحدات تعليمية ومشاريع عملية ومراحل تعلم مخصصة لك.'**
+  String get myPathSkillDescription;
+
+  /// Label for the AI guided roadmap
+  ///
+  /// In ar, this message translates to:
+  /// **'خريطة تعلم بالذكاء الاصطناعي'**
+  String get myPathSkillAiRoadmap;
+
+  /// Label indicating that the learning plan is currently active
+  ///
+  /// In ar, this message translates to:
+  /// **'الخطة النشطة'**
+  String get myPathSkillActivePlan;
+
+  /// Hint text for searching for a skill
+  ///
+  /// In ar, this message translates to:
+  /// **'ابحث عن مهارة (React، UI/UX، Python)...'**
+  String get myPathSkillSearchHint;
+
+  /// Label for the quick filter button
+  ///
+  /// In ar, this message translates to:
+  /// **'تصفية سريعة'**
+  String get myPathSkillQuickFilter;
+
+  /// Name of the frontend web development skill
+  ///
+  /// In ar, this message translates to:
+  /// **'تطوير الواجهات الأمامية'**
+  String get myPathSkillFrontend;
+
+  /// Description of the frontend web development skill
+  ///
+  /// In ar, this message translates to:
+  /// **'بناء واجهات مستخدم تفاعلية وعالية الأداء وتطبيقات ويب متجاوبة.'**
+  String get myPathSkillFrontendDescription;
+
+  /// Name of the UI UX and product design skill
+  ///
+  /// In ar, this message translates to:
+  /// **'تصميم UI/UX والمنتجات'**
+  String get myPathSkillUiUx;
+
+  /// Description of the UI UX and product design skill
+  ///
+  /// In ar, this message translates to:
+  /// **'تصميم منتجات رقمية تتمحور حول المستخدم وأنظمة تصميم ونماذج أولية تفاعلية.'**
+  String get myPathSkillUiUxDescription;
+
+  /// Name of the backend and cloud architecture skill
+  ///
+  /// In ar, this message translates to:
+  /// **'هندسة Backend والسحابة'**
+  String get myPathSkillBackend;
+
+  /// Description of the backend and cloud architecture skill
+  ///
+  /// In ar, this message translates to:
+  /// **'واجهات API قابلة للتوسع وخدمات مصغرة موزعة وإدارة قواعد بيانات حديثة.'**
+  String get myPathSkillBackendDescription;
+
+  /// Name of the AI and data science skill
+  ///
+  /// In ar, this message translates to:
+  /// **'الذكاء الاصطناعي وعلوم البيانات'**
+  String get myPathSkillAiData;
+
+  /// Description of the AI and data science skill
+  ///
+  /// In ar, this message translates to:
+  /// **'استخدام نماذج اللغة الكبيرة وخطوط تعلم الآلة وتحليلات البيانات التنبؤية.'**
+  String get myPathSkillAiDataDescription;
+
+  /// Label shown for a popular skill
+  ///
+  /// In ar, this message translates to:
+  /// **'الأكثر شيوعًا'**
+  String get myPathSkillPopular;
+
+  /// Button label for continuing to the next step
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة'**
+  String get myPathSkillContinue;
+
   /// Section header for featured courses
   ///
   /// In ar, this message translates to:
@@ -157,6 +253,84 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'حسابي'**
   String get navProfile;
+
+  /// Title for the My Path screen
+  ///
+  /// In ar, this message translates to:
+  /// **'مساري'**
+  String get myPathTitle;
+
+  /// Question asking the student about weekly study hours
+  ///
+  /// In ar, this message translates to:
+  /// **'كم ساعة يمكنك الدراسة أسبوعيًا؟'**
+  String get myPathHoursQuestion;
+
+  /// Subtitle explaining the weekly study hours selection
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر التزامًا واقعيًا لتحديد وتيرة تعلم قابلة للتحقيق.'**
+  String get myPathHoursSubtitle;
+
+  /// Weekly study hours option for 1 to 2 hours
+  ///
+  /// In ar, this message translates to:
+  /// **'1–2 ساعة / أسبوع'**
+  String get myPathHoursOneTwoTitle;
+
+  /// Description for the 1 to 2 hours weekly option
+  ///
+  /// In ar, this message translates to:
+  /// **'وتيرة هادئة، مناسبة للجداول المزدحمة'**
+  String get myPathHoursOneTwoDescription;
+
+  /// Weekly study hours option for 3 to 5 hours
+  ///
+  /// In ar, this message translates to:
+  /// **'3–5 ساعات / أسبوع'**
+  String get myPathHoursThreeFiveTitle;
+
+  /// Description for the 3 to 5 hours weekly option
+  ///
+  /// In ar, this message translates to:
+  /// **'وتيرة متوازنة لبناء المهارات بثبات'**
+  String get myPathHoursThreeFiveDescription;
+
+  /// Weekly study hours option for 6 to 10 hours
+  ///
+  /// In ar, this message translates to:
+  /// **'6–10 ساعات / أسبوع'**
+  String get myPathHoursSixTenTitle;
+
+  /// Description for the 6 to 10 hours weekly option
+  ///
+  /// In ar, this message translates to:
+  /// **'وتيرة سريعة مع دروس عملية مكثفة'**
+  String get myPathHoursSixTenDescription;
+
+  /// Weekly study hours option for more than 10 hours
+  ///
+  /// In ar, this message translates to:
+  /// **'أكثر من 10 ساعات / أسبوع'**
+  String get myPathHoursMoreThanTenTitle;
+
+  /// Description for the more than 10 hours weekly option
+  ///
+  /// In ar, this message translates to:
+  /// **'وتيرة مكثفة للانغماس الكامل وتسريع إتقان المهارات'**
+  String get myPathHoursMoreThanTenDescription;
+
+  /// Common label indicating a recommended option
+  ///
+  /// In ar, this message translates to:
+  /// **'موصى به'**
+  String get commonRecommended;
+
+  /// Common continue button label
+  ///
+  /// In ar, this message translates to:
+  /// **'متابعة'**
+  String get commonContinue;
 
   /// Title shown when home data is empty
   ///

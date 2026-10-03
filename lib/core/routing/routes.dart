@@ -21,6 +21,11 @@ abstract final class AppRoutes {
   static const String certificates = '/certificates';
   static const String accountSettings = '/account-settings';
   static const String contactUs = '/contact-us';
+  static const String studentMyPath = '/student-my-path';
+  static const String studentMyPathGoal = '/student-my-path-goal';
+  static const String studentMyPathLevel = '/student-my-path-level';
+  static const String studentMyPathSkill = '/student-my-path-skill';
+
 
   // Account Settings Tabs
   static const String learningSettings = '/learning-settings';

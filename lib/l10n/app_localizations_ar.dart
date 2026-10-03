@@ -18,6 +18,59 @@ class AppLocalizationsAr extends AppLocalizations {
   String get homeAll => 'الكل';
 
   @override
+  String get myPathSkillQuestion => 'ما المهارة التي تريد تعلمها؟';
+
+  @override
+  String get myPathSkillDescription =>
+      'اختر مهارتك أو مجالك الأساسي ليتمكن رفيقك بالذكاء الاصطناعي من إعداد وحدات تعليمية ومشاريع عملية ومراحل تعلم مخصصة لك.';
+
+  @override
+  String get myPathSkillAiRoadmap => 'خريطة تعلم بالذكاء الاصطناعي';
+
+  @override
+  String get myPathSkillActivePlan => 'الخطة النشطة';
+
+  @override
+  String get myPathSkillSearchHint => 'ابحث عن مهارة (React، UI/UX، Python)...';
+
+  @override
+  String get myPathSkillQuickFilter => 'تصفية سريعة';
+
+  @override
+  String get myPathSkillFrontend => 'تطوير الواجهات الأمامية';
+
+  @override
+  String get myPathSkillFrontendDescription =>
+      'بناء واجهات مستخدم تفاعلية وعالية الأداء وتطبيقات ويب متجاوبة.';
+
+  @override
+  String get myPathSkillUiUx => 'تصميم UI/UX والمنتجات';
+
+  @override
+  String get myPathSkillUiUxDescription =>
+      'تصميم منتجات رقمية تتمحور حول المستخدم وأنظمة تصميم ونماذج أولية تفاعلية.';
+
+  @override
+  String get myPathSkillBackend => 'هندسة Backend والسحابة';
+
+  @override
+  String get myPathSkillBackendDescription =>
+      'واجهات API قابلة للتوسع وخدمات مصغرة موزعة وإدارة قواعد بيانات حديثة.';
+
+  @override
+  String get myPathSkillAiData => 'الذكاء الاصطناعي وعلوم البيانات';
+
+  @override
+  String get myPathSkillAiDataDescription =>
+      'استخدام نماذج اللغة الكبيرة وخطوط تعلم الآلة وتحليلات البيانات التنبؤية.';
+
+  @override
+  String get myPathSkillPopular => 'الأكثر شيوعًا';
+
+  @override
+  String get myPathSkillContinue => 'متابعة';
+
+  @override
   String get homeFeatured => 'دورات مميزة';
 
   @override
@@ -37,6 +90,49 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get navProfile => 'حسابي';
+
+  @override
+  String get myPathTitle => 'مساري';
+
+  @override
+  String get myPathHoursQuestion => 'كم ساعة يمكنك الدراسة أسبوعيًا؟';
+
+  @override
+  String get myPathHoursSubtitle =>
+      'اختر التزامًا واقعيًا لتحديد وتيرة تعلم قابلة للتحقيق.';
+
+  @override
+  String get myPathHoursOneTwoTitle => '1–2 ساعة / أسبوع';
+
+  @override
+  String get myPathHoursOneTwoDescription =>
+      'وتيرة هادئة، مناسبة للجداول المزدحمة';
+
+  @override
+  String get myPathHoursThreeFiveTitle => '3–5 ساعات / أسبوع';
+
+  @override
+  String get myPathHoursThreeFiveDescription =>
+      'وتيرة متوازنة لبناء المهارات بثبات';
+
+  @override
+  String get myPathHoursSixTenTitle => '6–10 ساعات / أسبوع';
+
+  @override
+  String get myPathHoursSixTenDescription => 'وتيرة سريعة مع دروس عملية مكثفة';
+
+  @override
+  String get myPathHoursMoreThanTenTitle => 'أكثر من 10 ساعات / أسبوع';
+
+  @override
+  String get myPathHoursMoreThanTenDescription =>
+      'وتيرة مكثفة للانغماس الكامل وتسريع إتقان المهارات';
+
+  @override
+  String get commonRecommended => 'موصى به';
+
+  @override
+  String get commonContinue => 'متابعة';
 
   @override
   String get homeEmptyTitle => 'لا توجد محتويات';

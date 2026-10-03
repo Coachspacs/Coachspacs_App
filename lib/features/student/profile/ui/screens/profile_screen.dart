@@ -44,7 +44,9 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () => Navigator.pop(dialogContext, true),
               child: Text(
                 l10n.profileSignOut,
-                style: const TextStyle(color: Colors.red),
+                style: const TextStyle(
+                  color: Colors.red,
+                ),
               ),
             ),
           ],
@@ -67,7 +69,11 @@ class ProfileScreen extends StatelessWidget {
 
         LoginRequiredDialog.show(context).then((_) {
           if (!context.mounted) return;
-          Navigator.pushReplacementNamed(context, AppRoutes.home);
+
+          Navigator.pushReplacementNamed(
+            context,
+            AppRoutes.home,
+          );
         });
       });
 
@@ -103,19 +109,28 @@ class _ProfileView extends StatelessWidget {
               _ => null,
             };
 
-            final name = profile?.fullName?.trim().isNotEmpty == true
+            final name =
+            profile?.fullName?.trim().isNotEmpty == true
                 ? profile!.fullName!.trim()
                 : l10n.profileStudent;
+
             final role = profile?.role == UserRole.instructor
                 ? l10n.profileInstructor
                 : l10n.profileStudent;
+
             final avatar = profile?.avatar ?? '';
 
             return SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 28, 16, 24),
+              padding: const EdgeInsets.fromLTRB(
+                16,
+                28,
+                16,
+                24,
+              ),
               child: Column(
                 children: [
-                  if (state is ProfileLoading || state is ProfileInitial)
+                  if (state is ProfileLoading ||
+                      state is ProfileInitial)
                     const Padding(
                       padding: EdgeInsets.only(bottom: 12),
                       child: LinearProgressIndicator(
@@ -135,10 +150,20 @@ class _ProfileView extends StatelessWidget {
                       ),
                     ),
 
-                  ProfileUserCard(name: name, role: role, avatar: avatar),
+                  ProfileUserCard(
+                    name: name,
+                    role: role,
+                    avatar: avatar,
+                  ),
+
                   const SizedBox(height: 20),
+
                   ProfileSection(
                     children: [
+                      // =================================================
+                      // ACCOUNT SETTINGS
+                      // =================================================
+
                       ProfileMenuItem(
                         icon: Icons.settings_outlined,
                         title: l10n.profileAccountSettings,
@@ -147,14 +172,37 @@ class _ProfileView extends StatelessWidget {
                           AppRoutes.accountSettings,
                         ),
                       ),
+
+                      // =================================================
+                      // MY PATH
+                      // =================================================
+
                       ProfileMenuItem(
-                        icon: Icons.history_rounded,
-                        title: l10n.profileOrderHistory,
+                        icon: Icons.route_outlined,
+                        title: l10n.myPathTitle,
                         onTap: () => Navigator.pushNamed(
                           context,
-                          AppRoutes.orderHistory,
+                          AppRoutes.studentMyPath,
                         ),
                       ),
+
+                      // =================================================
+                      // ORDER HISTORY
+                      // =================================================
+
+                      ProfileMenuItem(
+                        icon: Icons.route_outlined,
+                        title: 'My Path',
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          AppRoutes.studentMyPath,
+                        ),
+                      ),
+
+                      // =================================================
+                      // MY CART
+                      // =================================================
+
                       ProfileMenuItem(
                         icon: Icons.shopping_cart_outlined,
                         title: l10n.profileMyCart,
@@ -163,6 +211,11 @@ class _ProfileView extends StatelessWidget {
                           AppRoutes.cart,
                         ),
                       ),
+
+                      // =================================================
+                      // CERTIFICATES
+                      // =================================================
+
                       ProfileMenuItem(
                         icon: Icons.workspace_premium_outlined,
                         title: l10n.profileCertificates,
@@ -171,6 +224,11 @@ class _ProfileView extends StatelessWidget {
                           AppRoutes.certificates,
                         ),
                       ),
+
+                      // =================================================
+                      // CONTACT US
+                      // =================================================
+
                       ProfileMenuItem(
                         icon: Icons.support_agent_outlined,
                         title: l10n.profileContactUs,
@@ -185,9 +243,12 @@ class _ProfileView extends StatelessWidget {
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 32),
+
                   ProfileLogoutButton(
-                    onPressed: () => ProfileScreen._showLogoutDialog(context),
+                    onPressed: () =>
+                        ProfileScreen._showLogoutDialog(context),
                   ),
                 ],
               ),
@@ -195,6 +256,7 @@ class _ProfileView extends StatelessWidget {
           },
         ),
       ),
+
       bottomNavigationBar: const BottomNavBarWidget(
         navType: NavType.student,
         currentIndex: 3,
