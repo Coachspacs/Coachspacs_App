@@ -10,6 +10,7 @@ import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/helpers/failure_messages.dart';
 import 'package:coach_space/core/helpers/media_url.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/core/widgets/back_title_header.dart';
 import 'package:coach_space/features/student/profile/data/models/user_profile_model.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/profile_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/profile_state.dart';
@@ -143,34 +144,10 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
+            BackTitleHeader(
+              title: l10n.profileInfoTitle,
+              titleFontSize: 21,
               padding: const EdgeInsets.fromLTRB(16, 18, 16, 12),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minWidth: 40,
-                      minHeight: 40,
-                    ),
-                    icon: const Icon(
-                      Icons.arrow_back_rounded,
-                      size: 25,
-                      color: AppColors.textBody,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    l10n.profileInfoTitle,
-                    style: GoogleFonts.inter(
-                      fontSize: 21,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF073F38),
-                    ),
-                  ),
-                ],
-              ),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -308,39 +285,20 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
   }
 
   Future<void> _showEmailChangeDialog(BuildContext context) async {
-    final controller = TextEditingController();
     final l10n = context.l10n;
     final cubit = context.read<ProfileCubit>();
 
     final newEmail = await showDialog<String>(
       context: context,
       builder: (dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
-          ),
-          title: Text(l10n.profileInfoChangeEmail),
-          content: TextField(
-            controller: controller,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(hintText: l10n.profileInfoNewEmail),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text(l10n.commonCancel),
-            ),
-            TextButton(
-              onPressed: () =>
-                  Navigator.pop(dialogContext, controller.text.trim()),
-              child: Text(l10n.commonSave),
-            ),
-          ],
+        return _EmailChangeDialog(
+          title: l10n.profileInfoChangeEmail,
+          hint: l10n.profileInfoNewEmail,
+          cancelLabel: l10n.commonCancel,
+          saveLabel: l10n.commonSave,
         );
       },
     );
-
-    controller.dispose();
 
     if (newEmail == null || newEmail.isEmpty) return;
     await cubit.requestEmailChange(newEmail);
@@ -366,10 +324,7 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
       child: TextField(
         controller: controller,
         readOnly: readOnly,
-        style: GoogleFonts.inter(
-          fontSize: 13,
-          color: const Color(0xFF344842),
-        ),
+        style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF344842)),
         decoration: InputDecoration(
           filled: true,
           fillColor: readOnly ? const Color(0xFFF3F7F6) : Colors.white,
@@ -388,6 +343,56 @@ class _ProfileInformationScreenState extends State<ProfileInformationScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _EmailChangeDialog extends StatefulWidget {
+  const _EmailChangeDialog({
+    required this.title,
+    required this.hint,
+    required this.cancelLabel,
+    required this.saveLabel,
+  });
+
+  final String title;
+  final String hint;
+  final String cancelLabel;
+  final String saveLabel;
+
+  @override
+  State<_EmailChangeDialog> createState() => _EmailChangeDialogState();
+}
+
+class _EmailChangeDialogState extends State<_EmailChangeDialog> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      title: Text(widget.title),
+      content: TextField(
+        controller: _controller,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(hintText: widget.hint),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(widget.cancelLabel),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, _controller.text.trim()),
+          child: Text(widget.saveLabel),
+        ),
+      ],
     );
   }
 }

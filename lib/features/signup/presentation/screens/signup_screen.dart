@@ -402,7 +402,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           : 'Create Account',
 
                       onPressed:
-                      isLoading ? () {} : _handleSignup,
+                      isLoading ? null : _handleSignup,
 
                       color: AppColors.primary,
                       textColor: AppColors.white,

@@ -1,6 +1,7 @@
 import 'package:coach_space/core/networking/api_service.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/networking/paginated_response.dart';
+import 'package:coach_space/features/student/profile/data/models/certificate_detail_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/certificate_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/certificate_verify_dto.dart';
 
@@ -19,8 +20,8 @@ class CertificateRepositoryImpl implements CertificateRepository {
   }) => _guard(() => _api.getCertificates(page: page, pageSize: pageSize));
 
   @override
-  Future<List<int>> downloadCertificate(int id) =>
-      _guard(() => _api.downloadCertificate(id));
+  Future<CertificateDetailDto> getCertificate(int id) =>
+      _guard(() => _api.getCertificate(id));
 
   @override
   Future<CertificateVerifyDto> verifyCertificate(String code) =>

@@ -5,11 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/helpers/failure_messages.dart';
-import 'package:coach_space/core/routing/routes.dart';
+import 'package:coach_space/core/routing/tab_navigation.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/features/instructor/students/logic/cubit/instructor_students_cubit.dart';
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_header.dart';
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_stats.dart';
+import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_failure_view.dart';
+import 'package:coach_space/features/instructor/students/ui/widgets/instructor_students_page_title.dart';
 import 'package:coach_space/features/instructor/students/ui/widgets/instructor_student_card.dart';
 
 class InstructorStudentsScreen extends StatefulWidget {
@@ -28,41 +30,6 @@ class _InstructorStudentsScreenState
   String _searchQuery = '';
   int? _selectedCourseId;
 
-  void _handleNavigation(
-      BuildContext context,
-      int index,
-      ) {
-    switch (index) {
-
-      case 0:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoutes.instructorDashboard,
-              (route) => false,
-        );
-        break;
-
-      case 1:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoutes.instructorCourses,
-              (route) => false,
-        );
-        break;
-
-      case 2:
-        break;
-
-      case 3:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoutes.instructorProfile,
-              (route) => false,
-        );
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +41,7 @@ class _InstructorStudentsScreenState
 
             const InstructorStudentsHeader(),
 
-            const _StudentsPageTitle(),
+            const StudentsPageTitle(),
 
             Expanded(
               child: BlocProvider(
@@ -93,7 +60,7 @@ class _InstructorStudentsScreenState
                           color: Color(0xFF075E4D),
                         ),
                       ),
-                      InstructorStudentsFailure() => _StudentsFailureView(
+                      InstructorStudentsFailure() => StudentsFailureView(
                         message: localizedFailureMessage(
                           context,
                           state.kind,
@@ -130,10 +97,12 @@ class _InstructorStudentsScreenState
         currentIndex: 2,
         navType: NavType.instructor,
         onItemSelected: (index) {
-          _handleNavigation(
-            context,
-            index,
-          );
+          if (index != 2) {
+            InstructorTabNavigation.handle(
+              context,
+              index,
+            );
+          }
         },
       ),
     );
@@ -418,109 +387,6 @@ class _StudentsContent extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class _StudentsFailureView extends StatelessWidget {
-  const _StudentsFailureView({required this.message, required this.onRetry});
-
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.people_outline_rounded,
-              size: 46,
-              color: Colors.grey.shade400,
-            ),
-            const SizedBox(height: 14),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12.5,
-                height: 1.45,
-                color: const Color(0xFF71827E),
-              ),
-            ),
-            const SizedBox(height: 18),
-            ElevatedButton.icon(
-              onPressed: onRetry,
-              icon: const Icon(Icons.refresh_rounded, size: 17),
-              label: const Text('Retry'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(11),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _StudentsPageTitle extends StatelessWidget {
-  const _StudentsPageTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        18,
-        16,
-        18,
-        6,
-      ),
-      child: Row(
-        crossAxisAlignment:
-        CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-
-                Text(
-                  'Enrolled Students',
-                  style: GoogleFonts.inter(
-                    fontSize: 23,
-                    height: 1.1,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF073F38),
-                    letterSpacing: -0.3,
-                  ),
-                ),
-
-                const SizedBox(height: 5),
-
-                Text(
-                  'Manage and track your students',
-                  style: GoogleFonts.inter(
-                    fontSize: 11,
-                    height: 1.2,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF788681),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

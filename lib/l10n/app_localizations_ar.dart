@@ -1486,4 +1486,210 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get certificatesStudentName => 'الطالب';
+
+  @override
+  String get myPathRoadmapHeaderBadge => 'خريطة المسار الذكية';
+
+  @override
+  String myPathRoadmapMilestonesBadge(String count) {
+    return '$count محطات دراسية';
+  }
+
+  @override
+  String get myPathRoadmapDefaultTitle => 'المسار التقني المتخصص';
+
+  @override
+  String myPathRoadmapProgressPercent(String percent) {
+    return '$percent%';
+  }
+
+  @override
+  String myPathRoadmapProgressLabel(String done, String total) {
+    return '$done من أصل $total محطات مكتملة';
+  }
+
+  @override
+  String get myPathRoadmapReorderSteps => 'إعادة ترتيب الخطوات';
+
+  @override
+  String get myPathRoadmapRegeneratePath => 'إعادة توليد المسار';
+
+  @override
+  String get myPathRoadmapStartLine => 'نقطة انطلاق المسار';
+
+  @override
+  String get myPathRoadmapYouAreHere =>
+      'أنت هنا الآن! تابع تقدمك في هذه المحطة';
+
+  @override
+  String myPathRoadmapStageChip(String index) {
+    return 'المحطة $index';
+  }
+
+  @override
+  String get myPathRoadmapPurchaseRequired => 'متاحة للشراء';
+
+  @override
+  String get myPathRoadmapEnrolled => 'مسجل';
+
+  @override
+  String get myPathRoadmapStatusNext => 'قادمة';
+
+  @override
+  String get myPathRoadmapStatusActive => 'الحالية';
+
+  @override
+  String get myPathRoadmapStatusDone => 'مكتملة';
+
+  @override
+  String get myPathRoadmapStatusSkipped => 'تم التخطي';
+
+  @override
+  String get myPathRoadmapWeeksOfStudy => 'أسابيع دراسية';
+
+  @override
+  String get myPathRoadmapEnrollPurchase => 'شراء الدورة والتسجيل';
+
+  @override
+  String get myPathRoadmapStartLearning => 'ابدأ التعلّم';
+
+  @override
+  String get myPathRoadmapMarkDone => 'إنجاز';
+
+  @override
+  String get myPathRoadmapUndoDone => 'تراجع';
+
+  @override
+  String get myPathRoadmapSkipStep => 'تخطي هذه المحطة';
+
+  @override
+  String get myPathRoadmapUnskip => 'إلغاء التخطي';
+
+  @override
+  String get myPathRoadmapReorderLabel => 'الترتيب:';
+
+  @override
+  String get myPathRoadmapMoveUp => 'تقديم المحطة للأعلى';
+
+  @override
+  String get myPathRoadmapMoveDown => 'تأخير المحطة للأسفل';
+
+  @override
+  String get myPathRoadmapGoalPill => 'هدف المسار: الإتقان والجاهزية الوظيفية';
+
+  @override
+  String get myPathRoadmapReorderTitle => 'إعادة ترتيب محطات المسار';
+
+  @override
+  String get myPathRoadmapReorderSubtitle => 'استخدم الأسهم لتخصيص الترتيب';
+
+  @override
+  String get myPathRoadmapReorderWeeksShort => 'أسابيع';
+
+  @override
+  String get myPathRoadmapReorderCompleted => 'مكتملة';
+
+  @override
+  String get myPathRoadmapReorderSkipped => 'متخطاة';
+
+  @override
+  String get myPathRoadmapReorderSaveOrder => 'تم وحفظ الترتيب';
+
+  @override
+  String get myPathRoadmapReorderNote =>
+      'يتم تحديث مسار الخريطة فوراً عند التحريك';
+
+  @override
+  String get myPathRoadmapActiveBadgeLabel => 'نشطة';
+
+  @override
+  String get myPathRoadmapLevelBadgeLabel => 'محطة';
+
+  @override
+  String get myPathRoadmapGeneratingTitle => 'جاري بناء مسارك التعليمي';
+
+  @override
+  String get myPathRoadmapGeneratingSubtitle =>
+      'المساعد الذكي يحلل مهاراتك ويرتب المحطات المناسبة لك...';
+
+  @override
+  String get myPathRoadmapLoadingTitle => 'جاري تحميل مسار التعلم الذكي';
+
+  @override
+  String get aiQuizTitle => 'اختبار ذكي';
+
+  @override
+  String get aiQuizNewQuiz => 'اختبار جديد';
+
+  @override
+  String get aiQuizGenerating => 'قيد الإنشاء…';
+
+  @override
+  String get aiQuizFailed => 'فشل';
+
+  @override
+  String get aiQuizStart => 'ابدأ';
+
+  @override
+  String aiQuizQuestionOf(int current, int total) {
+    return 'سؤال $current من $total';
+  }
+
+  @override
+  String get aiQuizPrevious => 'السابق';
+
+  @override
+  String get aiQuizNext => 'التالي';
+
+  @override
+  String get aiQuizSubmit => 'إرسال';
+
+  @override
+  String get aiQuizYourScore => 'نتيجتك';
+
+  @override
+  String get aiQuizCorrectAnswer => 'الإجابة الصحيحة';
+
+  @override
+  String get aiQuizYourAnswer => 'إجابتك';
+
+  @override
+  String get aiQuizExplanation => 'الشرح';
+
+  @override
+  String get aiQuizBackToCourse => 'العودة إلى الدورة';
+
+  @override
+  String get aiQuizSubmitConfirmTitle => 'إرسال الاختبار؟';
+
+  @override
+  String aiQuizSubmitConfirmMessage(int missing) {
+    return 'لديك $missing سؤال بدون إجابة، وستُحسب إجابات خاطئة.';
+  }
+
+  @override
+  String get aiQuizNoQuizzes =>
+      'لا توجد اختبارات بعد. أنشئ أول اختبار تدريبي لك.';
+
+  @override
+  String get aiQuizGenerationsFailed => 'فشل إنشاء الاختبار. حاول مرة أخرى.';
+
+  @override
+  String get aiQuizViewResult => 'عرض النتيجة';
+
+  @override
+  String get aiQuizSavedAnswersLost =>
+      'سيتم فقدان إجاباتك عند الخروج. هل تريد الخروج؟';
+
+  @override
+  String get lessonPlayerAiSummary => 'ملخص بالذكاء الاصطناعي';
+
+  @override
+  String get lessonPlayerAiSummaryTitle => 'ملخص الدرس بالذكاء الاصطناعي';
+
+  @override
+  String get lessonPlayerAiSummaryLoading => 'جارٍ توليد ملخص الدرس…';
+
+  @override
+  String get lessonPlayerAiKeyPoints => 'النقاط الرئيسية';
 }

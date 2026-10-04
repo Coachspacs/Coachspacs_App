@@ -7,12 +7,16 @@ import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/helpers/failure_messages.dart';
 import 'package:coach_space/core/routing/routes.dart';
 import 'package:coach_space/core/widgets/bottom_nav_bar_widget.dart';
+import 'package:coach_space/core/widgets/empty_state_card.dart';
+import 'package:coach_space/core/widgets/error_retry_view.dart';
+import 'package:coach_space/core/widgets/selectable_chip_row.dart';
 import 'package:coach_space/features/student/catalog/data/models/category_dto.dart';
 import 'package:coach_space/features/student/catalog/logic/cubit/catalog_cubit.dart';
 
 import '../widgets/catalog/catalog_course_card.dart';
 import '../widgets/catalog/catalog_filter_sheet.dart';
 import '../widgets/catalog/catalog_search_bar.dart';
+import '../widgets/catalog/catalog_sort_bottom_sheet.dart';
 import '../widgets/catalog/catalog_top_bar.dart';
 
 class CatalogScreen extends StatefulWidget {
@@ -177,11 +181,31 @@ class _CatalogScreenState extends State<CatalogScreen> {
           ),
         );
       case CatalogFailure():
-        return _buildLoadFailure(
-          localizedFailureMessage(context, state.kind, state.message),
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: ErrorRetryView(
+              title: localizedFailureMessage(
+                context,
+                state.kind,
+                state.message,
+              ),
+              onRetry: _catalogCubit.refresh,
+            ),
+          ),
         );
       case CatalogSuccess():
-        if (state.isEmpty) return _buildEmptyState();
+        if (state.isEmpty) {
+          return EmptyStateCard(
+            icon: Icons.search_off,
+            title: context.l10n.catalogNoCourses,
+            hint: context.l10n.catalogTryAdjusting,
+            iconBadgeSize: 46,
+            iconSize: 45,
+            titleFontSize: 16,
+            hintFontSize: 12,
+          );
+        }
 
         return Column(
           children: [
@@ -223,50 +247,27 @@ class _CatalogScreenState extends State<CatalogScreen> {
     }
 
     final selectedCategory = state.filters.category;
+    CategoryDto? selectedValue;
+    for (final category in categories) {
+      if (category.id == selectedCategory) {
+        selectedValue = category;
+        break;
+      }
+    }
 
-    return SizedBox(
-      height: 38,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        itemCount: categories.length + 1,
-        separatorBuilder: (_, _) => const SizedBox(width: 8),
-        itemBuilder: (context, index) {
-          final CategoryDto? category = index == 0 ? null : categories[index - 1];
-          final isSelected = selectedCategory == category?.id;
-
-          return GestureDetector(
-            onTap: () {
-              _applyFilters(
-                categoryId: category?.id,
-                clearCategory: category == null,
-              );
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 160),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFF075E4D) : Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: isSelected
-                      ? const Color(0xFF075E4D)
-                      : const Color(0xFFD3DFDB),
-                ),
-              ),
-              child: Text(
-                category?.name ?? context.l10n.homeAll,
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? Colors.white : const Color(0xFF344540),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+    return SelectableChipRow<CategoryDto?>(
+      selectedValue: selectedValue,
+      onSelected: (category) {
+        _applyFilters(
+          categoryId: category?.id,
+          clearCategory: category == null,
+        );
+      },
+      items: [
+        SelectableChipItem(value: null, label: context.l10n.homeAll),
+        for (final category in categories)
+          SelectableChipItem(value: category, label: category.name),
+      ],
     );
   }
 
@@ -329,159 +330,14 @@ class _CatalogScreenState extends State<CatalogScreen> {
   }
 
   void _openSortSheet() {
-    final currentOrdering = _catalogCubit.filters.ordering;
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-      ),
-      builder: (sheetContext) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 18, 20, 25),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.l10n.catalogSortCourses,
-                  style: GoogleFonts.inter(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF073F38),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _sortOption(
-                  title: context.l10n.catalogNewest,
-                  ordering: '-created_at',
-                  selected: currentOrdering == '-created_at' ||
-                      currentOrdering == null,
-                ),
-                _sortOption(
-                  title: context.l10n.catalogPriceLowHigh,
-                  ordering: 'price',
-                  selected: currentOrdering == 'price',
-                ),
-                _sortOption(
-                  title: context.l10n.catalogPriceHighLow,
-                  ordering: '-price',
-                  selected: currentOrdering == '-price',
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _sortOption({
-    required String title,
-    required String ordering,
-    required bool selected,
-  }) {
-    return InkWell(
-      onTap: () {
-        Navigator.pop(context);
+    showCatalogSortSheet(
+      context,
+      currentOrdering: _catalogCubit.filters.ordering,
+      onSelected: (ordering) {
         _catalogCubit.applyFilters(
           _catalogCubit.filters.copyWith(ordering: ordering),
         );
       },
-      borderRadius: BorderRadius.circular(12),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 13),
-        child: Row(
-          children: [
-            Icon(
-              selected
-                  ? Icons.radio_button_checked
-                  : Icons.radio_button_off,
-              size: 20,
-              color: const Color(0xFF075E4D),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              title,
-              style: GoogleFonts.inter(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF263B36),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoadFailure(String message) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.error_outline, size: 48, color: Colors.grey.shade400),
-            const SizedBox(height: 16),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
-                fontSize: 14,
-                color: Colors.grey.shade600,
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: _catalogCubit.refresh,
-              icon: const Icon(Icons.refresh, size: 18),
-              label: Text(context.l10n.commonRetry),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF075E4D),
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 45, horizontal: 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE0EAE7)),
-      ),
-      child: Column(
-        children: [
-          Icon(Icons.search_off, size: 45, color: Colors.grey.shade400),
-          const SizedBox(height: 12),
-          Text(
-            context.l10n.catalogNoCourses,
-            style: GoogleFonts.inter(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF073F38),
-            ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            context.l10n.catalogTryAdjusting,
-            style: GoogleFonts.inter(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey.shade500,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -77,22 +77,28 @@ void main() {
     });
   });
 
-  group('CertificateRepositoryImpl.downloadCertificate', () {
-    test('GETs the download path as bytes and round-trips them', () async {
-      const pdfBytes = [37, 80, 68, 70, 45, 49, 46, 55];
+  group('CertificateRepositoryImpl.getCertificate', () {
+    test('GETs the detail path and parses the certificate', () async {
       final adapter = _MockAdapter((options, all) async {
         expect(options.method, 'GET');
-        expect(options.path, 'api/certificates/7/download');
-        expect(options.responseType, ResponseType.bytes);
-        return ResponseBody.fromBytes(
-          Uint8List.fromList(pdfBytes),
-          200,
-        );
+        expect(options.path, 'api/certificates/7');
+        return _json({
+          'id': 7,
+          'certificate_code': 'CERT-7',
+          'student_full_name': 'Ahmad Ali',
+          'course_title': 'Flutter Basics',
+          'instructor_full_name': 'Sara Hassan',
+          'issued_at': '2026-02-01T10:00:00Z',
+        }, 200);
       });
 
-      final bytes = await _repositoryWith(adapter).downloadCertificate(7);
+      final certificate = await _repositoryWith(adapter).getCertificate(7);
 
-      expect(bytes, pdfBytes);
+      expect(certificate.id, 7);
+      expect(certificate.certificateCode, 'CERT-7');
+      expect(certificate.studentFullName, 'Ahmad Ali');
+      expect(certificate.courseTitle, 'Flutter Basics');
+      expect(certificate.instructorFullName, 'Sara Hassan');
       expect(adapter.requests, hasLength(1));
     });
 
@@ -102,7 +108,7 @@ void main() {
       );
 
       expect(
-        () => _repositoryWith(adapter).downloadCertificate(7),
+        () => _repositoryWith(adapter).getCertificate(7),
         throwsA(
           isA<NetworkException>().having(
             (error) => error.kind,

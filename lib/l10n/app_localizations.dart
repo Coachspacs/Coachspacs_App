@@ -2929,6 +2929,384 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الطالب'**
   String get certificatesStudentName;
+
+  /// myPathRoadmapHeaderBadge
+  ///
+  /// In ar, this message translates to:
+  /// **'خريطة المسار الذكية'**
+  String get myPathRoadmapHeaderBadge;
+
+  /// myPathRoadmapMilestonesBadge
+  ///
+  /// In ar, this message translates to:
+  /// **'{count} محطات دراسية'**
+  String myPathRoadmapMilestonesBadge(String count);
+
+  /// myPathRoadmapDefaultTitle
+  ///
+  /// In ar, this message translates to:
+  /// **'المسار التقني المتخصص'**
+  String get myPathRoadmapDefaultTitle;
+
+  /// myPathRoadmapProgressPercent
+  ///
+  /// In ar, this message translates to:
+  /// **'{percent}%'**
+  String myPathRoadmapProgressPercent(String percent);
+
+  /// myPathRoadmapProgressLabel
+  ///
+  /// In ar, this message translates to:
+  /// **'{done} من أصل {total} محطات مكتملة'**
+  String myPathRoadmapProgressLabel(String done, String total);
+
+  /// myPathRoadmapReorderSteps
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة ترتيب الخطوات'**
+  String get myPathRoadmapReorderSteps;
+
+  /// myPathRoadmapRegeneratePath
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة توليد المسار'**
+  String get myPathRoadmapRegeneratePath;
+
+  /// myPathRoadmapStartLine
+  ///
+  /// In ar, this message translates to:
+  /// **'نقطة انطلاق المسار'**
+  String get myPathRoadmapStartLine;
+
+  /// myPathRoadmapYouAreHere
+  ///
+  /// In ar, this message translates to:
+  /// **'أنت هنا الآن! تابع تقدمك في هذه المحطة'**
+  String get myPathRoadmapYouAreHere;
+
+  /// myPathRoadmapStageChip
+  ///
+  /// In ar, this message translates to:
+  /// **'المحطة {index}'**
+  String myPathRoadmapStageChip(String index);
+
+  /// myPathRoadmapPurchaseRequired
+  ///
+  /// In ar, this message translates to:
+  /// **'متاحة للشراء'**
+  String get myPathRoadmapPurchaseRequired;
+
+  /// myPathRoadmapEnrolled
+  ///
+  /// In ar, this message translates to:
+  /// **'مسجل'**
+  String get myPathRoadmapEnrolled;
+
+  /// myPathRoadmapStatusNext
+  ///
+  /// In ar, this message translates to:
+  /// **'قادمة'**
+  String get myPathRoadmapStatusNext;
+
+  /// myPathRoadmapStatusActive
+  ///
+  /// In ar, this message translates to:
+  /// **'الحالية'**
+  String get myPathRoadmapStatusActive;
+
+  /// myPathRoadmapStatusDone
+  ///
+  /// In ar, this message translates to:
+  /// **'مكتملة'**
+  String get myPathRoadmapStatusDone;
+
+  /// myPathRoadmapStatusSkipped
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التخطي'**
+  String get myPathRoadmapStatusSkipped;
+
+  /// myPathRoadmapWeeksOfStudy
+  ///
+  /// In ar, this message translates to:
+  /// **'أسابيع دراسية'**
+  String get myPathRoadmapWeeksOfStudy;
+
+  /// myPathRoadmapEnrollPurchase
+  ///
+  /// In ar, this message translates to:
+  /// **'شراء الدورة والتسجيل'**
+  String get myPathRoadmapEnrollPurchase;
+
+  /// myPathRoadmapStartLearning
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ التعلّم'**
+  String get myPathRoadmapStartLearning;
+
+  /// myPathRoadmapMarkDone
+  ///
+  /// In ar, this message translates to:
+  /// **'إنجاز'**
+  String get myPathRoadmapMarkDone;
+
+  /// myPathRoadmapUndoDone
+  ///
+  /// In ar, this message translates to:
+  /// **'تراجع'**
+  String get myPathRoadmapUndoDone;
+
+  /// myPathRoadmapSkipStep
+  ///
+  /// In ar, this message translates to:
+  /// **'تخطي هذه المحطة'**
+  String get myPathRoadmapSkipStep;
+
+  /// myPathRoadmapUnskip
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء التخطي'**
+  String get myPathRoadmapUnskip;
+
+  /// myPathRoadmapReorderLabel
+  ///
+  /// In ar, this message translates to:
+  /// **'الترتيب:'**
+  String get myPathRoadmapReorderLabel;
+
+  /// myPathRoadmapMoveUp
+  ///
+  /// In ar, this message translates to:
+  /// **'تقديم المحطة للأعلى'**
+  String get myPathRoadmapMoveUp;
+
+  /// myPathRoadmapMoveDown
+  ///
+  /// In ar, this message translates to:
+  /// **'تأخير المحطة للأسفل'**
+  String get myPathRoadmapMoveDown;
+
+  /// myPathRoadmapGoalPill
+  ///
+  /// In ar, this message translates to:
+  /// **'هدف المسار: الإتقان والجاهزية الوظيفية'**
+  String get myPathRoadmapGoalPill;
+
+  /// myPathRoadmapReorderTitle
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة ترتيب محطات المسار'**
+  String get myPathRoadmapReorderTitle;
+
+  /// myPathRoadmapReorderSubtitle
+  ///
+  /// In ar, this message translates to:
+  /// **'استخدم الأسهم لتخصيص الترتيب'**
+  String get myPathRoadmapReorderSubtitle;
+
+  /// myPathRoadmapReorderWeeksShort
+  ///
+  /// In ar, this message translates to:
+  /// **'أسابيع'**
+  String get myPathRoadmapReorderWeeksShort;
+
+  /// myPathRoadmapReorderCompleted
+  ///
+  /// In ar, this message translates to:
+  /// **'مكتملة'**
+  String get myPathRoadmapReorderCompleted;
+
+  /// myPathRoadmapReorderSkipped
+  ///
+  /// In ar, this message translates to:
+  /// **'متخطاة'**
+  String get myPathRoadmapReorderSkipped;
+
+  /// myPathRoadmapReorderSaveOrder
+  ///
+  /// In ar, this message translates to:
+  /// **'تم وحفظ الترتيب'**
+  String get myPathRoadmapReorderSaveOrder;
+
+  /// myPathRoadmapReorderNote
+  ///
+  /// In ar, this message translates to:
+  /// **'يتم تحديث مسار الخريطة فوراً عند التحريك'**
+  String get myPathRoadmapReorderNote;
+
+  /// myPathRoadmapActiveBadgeLabel
+  ///
+  /// In ar, this message translates to:
+  /// **'نشطة'**
+  String get myPathRoadmapActiveBadgeLabel;
+
+  /// myPathRoadmapLevelBadgeLabel
+  ///
+  /// In ar, this message translates to:
+  /// **'محطة'**
+  String get myPathRoadmapLevelBadgeLabel;
+
+  /// myPathRoadmapGeneratingTitle
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري بناء مسارك التعليمي'**
+  String get myPathRoadmapGeneratingTitle;
+
+  /// myPathRoadmapGeneratingSubtitle
+  ///
+  /// In ar, this message translates to:
+  /// **'المساعد الذكي يحلل مهاراتك ويرتب المحطات المناسبة لك...'**
+  String get myPathRoadmapGeneratingSubtitle;
+
+  /// myPathRoadmapLoadingTitle
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري تحميل مسار التعلم الذكي'**
+  String get myPathRoadmapLoadingTitle;
+
+  /// aiQuizTitle
+  ///
+  /// In ar, this message translates to:
+  /// **'اختبار ذكي'**
+  String get aiQuizTitle;
+
+  /// aiQuizNewQuiz
+  ///
+  /// In ar, this message translates to:
+  /// **'اختبار جديد'**
+  String get aiQuizNewQuiz;
+
+  /// aiQuizGenerating
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد الإنشاء…'**
+  String get aiQuizGenerating;
+
+  /// aiQuizFailed
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل'**
+  String get aiQuizFailed;
+
+  /// aiQuizStart
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ'**
+  String get aiQuizStart;
+
+  /// aiQuizQuestionOf
+  ///
+  /// In ar, this message translates to:
+  /// **'سؤال {current} من {total}'**
+  String aiQuizQuestionOf(int current, int total);
+
+  /// aiQuizPrevious
+  ///
+  /// In ar, this message translates to:
+  /// **'السابق'**
+  String get aiQuizPrevious;
+
+  /// aiQuizNext
+  ///
+  /// In ar, this message translates to:
+  /// **'التالي'**
+  String get aiQuizNext;
+
+  /// aiQuizSubmit
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال'**
+  String get aiQuizSubmit;
+
+  /// aiQuizYourScore
+  ///
+  /// In ar, this message translates to:
+  /// **'نتيجتك'**
+  String get aiQuizYourScore;
+
+  /// aiQuizCorrectAnswer
+  ///
+  /// In ar, this message translates to:
+  /// **'الإجابة الصحيحة'**
+  String get aiQuizCorrectAnswer;
+
+  /// aiQuizYourAnswer
+  ///
+  /// In ar, this message translates to:
+  /// **'إجابتك'**
+  String get aiQuizYourAnswer;
+
+  /// aiQuizExplanation
+  ///
+  /// In ar, this message translates to:
+  /// **'الشرح'**
+  String get aiQuizExplanation;
+
+  /// aiQuizBackToCourse
+  ///
+  /// In ar, this message translates to:
+  /// **'العودة إلى الدورة'**
+  String get aiQuizBackToCourse;
+
+  /// aiQuizSubmitConfirmTitle
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الاختبار؟'**
+  String get aiQuizSubmitConfirmTitle;
+
+  /// aiQuizSubmitConfirmMessage
+  ///
+  /// In ar, this message translates to:
+  /// **'لديك {missing} سؤال بدون إجابة، وستُحسب إجابات خاطئة.'**
+  String aiQuizSubmitConfirmMessage(int missing);
+
+  /// aiQuizNoQuizzes
+  ///
+  /// In ar, this message translates to:
+  /// **'لا توجد اختبارات بعد. أنشئ أول اختبار تدريبي لك.'**
+  String get aiQuizNoQuizzes;
+
+  /// aiQuizGenerationsFailed
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل إنشاء الاختبار. حاول مرة أخرى.'**
+  String get aiQuizGenerationsFailed;
+
+  /// aiQuizViewResult
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض النتيجة'**
+  String get aiQuizViewResult;
+
+  /// aiQuizSavedAnswersLost
+  ///
+  /// In ar, this message translates to:
+  /// **'سيتم فقدان إجاباتك عند الخروج. هل تريد الخروج؟'**
+  String get aiQuizSavedAnswersLost;
+
+  /// lessonPlayerAiSummary
+  ///
+  /// In ar, this message translates to:
+  /// **'ملخص بالذكاء الاصطناعي'**
+  String get lessonPlayerAiSummary;
+
+  /// lessonPlayerAiSummaryTitle
+  ///
+  /// In ar, this message translates to:
+  /// **'ملخص الدرس بالذكاء الاصطناعي'**
+  String get lessonPlayerAiSummaryTitle;
+
+  /// lessonPlayerAiSummaryLoading
+  ///
+  /// In ar, this message translates to:
+  /// **'جارٍ توليد ملخص الدرس…'**
+  String get lessonPlayerAiSummaryLoading;
+
+  /// lessonPlayerAiKeyPoints
+  ///
+  /// In ar, this message translates to:
+  /// **'النقاط الرئيسية'**
+  String get lessonPlayerAiKeyPoints;
 }
 
 class _AppLocalizationsDelegate

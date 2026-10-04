@@ -77,6 +77,10 @@ class _FakeCatalogRepository implements CatalogRepository {
   @override
   Future<CourseDetailDto> getCourse(int id) async =>
       throw UnimplementedError();
+
+  @override
+  Future<List<int>> downloadAttachment(int id) async =>
+      throw UnimplementedError();
 }
 
 void main() {

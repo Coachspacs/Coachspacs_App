@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/snackbar_helper.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/core/widgets/password_field.dart';
+import 'package:coach_space/features/instructor/profile/ui/widgets/instructor_save_button.dart';
 import 'package:coach_space/features/instructor/profile/ui/widgets/instructor_settings_header.dart';
 
 class InstructorSecurityScreen extends StatefulWidget {
@@ -41,37 +44,18 @@ class _InstructorSecurityScreenState
   void _saveChanges() {
     if (_newPassword.text !=
         _confirmPassword.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'New passwords do not match.',
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          backgroundColor:
-          const Color(0xFFD9534F),
-          behavior: SnackBarBehavior.floating,
-        ),
+      showAppSnackBar(
+        context,
+        'New passwords do not match.',
+        isError: true,
       );
 
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Password updated successfully.',
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        backgroundColor:
-        const Color(0xFF075E4D),
-        behavior: SnackBarBehavior.floating,
-      ),
+    showAppSnackBar(
+      context,
+      'Password updated successfully.',
     );
   }
 
@@ -131,12 +115,12 @@ class _InstructorSecurityScreenState
                     // CURRENT PASSWORD
                     // =================================================
 
-                    _PasswordField(
+                    PasswordField(
                       label: 'Current Password',
                       controller:
                       _currentPassword,
                       obscureText: !_showCurrent,
-                      onVisibilityTap: () {
+                      onToggle: () {
                         setState(() {
                           _showCurrent =
                           !_showCurrent;
@@ -150,11 +134,11 @@ class _InstructorSecurityScreenState
                     // NEW PASSWORD
                     // =================================================
 
-                    _PasswordField(
+                    PasswordField(
                       label: 'New Password',
                       controller: _newPassword,
                       obscureText: !_showNew,
-                      onVisibilityTap: () {
+                      onToggle: () {
                         setState(() {
                           _showNew = !_showNew;
                         });
@@ -167,13 +151,13 @@ class _InstructorSecurityScreenState
                     // CONFIRM PASSWORD
                     // =================================================
 
-                    _PasswordField(
+                    PasswordField(
                       label: 'Confirm New Password',
                       controller:
                       _confirmPassword,
                       obscureText:
                       !_showConfirm,
-                      onVisibilityTap: () {
+                      onToggle: () {
                         setState(() {
                           _showConfirm =
                           !_showConfirm;
@@ -219,33 +203,8 @@ class _InstructorSecurityScreenState
                     // SAVE
                     // =================================================
 
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: ElevatedButton(
-                        onPressed: _saveChanges,
-                        style:
-                        ElevatedButton.styleFrom(
-                          backgroundColor:
-                          const Color(0xFF075E4D),
-                          foregroundColor:
-                          Colors.white,
-                          elevation: 0,
-                          shape:
-                          RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(11),
-                          ),
-                        ),
-                        child: Text(
-                          'Save Changes  →',
-                          style: GoogleFonts.inter(
-                            fontSize: 13,
-                            fontWeight:
-                            FontWeight.w700,
-                          ),
-                        ),
-                      ),
+                    InstructorSaveButton(
+                      onPressed: _saveChanges,
                     ),
                   ],
                 ),
@@ -254,104 +213,6 @@ class _InstructorSecurityScreenState
           ],
         ),
       ),
-    );
-  }
-}
-
-// =============================================================
-// PASSWORD FIELD
-// =============================================================
-
-class _PasswordField extends StatelessWidget {
-  const _PasswordField({
-    required this.label,
-    required this.controller,
-    required this.obscureText,
-    required this.onVisibilityTap,
-  });
-
-  final String label;
-  final TextEditingController controller;
-  final bool obscureText;
-  final VoidCallback onVisibilityTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment:
-      CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF344540),
-          ),
-        ),
-
-        const SizedBox(height: 7),
-
-        TextField(
-          controller: controller,
-          obscureText: obscureText,
-          style: GoogleFonts.inter(
-
-            fontSize: 13,
-            color: const Color(0xFF173D37),
-          ),
-          decoration: InputDecoration(
-            hintText: '••••••••',
-            hintStyle: const TextStyle(
-              fontSize: 11,
-              color: Color(0xFFA0ACA8),
-            ),
-            suffixIcon: IconButton(
-              onPressed: onVisibilityTap,
-              splashColor: Colors.transparent,
-              highlightColor:
-              Colors.transparent,
-              icon: Icon(
-                obscureText
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
-                size: 17,
-                color:
-                const Color(0xFF788681),
-              ),
-            ),
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding:
-            const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
-            border: OutlineInputBorder(
-              borderRadius:
-              BorderRadius.circular(9),
-              borderSide: const BorderSide(
-                color: Color(0xFFDDE8E5),
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius:
-              BorderRadius.circular(9),
-              borderSide: const BorderSide(
-                color: Color(0xFFDDE8E5),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius:
-              BorderRadius.circular(9),
-              borderSide: const BorderSide(
-                color: Color(0xFF075E4D),
-                width: 1.2,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

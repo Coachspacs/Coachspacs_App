@@ -16,77 +16,62 @@
   "@myPathSkillQuestion": {
     "description": "Question asking the student which skill they want to learn"
   },
-
   "myPathSkillDescription": "اختر مهارتك أو مجالك الأساسي ليتمكن رفيقك بالذكاء الاصطناعي من إعداد وحدات تعليمية ومشاريع عملية ومراحل تعلم مخصصة لك.",
   "@myPathSkillDescription": {
     "description": "Description explaining how the AI companion uses the selected skill"
   },
-
   "myPathSkillAiRoadmap": "خريطة تعلم بالذكاء الاصطناعي",
   "@myPathSkillAiRoadmap": {
     "description": "Label for the AI guided roadmap"
   },
-
   "myPathSkillActivePlan": "الخطة النشطة",
   "@myPathSkillActivePlan": {
     "description": "Label indicating that the learning plan is currently active"
   },
-
   "myPathSkillSearchHint": "ابحث عن مهارة (React، UI/UX، Python)...",
   "@myPathSkillSearchHint": {
     "description": "Hint text for searching for a skill"
   },
-
   "myPathSkillQuickFilter": "تصفية سريعة",
   "@myPathSkillQuickFilter": {
     "description": "Label for the quick filter button"
   },
-
   "myPathSkillFrontend": "تطوير الواجهات الأمامية",
   "@myPathSkillFrontend": {
     "description": "Name of the frontend web development skill"
   },
-
   "myPathSkillFrontendDescription": "بناء واجهات مستخدم تفاعلية وعالية الأداء وتطبيقات ويب متجاوبة.",
   "@myPathSkillFrontendDescription": {
     "description": "Description of the frontend web development skill"
   },
-
   "myPathSkillUiUx": "تصميم UI/UX والمنتجات",
   "@myPathSkillUiUx": {
     "description": "Name of the UI UX and product design skill"
   },
-
   "myPathSkillUiUxDescription": "تصميم منتجات رقمية تتمحور حول المستخدم وأنظمة تصميم ونماذج أولية تفاعلية.",
   "@myPathSkillUiUxDescription": {
     "description": "Description of the UI UX and product design skill"
   },
-
   "myPathSkillBackend": "هندسة Backend والسحابة",
   "@myPathSkillBackend": {
     "description": "Name of the backend and cloud architecture skill"
   },
-
   "myPathSkillBackendDescription": "واجهات API قابلة للتوسع وخدمات مصغرة موزعة وإدارة قواعد بيانات حديثة.",
   "@myPathSkillBackendDescription": {
     "description": "Description of the backend and cloud architecture skill"
   },
-
   "myPathSkillAiData": "الذكاء الاصطناعي وعلوم البيانات",
   "@myPathSkillAiData": {
     "description": "Name of the AI and data science skill"
   },
-
   "myPathSkillAiDataDescription": "استخدام نماذج اللغة الكبيرة وخطوط تعلم الآلة وتحليلات البيانات التنبؤية.",
   "@myPathSkillAiDataDescription": {
     "description": "Description of the AI and data science skill"
   },
-
   "myPathSkillPopular": "الأكثر شيوعًا",
   "@myPathSkillPopular": {
     "description": "Label shown for a popular skill"
   },
-
   "myPathSkillContinue": "متابعة",
   "@myPathSkillContinue": {
     "description": "Button label for continuing to the next step"
@@ -119,127 +104,54 @@
   "@navProfile": {
     "description": "Bottom navigation label for Profile"
   },
-
   "myPathTitle": "مساري",
   "@myPathTitle": {
     "description": "Title for the My Path screen"
   },
-
-  "myPathHoursQuestion": "كم ساعة يمكنك الدراسة أسبوعيًا؟",
-  "@myPathHoursQuestion": {
-    "description": "Question asking the student how many hours they can study per week"
-  },
-
-  "myPathHoursSubtitle": "اختر التزامًا واقعيًا لتحديد وتيرة تعلم قابلة للتحقيق.",
-  "@myPathHoursSubtitle": {
-    "description": "Subtitle explaining the purpose of choosing weekly study hours"
-  },
-
-  "myPathHoursOneTwoTitle": "1–2 ساعة / أسبوع",
-  "@myPathHoursOneTwoTitle": {
-    "description": "Weekly study hours option for one to two hours"
-  },
-
-  "myPathHoursOneTwoDescription": "وتيرة هادئة، مناسبة للجداول المزدحمة",
-  "@myPathHoursOneTwoDescription": {
-    "description": "Description for the one to two hours per week option"
-  },
-
-  "myPathHoursThreeFiveTitle": "3–5 ساعات / أسبوع",
-  "@myPathHoursThreeFiveTitle": {
-    "description": "Weekly study hours option for three to five hours"
-  },
-
-  "myPathHoursThreeFiveDescription": "وتيرة متوازنة لبناء المهارات بثبات",
-  "@myPathHoursThreeFiveDescription": {
-    "description": "Description for the three to five hours per week option"
-  },
-
-  "myPathHoursSixTenTitle": "6–10 ساعات / أسبوع",
-  "@myPathHoursSixTenTitle": {
-    "description": "Weekly study hours option for six to ten hours"
-  },
-
-  "myPathHoursSixTenDescription": "مسار سريع مع دروس عملية مكثفة",
-  "@myPathHoursSixTenDescription": {
-    "description": "Description for the six to ten hours per week option"
-  },
-
-  "myPathHoursMoreThanTenTitle": "أكثر من 10 ساعات / أسبوع",
-  "@myPathHoursMoreThanTenTitle": {
-    "description": "Weekly study hours option for more than ten hours"
-  },
-
-  "myPathHoursMoreThanTenDescription": "وتيرة مكثفة للتقدم السريع وإتقان المهارات",
-  "@myPathHoursMoreThanTenDescription": {
-    "description": "Description for the more than ten hours per week option"
-  },
-
-  "commonRecommended": "موصى به",
-  "@commonRecommended": {
-    "description": "Label shown for a recommended option"
-  },
-
-  "commonContinue": "متابعة",
-  "@commonContinue": {
-    "description": "Common button label for continuing to the next step"
-  },
-
   "myPathHoursQuestion": "كم ساعة يمكنك الدراسة أسبوعيًا؟",
   "@myPathHoursQuestion": {
     "description": "Question asking the student about weekly study hours"
   },
-
   "myPathHoursSubtitle": "اختر التزامًا واقعيًا لتحديد وتيرة تعلم قابلة للتحقيق.",
   "@myPathHoursSubtitle": {
     "description": "Subtitle explaining the weekly study hours selection"
   },
-
   "myPathHoursOneTwoTitle": "1–2 ساعة / أسبوع",
   "@myPathHoursOneTwoTitle": {
     "description": "Weekly study hours option for 1 to 2 hours"
   },
-
   "myPathHoursOneTwoDescription": "وتيرة هادئة، مناسبة للجداول المزدحمة",
   "@myPathHoursOneTwoDescription": {
     "description": "Description for the 1 to 2 hours weekly option"
   },
-
   "myPathHoursThreeFiveTitle": "3–5 ساعات / أسبوع",
   "@myPathHoursThreeFiveTitle": {
     "description": "Weekly study hours option for 3 to 5 hours"
   },
-
   "myPathHoursThreeFiveDescription": "وتيرة متوازنة لبناء المهارات بثبات",
   "@myPathHoursThreeFiveDescription": {
     "description": "Description for the 3 to 5 hours weekly option"
   },
-
   "myPathHoursSixTenTitle": "6–10 ساعات / أسبوع",
   "@myPathHoursSixTenTitle": {
     "description": "Weekly study hours option for 6 to 10 hours"
   },
-
   "myPathHoursSixTenDescription": "وتيرة سريعة مع دروس عملية مكثفة",
   "@myPathHoursSixTenDescription": {
     "description": "Description for the 6 to 10 hours weekly option"
   },
-
   "myPathHoursMoreThanTenTitle": "أكثر من 10 ساعات / أسبوع",
   "@myPathHoursMoreThanTenTitle": {
     "description": "Weekly study hours option for more than 10 hours"
   },
-
   "myPathHoursMoreThanTenDescription": "وتيرة مكثفة للانغماس الكامل وتسريع إتقان المهارات",
   "@myPathHoursMoreThanTenDescription": {
     "description": "Description for the more than 10 hours weekly option"
   },
-
   "commonRecommended": "موصى به",
   "@commonRecommended": {
     "description": "Common label indicating a recommended option"
   },
-
   "commonContinue": "متابعة",
   "@commonContinue": {
     "description": "Common continue button label"
@@ -960,5 +872,293 @@
   "settingsTitle": "إعدادات الطالب",
   "profileActive": "نشط",
   "homeCategoryCourses": "دورات",
-  "certificatesStudentName": "الطالب"
+  "certificatesStudentName": "الطالب",
+  "@myPathRoadmapHeaderBadge": {
+    "description": "myPathRoadmapHeaderBadge"
+  },
+  "myPathRoadmapHeaderBadge": "خريطة المسار الذكية",
+  "@myPathRoadmapMilestonesBadge": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    },
+    "description": "myPathRoadmapMilestonesBadge"
+  },
+  "myPathRoadmapMilestonesBadge": "{count} محطات دراسية",
+  "@myPathRoadmapDefaultTitle": {
+    "description": "myPathRoadmapDefaultTitle"
+  },
+  "myPathRoadmapDefaultTitle": "المسار التقني المتخصص",
+  "@myPathRoadmapProgressPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    },
+    "description": "myPathRoadmapProgressPercent"
+  },
+  "myPathRoadmapProgressPercent": "{percent}%",
+  "@myPathRoadmapProgressLabel": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    },
+    "description": "myPathRoadmapProgressLabel"
+  },
+  "myPathRoadmapProgressLabel": "{done} من أصل {total} محطات مكتملة",
+  "@myPathRoadmapReorderSteps": {
+    "description": "myPathRoadmapReorderSteps"
+  },
+  "myPathRoadmapReorderSteps": "إعادة ترتيب الخطوات",
+  "@myPathRoadmapRegeneratePath": {
+    "description": "myPathRoadmapRegeneratePath"
+  },
+  "myPathRoadmapRegeneratePath": "إعادة توليد المسار",
+  "@myPathRoadmapStartLine": {
+    "description": "myPathRoadmapStartLine"
+  },
+  "myPathRoadmapStartLine": "نقطة انطلاق المسار",
+  "@myPathRoadmapYouAreHere": {
+    "description": "myPathRoadmapYouAreHere"
+  },
+  "myPathRoadmapYouAreHere": "أنت هنا الآن! تابع تقدمك في هذه المحطة",
+  "@myPathRoadmapStageChip": {
+    "placeholders": {
+      "index": {
+        "type": "String"
+      }
+    },
+    "description": "myPathRoadmapStageChip"
+  },
+  "myPathRoadmapStageChip": "المحطة {index}",
+  "@myPathRoadmapPurchaseRequired": {
+    "description": "myPathRoadmapPurchaseRequired"
+  },
+  "myPathRoadmapPurchaseRequired": "متاحة للشراء",
+  "@myPathRoadmapEnrolled": {
+    "description": "myPathRoadmapEnrolled"
+  },
+  "myPathRoadmapEnrolled": "مسجل",
+  "@myPathRoadmapStatusNext": {
+    "description": "myPathRoadmapStatusNext"
+  },
+  "myPathRoadmapStatusNext": "قادمة",
+  "@myPathRoadmapStatusActive": {
+    "description": "myPathRoadmapStatusActive"
+  },
+  "myPathRoadmapStatusActive": "الحالية",
+  "@myPathRoadmapStatusDone": {
+    "description": "myPathRoadmapStatusDone"
+  },
+  "myPathRoadmapStatusDone": "مكتملة",
+  "@myPathRoadmapStatusSkipped": {
+    "description": "myPathRoadmapStatusSkipped"
+  },
+  "myPathRoadmapStatusSkipped": "تم التخطي",
+  "@myPathRoadmapWeeksOfStudy": {
+    "description": "myPathRoadmapWeeksOfStudy"
+  },
+  "myPathRoadmapWeeksOfStudy": "أسابيع دراسية",
+  "@myPathRoadmapEnrollPurchase": {
+    "description": "myPathRoadmapEnrollPurchase"
+  },
+  "myPathRoadmapEnrollPurchase": "شراء الدورة والتسجيل",
+  "@myPathRoadmapStartLearning": {
+    "description": "myPathRoadmapStartLearning"
+  },
+  "myPathRoadmapStartLearning": "ابدأ التعلّم",
+  "@myPathRoadmapMarkDone": {
+    "description": "myPathRoadmapMarkDone"
+  },
+  "myPathRoadmapMarkDone": "إنجاز",
+  "@myPathRoadmapUndoDone": {
+    "description": "myPathRoadmapUndoDone"
+  },
+  "myPathRoadmapUndoDone": "تراجع",
+  "@myPathRoadmapSkipStep": {
+    "description": "myPathRoadmapSkipStep"
+  },
+  "myPathRoadmapSkipStep": "تخطي هذه المحطة",
+  "@myPathRoadmapUnskip": {
+    "description": "myPathRoadmapUnskip"
+  },
+  "myPathRoadmapUnskip": "إلغاء التخطي",
+  "@myPathRoadmapReorderLabel": {
+    "description": "myPathRoadmapReorderLabel"
+  },
+  "myPathRoadmapReorderLabel": "الترتيب:",
+  "@myPathRoadmapMoveUp": {
+    "description": "myPathRoadmapMoveUp"
+  },
+  "myPathRoadmapMoveUp": "تقديم المحطة للأعلى",
+  "@myPathRoadmapMoveDown": {
+    "description": "myPathRoadmapMoveDown"
+  },
+  "myPathRoadmapMoveDown": "تأخير المحطة للأسفل",
+  "@myPathRoadmapGoalPill": {
+    "description": "myPathRoadmapGoalPill"
+  },
+  "myPathRoadmapGoalPill": "هدف المسار: الإتقان والجاهزية الوظيفية",
+  "@myPathRoadmapReorderTitle": {
+    "description": "myPathRoadmapReorderTitle"
+  },
+  "myPathRoadmapReorderTitle": "إعادة ترتيب محطات المسار",
+  "@myPathRoadmapReorderSubtitle": {
+    "description": "myPathRoadmapReorderSubtitle"
+  },
+  "myPathRoadmapReorderSubtitle": "استخدم الأسهم لتخصيص الترتيب",
+  "@myPathRoadmapReorderWeeksShort": {
+    "description": "myPathRoadmapReorderWeeksShort"
+  },
+  "myPathRoadmapReorderWeeksShort": "أسابيع",
+  "@myPathRoadmapReorderCompleted": {
+    "description": "myPathRoadmapReorderCompleted"
+  },
+  "myPathRoadmapReorderCompleted": "مكتملة",
+  "@myPathRoadmapReorderSkipped": {
+    "description": "myPathRoadmapReorderSkipped"
+  },
+  "myPathRoadmapReorderSkipped": "متخطاة",
+  "@myPathRoadmapReorderSaveOrder": {
+    "description": "myPathRoadmapReorderSaveOrder"
+  },
+  "myPathRoadmapReorderSaveOrder": "تم وحفظ الترتيب",
+  "@myPathRoadmapReorderNote": {
+    "description": "myPathRoadmapReorderNote"
+  },
+  "myPathRoadmapReorderNote": "يتم تحديث مسار الخريطة فوراً عند التحريك",
+  "@myPathRoadmapActiveBadgeLabel": {
+    "description": "myPathRoadmapActiveBadgeLabel"
+  },
+  "myPathRoadmapActiveBadgeLabel": "نشطة",
+  "@myPathRoadmapLevelBadgeLabel": {
+    "description": "myPathRoadmapLevelBadgeLabel"
+  },
+  "myPathRoadmapLevelBadgeLabel": "محطة",
+  "@myPathRoadmapGeneratingTitle": {
+    "description": "myPathRoadmapGeneratingTitle"
+  },
+  "myPathRoadmapGeneratingTitle": "جاري بناء مسارك التعليمي",
+  "@myPathRoadmapGeneratingSubtitle": {
+    "description": "myPathRoadmapGeneratingSubtitle"
+  },
+  "myPathRoadmapGeneratingSubtitle": "المساعد الذكي يحلل مهاراتك ويرتب المحطات المناسبة لك...",
+  "@myPathRoadmapLoadingTitle": {
+    "description": "myPathRoadmapLoadingTitle"
+  },
+  "myPathRoadmapLoadingTitle": "جاري تحميل مسار التعلم الذكي",
+  "@aiQuizTitle": {
+    "description": "aiQuizTitle"
+  },
+  "aiQuizTitle": "اختبار ذكي",
+  "@aiQuizNewQuiz": {
+    "description": "aiQuizNewQuiz"
+  },
+  "aiQuizNewQuiz": "اختبار جديد",
+  "@aiQuizGenerating": {
+    "description": "aiQuizGenerating"
+  },
+  "aiQuizGenerating": "قيد الإنشاء…",
+  "@aiQuizFailed": {
+    "description": "aiQuizFailed"
+  },
+  "aiQuizFailed": "فشل",
+  "@aiQuizStart": {
+    "description": "aiQuizStart"
+  },
+  "aiQuizStart": "ابدأ",
+  "@aiQuizQuestionOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    },
+    "description": "aiQuizQuestionOf"
+  },
+  "aiQuizQuestionOf": "سؤال {current} من {total}",
+  "@aiQuizPrevious": {
+    "description": "aiQuizPrevious"
+  },
+  "aiQuizPrevious": "السابق",
+  "@aiQuizNext": {
+    "description": "aiQuizNext"
+  },
+  "aiQuizNext": "التالي",
+  "@aiQuizSubmit": {
+    "description": "aiQuizSubmit"
+  },
+  "aiQuizSubmit": "إرسال",
+  "@aiQuizYourScore": {
+    "description": "aiQuizYourScore"
+  },
+  "aiQuizYourScore": "نتيجتك",
+  "@aiQuizCorrectAnswer": {
+    "description": "aiQuizCorrectAnswer"
+  },
+  "aiQuizCorrectAnswer": "الإجابة الصحيحة",
+  "@aiQuizYourAnswer": {
+    "description": "aiQuizYourAnswer"
+  },
+  "aiQuizYourAnswer": "إجابتك",
+  "@aiQuizExplanation": {
+    "description": "aiQuizExplanation"
+  },
+  "aiQuizExplanation": "الشرح",
+  "@aiQuizBackToCourse": {
+    "description": "aiQuizBackToCourse"
+  },
+  "aiQuizBackToCourse": "العودة إلى الدورة",
+  "@aiQuizSubmitConfirmTitle": {
+    "description": "aiQuizSubmitConfirmTitle"
+  },
+  "aiQuizSubmitConfirmTitle": "إرسال الاختبار؟",
+  "@aiQuizSubmitConfirmMessage": {
+    "placeholders": {
+      "missing": {
+        "type": "int"
+      }
+    },
+    "description": "aiQuizSubmitConfirmMessage"
+  },
+  "aiQuizSubmitConfirmMessage": "لديك {missing} سؤال بدون إجابة، وستُحسب إجابات خاطئة.",
+  "@aiQuizNoQuizzes": {
+    "description": "aiQuizNoQuizzes"
+  },
+  "aiQuizNoQuizzes": "لا توجد اختبارات بعد. أنشئ أول اختبار تدريبي لك.",
+  "@aiQuizGenerationsFailed": {
+    "description": "aiQuizGenerationsFailed"
+  },
+  "aiQuizGenerationsFailed": "فشل إنشاء الاختبار. حاول مرة أخرى.",
+  "@aiQuizViewResult": {
+    "description": "aiQuizViewResult"
+  },
+  "aiQuizViewResult": "عرض النتيجة",
+  "@aiQuizSavedAnswersLost": {
+    "description": "aiQuizSavedAnswersLost"
+  },
+  "aiQuizSavedAnswersLost": "سيتم فقدان إجاباتك عند الخروج. هل تريد الخروج؟",
+  "@lessonPlayerAiSummary": {
+    "description": "lessonPlayerAiSummary"
+  },
+  "lessonPlayerAiSummary": "ملخص بالذكاء الاصطناعي",
+  "@lessonPlayerAiSummaryTitle": {
+    "description": "lessonPlayerAiSummaryTitle"
+  },
+  "lessonPlayerAiSummaryTitle": "ملخص الدرس بالذكاء الاصطناعي",
+  "@lessonPlayerAiSummaryLoading": {
+    "description": "lessonPlayerAiSummaryLoading"
+  },
+  "lessonPlayerAiSummaryLoading": "جارٍ توليد ملخص الدرس…",
+  "@lessonPlayerAiKeyPoints": {
+    "description": "lessonPlayerAiKeyPoints"
+  },
+  "lessonPlayerAiKeyPoints": "النقاط الرئيسية"
 }

@@ -4,7 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:coach_space/core/networking/api_service.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/networking/paginated_response.dart';
+import '../models/attachment_dto.dart';
+import '../models/attachment_write_request.dart';
 import '../models/instructor_course_dto.dart';
+import '../models/upload_signature_dto.dart';
 import 'instructor_courses_repository.dart';
 
 class InstructorCoursesRepositoryImpl implements InstructorCoursesRepository {
@@ -44,8 +47,40 @@ class InstructorCoursesRepositoryImpl implements InstructorCoursesRepository {
   Future<void> uploadCoverImage(int id, File image) =>
       _guard(() => _api.uploadInstructorCoverImage(id, image));
   @override
-  Future<void> getVideoUploadSignature(int id) =>
+  Future<UploadSignatureDto> getVideoUploadSignature(int id) =>
       _guard(() => _api.getVideoUploadSignature(id));
+  @override
+  Future<UploadSignatureDto> getAttachmentUploadSignature(int id) =>
+      _guard(() => _api.getAttachmentUploadSignature(id));
+  @override
+  Future<List<AttachmentDto>> getCourseAttachments(int courseId) async =>
+      (await _guard(
+        () => _api.getInstructorCourseAttachments(courseId, page: 1, pageSize: 100),
+      )).results;
+  @override
+  Future<AttachmentDto> createCourseAttachment(
+    int courseId,
+    AttachmentWriteRequest data,
+  ) => _guard(() => _api.createInstructorCourseAttachment(courseId, data));
+  @override
+  Future<List<AttachmentDto>> getLessonAttachments(int lessonId) async =>
+      (await _guard(
+        () => _api.getInstructorLessonAttachments(lessonId, page: 1, pageSize: 100),
+      )).results;
+  @override
+  Future<AttachmentDto> createLessonAttachment(
+    int lessonId,
+    AttachmentWriteRequest data,
+  ) => _guard(() => _api.createInstructorLessonAttachment(lessonId, data));
+  @override
+  Future<AttachmentDto> getAttachment(int id) =>
+      _guard(() => _api.getInstructorAttachment(id));
+  @override
+  Future<AttachmentDto> updateAttachment(int id, AttachmentWriteRequest data) =>
+      _guard(() => _api.updateInstructorAttachment(id, data));
+  @override
+  Future<void> deleteAttachment(int id) =>
+      _guard(() => _api.deleteInstructorAttachment(id));
   @override
   Future<List<InstructorSectionDto>> getSections(int courseId) async =>
       (await _guard(

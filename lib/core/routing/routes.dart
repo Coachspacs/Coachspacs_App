@@ -25,6 +25,8 @@ abstract final class AppRoutes {
   static const String studentMyPathGoal = '/student-my-path-goal';
   static const String studentMyPathLevel = '/student-my-path-level';
   static const String studentMyPathSkill = '/student-my-path-skill';
+  static const String studentMyPathHours = '/student-my-path-hours';
+  static const String studentAiQuiz = '/student-ai-quiz';
 
 
   // Account Settings Tabs

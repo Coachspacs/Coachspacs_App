@@ -195,7 +195,7 @@ class _LinkExpiredScreenState extends State<LinkExpiredScreen> {
                             text: loading
                                 ? context.l10n.emailVerificationSending
                                 : context.l10n.linkExpiredResendButton,
-                            onPressed: loading ? () {} : _resend,
+                            onPressed: loading ? null : _resend,
                             color: AppColors.primary,
                             textColor: AppColors.white,
                             fontSize: 18,

@@ -19,7 +19,6 @@
   "homeOfflineSubtitle": "Please check your internet connection and try again",
   "homeRetry": "Retry",
   "loginWelcome": "Welcome Back",
-
   "myPathSkillQuestion": "What skill do you want to learn?",
   "myPathSkillDescription": "Select your primary focus skill or domain so our AI companion can curate tailored modules, practical capstones, and personalized learning milestones.",
   "myPathSkillAiRoadmap": "AI Guided Roadmap",
@@ -460,5 +459,293 @@
   "settingsTitle": "Student Settings",
   "profileActive": "Active",
   "homeCategoryCourses": "Courses",
-  "certificatesStudentName": "Student"
+  "certificatesStudentName": "Student",
+  "@myPathRoadmapHeaderBadge": {
+    "description": "myPathRoadmapHeaderBadge"
+  },
+  "myPathRoadmapHeaderBadge": "Dynamic Curriculum Map",
+  "@myPathRoadmapMilestonesBadge": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    },
+    "description": "myPathRoadmapMilestonesBadge"
+  },
+  "myPathRoadmapMilestonesBadge": "{count} Milestones",
+  "@myPathRoadmapDefaultTitle": {
+    "description": "myPathRoadmapDefaultTitle"
+  },
+  "myPathRoadmapDefaultTitle": "Specialized Tech Roadmap",
+  "@myPathRoadmapProgressPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    },
+    "description": "myPathRoadmapProgressPercent"
+  },
+  "myPathRoadmapProgressPercent": "{percent}%",
+  "@myPathRoadmapProgressLabel": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    },
+    "description": "myPathRoadmapProgressLabel"
+  },
+  "myPathRoadmapProgressLabel": "{done}/{total} milestones completed",
+  "@myPathRoadmapReorderSteps": {
+    "description": "myPathRoadmapReorderSteps"
+  },
+  "myPathRoadmapReorderSteps": "Reorder Steps",
+  "@myPathRoadmapRegeneratePath": {
+    "description": "myPathRoadmapRegeneratePath"
+  },
+  "myPathRoadmapRegeneratePath": "Regenerate Path",
+  "@myPathRoadmapStartLine": {
+    "description": "myPathRoadmapStartLine"
+  },
+  "myPathRoadmapStartLine": "Roadmap Start Line",
+  "@myPathRoadmapYouAreHere": {
+    "description": "myPathRoadmapYouAreHere"
+  },
+  "myPathRoadmapYouAreHere": "You are here! Keep making progress",
+  "@myPathRoadmapStageChip": {
+    "placeholders": {
+      "index": {
+        "type": "String"
+      }
+    },
+    "description": "myPathRoadmapStageChip"
+  },
+  "myPathRoadmapStageChip": "Stage {index}",
+  "@myPathRoadmapPurchaseRequired": {
+    "description": "myPathRoadmapPurchaseRequired"
+  },
+  "myPathRoadmapPurchaseRequired": "Purchase Req.",
+  "@myPathRoadmapEnrolled": {
+    "description": "myPathRoadmapEnrolled"
+  },
+  "myPathRoadmapEnrolled": "Enrolled",
+  "@myPathRoadmapStatusNext": {
+    "description": "myPathRoadmapStatusNext"
+  },
+  "myPathRoadmapStatusNext": "Next",
+  "@myPathRoadmapStatusActive": {
+    "description": "myPathRoadmapStatusActive"
+  },
+  "myPathRoadmapStatusActive": "Active",
+  "@myPathRoadmapStatusDone": {
+    "description": "myPathRoadmapStatusDone"
+  },
+  "myPathRoadmapStatusDone": "Done",
+  "@myPathRoadmapStatusSkipped": {
+    "description": "myPathRoadmapStatusSkipped"
+  },
+  "myPathRoadmapStatusSkipped": "Skipped",
+  "@myPathRoadmapWeeksOfStudy": {
+    "description": "myPathRoadmapWeeksOfStudy"
+  },
+  "myPathRoadmapWeeksOfStudy": "weeks of study",
+  "@myPathRoadmapEnrollPurchase": {
+    "description": "myPathRoadmapEnrollPurchase"
+  },
+  "myPathRoadmapEnrollPurchase": "Enroll & Purchase",
+  "@myPathRoadmapStartLearning": {
+    "description": "myPathRoadmapStartLearning"
+  },
+  "myPathRoadmapStartLearning": "Start Learning",
+  "@myPathRoadmapMarkDone": {
+    "description": "myPathRoadmapMarkDone"
+  },
+  "myPathRoadmapMarkDone": "Done",
+  "@myPathRoadmapUndoDone": {
+    "description": "myPathRoadmapUndoDone"
+  },
+  "myPathRoadmapUndoDone": "Undo",
+  "@myPathRoadmapSkipStep": {
+    "description": "myPathRoadmapSkipStep"
+  },
+  "myPathRoadmapSkipStep": "Skip Step",
+  "@myPathRoadmapUnskip": {
+    "description": "myPathRoadmapUnskip"
+  },
+  "myPathRoadmapUnskip": "Unskip",
+  "@myPathRoadmapReorderLabel": {
+    "description": "myPathRoadmapReorderLabel"
+  },
+  "myPathRoadmapReorderLabel": "Reorder:",
+  "@myPathRoadmapMoveUp": {
+    "description": "myPathRoadmapMoveUp"
+  },
+  "myPathRoadmapMoveUp": "Move stage up",
+  "@myPathRoadmapMoveDown": {
+    "description": "myPathRoadmapMoveDown"
+  },
+  "myPathRoadmapMoveDown": "Move stage down",
+  "@myPathRoadmapGoalPill": {
+    "description": "myPathRoadmapGoalPill"
+  },
+  "myPathRoadmapGoalPill": "Goal: Mastery & Career Readiness",
+  "@myPathRoadmapReorderTitle": {
+    "description": "myPathRoadmapReorderTitle"
+  },
+  "myPathRoadmapReorderTitle": "Reorder Roadmap Stages",
+  "@myPathRoadmapReorderSubtitle": {
+    "description": "myPathRoadmapReorderSubtitle"
+  },
+  "myPathRoadmapReorderSubtitle": "Use arrows to customize the order",
+  "@myPathRoadmapReorderWeeksShort": {
+    "description": "myPathRoadmapReorderWeeksShort"
+  },
+  "myPathRoadmapReorderWeeksShort": "weeks",
+  "@myPathRoadmapReorderCompleted": {
+    "description": "myPathRoadmapReorderCompleted"
+  },
+  "myPathRoadmapReorderCompleted": "Completed",
+  "@myPathRoadmapReorderSkipped": {
+    "description": "myPathRoadmapReorderSkipped"
+  },
+  "myPathRoadmapReorderSkipped": "Skipped",
+  "@myPathRoadmapReorderSaveOrder": {
+    "description": "myPathRoadmapReorderSaveOrder"
+  },
+  "myPathRoadmapReorderSaveOrder": "Done / Save Order",
+  "@myPathRoadmapReorderNote": {
+    "description": "myPathRoadmapReorderNote"
+  },
+  "myPathRoadmapReorderNote": "Map path updates instantly upon reordering",
+  "@myPathRoadmapActiveBadgeLabel": {
+    "description": "myPathRoadmapActiveBadgeLabel"
+  },
+  "myPathRoadmapActiveBadgeLabel": "LIVE",
+  "@myPathRoadmapLevelBadgeLabel": {
+    "description": "myPathRoadmapLevelBadgeLabel"
+  },
+  "myPathRoadmapLevelBadgeLabel": "LVL",
+  "@myPathRoadmapGeneratingTitle": {
+    "description": "myPathRoadmapGeneratingTitle"
+  },
+  "myPathRoadmapGeneratingTitle": "Building your learning path",
+  "@myPathRoadmapGeneratingSubtitle": {
+    "description": "myPathRoadmapGeneratingSubtitle"
+  },
+  "myPathRoadmapGeneratingSubtitle": "The AI assistant is analyzing your skills and arranging the right milestones...",
+  "@myPathRoadmapLoadingTitle": {
+    "description": "myPathRoadmapLoadingTitle"
+  },
+  "myPathRoadmapLoadingTitle": "Loading your AI learning path",
+  "@aiQuizTitle": {
+    "description": "aiQuizTitle"
+  },
+  "aiQuizTitle": "AI Quiz",
+  "@aiQuizNewQuiz": {
+    "description": "aiQuizNewQuiz"
+  },
+  "aiQuizNewQuiz": "New Quiz",
+  "@aiQuizGenerating": {
+    "description": "aiQuizGenerating"
+  },
+  "aiQuizGenerating": "Generating…",
+  "@aiQuizFailed": {
+    "description": "aiQuizFailed"
+  },
+  "aiQuizFailed": "Failed",
+  "@aiQuizStart": {
+    "description": "aiQuizStart"
+  },
+  "aiQuizStart": "Start",
+  "@aiQuizQuestionOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    },
+    "description": "aiQuizQuestionOf"
+  },
+  "aiQuizQuestionOf": "Question {current} of {total}",
+  "@aiQuizPrevious": {
+    "description": "aiQuizPrevious"
+  },
+  "aiQuizPrevious": "Previous",
+  "@aiQuizNext": {
+    "description": "aiQuizNext"
+  },
+  "aiQuizNext": "Next",
+  "@aiQuizSubmit": {
+    "description": "aiQuizSubmit"
+  },
+  "aiQuizSubmit": "Submit",
+  "@aiQuizYourScore": {
+    "description": "aiQuizYourScore"
+  },
+  "aiQuizYourScore": "Your Score",
+  "@aiQuizCorrectAnswer": {
+    "description": "aiQuizCorrectAnswer"
+  },
+  "aiQuizCorrectAnswer": "Correct Answer",
+  "@aiQuizYourAnswer": {
+    "description": "aiQuizYourAnswer"
+  },
+  "aiQuizYourAnswer": "Your Answer",
+  "@aiQuizExplanation": {
+    "description": "aiQuizExplanation"
+  },
+  "aiQuizExplanation": "Explanation",
+  "@aiQuizBackToCourse": {
+    "description": "aiQuizBackToCourse"
+  },
+  "aiQuizBackToCourse": "Back to course",
+  "@aiQuizSubmitConfirmTitle": {
+    "description": "aiQuizSubmitConfirmTitle"
+  },
+  "aiQuizSubmitConfirmTitle": "Submit quiz?",
+  "@aiQuizSubmitConfirmMessage": {
+    "placeholders": {
+      "missing": {
+        "type": "int"
+      }
+    },
+    "description": "aiQuizSubmitConfirmMessage"
+  },
+  "aiQuizSubmitConfirmMessage": "You have {missing} unanswered question(s). They will be counted as wrong.",
+  "@aiQuizNoQuizzes": {
+    "description": "aiQuizNoQuizzes"
+  },
+  "aiQuizNoQuizzes": "No AI quizzes yet. Generate your first practice quiz.",
+  "@aiQuizGenerationsFailed": {
+    "description": "aiQuizGenerationsFailed"
+  },
+  "aiQuizGenerationsFailed": "Quiz generation failed. Please try again.",
+  "@aiQuizViewResult": {
+    "description": "aiQuizViewResult"
+  },
+  "aiQuizViewResult": "View Result",
+  "@aiQuizSavedAnswersLost": {
+    "description": "aiQuizSavedAnswersLost"
+  },
+  "aiQuizSavedAnswersLost": "Leaving now will discard your answers. Exit anyway?",
+  "@lessonPlayerAiSummary": {
+    "description": "lessonPlayerAiSummary"
+  },
+  "lessonPlayerAiSummary": "AI Summary",
+  "@lessonPlayerAiSummaryTitle": {
+    "description": "lessonPlayerAiSummaryTitle"
+  },
+  "lessonPlayerAiSummaryTitle": "AI Lesson Summary",
+  "@lessonPlayerAiSummaryLoading": {
+    "description": "lessonPlayerAiSummaryLoading"
+  },
+  "lessonPlayerAiSummaryLoading": "Generating the lesson summary…",
+  "@lessonPlayerAiKeyPoints": {
+    "description": "lessonPlayerAiKeyPoints"
+  },
+  "lessonPlayerAiKeyPoints": "Key points"
 }

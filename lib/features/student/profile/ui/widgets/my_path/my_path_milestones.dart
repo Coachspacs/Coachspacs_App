@@ -2,11 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'my_path_milestone_item.dart';
+import 'my_path_palette.dart';
 
 class MyPathMilestones extends StatelessWidget {
-  const MyPathMilestones({super.key});
+  const MyPathMilestones({super.key, required this.currentStep});
 
-  static const Color primary = Color(0xFF075E4D);
+  /// 0-based wizard step the user is on; 4 means everything is done.
+  final int currentStep;
+
+  static const List<(String, String)> _steps = [
+    (
+      'Choose Your Goal',
+      'Tell us what you are aiming for so we can tailor the journey.',
+    ),
+    (
+      'Set Your Level',
+      'We calibrate every module to your current experience.',
+    ),
+    (
+      'Pick a Focus Skill',
+      'Select the domain you want to master first.',
+    ),
+    (
+      'Plan Your Schedule',
+      'Choose weekly hours so the plan fits your life.',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +37,7 @@ class MyPathMilestones extends StatelessWidget {
         Row(
           children: [
             Text(
-              'CURRICULUM MILESTONES',
+              'YOUR PATH MILESTONES',
               style: GoogleFonts.inter(
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
@@ -26,11 +47,11 @@ class MyPathMilestones extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              '4 Modules',
+              '${currentStep.clamp(0, 4)}/4 Done',
               style: GoogleFonts.inter(
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
-                color: primary,
+                color: MyPathColors.primary,
               ),
             ),
           ],
@@ -40,52 +61,29 @@ class MyPathMilestones extends StatelessWidget {
 
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.fromLTRB(
-            14,
-            14,
-            14,
-            10,
-          ),
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(17),
-            border: Border.all(
-              color: const Color(0xFFE1EAE7),
+            border: const Border.fromBorderSide(
+              BorderSide(color: Color(0xFFE1EAE7)),
             ),
           ),
-          child: const Column(
+          child: Column(
             children: [
-              MyPathMilestoneItem(
-                number: 1,
-                title: 'Foundations & Setup',
-                description:
-                'Core concepts, workspace setup & initial diagnostic review.',
-                isActive: true,
-                actionLabel: 'Start here',
-              ),
-
-              MyPathMilestoneItem(
-                number: 2,
-                title: 'Core Skill Mastery',
-                description:
-                'Interactive code sessions, live practice exercises & quizzes.',
-              ),
-
-              MyPathMilestoneItem(
-                number: 3,
-                title: 'Capstone Portfolio Project',
-                description:
-                'Build a production-ready application reviewed by mentors.',
-              ),
-
-              MyPathMilestoneItem(
-                number: 4,
-                title: 'Verified Certificate',
-                description:
-                'Industry-recognized certification shared to LinkedIn & resume.',
-                isLast: true,
-                isFinalGoal: true,
-              ),
+              for (var i = 0; i < _steps.length; i++)
+                MyPathMilestoneItem(
+                  number: i + 1,
+                  title: _steps[i].$1,
+                  description: _steps[i].$2,
+                  isDone: i < currentStep,
+                  isActive: i == currentStep && currentStep < 4,
+                  isLast: i == _steps.length - 1,
+                  isFinalGoal: i == _steps.length - 1,
+                  actionLabel: i == currentStep && currentStep < 4
+                      ? 'Start here'
+                      : null,
+                ),
             ],
           ),
         ),

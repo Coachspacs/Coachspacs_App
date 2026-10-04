@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/features/student/profile/data/models/certificate_dto.dart';
 import 'package:coach_space/features/student/profile/data/repo/certificate_repository.dart';
+import 'package:coach_space/features/student/profile/ui/widgets/certificates/certificate_pdf.dart';
 
 part 'certificates_state.dart';
 
@@ -13,8 +14,8 @@ class CertificatesCubit extends Cubit<CertificatesState> {
 
   final CertificateRepository _repository;
 
-  int? _downloadedId;
-  List<int>? _downloadedBytes;
+  int? _builtId;
+  List<int>? _builtBytes;
 
   Future<void> load() async {
     emit(const CertificatesLoading());
@@ -39,15 +40,16 @@ class CertificatesCubit extends Cubit<CertificatesState> {
     }
   }
 
-  /// Fetches the PDF bytes for [id], caching the last downloaded certificate.
-  /// Returns `true` when the bytes are available.
+  /// Fetches the certificate detail for [id] and renders the PDF locally,
+  /// caching the last built certificate. Returns `true` on success.
   Future<bool> download(int id) async {
-    if (_downloadedId == id && _downloadedBytes != null) return true;
+    if (_builtId == id && _builtBytes != null) return true;
     try {
-      final bytes = await _repository.downloadCertificate(id);
-      if (bytes.isEmpty) return false;
-      _downloadedId = id;
-      _downloadedBytes = bytes;
+      final detail = await _repository.getCertificate(id);
+      if (isClosed) return false;
+      final bytes = await buildCertificatePdf(detail);
+      _builtId = id;
+      _builtBytes = bytes;
       return true;
     } catch (_) {
       return false;
@@ -55,7 +57,7 @@ class CertificatesCubit extends Cubit<CertificatesState> {
   }
 
   /// Cached bytes for [id] after a successful [download].
-  List<int>? bytesFor(int id) => _downloadedId == id ? _downloadedBytes : null;
+  List<int>? bytesFor(int id) => _builtId == id ? _builtBytes : null;
 }
 
 const String _fallbackMessage = 'حدث خطأ، حاول مرة أخرى';

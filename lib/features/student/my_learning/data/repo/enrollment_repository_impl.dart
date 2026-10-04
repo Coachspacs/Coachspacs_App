@@ -3,6 +3,7 @@ import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/networking/paginated_response.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enroll_free_request.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/models/lesson_summary_dto.dart';
 
 import 'enrollment_repository.dart';
 
@@ -33,6 +34,10 @@ class EnrollmentRepositoryImpl implements EnrollmentRepository {
   @override
   Future<void> markLessonIncomplete(int enrollmentId, int lessonId) =>
       _guard(() => _api.markLessonIncomplete(enrollmentId, lessonId));
+
+  @override
+  Future<LessonSummaryDto> getLessonSummary(int lessonId) =>
+      _guard(() => _api.getLessonSummary(lessonId));
 
   Future<T> _guard<T>(Future<T> Function() request) =>
       NetworkException.guard(request);
