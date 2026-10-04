@@ -173,18 +173,7 @@ class _ProfileView extends StatelessWidget {
                         ),
                       ),
 
-                      // =================================================
-                      // MY PATH
-                      // =================================================
 
-                      ProfileMenuItem(
-                        icon: Icons.route_outlined,
-                        title: l10n.myPathTitle,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.studentMyPath,
-                        ),
-                      ),
 
                       // =================================================
                       // ORDER HISTORY
