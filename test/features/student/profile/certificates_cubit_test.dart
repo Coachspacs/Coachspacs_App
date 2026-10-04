@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/networking/paginated_response.dart';
 import 'package:coach_space/features/student/profile/data/models/certificate_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/certificate_detail_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/certificate_verify_dto.dart';
 import 'package:coach_space/features/student/profile/data/repo/certificate_repository.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/certificates_cubit.dart';
@@ -10,7 +11,7 @@ import 'package:coach_space/features/student/profile/logic/cubit/certificates_cu
 CertificateDto _certificate(int id) => CertificateDto(
   id: id,
   certificateCode: 'CERT-$id',
-  pdfUrl: '/api/certificates/$id/pdf',
+  courseTitle: 'Course $id',
   issuedAt: DateTime(2026, 2, 1),
 );
 
@@ -20,7 +21,7 @@ class _FakeCertificateRepository implements CertificateRepository {
     results: [],
   );
   Object? listError;
-  List<int>? bytes;
+  CertificateDetailDto? detail;
   Object? downloadError;
   final List<int> downloadedIds = [];
 
@@ -34,10 +35,10 @@ class _FakeCertificateRepository implements CertificateRepository {
   }
 
   @override
-  Future<List<int>> downloadCertificate(int id) async {
+  Future<CertificateDetailDto> getCertificate(int id) async {
     downloadedIds.add(id);
     if (downloadError != null) throw downloadError!;
-    return bytes ?? const [];
+    return detail ?? CertificateDetailDto(id: id);
   }
 
   @override
@@ -102,18 +103,25 @@ void main() {
   });
 
   group('CertificatesCubit.download', () {
-    test('caches the downloaded bytes', () async {
-      repository.bytes = const [37, 80, 68, 70];
+    test('caches the built PDF bytes', () async {
+      repository.detail = CertificateDetailDto(
+        id: 3,
+        certificateCode: 'CERT-3',
+        studentFullName: 'Ahmad Ali',
+        courseTitle: 'Flutter Basics',
+        instructorFullName: 'Sara Hassan',
+        issuedAt: '2026-02-01T10:00:00Z',
+      );
 
       final result = await cubit.download(3);
 
       expect(result, isTrue);
       expect(repository.downloadedIds, [3]);
-      expect(cubit.bytesFor(3), const [37, 80, 68, 70]);
+      expect(cubit.bytesFor(3), isNotEmpty);
       expect(cubit.bytesFor(4), isNull);
     });
 
-    test('returns false when the download fails', () async {
+    test('returns false when the fetch fails', () async {
       repository.downloadError = const NetworkException(
         kind: FailureKind.notFound,
         message: 'Not found',

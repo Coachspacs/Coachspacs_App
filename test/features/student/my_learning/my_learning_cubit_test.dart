@@ -3,9 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/networking/paginated_response.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/models/lesson_summary_dto.dart';
 import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository.dart';
 import 'package:coach_space/features/student/my_learning/logic/cubit/my_learning_cubit.dart';
 import 'package:coach_space/features/student/profile/data/models/certificate_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/certificate_detail_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/certificate_verify_dto.dart';
 import 'package:coach_space/features/student/profile/data/repo/certificate_repository.dart';
 import 'package:coach_space/features/student/catalog/data/models/catalog_course_dto.dart';
@@ -27,7 +29,7 @@ EnrollmentDto _enrollment(int id) => EnrollmentDto(
 CertificateDto _certificate(int id) => CertificateDto(
   id: id,
   certificateCode: 'CERT-$id',
-  pdfUrl: '/api/certificates/$id/pdf',
+  courseTitle: 'Course $id',
   issuedAt: DateTime(2026, 2, 1),
 );
 
@@ -61,6 +63,10 @@ class _FakeEnrollmentRepository implements EnrollmentRepository {
 
   @override
   Future<void> markLessonIncomplete(int enrollmentId, int lessonId) async {}
+
+  @override
+  Future<LessonSummaryDto> getLessonSummary(int lessonId) async =>
+      throw UnimplementedError();
 }
 
 class _FakeCertificateRepository implements CertificateRepository {
@@ -80,7 +86,8 @@ class _FakeCertificateRepository implements CertificateRepository {
   }
 
   @override
-  Future<List<int>> downloadCertificate(int id) async => const [];
+  Future<CertificateDetailDto> getCertificate(int id) async =>
+      throw UnimplementedError();
 
   @override
   Future<CertificateVerifyDto> verifyCertificate(String code) async =>

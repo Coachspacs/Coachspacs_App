@@ -14,6 +14,9 @@ void main() {
     // Let the splash screen's navigation timer elapse so the test ends with
     // no pending timers.
     await tester.pump(const Duration(seconds: 3));
-    await tester.pumpAndSettle();
+    // pumpAndSettle cannot be used here: the onboarding page runs an
+    // infinitely repeating decorative animation.
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
   });
 }

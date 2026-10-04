@@ -7,6 +7,7 @@ class MyPathMilestoneItem extends StatelessWidget {
     required this.number,
     required this.title,
     required this.description,
+    this.isDone = false,
     this.isActive = false,
     this.isLast = false,
     this.isFinalGoal = false,
@@ -16,6 +17,7 @@ class MyPathMilestoneItem extends StatelessWidget {
   final int number;
   final String title;
   final String description;
+  final bool isDone;
   final bool isActive;
   final bool isLast;
   final bool isFinalGoal;
@@ -41,17 +43,20 @@ class MyPathMilestoneItem extends StatelessWidget {
                 height: 30,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: isActive
+                  color: isDone || isActive
                       ? primary
                       : const Color(0xFFF2F6F7),
                   shape: BoxShape.circle,
-                  border: isActive
+                  border: isDone || isActive
                       ? null
                       : Border.all(
                     color: const Color(0xFFC9D9DE),
                   ),
                 ),
-                child: Text(
+                child: isDone
+                    ? const Icon(Icons.check_rounded,
+                        size: 16, color: Colors.white)
+                    : Text(
                   '$number',
                   style: GoogleFonts.inter(
                     fontSize: 11,
@@ -67,7 +72,9 @@ class MyPathMilestoneItem extends StatelessWidget {
                 Container(
                   width: 2,
                   height: 48,
-                  color: const Color(0xFFDCE5E7),
+                  color: isDone
+                      ? primary.withValues(alpha: .45)
+                      : const Color(0xFFDCE5E7),
                 ),
             ],
           ),

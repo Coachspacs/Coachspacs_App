@@ -1,5 +1,6 @@
 import 'package:coach_space/core/networking/paginated_response.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/models/lesson_summary_dto.dart';
 
 abstract class EnrollmentRepository {
   Future<PaginatedResponse<EnrollmentDto>> getEnrollments({
@@ -14,4 +15,7 @@ abstract class EnrollmentRepository {
   Future<LessonPlayerDto> getLesson(int enrollmentId, int lessonId);
   Future<void> markLessonComplete(int enrollmentId, int lessonId);
   Future<void> markLessonIncomplete(int enrollmentId, int lessonId);
+
+  /// AI summary of a lesson, localized like every other response (US-19).
+  Future<LessonSummaryDto> getLessonSummary(int lessonId);
 }

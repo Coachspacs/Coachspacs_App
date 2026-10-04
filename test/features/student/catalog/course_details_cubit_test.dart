@@ -7,6 +7,7 @@ import 'package:coach_space/features/student/catalog/data/models/category_dto.da
 import 'package:coach_space/features/student/catalog/data/repo/catalog_repository.dart';
 import 'package:coach_space/features/student/catalog/logic/cubit/course_details_cubit.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/models/lesson_summary_dto.dart';
 import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository.dart';
 import 'package:coach_space/features/student/profile/data/models/cart_dto.dart';
 import 'package:coach_space/features/student/profile/data/repo/cart_repository.dart';
@@ -76,6 +77,10 @@ class _FakeCatalogRepository implements CatalogRepository {
     if (error != null) throw error!;
     return course!;
   }
+
+  @override
+  Future<List<int>> downloadAttachment(int id) async =>
+      throw UnimplementedError();
 }
 
 class _FakeEnrollmentRepository implements EnrollmentRepository {
@@ -108,8 +113,11 @@ class _FakeEnrollmentRepository implements EnrollmentRepository {
 
   @override
   Future<void> markLessonIncomplete(int enrollmentId, int lessonId) async {}
-}
 
+  @override
+  Future<LessonSummaryDto> getLessonSummary(int lessonId) async =>
+      throw UnimplementedError();
+}
 class _FakeCartRepository implements CartRepository {
   Object? addError;
   final List<int> addedCourseIds = [];

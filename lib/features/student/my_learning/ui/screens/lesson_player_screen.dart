@@ -6,8 +6,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/helpers/context_extensions.dart';
 import 'package:coach_space/core/helpers/failure_messages.dart';
+import 'package:coach_space/core/networking/network_exceptions.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/models/lesson_summary_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository.dart';
 import 'package:coach_space/features/student/my_learning/logic/cubit/lesson_player_cubit.dart';
 
 class LessonPlayerScreen extends StatefulWidget {
@@ -21,11 +24,19 @@ class _LessonPlayerScreenState extends State<LessonPlayerScreen> {
   late final LessonPlayerCubit _cubit;
   int? _enrollmentId;
   int? _lessonId;
+  bool _initialized = false;
 
   @override
   void initState() {
     super.initState();
     _cubit = getIt<LessonPlayerCubit>();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_initialized) return;
+    _initialized = true;
     final arguments = ModalRoute.of(context)?.settings.arguments;
     final args = arguments is Map ? arguments : const <String, dynamic>{};
     final enrollmentId = args['enrollmentId'];
@@ -224,6 +235,29 @@ class _PlayerSuccessView extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
+        SizedBox(
+          width: double.infinity,
+          height: 46,
+          child: OutlinedButton.icon(
+            onPressed: () => _showAiSummary(context),
+            icon: const Icon(Icons.auto_awesome_rounded, size: 19),
+            label: Text(
+              l10n.lessonPlayerAiSummary,
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: const Color(0xFF075E4D),
+              side: const BorderSide(color: Color(0xFFBFE9D8), width: 1.2),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(11),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
         Row(
           children: [
             Expanded(
@@ -265,6 +299,148 @@ class _PlayerSuccessView extends StatelessWidget {
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       // The platform cannot open the URL; nothing else to do here.
     }
+  }
+
+  Future<void> _showAiSummary(BuildContext context) async {
+    final l10n = context.l10n;
+    final repository = getIt<EnrollmentRepository>();
+    final messenger = ScaffoldMessenger.of(context);
+
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(l10n.lessonPlayerAiSummaryLoading),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+
+    try {
+      final summary = await repository.getLessonSummary(lesson.id);
+      if (!context.mounted) return;
+      await showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        builder: (sheetContext) => _AiSummarySheet(summary: summary),
+      );
+    } on NetworkException catch (error) {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            localizedFailureMessage(context, error.kind, error.message),
+          ),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+}
+
+class _AiSummarySheet extends StatelessWidget {
+  const _AiSummarySheet({required this.summary});
+
+  final LessonSummaryDto summary;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.auto_awesome_rounded,
+                  size: 20,
+                  color: Color(0xFF075E4D),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    l10n.lessonPlayerAiSummaryTitle,
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: const Color(0xFF073F38),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close_rounded, size: 20),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      summary.summary,
+                      style: GoogleFonts.inter(
+                        fontSize: 13.5,
+                        height: 1.65,
+                        color: const Color(0xFF3B4A46),
+                      ),
+                    ),
+                    if (summary.keyPoints.isNotEmpty) ...[
+                      const SizedBox(height: 14),
+                      Text(
+                        l10n.lessonPlayerAiKeyPoints,
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800,
+                          color: const Color(0xFF073F38),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      for (final point in summary.keyPoints)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(top: 5),
+                                child: Icon(
+                                  Icons.circle,
+                                  size: 5,
+                                  color: Color(0xFF075E4D),
+                                ),
+                              ),
+                              const SizedBox(width: 9),
+                              Expanded(
+                                child: Text(
+                                  point,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    height: 1.5,
+                                    color: const Color(0xFF3B4A46),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

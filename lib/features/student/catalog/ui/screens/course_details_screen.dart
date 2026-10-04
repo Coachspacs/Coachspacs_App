@@ -29,19 +29,27 @@ class CourseDetailsScreen extends StatefulWidget {
 class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
   late final CourseDetailsCubit _cubit;
   int? _courseId;
+  bool _initialized = false;
 
   @override
   void initState() {
     super.initState();
     _cubit = getIt<CourseDetailsCubit>();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_initialized) return;
+    _initialized = true;
     final arguments = ModalRoute.of(context)?.settings.arguments;
     final courseId = switch (arguments) {
       int id => id,
       Map map when map['id'] is int => map['id'] as int,
       _ => null,
     };
-    _courseId = courseId;
     if (courseId != null) {
+      _courseId = courseId;
       _cubit.load(courseId);
     } else {
       _cubit.emitInvalidArguments();
@@ -159,6 +167,10 @@ class _SuccessView extends StatelessWidget {
             totalDurationMinutes: course.totalDurationMinutes,
             totalLessons: course.totalLessons,
           ),
+          if (state.isEnrolled || course.isEnrolled) ...[
+            const SizedBox(height: 16),
+            _AIQuizEntryCard(courseId: course.id),
+          ],
           const SizedBox(height: 24),
           _sectionTitle(l10n.courseDetailsCurriculum),
           const SizedBox(height: 12),
@@ -319,6 +331,57 @@ class _MetaRow extends StatelessWidget {
           label: '${context.l10n.courseDetailsLanguage}: $language',
         ),
       ],
+    );
+  }
+}
+
+class _AIQuizEntryCard extends StatelessWidget {
+  const _AIQuizEntryCard({required this.courseId});
+
+  final int courseId;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Material(
+      color: const Color(0xFFEAF4F1),
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => Navigator.pushNamed(
+          context,
+          AppRoutes.studentAiQuiz,
+          arguments: courseId,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.auto_awesome_rounded,
+                size: 20,
+                color: Color(0xFF075E4D),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  l10n.aiQuizTitle,
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF075E4D),
+                  ),
+                ),
+              ),
+              const Icon(
+                Icons.chevron_right_rounded,
+                size: 20,
+                color: Color(0xFF075E4D),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

@@ -27,3 +27,19 @@ String localizedFailureMessage(
     FailureKind.unknown => context.l10n.errorUnknown,
   };
 }
+
+/// Maps a typed [FailureKind] to a short localized detail line, or `null`
+/// for kinds that have no dedicated detail (validation/unknown keep the
+/// server message instead).
+String? failureDetail(BuildContext context, FailureKind kind) {
+  return switch (kind) {
+    FailureKind.offline => context.l10n.errorOffline,
+    FailureKind.unauthorized => context.l10n.errorSessionExpired,
+    FailureKind.forbidden => context.l10n.errorForbidden,
+    FailureKind.notFound => context.l10n.errorNotFound,
+    FailureKind.conflict => context.l10n.errorConflict,
+    FailureKind.rateLimited => context.l10n.errorRateLimited,
+    FailureKind.serverError => context.l10n.errorServer,
+    _ => null,
+  };
+}

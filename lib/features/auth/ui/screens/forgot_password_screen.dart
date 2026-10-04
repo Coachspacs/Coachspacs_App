@@ -358,7 +358,7 @@ class _ForgotPasswordScreenState
                           : context.l10n.forgotPasswordButton,
 
                       onPressed: isLoading
-                          ? () {}
+                          ? null
                           : _sendResetLink,
 
                       color: AppColors.primary,

@@ -3,10 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SkillSearchBar extends StatelessWidget {
   final ValueChanged<String> onChanged;
+  final bool filterActive;
+  final ValueChanged<bool> onFilterToggle;
 
   const SkillSearchBar({
     super.key,
     required this.onChanged,
+    required this.filterActive,
+    required this.onFilterToggle,
   });
 
   @override
@@ -58,22 +62,43 @@ class SkillSearchBar extends StatelessWidget {
             ),
           ),
 
-          Container(
-            margin: const EdgeInsets.only(right: 7),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 11,
-              vertical: 8,
-            ),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF1F4F8),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              'QUICK FILTER',
-              style: GoogleFonts.inter(
-                fontSize: 9,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFF50627C),
+          GestureDetector(
+            onTap: () => onFilterToggle(!filterActive),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              margin: const EdgeInsets.only(right: 7),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 11,
+                vertical: 8,
+              ),
+              decoration: BoxDecoration(
+                color: filterActive
+                    ? const Color(0xFF075E4D)
+                    : const Color(0xFFF1F4F8),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.local_fire_department_rounded,
+                    size: 11,
+                    color: filterActive
+                        ? const Color(0xFFFFD98A)
+                        : const Color(0xFF50627C),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    'POPULAR',
+                    style: GoogleFonts.inter(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w700,
+                      color: filterActive
+                          ? Colors.white
+                          : const Color(0xFF50627C),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

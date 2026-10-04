@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -11,7 +12,9 @@ import 'package:coach_space/core/theming/app_colors.dart';
 
 import 'package:coach_space/features/instructor/courses/data/models/instructor_course_dto.dart';
 import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository.dart';
+import 'package:coach_space/features/instructor/courses/logic/cubit/attachments_cubit.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/instructor_courses_screen.dart';
+import 'package:coach_space/features/instructor/courses/ui/widgets/attachments/instructor_attachments_section.dart';
 
 import '../widgets/edit_course/instructor_edit_course_basic_info.dart';
 import '../widgets/edit_course/instructor_edit_course_curriculum.dart';
@@ -390,6 +393,18 @@ class _InstructorCourseEditScreenState
                           ),
                         );
                       },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    BlocProvider<AttachmentsCubit>(
+                      create: (_) {
+                        final cubit =
+                            getIt<AttachmentsCubit>(param1: widget.course.id);
+                        cubit.load();
+                        return cubit;
+                      },
+                      child: const InstructorAttachmentsSection(),
                     ),
 
                     const SizedBox(height: 16),

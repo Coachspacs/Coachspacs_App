@@ -244,7 +244,7 @@ class _SupportScreenState extends State<SupportScreen> {
                                 text: _sending
                                     ? context.l10n.supportSending
                                     : context.l10n.supportSendButton,
-                                onPressed: _sending ? () {} : _sendMessage,
+                                onPressed: _sending ? null : _sendMessage,
                                 color: AppColors.primary,
                                 textColor: AppColors.white,
                                 fontSize: 20,

@@ -191,11 +191,11 @@ class _ProfileView extends StatelessWidget {
                       // =================================================
 
                       ProfileMenuItem(
-                        icon: Icons.route_outlined,
-                        title: 'My Path',
+                        icon: Icons.receipt_long_outlined,
+                        title: l10n.profileOrderHistory,
                         onTap: () => Navigator.pushNamed(
                           context,
-                          AppRoutes.studentMyPath,
+                          AppRoutes.orderHistory,
                         ),
                       ),
 

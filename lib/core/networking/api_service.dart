@@ -21,12 +21,19 @@ import 'package:coach_space/features/student/catalog/data/models/catalog_course_
 import 'package:coach_space/features/student/my_learning/data/models/enrollment_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/cart_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/certificate_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/certificate_detail_dto.dart';
 import 'package:coach_space/features/student/profile/data/models/change_email_request.dart';
 import 'package:coach_space/features/student/profile/data/models/confirm_email_change_request.dart';
 import 'package:coach_space/features/student/profile/data/models/order_dto.dart';
+import 'package:coach_space/features/student/profile/data/models/roadmap_dtos.dart';
 import 'package:coach_space/features/student/profile/data/models/update_profile_request.dart';
 import 'package:coach_space/features/student/profile/data/models/user_profile_model.dart';
+import 'package:coach_space/features/instructor/courses/data/models/attachment_dto.dart';
+import 'package:coach_space/features/instructor/courses/data/models/attachment_write_request.dart';
 import 'package:coach_space/features/instructor/courses/data/models/instructor_course_dto.dart';
+import 'package:coach_space/features/instructor/courses/data/models/upload_signature_dto.dart';
+import 'package:coach_space/features/student/my_learning/data/models/ai_quiz_dtos.dart';
+import 'package:coach_space/features/student/my_learning/data/models/lesson_summary_dto.dart';
 import 'package:coach_space/features/instructor/dashboard/data/models/instructor_dashboard_dto.dart';
 import 'package:coach_space/features/instructor/students/data/models/instructor_student_dto.dart';
 import 'package:coach_space/features/student/my_learning/data/models/enroll_free_request.dart';
@@ -175,9 +182,15 @@ abstract class ApiService {
     @Part(name: 'cover_image') File image,
   );
 
-  /// The OpenAPI document intentionally specifies no response schema.
+  /// Hands the frontend a short-lived, folder-scoped Cloudinary signature so
+  /// it can upload the video file directly to Cloudinary; the frontend then
+  /// creates/updates the Lesson with the resulting public_id.
   @POST('api/instructor/courses/{id}/video-upload-signature')
-  Future<void> getVideoUploadSignature(@Path('id') int id);
+  Future<UploadSignatureDto> getVideoUploadSignature(@Path('id') int id);
+
+  /// Same shape as the video signature, for course/lesson attachments (US-21).
+  @POST('api/instructor/courses/{id}/attachment-upload-signature')
+  Future<UploadSignatureDto> getAttachmentUploadSignature(@Path('id') int id);
 
   @GET('api/instructor/courses/{courseId}/sections')
   Future<PaginatedResponse<InstructorSectionDto>> getInstructorSections(
@@ -307,13 +320,125 @@ abstract class ApiService {
     @Query('page_size') int? pageSize,
   });
 
-  @GET('api/certificates/{id}/download')
-  @DioResponseType(ResponseType.bytes)
-  Future<List<int>> downloadCertificate(@Path('id') int id);
+  @GET('api/certificates/{id}')
+  Future<CertificateDetailDto> getCertificate(@Path('id') int id);
 
   /// Public, unauthenticated certificate lookup (US-18). The server rejects a
   /// malformed code with 400 and returns 404 for a well-formed unknown one.
   @GET('api/certificates/verify/{code}')
   Future<CertificateVerifyDto> verifyCertificate(@Path('code') String code);
+
+  // ===========================================================
+  // AI ROADMAP (US-18)
+  // ===========================================================
+
+  /// The signed-in student's active learning path, or `{"path": null}` when
+  /// none has been generated yet (the cue to show the My Path wizard).
+  @GET('api/ai/roadmap')
+  Future<RoadmapResponseDto> getRoadmap();
+
+  /// Builds a new path. A student who already has an active path must use
+  /// [regenerateRoadmap] instead — the server rejects a repeat generate.
+  @POST('api/ai/roadmap/generate')
+  Future<RoadmapResponseDto> generateRoadmap(
+    @Body() RoadmapGenerateRequest body,
+  );
+
+  /// Rebuilds the path around changed inputs; the previous path is archived
+  /// only once the new one has actually been built.
+  @POST('api/ai/roadmap/regenerate')
+  Future<RoadmapResponseDto> regenerateRoadmap(
+    @Body() RoadmapRegenerateRequest body,
+  );
+
+  /// Skips (`status: skipped`), restores (`status: pending`) or reorders
+  /// (1-based [RoadmapStepUpdateRequest.order]) a step of the active path.
+  @PATCH('api/ai/roadmap/steps/{id}')
+  Future<void> updateRoadmapStep(
+    @Path('id') int id,
+    @Body() RoadmapStepUpdateRequest body,
+  );
+
+  // ===========================================================
+  // AI QUIZZES
+  // ===========================================================
+
+  /// Starts async quiz generation from the given lessons; the response is a
+  /// pending quiz the client polls via [getAIQuiz] until ready/failed.
+  @POST('api/courses/{id}/ai-quizzes')
+  Future<AIQuizDto> startAIQuiz(@Path('id') int id, @Body() AIQuizStartRequest body);
+
+  /// Lists the student's own quizzes for one course.
+  @GET('api/courses/{id}/ai-quizzes')
+  Future<List<AIQuizDto>> getCourseAIQuizzes(@Path('id') int id);
+
+  /// Strictly the student's own quiz — anyone else's is a 404, not a 403.
+  /// Returns the status to poll on and, once ready, the questions.
+  @GET('api/ai-quizzes/{id}')
+  Future<AIQuizDto> getAIQuiz(@Path('id') int id);
+
+  /// The only response that reveals correct answers and explanations.
+  @POST('api/ai-quizzes/{id}/submit')
+  Future<AIQuizResultDto> submitAIQuiz(
+    @Path('id') int id,
+    @Body() AIQuizSubmitRequest body,
+  );
+
+  // ===========================================================
+  // LESSON SUMMARY (US-19)
+  // ===========================================================
+
+  /// AI summary of one lesson; language follows the Accept-Language header.
+  @GET('api/lessons/{id}/summary')
+  Future<LessonSummaryDto> getLessonSummary(@Path('id') int id);
+
+  // ===========================================================
+  // COURSE MATERIALS / ATTACHMENTS (US-21)
+  // ===========================================================
+
+  /// A preview lesson's attachment is public; anything else needs enrollment
+  /// or instructor ownership. The server answers with a redirect to the
+  /// signed Cloudinary asset — fetch the bytes with an authenticated client.
+  @GET('api/catalog/attachments/{id}/download')
+  @DioResponseType(ResponseType.bytes)
+  Future<List<int>> downloadCourseAttachment(@Path('id') int id);
+
+  @GET('api/instructor/courses/{courseId}/attachments')
+  Future<PaginatedResponse<AttachmentDto>> getInstructorCourseAttachments(
+    @Path('courseId') int courseId, {
+    @Query('page') int? page,
+    @Query('page_size') int? pageSize,
+  });
+
+  @POST('api/instructor/courses/{courseId}/attachments')
+  Future<AttachmentDto> createInstructorCourseAttachment(
+    @Path('courseId') int courseId,
+    @Body() AttachmentWriteRequest body,
+  );
+
+  @GET('api/instructor/lessons/{lessonId}/attachments')
+  Future<PaginatedResponse<AttachmentDto>> getInstructorLessonAttachments(
+    @Path('lessonId') int lessonId, {
+    @Query('page') int? page,
+    @Query('page_size') int? pageSize,
+  });
+
+  @POST('api/instructor/lessons/{lessonId}/attachments')
+  Future<AttachmentDto> createInstructorLessonAttachment(
+    @Path('lessonId') int lessonId,
+    @Body() AttachmentWriteRequest body,
+  );
+
+  @GET('api/instructor/attachments/{id}')
+  Future<AttachmentDto> getInstructorAttachment(@Path('id') int id);
+
+  @PATCH('api/instructor/attachments/{id}')
+  Future<AttachmentDto> updateInstructorAttachment(
+    @Path('id') int id,
+    @Body() AttachmentWriteRequest body,
+  );
+
+  @DELETE('api/instructor/attachments/{id}')
+  Future<void> deleteInstructorAttachment(@Path('id') int id);
 
 }

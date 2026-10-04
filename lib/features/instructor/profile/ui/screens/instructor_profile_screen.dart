@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:coach_space/core/di/injection_container.dart';
 import 'package:coach_space/core/routing/routes.dart';
+import 'package:coach_space/core/routing/tab_navigation.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/core/widgets/confirm_dialog.dart';
 
 import 'package:coach_space/features/auth/data/models/approval_status.dart';
 import 'package:coach_space/features/auth/data/models/user_role.dart';
@@ -290,10 +292,12 @@ class _InstructorProfileView extends StatelessWidget {
         currentIndex: 3,
         navType: NavType.instructor,
         onItemSelected: (index) {
-          _handleBottomNavigation(
-            context,
-            index,
-          );
+          if (index != 3) {
+            InstructorTabNavigation.handle(
+              context,
+              index,
+            );
+          }
         },
       ),
     );
@@ -309,140 +313,24 @@ class _InstructorProfileView extends StatelessWidget {
   }
 
   // =============================================================
-  // BOTTOM NAVIGATION
-  // =============================================================
-
-  void _handleBottomNavigation(
-      BuildContext context,
-      int index,
-      ) {
-    switch (index) {
-    // =================================================
-    // DASHBOARD
-    // =================================================
-
-      case 0:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoutes.instructorDashboard,
-              (route) => false,
-        );
-        break;
-
-    // =================================================
-    // COURSES
-    // =================================================
-
-      case 1:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoutes.instructorCourses,
-              (route) => false,
-        );
-        break;
-
-    // =================================================
-    // STUDENTS
-    // =================================================
-
-      case 2:
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoutes.instructorStudents,
-              (route) => false,
-        );
-        break;
-
-    // =================================================
-    // PROFILE
-    // =================================================
-
-      case 3:
-      // Already on Profile.
-        break;
-    }
-  }
-
-  // =============================================================
   // LOGOUT DIALOG
   // =============================================================
 
   void _showLogoutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
-          ),
-          title: Text(
-            'Sign Out',
-            style: GoogleFonts.inter(
-              fontSize: 19,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF073F38),
-            ),
-          ),
-          content: Text(
-            'Are you sure you want to sign out?',
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              color: const Color(0xFF788681),
-            ),
-          ),
-          actions: [
-            // =================================================
-            // CANCEL
-            // =================================================
-
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-              },
-              child: Text(
-                'Cancel',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF667570),
-                ),
-              ),
-            ),
-
-            // =================================================
-            // SIGN OUT
-            // =================================================
-
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(dialogContext);
-
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  AppRoutes.login,
-                      (route) => false,
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF075E4D),
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9),
-                ),
-              ),
-              child: Text(
-                'Sign Out',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ],
+    final navigator = Navigator.of(context);
+    ConfirmDialog.show(
+      context,
+      title: 'Sign Out',
+      message: 'Are you sure you want to sign out?',
+      confirmLabel: 'Sign Out',
+      cancelLabel: 'Cancel',
+    ).then((confirmed) {
+      if (confirmed) {
+        navigator.pushNamedAndRemoveUntil(
+          AppRoutes.login,
+          (route) => false,
         );
-      },
-    );
+      }
+    });
   }
 }

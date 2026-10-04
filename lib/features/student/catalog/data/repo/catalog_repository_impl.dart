@@ -44,6 +44,10 @@ class CatalogRepositoryImpl implements CatalogRepository {
   Future<CourseDetailDto> getCourse(int id) =>
       _guard(() => _api.getCatalogCourse(id));
 
+  @override
+  Future<List<int>> downloadAttachment(int id) =>
+      _guard(() => _api.downloadCourseAttachment(id));
+
   Future<T> _guard<T>(Future<T> Function() request) =>
       NetworkException.guard(request);
 }

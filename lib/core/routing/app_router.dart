@@ -14,6 +14,9 @@ import 'package:coach_space/features/auth/ui/screens/support_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/my_path_screen.dart';
 import 'package:coach_space/features/onboarding/screens/onboarding_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/my_path_goal_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/my_path_hours_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/my_path_level_screen.dart';
+import 'package:coach_space/features/student/profile/ui/screens/my_path_skill_screen.dart';
 import 'package:coach_space/features/student/home/ui/screens/home_screen.dart';
 
 import 'package:coach_space/features/signup/presentation/screens/signup_screen.dart';
@@ -33,6 +36,7 @@ import 'package:coach_space/features/student/catalog/ui/screens/course_details_s
 
 import 'package:coach_space/features/student/my_learning/ui/screens/my_learning_screen.dart';
 import 'package:coach_space/features/student/my_learning/ui/screens/lesson_player_screen.dart';
+import 'package:coach_space/features/student/my_learning/ui/screens/ai_quiz_screen.dart';
 import 'package:coach_space/features/student/profile/ui/screens/profile_information_screen.dart';
 import 'package:coach_space/features/instructor/courses/ui/screens/create_course_screen.dart';
 // import 'package:coach_space/features/student/profile/ui/screens/learning_settings_screen.dart';
@@ -49,6 +53,40 @@ import 'package:coach_space/features/instructor/students/ui/screens/instructor_s
 
 import '../../features/auth/data/models/user_role.dart';
 import '../../features/student/profile/ui/screens/checkout_screen.dart';
+
+/// Directional curve for the My Path wizard: accelerates fast, settles soft.
+const Curve _wizardCurve = Cubic(0.2, 0.8, 0.2, 1);
+
+/// Mirrors [_wizardCurve] so the reverse (pop) half of the shared transition
+/// feels like the same motion played backwards instead of a new animation.
+const Curve _wizardReverseCurve = Cubic(0.8, 0.2, 0.8, 0);
+
+/// Keeps the incoming wizard screen from flashing white while it slides in:
+/// opacity ramps in the first 35% of the transition, then lets the slide
+/// carry the rest.
+class FadeForPageRoute extends StatelessWidget {
+  const FadeForPageRoute({
+    super.key,
+    required this.animation,
+    required this.child,
+  });
+
+  final Animation<double> animation;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: Tween<double>(begin: 0, end: 1).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: const Interval(0, 0.35, curve: Curves.easeOut),
+        ),
+      ),
+      child: child,
+    );
+  }
+}
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -101,9 +139,16 @@ class AppRouter {
           settings,
         );
       case AppRoutes.studentMyPathGoal:
-        return _buildRoute(
+        return _buildWizardRoute(
           const MyPathGoalScreen(),
           settings,
+          forward: true,
+        );
+      case AppRoutes.studentMyPathHours:
+        return _buildWizardRoute(
+          const MyPathHoursScreen(),
+          settings,
+          forward: true,
         );
       case AppRoutes.support:
         return _buildRoute(const SupportScreen(), settings);
@@ -162,21 +207,26 @@ class AppRouter {
         return _buildRoute(const CheckoutScreen(), settings);
 
       case AppRoutes.studentMyPath:
-        return _buildRoute(
+        return _buildFadeScaleRoute(
           const MyPathScreen(),
           settings,
         );
       case AppRoutes.studentMyPathLevel:
-        return _buildRoute(
+        return _buildWizardRoute(
           const MyPathLevelScreen(),
           settings,
+          forward: true,
         );
 
       case AppRoutes.studentMyPathSkill:
-        return _buildRoute(
+        return _buildWizardRoute(
           const MyPathSkillScreen(),
           settings,
+          forward: true,
         );
+
+      case AppRoutes.studentAiQuiz:
+        return _buildRoute(const AIQuizScreen(), settings);
 
         // =====================================================
       // INSTRUCTOR
@@ -258,4 +308,87 @@ class AppRouter {
   Route<dynamic> _buildRoute(Widget page, RouteSettings settings) {
     return MaterialPageRoute(builder: (_) => page, settings: settings);
   }
+
+/// Slide + fade transition used by the My Path wizard steps so moving
+/// forward/backward feels like walking along the path.
+///
+/// The [forward] flag decides the direction: forward steps slide in from the
+/// right, and going back slides in from the left. Passing through the
+/// transition without breaking it (e.g. a [Navigator.replace]) still looks
+/// smooth because both halves of the animation use the same curve family.
+Route<dynamic> _buildWizardRoute(
+  Widget page,
+  RouteSettings settings, {
+  bool forward = true,
+}) {
+  final begin = forward ? const Offset(1, 0) : const Offset(-1, 0);
+  return PageRouteBuilder(
+    settings: settings,
+    transitionDuration: const Duration(milliseconds: 380),
+    reverseTransitionDuration: const Duration(milliseconds: 300),
+    pageBuilder: (_, _, _) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      // Parallax: the outgoing screen slides out the way while this one
+      // slides in, which reads as a real directional walk-through.
+      final outgoing = Tween<Offset>(
+        begin: Offset.zero,
+        end: forward ? const Offset(-.28, 0) : const Offset(.28, 0),
+      ).animate(
+        CurvedAnimation(
+          parent: secondaryAnimation,
+          curve: Curves.easeOutCubic,
+          reverseCurve: Curves.easeInCubic,
+        ),
+      );
+
+      return SlideTransition(
+        position: outgoing,
+        child: FadeForPageRoute(
+          animation: animation,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: begin,
+              end: Offset.zero,
+            ).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: _wizardCurve,
+                reverseCurve: _wizardReverseCurve,
+              ),
+            ),
+            child: child,
+          ),
+        ),
+      );
+    },
+  );
+}
+
+/// Used when the My Path hub is pushed from Profile: a soft cross-fade with a
+/// gentle slide-up so the roadmap entrance dances, not slams.
+Route<dynamic> _buildFadeScaleRoute(Widget page, RouteSettings settings) {
+  return PageRouteBuilder(
+    settings: settings,
+    transitionDuration: const Duration(milliseconds: 420),
+    reverseTransitionDuration: const Duration(milliseconds: 320),
+    pageBuilder: (_, _, _) => page,
+    transitionsBuilder: (_, animation, _, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, .05),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
+}
 }

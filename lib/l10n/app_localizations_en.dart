@@ -1498,4 +1498,211 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get certificatesStudentName => 'Student';
+
+  @override
+  String get myPathRoadmapHeaderBadge => 'Dynamic Curriculum Map';
+
+  @override
+  String myPathRoadmapMilestonesBadge(String count) {
+    return '$count Milestones';
+  }
+
+  @override
+  String get myPathRoadmapDefaultTitle => 'Specialized Tech Roadmap';
+
+  @override
+  String myPathRoadmapProgressPercent(String percent) {
+    return '$percent%';
+  }
+
+  @override
+  String myPathRoadmapProgressLabel(String done, String total) {
+    return '$done/$total milestones completed';
+  }
+
+  @override
+  String get myPathRoadmapReorderSteps => 'Reorder Steps';
+
+  @override
+  String get myPathRoadmapRegeneratePath => 'Regenerate Path';
+
+  @override
+  String get myPathRoadmapStartLine => 'Roadmap Start Line';
+
+  @override
+  String get myPathRoadmapYouAreHere => 'You are here! Keep making progress';
+
+  @override
+  String myPathRoadmapStageChip(String index) {
+    return 'Stage $index';
+  }
+
+  @override
+  String get myPathRoadmapPurchaseRequired => 'Purchase Req.';
+
+  @override
+  String get myPathRoadmapEnrolled => 'Enrolled';
+
+  @override
+  String get myPathRoadmapStatusNext => 'Next';
+
+  @override
+  String get myPathRoadmapStatusActive => 'Active';
+
+  @override
+  String get myPathRoadmapStatusDone => 'Done';
+
+  @override
+  String get myPathRoadmapStatusSkipped => 'Skipped';
+
+  @override
+  String get myPathRoadmapWeeksOfStudy => 'weeks of study';
+
+  @override
+  String get myPathRoadmapEnrollPurchase => 'Enroll & Purchase';
+
+  @override
+  String get myPathRoadmapStartLearning => 'Start Learning';
+
+  @override
+  String get myPathRoadmapMarkDone => 'Done';
+
+  @override
+  String get myPathRoadmapUndoDone => 'Undo';
+
+  @override
+  String get myPathRoadmapSkipStep => 'Skip Step';
+
+  @override
+  String get myPathRoadmapUnskip => 'Unskip';
+
+  @override
+  String get myPathRoadmapReorderLabel => 'Reorder:';
+
+  @override
+  String get myPathRoadmapMoveUp => 'Move stage up';
+
+  @override
+  String get myPathRoadmapMoveDown => 'Move stage down';
+
+  @override
+  String get myPathRoadmapGoalPill => 'Goal: Mastery & Career Readiness';
+
+  @override
+  String get myPathRoadmapReorderTitle => 'Reorder Roadmap Stages';
+
+  @override
+  String get myPathRoadmapReorderSubtitle =>
+      'Use arrows to customize the order';
+
+  @override
+  String get myPathRoadmapReorderWeeksShort => 'weeks';
+
+  @override
+  String get myPathRoadmapReorderCompleted => 'Completed';
+
+  @override
+  String get myPathRoadmapReorderSkipped => 'Skipped';
+
+  @override
+  String get myPathRoadmapReorderSaveOrder => 'Done / Save Order';
+
+  @override
+  String get myPathRoadmapReorderNote =>
+      'Map path updates instantly upon reordering';
+
+  @override
+  String get myPathRoadmapActiveBadgeLabel => 'LIVE';
+
+  @override
+  String get myPathRoadmapLevelBadgeLabel => 'LVL';
+
+  @override
+  String get myPathRoadmapGeneratingTitle => 'Building your learning path';
+
+  @override
+  String get myPathRoadmapGeneratingSubtitle =>
+      'The AI assistant is analyzing your skills and arranging the right milestones...';
+
+  @override
+  String get myPathRoadmapLoadingTitle => 'Loading your AI learning path';
+
+  @override
+  String get aiQuizTitle => 'AI Quiz';
+
+  @override
+  String get aiQuizNewQuiz => 'New Quiz';
+
+  @override
+  String get aiQuizGenerating => 'Generating…';
+
+  @override
+  String get aiQuizFailed => 'Failed';
+
+  @override
+  String get aiQuizStart => 'Start';
+
+  @override
+  String aiQuizQuestionOf(int current, int total) {
+    return 'Question $current of $total';
+  }
+
+  @override
+  String get aiQuizPrevious => 'Previous';
+
+  @override
+  String get aiQuizNext => 'Next';
+
+  @override
+  String get aiQuizSubmit => 'Submit';
+
+  @override
+  String get aiQuizYourScore => 'Your Score';
+
+  @override
+  String get aiQuizCorrectAnswer => 'Correct Answer';
+
+  @override
+  String get aiQuizYourAnswer => 'Your Answer';
+
+  @override
+  String get aiQuizExplanation => 'Explanation';
+
+  @override
+  String get aiQuizBackToCourse => 'Back to course';
+
+  @override
+  String get aiQuizSubmitConfirmTitle => 'Submit quiz?';
+
+  @override
+  String aiQuizSubmitConfirmMessage(int missing) {
+    return 'You have $missing unanswered question(s). They will be counted as wrong.';
+  }
+
+  @override
+  String get aiQuizNoQuizzes =>
+      'No AI quizzes yet. Generate your first practice quiz.';
+
+  @override
+  String get aiQuizGenerationsFailed =>
+      'Quiz generation failed. Please try again.';
+
+  @override
+  String get aiQuizViewResult => 'View Result';
+
+  @override
+  String get aiQuizSavedAnswersLost =>
+      'Leaving now will discard your answers. Exit anyway?';
+
+  @override
+  String get lessonPlayerAiSummary => 'AI Summary';
+
+  @override
+  String get lessonPlayerAiSummaryTitle => 'AI Lesson Summary';
+
+  @override
+  String get lessonPlayerAiSummaryLoading => 'Generating the lesson summary…';
+
+  @override
+  String get lessonPlayerAiKeyPoints => 'Key points';
 }

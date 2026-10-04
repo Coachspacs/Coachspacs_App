@@ -18,4 +18,7 @@ abstract class CatalogRepository {
   });
 
   Future<CourseDetailDto> getCourse(int id);
+
+  /// Downloads a course material's bytes (redirects to the signed asset).
+  Future<List<int>> downloadAttachment(int id);
 }

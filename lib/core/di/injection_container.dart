@@ -9,6 +9,8 @@ import 'package:coach_space/features/auth/data/repo/auth_repository_impl.dart';
 import 'package:coach_space/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository.dart';
 import 'package:coach_space/features/instructor/courses/data/repo/instructor_courses_repository_impl.dart';
+import 'package:coach_space/features/instructor/courses/data/attachment_cloudinary_uploader.dart';
+import 'package:coach_space/features/instructor/courses/logic/cubit/attachments_cubit.dart';
 import 'package:coach_space/features/instructor/dashboard/data/repo/instructor_dashboard_repository.dart';
 import 'package:coach_space/features/instructor/dashboard/data/repo/instructor_dashboard_repository_impl.dart';
 import 'package:coach_space/features/instructor/dashboard/logic/cubit/instructor_dashboard_cubit.dart';
@@ -24,12 +26,17 @@ import 'package:coach_space/features/student/home/data/repo/home_repository_impl
 import 'package:coach_space/features/student/home/logic/cubit/home_cubit.dart';
 import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository.dart';
 import 'package:coach_space/features/student/my_learning/data/repo/enrollment_repository_impl.dart';
+import 'package:coach_space/features/student/my_learning/data/repo/ai_quiz_repository.dart';
+import 'package:coach_space/features/student/my_learning/data/repo/ai_quiz_repository_impl.dart';
 import 'package:coach_space/features/student/my_learning/logic/cubit/my_learning_cubit.dart';
 import 'package:coach_space/features/student/my_learning/logic/cubit/lesson_player_cubit.dart';
+import 'package:coach_space/features/student/my_learning/logic/cubit/ai_quiz_cubit.dart';
 import 'package:coach_space/features/student/profile/data/repo/cart_repository.dart';
 import 'package:coach_space/features/student/profile/data/repo/cart_repository_impl.dart';
 import 'package:coach_space/features/student/profile/data/repo/certificate_repository.dart';
 import 'package:coach_space/features/student/profile/data/repo/certificate_repository_impl.dart';
+import 'package:coach_space/features/student/profile/data/repo/roadmap_repository.dart';
+import 'package:coach_space/features/student/profile/data/repo/roadmap_repository_impl.dart';
 import 'package:coach_space/features/student/profile/data/repo/order_repository.dart';
 import 'package:coach_space/features/student/profile/data/repo/order_repository_impl.dart';
 import 'package:coach_space/features/student/profile/data/repo/profile_repository.dart';
@@ -39,6 +46,7 @@ import 'package:coach_space/features/student/profile/logic/cubit/cart_cubit.dart
 import 'package:coach_space/features/student/profile/logic/cubit/certificates_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/checkout_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/dashboard_cubit.dart';
+import 'package:coach_space/features/student/profile/logic/cubit/my_path_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/order_history_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/profile_cubit.dart';
 import 'package:coach_space/features/student/profile/logic/cubit/security_cubit.dart';
@@ -134,6 +142,9 @@ void setupLocator() {
   getIt.registerFactory<LessonPlayerCubit>(
     () => LessonPlayerCubit(enrollmentRepository: getIt<EnrollmentRepository>()),
   );
+  getIt.registerFactory<AIQuizCubit>(
+    () => AIQuizCubit(repository: getIt<AIQuizRepository>()),
+  );
   getIt.registerFactory<InstructorDashboardCubit>(
     () => InstructorDashboardCubit(
       dashboardRepository: getIt<InstructorDashboardRepository>(),
@@ -144,6 +155,13 @@ void setupLocator() {
     () => InstructorStudentsCubit(
       studentsRepository: getIt<InstructorStudentsRepository>(),
       coursesRepository: getIt<InstructorCoursesRepository>(),
+    ),
+  );
+  getIt.registerFactoryParam<AttachmentsCubit, int, void>(
+    (courseId, _) => AttachmentsCubit(
+      courseId: courseId,
+      repository: getIt<InstructorCoursesRepository>(),
+      uploader: getIt<AttachmentCloudinaryUploader>(),
     ),
   );
   getIt.registerFactory<DashboardCubit>(
@@ -172,5 +190,18 @@ void setupLocator() {
   );
   getIt.registerFactory<CertificatesCubit>(
     () => CertificatesCubit(getIt<CertificateRepository>()),
+  );
+  getIt.registerLazySingleton<MyPathCubit>(
+    () => MyPathCubit(
+      repository: getIt<RoadmapRepository>(),
+      enrollmentRepository: getIt<EnrollmentRepository>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<RoadmapRepository>(
+    () => RoadmapRepositoryImpl(apiService: getIt<ApiService>()),
+  );
+  getIt.registerLazySingleton<AIQuizRepository>(
+    () => AIQuizRepositoryImpl(apiService: getIt<ApiService>()),
   );
 }

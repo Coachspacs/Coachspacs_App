@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:coach_space/core/helpers/snackbar_helper.dart';
 import 'package:coach_space/core/theming/app_colors.dart';
+import 'package:coach_space/features/instructor/profile/ui/widgets/instructor_save_button.dart';
 import 'package:coach_space/features/instructor/profile/ui/widgets/instructor_settings_header.dart';
 
 class InstructorSocialLinksScreen extends StatefulWidget {
@@ -47,18 +49,9 @@ class _InstructorSocialLinksScreenState
   }
 
   void _saveChanges() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Social links saved successfully.',
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        backgroundColor: const Color(0xFF075E4D),
-        behavior: SnackBarBehavior.floating,
-      ),
+    showAppSnackBar(
+      context,
+      'Social links saved successfully.',
     );
   }
 
@@ -169,7 +162,7 @@ class _InstructorSocialLinksScreenState
                     // SAVE
                     // =================================================
 
-                    _SaveButton(
+                    InstructorSaveButton(
                       onPressed: _saveChanges,
                     ),
                   ],
@@ -274,46 +267,6 @@ class _SocialField extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-// =============================================================
-// SAVE BUTTON
-// =============================================================
-
-class _SaveButton extends StatelessWidget {
-  const _SaveButton({
-    required this.onPressed,
-  });
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 48,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor:
-          const Color(0xFF075E4D),
-          foregroundColor: Colors.white,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius:
-            BorderRadius.circular(11),
-          ),
-        ),
-        child: Text(
-          'Save Changes  →',
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
     );
   }
 }
