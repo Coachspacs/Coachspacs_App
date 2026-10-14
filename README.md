@@ -164,6 +164,26 @@ flutter run
 - `lib/l10n/` — Localization resources.
 - `assets/` — Images and other application assets.
 
+## App UI Showcase
+
+Coach Space provides dedicated experiences for students and instructors.
+
+### Student Experience
+
+Explore the student interface, including course discovery, learning progress, and course details.
+
+![Coach Space Student Experience](docs/images/student-showcase.png)
+
+### Instructor Experience
+
+Explore the instructor interface, including dashboard insights, course management, and instructor tools.
+
+![Coach Space Instructor Experience](docs/images/instructor-showcase.png)
+
+---
+
+
+
 ## Project Status
 
 **In Development**
