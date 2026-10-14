@@ -1,275 +1,183 @@
+# Coach Space
+
 <p align="center">
-  <img src="assets/images/logo.png" alt="Coach Space Logo" width="120"/>
+  <img src="assets/images/Logo_img.png" alt="Coach Space Logo" width="120" />
 </p>
 
-<h1 align="center">Coach Space</h1>
+<h3 align="center">A Mobile E-Learning Platform for Students and Instructors</h3>
 
 <p align="center">
-  <strong>A General-Purpose E-Learning Platform — Mobile App</strong>
-  <br />
-  Built with Flutter. Scale-ready. Production-grade.
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Flutter-3.12-02569B?style=for-the-badge&logo=flutter" alt="Flutter"/>
-  <img src="https://img.shields.io/badge/Dart-3.12-0175C2?style=for-the-badge&logo=dart" alt="Dart"/>
-  <img src="https://img.shields.io/badge/Status-In%20Development-yellow?style=for-the-badge" alt="Status"/>
-  <img src="https://img.shields.io/badge/License-MIT-4CAF50?style=for-the-badge" alt="License"/>
-  <img src="https://img.shields.io/badge/SDK-%5E3.12.2-00599C?style=for-the-badge" alt="SDK"/>
+  A collaborative Flutter project designed to support online learning and course management.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/State%20Management-Bloc%20%7C%20Cubit-EC407A?style=flat-square&logo=bloc" alt="State Management"/>
-  <img src="https://img.shields.io/badge/Networking-Dio%20%7C%20Retrofit-1565C0?style=flat-square&logo=dart" alt="Networking"/>
-  <img src="https://img.shields.io/badge/DI-GetIt-FF6F00?style=flat-square" alt="DI"/>
-  <img src="https://img.shields.io/badge/Codegen-Build%20Runner-6A1B9A?style=flat-square" alt="Codegen"/>
+  <img src="https://img.shields.io/badge/Flutter-Mobile%20Development-02569B?style=for-the-badge&logo=flutter" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Language-Dart-0175C2?style=for-the-badge&logo=dart" alt="Dart" />
+  <img src="https://img.shields.io/badge/Status-In%20Development-yellow?style=for-the-badge" alt="Project Status" />
 </p>
 
-<br/>
+<p align="center">
+  <img src="https://img.shields.io/badge/State%20Management-Bloc%20%7C%20Cubit-EC407A?style=flat-square" alt="State Management" />
+  <img src="https://img.shields.io/badge/Networking-Dio%20%7C%20Retrofit-1565C0?style=flat-square" alt="Networking" />
+  <img src="https://img.shields.io/badge/Dependency%20Injection-GetIt-FF6F00?style=flat-square" alt="Dependency Injection" />
+</p>
 
 ---
 
 ## Overview
 
-Coach Space is a **general-purpose Learning Management System (LMS)** — not tied to any specific domain — built as a clean, reusable core product. This mobile application, developed in **Flutter**, delivers a native experience for both **students** and **instructors** on Android and iOS, consuming a unified REST API.
+**Coach Space** is a team-developed mobile e-learning application built with Flutter and Dart. It aims to provide a convenient learning environment for students and a set of course management tools for instructors.
 
-Designed for scalability and maintainability, the app follows a **feature-first architecture** with a shared core layer, ensuring clean separation of concerns and long-term extensibility.
+The application brings together course discovery, learning management, student progress, and instructor tools in one platform.
 
-<br/>
-
----
+The project uses a feature-based structure and reusable components to support maintainability and future development.
 
 ## Key Features
 
-### For Students
+### Student Features
 
-<p align="center">
-  <img src="https://via.placeholder.com/800x400/1a1a2e/e94560?text=Student+Dashboard+Preview" alt="Student Dashboard Preview" width="80%"/>
-</p>
+- **Authentication:** Register and log in to the application.
+- **Course Catalog:** Browse and explore available courses.
+- **Course Details:** View course information and available learning content.
+- **Search and Filtering:** Find courses using available search and filtering options.
+- **Cart and Checkout:** Manage selected courses and access the checkout flow.
+- **My Learning:** Access enrolled courses and learning content.
+- **Progress Tracking:** Follow lesson and course progress.
+- **Certificates:** Access course completion certificates.
+- **Student Profile:** Manage profile information and account settings.
+- **Learning Path:** Explore learning goals and roadmap-related features.
 
-| Feature | Description |
-|---------|-------------|
-| 🔐 **Authentication** | Register and log in securely using JWT-based authentication with access and refresh tokens |
-| 🌍 **Bilingual UI** | Full Arabic and English support with automatic RTL/LTR layout switching |
-| 📚 **Course Browsing** | Discover courses with search, filtering (by category, level, price, language), and pagination |
-| 📖 **Course Details** | View comprehensive course information, curriculum breakdown, and preview content |
-| 🛒 **Cart & Checkout** | Add courses to cart, manage selections, and complete a streamlined mock checkout |
-| 🆓 **Free Enrollment** | Enroll directly in free courses with a single tap — no checkout required |
-| 📊 **Learning Dashboard** | Track all enrolled courses with real-time progress indicators |
-| ▶️ **Lesson Player** | Watch video lessons with smooth playback and seamless section navigation |
-| ✅ **Progress Tracking** | Mark lessons as complete and watch your course progress update instantly |
-| 📜 **Certificates** | Automatically receive a PDF certificate upon 100% course completion |
+### Instructor Features
 
-<br/>
-
-### For Instructors
-
-| Feature | Description |
-|---------|-------------|
-| 👤 **Instructor Registration** | Register with a pending-approval workflow, managed via the admin panel |
-| 📈 **Instructor Dashboard** | Overview of your courses, enrolled students, and performance metrics |
-| ✏️ **Course Creation** | Build courses with rich metadata: title, description, category, level, language, price, and cover image |
-| 📝 **Content Management** | Organize courses into sections and lessons with video content |
-| 🔄 **Review Workflow** | Submit courses for admin review and track approval status with rejection feedback |
-| 👥 **Student Management** | View the list of enrolled students and their progress per course |
-
-<br/>
-
----
+- **Instructor Dashboard:** View course-related information and statistics.
+- **Course Management:** Create, edit, and manage courses.
+- **Content Management:** Organize course sections, lessons, and learning materials.
+- **Student Management:** View enrolled students and their progress.
+- **Instructor Profile:** Manage profile information and settings.
+- **Notifications:** Access instructor notifications.
+- **Course Review Workflow:** Track course approval and review status.
 
 ## Tech Stack
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Framework-Flutter-02569B?style=for-the-badge&logo=flutter" alt="Flutter"/>
-  <img src="https://img.shields.io/badge/Language-Dart-0175C2?style=for-the-badge&logo=dart" alt="Dart"/>
-  <img src="https://img.shields.io/badge/Architecture-Feature%20First-4CAF50?style=for-the-badge" alt="Architecture"/>
-</p>
-
-| Category | Package | Purpose |
-|----------|---------|---------|
-| 🧠 **State Management** | `flutter_bloc` | Scalable state management using Bloc and Cubit patterns |
-| 🌐 **Networking** | `dio` | Powerful HTTP client with interceptors, retry, and logging |
-| 🔌 **API Layer** | `retrofit` | Type-safe API client generation with compile-time validation |
-| 📦 **Serialization** | `json_annotation` + `json_serializable` | Automated JSON-to-model code generation |
-| ⚙️ **Code Generation** | `build_runner` | Orchestrates code generation for models and API services |
-| 💉 **DI** | `get_it` | Lightweight service locator for dependency injection |
-| 🔒 **Secure Storage** | `flutter_secure_storage` | Encrypted storage for JWT tokens and sensitive data |
-| 🌍 **Localization** | `flutter_localizations` + `intl` | Full Arabic and English localization with RTL support |
-| 🔄 **Equality** | `equatable` | Value-based equality for state objects |
-
-<br/>
-
----
+| Technology | Purpose |
+|---|---|
+| Flutter | Cross-platform mobile application development |
+| Dart | Application programming language |
+| flutter_bloc | State management with Bloc and Cubit |
+| Dio | HTTP networking |
+| Retrofit | API service definitions and code generation |
+| GetIt | Dependency injection |
+| Equatable | Value-based equality |
+| json_annotation | JSON serialization annotations |
+| json_serializable | JSON model code generation |
+| build_runner | Code generation |
+| flutter_secure_storage | Secure local storage |
+| flutter_localizations | Flutter localization support |
+| intl | Internationalization utilities |
 
 ## Architecture
 
-The application follows a **feature-first architecture** with a shared foundation layer, ensuring long-term maintainability and scalability as the platform grows.
+Coach Space follows a feature-based architecture that separates shared application components from individual features.
 
-```
+```text
 lib/
-│
-├── core/                          # Shared foundation layer
-│   ├── di/                        # Dependency injection (GetIt)
-│   ├── networking/                # Dio client, interceptors, base API
-│   ├── routing/                   # Navigation and route definitions
-│   ├── helpers/                   # Constants, extensions, utilities
-│   ├── theming/                   # Theme data, colors, typography
-│   └── widgets/                   # Reusable shared widgets
-│
-└── features/                      # Feature modules
-    ├── auth/                      # Authentication module
-    │   ├── data/
-    │   │   ├── models/            # Request/response DTOs
-    │   │   ├── repo/              # Repository implementation
-    │   │   └── datasources/       # Remote data sources
-    │   ├── logic/
-    │   │   └── cubit/             # Auth Cubit states & events
-    │   └── ui/
-    │       ├── screens/           # Login, Register screens
-    │       └── widgets/           # Auth-specific widgets
-    │
-    ├── home/                      # Home / Course browsing
-    ├── courses/                   # Course details, search, filter
-    ├── learning/                  # My Courses, lesson player
-    ├── cart/                      # Cart & checkout
-    ├── certificates/              # Certificate generation & viewing
-    └── instructor/                # Instructor dashboard & course management
-```
-
-### Architecture Principles
-
-| Principle | Application |
-|-----------|-------------|
-| 🎯 **Single Responsibility** | Every module and class has one clearly defined purpose |
-| 🔗 **Separation of Concerns** | Data, logic, and presentation layers are fully decoupled |
-| 🧪 **Testability** | Repository pattern and DI enable isolated unit testing |
-| 📈 **Scalability** | Feature modules can be added, modified, or removed independently |
-| 🔄 **Unidirectional Data Flow** | UI → Event → Cubit → State → UI |
-
-<br/>
-
----
-
-## Project Structure
-
-<pre>
-lib/
-├── main.dart
 ├── core/
+│   ├── auth/
 │   ├── di/
-│   │   └── injection_container.dart
 │   ├── networking/
-│   │   ├── api_client.dart
-│   │   ├── api_interceptors.dart
-│   │   └── api_service.dart
 │   ├── routing/
-│   │   └── app_router.dart
-│   ├── helpers/
-│   │   ├── constants.dart
-│   │   └── extensions.dart
 │   ├── theming/
-│   │   ├── app_colors.dart
-│   │   └── app_theme.dart
-│   └── widgets/
-│       └── widgets.dart
-│
+│   └── ...
 ├── features/
-│   ├── home/
-│   │   ├── data/
-│   │   │   ├── models/
-│   │   │   └── repo/
-│   │   ├── logic/
-│   │   │   └── cubit/
-│   │   └── ui/
-│   │       ├── screens/
-│   │       └── widgets/
-│   │
-│   └── ... (additional feature modules)
-│
-assets/
-├── images/
-└── fonts/
-</pre>
+│   ├── auth/
+│   ├── instructor/
+│   ├── onboarding/
+│   ├── signup/
+│   ├── splash/
+│   └── student/
+├── l10n/
+└── main.dart
+```
 
-<br/>
+### Architecture Highlights
 
----
+- **Separation of Concerns:** Shared components and feature-specific code are organized separately.
+- **State Management:** Bloc and Cubit are used to manage application state.
+- **Dependency Injection:** GetIt is used to register and access dependencies.
+- **Navigation:** Application routes are managed through a centralized routing setup.
+- **Networking:** Dio and Retrofit are included for API communication.
+
+## Localization
+
+The project includes Arabic and English localization resources.
+
+The localization setup uses Flutter's localization infrastructure and supports localized application interfaces.
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) ^3.12.2
-- [Dart SDK](https://dart.dev/get-dart) ^3.12.2
+- Flutter SDK 3.44.7 (stable) or a compatible version.
+- Dart SDK 3.12.2 or a compatible version.
+- Android Studio or another supported Flutter development environment.
 
 ### Installation
 
+**1. Clone the repository**
+
 ```bash
-# Clone the repository
 git clone https://github.com/Coachspacs/Coachspacs_App.git
+```
 
-# Navigate to the project
-cd coach_space
+**2. Navigate to the project directory**
 
-# Install dependencies
+```bash
+cd Coachspacs_App
+```
+
+**3. Install dependencies**
+
+```bash
 flutter pub get
+```
 
-# Run code generation (required after adding/modifying models or API services)
+**4. Generate required files**
+
+```bash
 dart run build_runner build --delete-conflicting-outputs
+```
 
-# Launch the app
+**5. Run the application**
+
+```bash
 flutter run
 ```
 
-### Code Generation
+> If generated files are already available, code generation may not be necessary for every run. Run it again when generated models or API services change.
 
-This project relies on code generation for JSON serialization and Retrofit API services.
+## Project Structure
 
-```bash
-# One-time generation
-dart run build_runner build --delete-conflicting-outputs
+- `lib/core/` — Shared application services, routing, theming, and dependency injection.
+- `lib/features/auth/` — Authentication-related functionality.
+- `lib/features/student/` — Student-facing application features.
+- `lib/features/instructor/` — Instructor-facing application features.
+- `lib/l10n/` — Localization resources.
+- `assets/` — Images and other application assets.
 
-# Watch mode — automatically regenerates on changes
-dart run build_runner watch --delete-conflicting-outputs
-```
+## Project Status
 
-<br/>
+**In Development**
 
----
+Coach Space is an ongoing team project. Features and implementation details may evolve as development continues.
 
-## Localization
+## Team Collaboration
 
-The app supports **Arabic** and **English** with automatic RTL/LTR layout switching. Translation files are managed through Flutter's built-in localization system.
-
-```
-lib/
-└── l10n/
-    ├── app_ar.arb
-    └── app_en.arb
-```
-
----
-
-## Development Roadmap
-
-| Phase | Sprint | Focus | Status |
-|-------|--------|-------|--------|
-| **Sprint 0** | Prep | Architecture setup, dependencies, CI/CD | ✅ Complete |
-| **Sprint 1** | 1 | Authentication, Home, Categories | ⏳ In Progress |
-| **Sprint 2** | 2 | Course browsing, filtering, course creation | 🔜 Planned |
-| **Sprint 3** | 3 | My Courses dashboard, lesson player, progress tracking | 🔜 Planned |
-| **Sprint 4** | 4 | Cart, checkout, certificates, instructor dashboard | 🔜 Planned |
-
----
-
-## Contributing
-
-This project is developed as part of a structured training program under the **Coach Space** initiative. All contributions follow the agreed-upon sprint plan and coding standards.
+Coach Space is developed collaboratively. The project brings together UI development, application logic, state management, navigation, and API integration to build a mobile e-learning platform.
 
 ---
 
 <p align="center">
-  <strong>Coach Space</strong> — Empowering knowledge, one course at a time.
+  <strong>Coach Space</strong>
   <br />
-  <sub>Built with ❤️ by the Coach Space Team</sub>
+  Empowering learning through technology.
 </p>
