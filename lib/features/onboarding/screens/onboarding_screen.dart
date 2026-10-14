@@ -123,15 +123,9 @@ class _OnboardingScreenState
               ),
               child: Row(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 38,
                     height: 38,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE7F5F0),
-                      borderRadius:
-                      BorderRadius.circular(10),
-                    ),
-                    clipBehavior: Clip.antiAlias,
                     child: Image.asset(
                       'assets/images/Logo_img.png',
                       fit: BoxFit.contain,

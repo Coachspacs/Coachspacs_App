@@ -76,8 +76,8 @@ class OnboardingBottomActions extends StatelessWidget {
                           ? 'Get Started'
                           : 'Next',
                       style: GoogleFonts.inter(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
 
